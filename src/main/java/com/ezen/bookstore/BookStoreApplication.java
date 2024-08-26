@@ -1,4 +1,4 @@
-package com.ezen.BookStore;
+package com.ezen.bookstore;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
