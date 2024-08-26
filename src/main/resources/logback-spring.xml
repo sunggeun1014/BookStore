@@ -33,10 +33,4 @@
 		</rollingPolicy>
 	</appender>
 	
-	<logger name="jdbc.resultset" level="OFF"/>
-	<logger name="jdbc.audit" level="OFF"/>
-	<logger name="jdbc.connection" level="OFF"/>
-	<logger name="jdbc.sqltiming" level="INFO"/>
-	<logger name="jdbc.resultsettable" level="INFO"/>
-	
 </configuration>

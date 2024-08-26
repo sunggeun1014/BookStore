@@ -2,75 +2,76 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- mapper의 namespace는 이 mapper를 가져다 쓸 때의 이름이다 -->
 <mapper namespace="CustomerOrders">
 
-	<select id="getList" resultType="customerOrders">
-	SELECT
-	    co.order_num,
-	    co.member_id,
-	    m.member_name,
-	    CASE
-	        WHEN co.order_delivery_status = '01' THEN
-	            '배송전'
-	        WHEN co.order_delivery_status = '02' THEN
-	            '배송중'
-	        WHEN co.order_delivery_status = '03' THEN
-	            '배송완료'
-	    END                         AS order_delivery_status,
-	    CASE
-	        WHEN co.order_payment_status = '01' THEN
-	            '결제완료'
-	        WHEN co.order_payment_status = '02' THEN
-	            '환불완료'
-	    END                         AS order_payment_status,
-	    CASE
-	        WHEN EXISTS (
-	            SELECT
-	                1
-	            FROM
-	                customer_order_details internal_cod
-	            WHERE
-	                ( internal_cod.order_num = co.order_num
-	                  AND internal_cod.order_detail_status = '02' )
-	                OR internal_cod.order_detail_status = '03'
-	                OR internal_cod.order_detail_status = '04'
-	        ) THEN
-	            '변경요청'
-	        WHEN EXISTS (
-	            SELECT
-	                1
-	            FROM
-	                customer_order_details internal_cod
-	            WHERE
-	                ( internal_cod.order_num = co.order_num
-	                  AND internal_cod.order_detail_status = '05' )
-	                OR internal_cod.order_detail_status = '06'
-	                OR internal_cod.order_detail_status = '07'
-	                OR internal_cod.order_detail_status = '08'
-	        ) THEN
-	            '처리완료'
-	        ELSE
-	            '주문완료'
-	    END                         AS order_status,
-	    co.order_purchase_date,
-	    CASE
-	    	WHEN co.order_modify_date = co.order_purchase_date THEN NULL
-	    	ELSE co.order_modify_date
-	    END AS order_modify_date,
-	    SUM(cod.order_detail_price) AS total_order_price
-	FROM
-	         customer_orders co
-	    LEFT JOIN members                m ON co.member_id = m.member_id
-	    LEFT JOIN customer_order_details cod ON cod.order_num = co.order_num
-	GROUP BY
-	    co.order_num,
-	    co.member_id,
-	    m.member_name,
-	    co.order_delivery_status,
-	    co.order_payment_status,
-	    co.order_purchase_date,
-	    co.order_modify_date 
-	    ORDER BY co.order_modify_date DESC
+	<select id="getList" resultType="customerOrders" parameterType="condition">
+		SELECT
+		    co.order_num,
+		    co.member_id,
+		    m.member_name,
+		    CASE
+		        WHEN co.order_delivery_status = '01' THEN
+		            '배송전'
+		        WHEN co.order_delivery_status = '02' THEN
+		            '배송중'
+		        WHEN co.order_delivery_status = '03' THEN
+		            '배송완료'
+		    END                         AS order_delivery_status,
+		    CASE
+		        WHEN co.order_payment_status = '01' THEN
+		            '결제완료'
+		        WHEN co.order_payment_status = '02' THEN
+		            '환불완료'
+		    END                         AS order_payment_status,
+		    CASE
+		        WHEN EXISTS (
+		            SELECT
+		                1
+		            FROM
+		                customer_order_details internal_cod
+		            WHERE
+		                ( internal_cod.order_num = co.order_num
+		                  AND internal_cod.order_detail_status = '02' )
+		                OR internal_cod.order_detail_status = '03'
+		                OR internal_cod.order_detail_status = '04'
+		        ) THEN
+		            '변경요청'
+		        WHEN EXISTS (
+		            SELECT
+		                1
+		            FROM
+		                customer_order_details internal_cod
+		            WHERE
+		                ( internal_cod.order_num = co.order_num
+		                  AND internal_cod.order_detail_status = '05' )
+		                OR internal_cod.order_detail_status = '06'
+		                OR internal_cod.order_detail_status = '07'
+		                OR internal_cod.order_detail_status = '08'
+		        ) THEN
+		            '처리완료'
+		        ELSE
+		            '주문완료'
+		    END                         AS order_status,
+		    co.order_purchase_date,
+		    CASE
+		    	WHEN co.order_modify_date = co.order_purchase_date THEN NULL
+		    	ELSE co.order_modify_date
+		    END AS order_modify_date,
+		    SUM(cod.order_detail_price) AS total_order_price
+		FROM
+		         customer_orders co
+		    LEFT JOIN members                m ON co.member_id = m.member_id
+		    LEFT JOIN customer_order_details cod ON cod.order_num = co.order_num
+		WHERE 'abc'=#{word}
+        
+		GROUP BY
+		    co.order_num,
+		    co.member_id,
+		    m.member_name,
+		    co.order_delivery_status,
+		    co.order_payment_status,
+		    co.order_purchase_date,
+		    co.order_modify_date 
+		    ORDER BY co.order_modify_date DESC
 	</select>
 </mapper>

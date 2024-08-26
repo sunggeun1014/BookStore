@@ -7,31 +7,46 @@
 </head>
 <body>
 	<div>
-		<div>
-			<label>날짜검색</label>
-			<span>
-				<select name="date_search">
-					<option value="">검색조건</option>
-					<option value="purchase_date">구매날짜</option>
-					<option value="request_date">요청날짜</option>
-				</select>
-		        <input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" /> - 
-		        <input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
-		        <input type="button" onclick="date_btn_click(0)" value="오늘" />
-		        <input type="button" onclick="date_btn_click(7)" value="일주일" />
-		        <input type="button" onclick="date_btn_click(30)" value="1개월" />
-		        <input type="button" onclick="date_btn_click(365)" value="1년" />
-			</span>
-		</div>
-		<div>
-			<label>주문상태</label>
-			<input type="radio" id="order_status_btn" name="order_status_btn" value=""/>
-			<label for="order_status_btn">전체</label>
-			<input type="radio" id="order_status_btn" name="order_status_btn" value=""/>
-			<label for="order_status_btn">변경요청</label>
-			<input type="radio" id="order_status_btn" name="order_status_btn" value=""/>
-			<label for="order_status_btn">처리완료</label>
-		</div>
+		<form action="/customer_orders/list" method="GET">
+			<div>
+				<label>날짜검색</label>
+				<span>
+					<select name="date_select">
+						<option value="">검색조건</option>
+						<option value="purchase_date">구매날짜</option>
+						<option value="request_date">요청날짜</option>
+					</select>
+			        <input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" /> - 
+			        <input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
+			        <input type="button" onclick="date_btn_click(0)" value="오늘" />
+			        <input type="button" onclick="date_btn_click(7)" value="일주일" />
+			        <input type="button" onclick="date_btn_click(30)" value="1개월" />
+			        <input type="button" onclick="date_btn_click(365)" value="1년" />
+				</span>
+			</div>
+			<div>
+				<label>주문상태</label>
+				<input type="radio" id="order_status_btn1" name="order_status" value=""/>
+				<label for="order_status_btn1">전체</label>
+				<input type="radio" id="order_status_btn2" name="order_status" value="request"/>
+				<label for="order_status_btn2">변경요청</label>
+				<input type="radio" id="order_status_btn3" name="order_status" value="completion"/>
+				<label for="order_status_btn3">처리완료</label>
+			</div>
+			<div>
+				<label>검색어</label>
+				<span>
+					<select name="search_conditions">
+						<option value="">검색조건</option>
+						<option value="order_num">주문번호</option>
+					</select>
+				</span>
+				<span>
+					<input type="text" name="word" value="" placeholder="검색할 주문번호 입력">
+				</span>
+			</div>
+			<input type="submit" value="검색">
+		</form>
 	</div>
 	<div>
 		<div>
