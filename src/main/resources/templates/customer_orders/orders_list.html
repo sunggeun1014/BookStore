@@ -5,12 +5,14 @@
 <title>Insert title here</title>
 	<link rel="stylesheet" href="/customer_orders/css/list.css">
 	<!-- DataTables CSS -->
+	
 	<!-- Bulma CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.1/css/bulma.min.css">
 	<!-- Font Awesome CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- DataTables with Bulma integration -->
 	<link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.bulma.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 	<div class="wrap">
@@ -18,41 +20,66 @@
 			<form id="filter_form">
 				<div class="content_title_area"><span class="content_title">주문내역조회</span></div>
 				<div class="data_select_area">
-					<label>날짜검색</label>
-					<span>
-						<select name="date_select" class="date_select_sizing">
-							<option value="">검색조건</option>
-							<option value="purchase_date">구매날짜</option>
-							<option value="request_date">요청날짜</option>
-						</select>
-				        <input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" /> - 
-				        <input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
-				        <input type="button" onclick="date_btn_click(0)" value="오늘" />
-				        <input type="button" onclick="date_btn_click(7)" value="일주일" />
-				        <input type="button" onclick="date_btn_click(30)" value="1개월" />
-				        <input type="button" onclick="date_btn_click(365)" value="1년" />
-					</span>
+					<div>
+						<div class="filter_grid">
+							<div class="filter_label_area label_width">
+								<label>날짜검색</label>
+							</div>
+							<div class="conditions_select_area">
+								<select name="date_select" id="date_select_sizing">
+									<option value="">검색조건</option>
+									<option value="purchase_date">구매날짜</option>
+									<option value="request_date">요청날짜</option>
+								</select>
+								<span class="date_container">
+					        		<input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
+					        		<img class="input_date_image" src="/images/datepicker_icon.jpg" alt="달력이미지">
+					        	</span>
+					        	 -
+								<span class="date_container">
+						        	<input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
+						        	<img class="input_date_image" src=" /images/datepicker_icon.jpg" alt="달력이미지">
+						        </span>
+							</div>
+				        </div>
+				        <div class="period_area">
+					        <input type="button" class="period_btn" onclick="date_btn_click(0)" value="오늘" /><input type="button" class="period_btn" onclick="date_btn_click(7)" value="일주일" /><input type="button" class="period_btn" onclick="date_btn_click(30)" value="1개월" /><input type="button" class="period_btn" onclick="date_btn_click(365)" value="1년" />
+				        </div>
+					</div>
 				</div>
 				<div class="order_status_area">
-					<label>주문상태</label>
-					<input type="radio" id="order_status_btn1" name="order_status" value="" checked="checked"/>
-					<label for="order_status_btn1">전체</label>
-					<input type="radio" id="order_status_btn2" name="order_status" value="request"/>
-					<label for="order_status_btn2">변경요청</label>
-					<input type="radio" id="order_status_btn3" name="order_status" value="completion"/>
-					<label for="order_status_btn3">처리완료</label>
+					<div class="filter_grid">
+						<div class="label_width">
+							<label>주문상태</label>
+						</div>
+						<div class="conditions_select_area">
+							<input type="radio" id="order_status_btn1" name="order_status" value="" checked="checked"/>
+							<label for="order_status_btn1">전체</label>
+							<input type="radio" id="order_status_btn2" name="order_status" value="request"/>
+							<label for="order_status_btn2">변경요청</label>
+							<input type="radio" id="order_status_btn3" name="order_status" value="completion"/>
+							<label for="order_status_btn3">처리완료</label>
+						</div>
+					</div>
 				</div>
 				<div class="search_conditions_area">
-					<label>검색어</label>
-					<span>
-						<select name="search_conditions">
-							<option value="">검색조건</option>
-							<option value="order_num">주문번호</option>
-						</select>
-					</span>
-					<span>
-						<input type="text" name="word" value="" placeholder="검색할 주문번호 입력">
-					</span>
+					<div class="filter_grid">
+						<div class="filter_label_area label_width">
+							<label>검색어</label>
+						</div>
+						<div class="conditions_select_area">
+							<span>
+								<select id="search_select_sizing" name="search_conditions">
+									<option value="">검색조건</option>
+									<option value="order_num">주문번호</option>
+								</select>
+							</span>
+							<span class="search_area">
+								<input type="text" id="word" name="word" value="" placeholder="검색할 주문번호 입력">
+								<img src="/images/search_icon.jpg" class="search_img" alt="검색 이미지" >
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="filter_bar_area"><span class="reset_btn">초기화</span></div>
 			</form>
@@ -66,7 +93,7 @@
 				<thead>
 					<tr>
 						<th>
-							<input type="checkbox" id="select_all"/>
+							<input type="checkbox" id="select_all" class="checkbox_area"/>
 						</th>
 						<th>주문번호</th>
 						<th>주문자ID</th>
@@ -83,6 +110,7 @@
 		</div>
 	</div>
 	
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="/commons/common.js"></script>
 	<script src="/customer_orders/js/list.js"></script>

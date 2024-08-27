@@ -12,7 +12,7 @@ $(document).ready(function() {
 			{ 
                 data: null, // 데이터 소스가 없으므로 null로 설정
                 render: function () {
-                    return '<input type="checkbox" class="row_checkbox">';
+                    return '<input type="checkbox" class="row_checkbox checkbox_area">';
 				}
             },
 			{ data: 'order_num' },
@@ -87,8 +87,10 @@ $(document).ready(function() {
 	});*/
 });
 
-checkbox_chang();
+checkbox_handler();
 reset_btn();
+datepicker();
+		
 
 
 
@@ -107,7 +109,6 @@ function date_btn_click(day) {
 	const end_year = now_date.getFullYear();
 	const end_month = (now_date.getMonth() + 1).toString().padStart(2, '0');
 	const end_day	= now_date.getDate().toString().padStart(2, '0');
-	
 	
 	
 	$("#start_date").val(`${start_year}-${start_month}-${start_day}`);
