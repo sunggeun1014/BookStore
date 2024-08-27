@@ -3,80 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/customer_orders/css/list.css">
+	<!-- DataTables CSS -->
+	<!-- Bulma CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.1/css/bulma.min.css">
+	<!-- Font Awesome CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- DataTables with Bulma integration -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.bulma.css">
 </head>
 <body>
-	<div>
-		<form action="/customer_orders/list" method="GET">
-			<div>
-				<label>날짜검색</label>
-				<span>
-					<select name="date_select">
-						<option value="">검색조건</option>
-						<option value="purchase_date">구매날짜</option>
-						<option value="request_date">요청날짜</option>
-					</select>
-			        <input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" /> - 
-			        <input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
-			        <input type="button" onclick="date_btn_click(0)" value="오늘" />
-			        <input type="button" onclick="date_btn_click(7)" value="일주일" />
-			        <input type="button" onclick="date_btn_click(30)" value="1개월" />
-			        <input type="button" onclick="date_btn_click(365)" value="1년" />
-				</span>
-			</div>
-			<div>
-				<label>주문상태</label>
-				<input type="radio" id="order_status_btn1" name="order_status" value=""/>
-				<label for="order_status_btn1">전체</label>
-				<input type="radio" id="order_status_btn2" name="order_status" value="request"/>
-				<label for="order_status_btn2">변경요청</label>
-				<input type="radio" id="order_status_btn3" name="order_status" value="completion"/>
-				<label for="order_status_btn3">처리완료</label>
-			</div>
-			<div>
-				<label>검색어</label>
-				<span>
-					<select name="search_conditions">
-						<option value="">검색조건</option>
-						<option value="order_num">주문번호</option>
-					</select>
-				</span>
-				<span>
-					<input type="text" name="word" value="" placeholder="검색할 주문번호 입력">
-				</span>
-			</div>
-			<input type="submit" value="검색">
-		</form>
-	</div>
-	<div>
-		<div>
-			<span><input type="checkbox" /></span>
-			<span>NO</span>
-			<span>주문번호</span>
-			<span>주문자ID</span>
-			<span>이름</span>
-			<span>총구매금액</span>
-			<span>구매날짜</span>
-			<span>배송상태</span>
-			<span>결제상태</span>
-			<span>주문상태</span>
-			<span>요청날짜</span>
+	<div class="wrap">
+		<div class="filter_area">
+			<form id="filter_form">
+				<div class="content_title_area"><span class="content_title">주문내역조회</span></div>
+				<div class="data_select_area">
+					<label>날짜검색</label>
+					<span>
+						<select name="date_select" class="date_select_sizing">
+							<option value="">검색조건</option>
+							<option value="purchase_date">구매날짜</option>
+							<option value="request_date">요청날짜</option>
+						</select>
+				        <input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" /> - 
+				        <input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
+				        <input type="button" onclick="date_btn_click(0)" value="오늘" />
+				        <input type="button" onclick="date_btn_click(7)" value="일주일" />
+				        <input type="button" onclick="date_btn_click(30)" value="1개월" />
+				        <input type="button" onclick="date_btn_click(365)" value="1년" />
+					</span>
+				</div>
+				<div class="order_status_area">
+					<label>주문상태</label>
+					<input type="radio" id="order_status_btn1" name="order_status" value="" checked="checked"/>
+					<label for="order_status_btn1">전체</label>
+					<input type="radio" id="order_status_btn2" name="order_status" value="request"/>
+					<label for="order_status_btn2">변경요청</label>
+					<input type="radio" id="order_status_btn3" name="order_status" value="completion"/>
+					<label for="order_status_btn3">처리완료</label>
+				</div>
+				<div class="search_conditions_area">
+					<label>검색어</label>
+					<span>
+						<select name="search_conditions">
+							<option value="">검색조건</option>
+							<option value="order_num">주문번호</option>
+						</select>
+					</span>
+					<span>
+						<input type="text" name="word" value="" placeholder="검색할 주문번호 입력">
+					</span>
+				</div>
+				<div class="filter_bar_area"><span class="reset_btn">초기화</span></div>
+			</form>
 		</div>
-		<div th:each="order, status : ${order_list}">
-			<span><input type="checkbox" /></span>
-			<span th:text="${status.size - status.count}"></span>
-			<span th:text="${order.order_num}"></span>
-			<span th:text="${order.member_id}"></span>
-			<span th:text="${order.member_name}"></span>
-			<span th:text="${order.formatPrice}"></span>
-			<span th:text="${#dates.format(order.order_purchase_date, 'yyyy-MM-dd')}"></span>
-			<span th:text="${order.order_delivery_status}"></span>
-			<span th:text="${order.order_payment_status}"></span>
-			<span th:text="${order.order_status}"></span>
-			<span th:text="${order.order_modify_date == null ? '-' : #dates.format(order.order_modify_date, 'yyyy-MM-dd')}"></span>
+		
+		<div class="content_area">
+			<div class="total_list_cnt_area">
+				<span id="total_list_cnt"></span>
+			</div>
+			<table id="content_table">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="select_all"/>
+						</th>
+						<th>주문번호</th>
+						<th>주문자ID</th>
+						<th>이름</th>
+						<th>총구매금액</th>
+						<th class="tb_data_center">구매날짜</th>
+						<th>배송상태</th>
+						<th>결제상태</th>
+						<th>주문상태</th>
+						<th class="tb_data_center">요청날짜</th>
+					</tr>
+				</thead>
+			</table>
 		</div>
 	</div>
 	
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="/commons/common.js"></script>
 	<script src="/customer_orders/js/list.js"></script>
+	<!-- DataTables JS -->
+	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+	<!-- DataTables with Bulma integration JS -->
+	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.bulma.js"></script>
 </body>
 </html>

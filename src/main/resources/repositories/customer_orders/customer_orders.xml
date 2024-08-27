@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CustomerOrders">
 
-	<select id="getList" resultType="customerOrders" parameterType="condition">
+	<select id="getList" resultType="customerOrders">
 		SELECT
 		    co.order_num,
 		    co.member_id,
@@ -53,17 +53,12 @@
 		            '주문완료'
 		    END                         AS order_status,
 		    co.order_purchase_date,
-		    CASE
-		    	WHEN co.order_modify_date = co.order_purchase_date THEN NULL
-		    	ELSE co.order_modify_date
-		    END AS order_modify_date,
+		    order_modify_date,
 		    SUM(cod.order_detail_price) AS total_order_price
 		FROM
 		         customer_orders co
 		    LEFT JOIN members                m ON co.member_id = m.member_id
 		    LEFT JOIN customer_order_details cod ON cod.order_num = co.order_num
-		WHERE 'abc'=#{word}
-        
 		GROUP BY
 		    co.order_num,
 		    co.member_id,
@@ -71,7 +66,6 @@
 		    co.order_delivery_status,
 		    co.order_payment_status,
 		    co.order_purchase_date,
-		    co.order_modify_date 
-		    ORDER BY co.order_modify_date DESC
+		    co.order_modify_date
 	</select>
 </mapper>

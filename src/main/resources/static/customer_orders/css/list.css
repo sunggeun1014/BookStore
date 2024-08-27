@@ -1,0 +1,23 @@
+* { box-sizing: border-box; margin: 0; }
+.wrap { margin: 0 auto; width: 1440px; background-color: #EBECF0; padding: 1px; }
+.filter_area { margin: 10px 10px 10px auto; width: 1186px; height: 100%; background-color: white; border-radius: 20px; padding: 20px 26px; }
+
+.content_title_area { padding-bottom: 12px; }
+.content_title { font-size: 18px; font-weight: bold; }
+.data_select_area, .order_status_area, .search_conditions_area { padding: 10px 20px; font-size: 16px; border-bottom: solid 1px #D8D8D8; }
+.filter_bar_area { margin-top: 13px; text-align: right; }
+.reset_btn { font-size: 18px; font-weight: bold; cursor: pointer; }
+
+.date_select_sizing { width: 140px; height: 40px; padding: 8px 10px; border-radius: 5px; font-size: 16px; }
+#start_date, #end_date { width: 200px; height: 40px; font-size: 14px; padding: 7px 9px; border-radius: 5px; }
+
+.content_area { margin: 10px 10px 10px auto; width: 1186px; background-color: white; border-radius: 20px; padding: 20px 26px; }
+#content_table > thead > tr > th { padding: 16.5px 0; border-top: solid 1px #D8D8D8; border-bottom: solid 1px #D8D8D8; font-size: 16px; font-weight: bold; background-color: #D8D8D8; }
+#content_table > tbody > tr > td { padding: 16.5px 0; border-bottom: solid 1px #D8D8D8; font-size: 14px; }
+.dt_data_center { text-align: center !important; }
+.dt_data_right { text-align: right !important; }
+.dt-column-order { text-align: right !important; }
+.dt-paging { margin-top: 20px; } 
+div.dt-paging ul { justify-content: center !important; }
+.total_list_cnt_area { padding-bottom: 14px; font-size: 16px; font-weight: bold; }
+

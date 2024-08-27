@@ -1,5 +1,6 @@
 package com.ezen.bookstore.customerorders.dto;
 
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.Date;
 
@@ -14,8 +15,8 @@ public class CustomerOrdersDTO {
 	private String common_ent_pw;
 	private String order_delivery_status;       
 	private String order_payment_status;     
-	private Date order_purchase_date;      
-	private Date order_modify_date;          
+	private Timestamp order_purchase_date;      
+	private Timestamp order_modify_date;          
 	private String member_id;
 	private String member_name;
 	
