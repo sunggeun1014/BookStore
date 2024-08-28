@@ -50,7 +50,5 @@ function datepicker() {
     $("#calendarIcon").on('click', function() {
         endDatePicker.open();
     });
-	
-	
 }
 

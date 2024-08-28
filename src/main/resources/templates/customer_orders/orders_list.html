@@ -26,16 +26,15 @@
 								<label>날짜검색</label>
 							</div>
 							<div class="conditions_select_area">
-								<select name="date_select" id="date_select_sizing">
-									<option value="">검색조건</option>
-									<option value="purchase_date">구매날짜</option>
-									<option value="request_date">요청날짜</option>
+								<select name="date_select" id="date_select_box">
+									<option value="purchase">구매날짜</option>
+									<option value="reuqest">요청날짜</option>
 								</select>
 								<span class="date_container">
 					        		<input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
 					        		<img class="input_date_image" src="/images/datepicker_icon.jpg" alt="달력이미지">
 					        	</span>
-					        	 -
+					        	&nbsp;&nbsp;-
 								<span class="date_container">
 						        	<input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
 						        	<img class="input_date_image" src=" /images/datepicker_icon.jpg" alt="달력이미지">
@@ -70,13 +69,12 @@
 						<div class="conditions_select_area">
 							<span>
 								<select id="search_select_sizing" name="search_conditions">
-									<option value="">검색조건</option>
 									<option value="order_num">주문번호</option>
 								</select>
 							</span>
 							<span class="search_area">
 								<input type="text" id="word" name="word" value="" placeholder="검색할 주문번호 입력">
-								<img src="/images/search_icon.jpg" class="search_img" alt="검색 이미지" >
+								<img src="/images/search_icon.jpg" id="search_btn" class="search_img" alt="검색 이미지" >
 							</span>
 						</div>
 					</div>
@@ -88,6 +86,9 @@
 		<div class="content_area">
 			<div class="total_list_cnt_area">
 				<span id="total_list_cnt"></span>
+				<span>
+					<input type="button" value="배송요청" id="delivery_status">				
+				</span>
 			</div>
 			<table id="content_table">
 				<thead>
@@ -95,6 +96,7 @@
 						<th>
 							<input type="checkbox" id="select_all" class="checkbox_area"/>
 						</th>
+						<th>NO</th>
 						<th>주문번호</th>
 						<th>주문자ID</th>
 						<th>이름</th>

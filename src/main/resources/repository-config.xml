@@ -6,5 +6,6 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.ezen.bookstore.customerorders.dto.CustomerOrdersDTO" alias="customerOrders"/>
+		<typeAlias type="com.ezen.bookstore.commons.SearchCondition" alias="condition"/>
 	</typeAliases>
 </configuration>

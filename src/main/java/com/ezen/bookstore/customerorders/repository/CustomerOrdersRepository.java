@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.ezen.bookstore.commons.SearchCondition;
 import com.ezen.bookstore.customerorders.dto.CustomerOrdersDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -19,5 +20,8 @@ public class CustomerOrdersRepository {
 		return sql.selectList("CustomerOrders.getList");
 	}
 	
+	public List<CustomerOrdersDTO> getDataFilterList(SearchCondition condition) {
+		return sql.selectList("CustomerOrders.getList", condition);
+	}
 
 }

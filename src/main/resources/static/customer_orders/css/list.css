@@ -10,12 +10,13 @@
 .filter_bar_area { margin-top: 13px; text-align: right; }
 .reset_btn { font-size: 18px; font-weight: bold; cursor: pointer; }
 
-#date_select_sizing { width: 140px; height: 40px; padding: 0 10px; border-radius: 5px; font-size: 16px; }
-#start_date, #end_date { width: 200px; height: 40px; font-size: 14px; padding: 7px 9px; border-radius: 5px; border: solid 1px black; }
+
+#date_select_box { width: 140px; height: 40px; padding: 0 10px; border-radius: 5px; font-size: 16px; }
+#start_date, #end_date { width: 200px; height: 40px; font-size: 14px; padding: 7px 9px; border-radius: 5px; border: solid 1px black; font-size: 16px; }
 .date_container { position: relative; margin-left: 10px; }
 .input_date_image { position: absolute; width: 19px; height: 22px; top: 50%; right: 20px; transform: translateY(-50%); }
 .date_container { cursor: pointer; }
-.period_area { margin-left: 10px; width: 220px; height: 40px; border: 1px solid black; box-sizing: content-box; border-radius: 4px; overflow: hidden; }
+.period_area { margin-left: 10px; width: 220px; height: 40px; border: 1px solid #C0C0C0; box-sizing: content-box; border-radius: 4px; overflow: hidden; }
 .period_btn { font-size: 14px; font-weight: bold; color: white; background-color: #4777F6; width: 55px; height: 40px; cursor: pointer; border: none; padding: 0; }
 #search_select_sizing { width: 140px; height: 40px; padding: 0 10px; border-radius: 5px; font-size: 16px; }
 .filter_grid { display: flex; }
@@ -23,8 +24,8 @@
 .label_width { width: 100px; }
 .conditions_select_area { margin-left: 60px; }
 .search_area { position: relative; margin-left: 10px; }
-.search_img { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); }
-#word { width: 300px; height: 40px; border: 1px solid black; border-radius: 5px; padding: 0 10px; }
+.search_img { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer; }
+#word { width: 300px; height: 40px; border: 1px solid black; border-radius: 5px; padding: 0 10px; font-size: 16px; }
 
 .content_area { margin: 10px 10px 10px auto; width: 1186px; background-color: white; border-radius: 20px; padding: 20px 26px; }
 #content_table > thead > tr > th { padding: 16.5px 0; border-top: solid 1px #D8D8D8; border-bottom: solid 1px #D8D8D8; font-size: 16px; font-weight: bold; background-color: #D8D8D8; }
@@ -35,3 +36,7 @@
 .dt-paging { margin-top: 20px; } 
 div.dt-paging ul { justify-content: center !important; }
 .total_list_cnt_area { padding-bottom: 14px; font-size: 16px; font-weight: bold; }
+
+
+
+

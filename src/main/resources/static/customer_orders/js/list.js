@@ -1,13 +1,15 @@
+let table = null;
+
 $(document).ready(function() {
-	let table = $('#content_table').DataTable({
+	table = $('#content_table').DataTable({
 		ajax: {
-			url: '/tables/customer_orders',
+			url: '/rest/customerOrders',
 			dataSrc: function(json) {
 				$("#total_list_cnt").text(`총 ${json.recordsTotal}건`);
 				return json.data;
 			}
 		},
-		order: [[9, 'desc']],
+		order: [[10, 'desc']],
 		columns: [
 			{ 
                 data: null, // 데이터 소스가 없으므로 null로 설정
@@ -15,6 +17,7 @@ $(document).ready(function() {
                     return '<input type="checkbox" class="row_checkbox checkbox_area">';
 				}
             },
+			{ data: null },
 			{ data: 'order_num' },
 			{ data: 'member_id' },
 			{ data: 'member_name' },
@@ -45,55 +48,67 @@ $(document).ready(function() {
 		columnDefs: [
 			{ targets: 0, orderable: false },
 			{
-				targets:"_all",
+				targets:"_all" ,
 				className:"dt_data_center"
 			},
 			{
-				targets:[1, 4],
+				targets:[1, 2, 5],
 				className:"dt_data_right"
+			},
+			{
+			   targets:[1],
+			   render: function(data, type, row, meta){
+			      return meta.row + 1;
+			   }
 			}
 		],
-		"info": false,
+		info: false,
 		lengthChange: false,
-		dom: 'lrtip' // 기본 검색 필드 숨기기 (f를 제거)
-	});
-/*	$('#searchButton').on('click', function() {
-		var selectedColumn = $('#searchColumn').val();
-		var keyword = $('#searchKeyword').val();
-		table.column(selectedColumn).search(keyword).draw(); // 선택된 컬럼과 입력된 키워드로 필터링
+		dom: "lrtip",
+		language: {
+		    searchPanes: {
+		        i18n: {
+		            emptyMessage: "조회된 정보가 없습니다."
+		        }
+		    },
+		    infoEmpty: "조회된 정보가 없습니다.",
+		    zeroRecords: "조회된 정보가 없습니다.",
+		    emptyTable: "조회된 정보가 없습니다.",
+		},
 	});
 
-	$('#startDate, #endDate').on('change', function() {
-		table.draw(); // 날짜 변경 시 테이블 다시 그리기
+	table.on('draw', function() {
+	    $(".checkbox_area").prop('checked', false);
 	});
+	
 
-	// 날짜 필터링 로직 추가
-	$.fn.dataTable.ext.search.push(
-	function(settings, data, dataIndex) {
-		var startDate = $('#startDate').val();
-		var endDate = $('#endDate').val();
-		var memberDate = data[5]; // 가입날짜 데이터 (6번째 컬럼)
+    $('#search_btn').on('click', function() {
+		filter()
+        table.draw();
+    });
+
+	$("#word").on("keypress", function() {
+		table.draw();
+	})
 	
-		// 날짜 형식을 Date 객체로 변환
-		var start = startDate ? new Date(startDate) : null;
-		var end = endDate ? new Date(endDate) : null;
-		var member = new Date(memberDate);
-	
-		if ((start === null && end === null) || // 날짜가 설정되지 않았거나
-			(start <= member && (end === null || member <= end))) {
-			return true;
-		}
-		return false;
-	});*/
+	checkbox_handler();
+	reset_btn();
+	datepicker();
 });
 
-checkbox_handler();
-reset_btn();
-datepicker();
-		
-
-
-
+function filter() {
+	table.ajax.url("/rest/dataFilter");
+	table.settings()[0].ajax.data = function(d) {
+		d.date_column = $("#date_select_box").val();
+		d.start_date = $("#start_date").val();
+		d.end_date = $("#end_date").val();
+		d.order_status = $("input[name='order_status']:checked").val();
+		d.search_conditions = $("select[name='search_conditions']").val();
+		d.word = $("#word").val();
+	} 
+	
+	table.ajax.reload();
+}
 
 function date_btn_click(day) {
 	const now_date = new Date();
@@ -114,4 +129,3 @@ function date_btn_click(day) {
 	$("#start_date").val(`${start_year}-${start_month}-${start_day}`);
 	$("#end_date").val(`${end_year}-${end_month}-${end_day}`);
 }
-

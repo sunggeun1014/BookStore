@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ezen.bookstore.commons.SearchCondition;
 import com.ezen.bookstore.customerorders.dto.CustomerOrdersDTO;
 import com.ezen.bookstore.customerorders.repository.CustomerOrdersRepository;
 
@@ -18,6 +19,11 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 	@Override
 	public List<CustomerOrdersDTO> getCustomerOrdersList() {
 		return cor.getCustomerOrdersList();
+	}
+
+	@Override
+	public List<CustomerOrdersDTO> getDataFilter(SearchCondition condition) {
+		return cor.getDataFilterList(condition);
 	}
 
 	
