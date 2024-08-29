@@ -28,7 +28,8 @@ public class CustomerOrdersController {
 	
 	@GetMapping("/detail")
 	public String customerOrdersList(Model model, int order_num) {
-		model.addAttribute("num", order_num);
+		model.addAttribute("detail", cos.getCustomerOrdersDetail(order_num));
+		model.addAttribute("detailList", cos.getCustomerOrdersDetailList(order_num));
 		
 		return "/admin/customer_orders/orders_detail";
 	}

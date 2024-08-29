@@ -55,6 +55,28 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 		return result;
 	}
 
+	@Override
+	public CustomerOrdersDTO getCustomerOrdersDetail(int order_num) {
+		try {
+			return cor.getCustomerOrdersDetail(order_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public List<CustomerOrdersDTO> getCustomerOrdersDetailList(int order_num) {
+		try {
+			return cor.getCustomerOrdersDetailList(order_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 	
 	
 }

@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 	<link rel="stylesheet" href="/admin/customer_orders/css/list.css">
-	<!-- DataTables CSS -->
 	
 	<!-- Bulma CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.1/css/bulma.min.css">
@@ -12,111 +11,112 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- DataTables with Bulma integration -->
 	<link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.bulma.css">
+	<!-- DatePicker -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
-	<div class="wrap">
-		<div class="filter_area">
-			<form id="filter_form">
-				<div class="content_title_area"><span class="content_title">주문내역조회</span></div>
-				<div class="data_select_area">
-					<div>
-						<div class="filter_grid">
-							<div class="filter_label_area label_width">
-								<label>날짜검색</label>
-							</div>
-							<div class="conditions_select_area">
-								<select name="date_select" id="date_select_box">
-									<option value="purchase">구매날짜</option>
-									<option value="reuqest">요청날짜</option>
-								</select>
-								<span class="date_container">
-					        		<input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
-					        		<img class="input_date_image" src="/admin/images/datepicker_icon.jpg" alt="달력이미지">
-					        	</span>
-					        	&nbsp;&nbsp;-
-								<span class="date_container">
-						        	<input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
-						        	<img class="input_date_image" src=" /admin/images/datepicker_icon.jpg" alt="달력이미지">
-						        </span>
-							</div>
-				        </div>
-				        <div class="period_area">
-					        <input type="button" class="period_btn" onclick="date_btn_click(0)" value="오늘" /><input type="button" class="period_btn" onclick="date_btn_click(7)" value="일주일" /><input type="button" class="period_btn" onclick="date_btn_click(30)" value="1개월" /><input type="button" class="period_btn" onclick="date_btn_click(365)" value="1년" />
-				        </div>
-					</div>
-				</div>
-				<div class="order_status_area">
-					<div class="filter_grid">
-						<div class="label_width">
-							<label>주문상태</label>
-						</div>
-						<div class="conditions_select_area">
-							<input type="radio" id="order_status_btn1" name="order_status" value="" checked="checked"/>
-							<label for="order_status_btn1">전체</label>
-							<input type="radio" id="order_status_btn2" name="order_status" value="request"/>
-							<label for="order_status_btn2">변경요청</label>
-							<input type="radio" id="order_status_btn3" name="order_status" value="completion"/>
-							<label for="order_status_btn3">처리완료</label>
-						</div>
-					</div>
-				</div>
-				<div class="search_conditions_area">
-					<div class="filter_grid">
-						<div class="filter_label_area label_width">
-							<label>검색어</label>
-						</div>
-						<div class="conditions_select_area">
-							<span>
-								<select id="search_select_sizing" name="search_conditions">
-									<option value="order_num">주문번호</option>
-								</select>
-							</span>
-							<span class="search_area">
-								<input type="text" id="word" name="word" value="" placeholder="검색할 주문번호 입력">
-								<img src="/admin/images/search_icon.jpg" id="search_btn" class="search_img" alt="검색 이미지" >
-							</span>
-						</div>
-					</div>
-				</div>
-				<div class="filter_bar_area"><span class="reset_btn">초기화</span></div>
-			</form>
+	<div class="filter-container white-frame">
+		<div class="header">
+			<h1 class="search-list-title">주문내역조회</h1>
 		</div>
-		
-		<div class="content_area">
-			<div class="total_list_cnt_area">
-				<span id="total_list_cnt"></span>
-				<span>
-					<input type="button" value="배송요청" id="delivery_request_btn" onclick="delivery_request()">				
-				</span>
+	
+		<div class="filter-container white-frame">
+			<div class="header">
+				<h1 class="search-list-title">주문내역조회</h1>
 			</div>
-			<form id="table_form">
-				<table id="content_table">
-					<thead>
-						<tr>
-							<th>
-								<input type="checkbox" id="select_all" class="checkbox_area"/>
-							</th>
-							<th>NO</th>
-							<th>주문번호</th>
-							<th>주문자ID</th>
-							<th>이름</th>
-							<th>총구매금액</th>
-							<th class="tb_data_center">구매날짜</th>
-							<th>배송상태</th>
-							<th>결제상태</th>
-							<th>주문상태</th>
-							<th class="tb_data_center">요청날짜</th>
-						</tr>
-					</thead>
-				</table>
-			</form>
+		
+			<div class="content">
+				<div class="search-filter">
+					<div class="filter-group">
+						<span class="search-list-subject">날짜검색</span>
+						<div class="select-wrap">
+							<select id="dateColumn" class="select">
+								<option value="purchase">구매날짜</option>
+								<option value="reuqest">요청날짜</option>
+							</select>
+							<div class="select-arrow-down"></div>
+						</div>
+						<div class="date-picker">
+							<div class="input-date-box">
+								<input type="text" id="startDate" class="placeholder"
+									placeholder="YYYY-MM-DD" />
+									<i class="fa-solid fa-calendar-days"></i>
+							</div>
+							<div class="calendar-slash">-</div>
+							<div class="input-date-box">
+								<input type="text" id="endDate" class="placeholder"
+									placeholder="YYYY-MM-DD" />
+								<i class="fa-solid fa-calendar-days"></i>
+							</div>
+						</div>
+						<div class="date-options date-pick-btn">
+							<button class="date-option today today-btn date-btn" onclick="setToday()">오늘</button>
+							<button class="date-option week-btn date-btn" onclick="setDateRange(7)">1주일</button>
+							<button class="date-option month-btn date-btn" onclick="setDateRange(30)">1개월</button>
+							<button class="date-option year-btn date-btn" onclick="setDateRange(365)">1년</button>
+						</div>
+					</div>
+				</div>
+				<div class="search-bar-group">
+					<div class="search-list-subject">주문상태</div>
+					<div class="select-wrap">
+						<input type="radio" id="order-status-all" name="order_status" value="" checked="checked"/>
+						<label for="order-status-all">전체</label>
+						<input type="radio" id="order-status-change" name="order_status" value="request"/>
+						<label for="order-status-change">변경요청</label>
+						<input type="radio" id="order-status-completion" name="order_status" value="completion"/>
+						<label for="order-status-completion">처리완료</label>
+					</div>
+				</div>
+				<div class="search-bar-group">
+					<div class="search-list-subject">검색어</div>
+					<div class="select-wrap">
+						<select id="searchColumn" class="select">
+							<option value="order_num">주문번호</option>
+						</select>
+						<div class="select-arrow-down"></div>
+					</div>
+					
+				    <div class="search-container">
+	      				<input type="text" name="word" id="word" class="searchKeyword search-input" placeholder="검색할 주문번호 입력" />
+	      				<button id="searchButton"><span class="material-symbols-outlined">search</span></button>	
+	    			</div>
+	
+					<button id="reset-button" onclick="resetFilters()">초기화</button>			
+				</div>
+			</div>
 		</div>
 	</div>
 	
+	<div class="table-container white-frame">
+		<span id="data-count"></span>
+		<button id="delete-button" class="button is-danger" style="float: right;">배송요청</button>
+		<table id="customer-orders-table" class="table is-striped" style="width: 100%">
+			<thead>
+				<tr>
+					<th>
+						<input type="checkbox" id="select-all">
+						<label for="select-all"></label>
+					</th>
+					<th>NO</th>
+					<th>주문번호</th>
+					<th>주문자ID</th>
+					<th>이름</th>
+					<th>총구매금액</th>
+					<th>구매날짜</th>
+					<th>배송상태</th>
+					<th>결제상태</th>
+					<th>주문상태</th>
+					<th>요청날짜</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	
+	<script src="/admin/common/js/main.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<script src="/admin/commons/common.js"></script>
 	<script src="/admin/customer_orders/js/list.js"></script>
 	<!-- DataTables JS -->
 	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>

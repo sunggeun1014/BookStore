@@ -10,4 +10,6 @@ public interface CustomerOrdersService {
 	public List<CustomerOrdersDTO> getCustomerOrdersList();
 	public List<CustomerOrdersDTO> getDataFilter(SearchCondition condition);
 	public int deliveryRequestSave(List<Integer> order_nums, String manager_id);
+	public CustomerOrdersDTO getCustomerOrdersDetail(int order_num);
+	public List<CustomerOrdersDTO> getCustomerOrdersDetailList(int order_num);
 }

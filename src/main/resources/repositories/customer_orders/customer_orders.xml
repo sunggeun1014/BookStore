@@ -118,5 +118,68 @@
 		    )
 	</insert>
 	
+	<select id="getDetail" resultType="customerOrders" parameterType="Integer">
+		SELECT
+		    co.order_num,
+		    co.member_id,
+		    co.order_addr,
+		    co.order_addr_detail,
+		    co.common_ent_pw,
+		    co.retrieve_addr,
+		    co.retrieve_addr_detail,
+		    m.member_name,
+		    m.member_email,
+		    m.member_phoneno,
+		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total
+		FROM
+		    customer_orders        co
+		    LEFT JOIN members                m ON co.member_id = m.member_id
+		    LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
+		WHERE
+		    co.order_num = 5000005
+		GROUP BY
+		    co.order_num,
+		    co.member_id,
+		    co.order_addr,
+		    co.order_addr_detail,
+		    co.common_ent_pw,
+		    co.retrieve_addr,
+		    co.retrieve_addr_detail,
+		    m.member_name,
+		    m.member_email,
+		    m.member_phoneno
+	</select>
+	
+	<select id="getDetailList" resultType="customerOrders" parameterType="Integer">
+		SELECT
+		    b.book_name,
+		    cod.book_isbn,
+		    cod.order_detail_price,
+		    cod.order_detail_qty,
+		    cod.order_detail_price * cod.order_detail_qty AS order_price_sum,
+	    	CASE
+		        WHEN cod.order_detail_status = '01' THEN
+		            '주문완료'
+		        WHEN cod.order_detail_status = '02' THEN
+		            '취소요청'
+		        WHEN cod.order_detail_status = '03' THEN
+		            '교환요청'
+		        WHEN cod.order_detail_status = '04' THEN
+		            '반품요청'
+		        WHEN cod.order_detail_status = '05' THEN
+		            '취소완료'
+		        WHEN cod.order_detail_status = '06' THEN
+		            '교환완료'
+		        WHEN cod.order_detail_status = '07' THEN
+		            '반품완료'
+		        WHEN cod.order_detail_status = '08' THEN
+		            '처리불가'
+		    END AS order_detail_status
+		FROM
+		         customer_orders co
+		    LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
+		    LEFT JOIN books                  b ON cod.book_isbn = b.book_isbn
+		WHERE cod.order_num = #{order_num}
+	</select>
 	
 </mapper>

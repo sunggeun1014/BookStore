@@ -32,5 +32,12 @@ public class CustomerOrdersRepository {
 		return sql.insert("CustomerOrders.deliveryDetailSave", order_num);
 	}
 	
+	public CustomerOrdersDTO getCustomerOrdersDetail(int order_num) {
+		return sql.selectOne("CustomerOrders.getDetail", order_num);
+	}
+	
+	public List<CustomerOrdersDTO> getCustomerOrdersDetailList(int order_num) {
+		return sql.selectList("CustomerOrders.getDetailList", order_num);
+	}
 
 }

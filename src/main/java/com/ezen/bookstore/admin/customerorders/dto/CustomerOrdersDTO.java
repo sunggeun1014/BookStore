@@ -39,6 +39,10 @@ public class CustomerOrdersDTO {
 	private String kakao_login_cd;
 	private Timestamp member_date;
 	
+	private String book_name;
+	private Integer order_price_sum;
+	private Integer order_price_total;
+	
     public String getFormatPrice() {
         if (this.total_order_price == null) {
             return "";
