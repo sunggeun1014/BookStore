@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<span>뒤로가기</span>
+	</div>
+	<div>
+		<div>
+			<span>주문번호: [[${num}]]</span>
+		</div>
+		<div>
+			<span>주문자</span>
+		</div>
+		<div>
+			<span>회원ID</span>
+			<span></span>
+			<span>이메일</span>
+			<span></span>
+		</div>		
+		<div>
+			<span>전화번호</span>
+			<span></span>
+		</div>		
+		<div>
+			<span>배송지</span>
+			<span></span>
+		</div>		
+		<div>
+			<span>출입방법</span>
+			<span></span>
+		</div>		
+	</div>
+	<div>
+		<div>
+			<span>반품요청 정보</span>
+		</div>
+		<div>
+			<span>회수지</span>
+			<span></span>
+		</div>
+	</div>
+	<div>
+		<div>
+			<span>총 5건</span>
+			<div>
+				<select>
+					<option value="">취소완료</option>
+					<option value="">교환완료</option>
+					<option value="">반품완료</option>
+					<option value="">처리불가</option>
+				</select>
+				<span>
+					<input type="button" value="완료"/>
+				</span>
+			</div>
+		</div>
+		<div>
+			<div>
+				<span><input type="checkbox"/></span>
+				<span>NO</span>
+				<span>책제목</span>
+				<span>ISBN</span>
+				<span>가격</span>
+				<span>수량</span>
+				<span>구매금액</span>
+				<span>주문상태</span>
+			</div>
+			<div>
+				<span><input type="checkbox"/></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+			<div>
+				<span>총 구매금액: </span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

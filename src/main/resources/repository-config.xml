@@ -5,7 +5,7 @@
 <!-- window > Preferences > Maven > download artifact javadoc 체크 -->
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.ezen.bookstore.customerorders.dto.CustomerOrdersDTO" alias="customerOrders"/>
-		<typeAlias type="com.ezen.bookstore.commons.SearchCondition" alias="condition"/>
+		<typeAlias type="com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO" alias="customerOrders"/>
+		<typeAlias type="com.ezen.bookstore.admin.commons.SearchCondition" alias="condition"/>
 	</typeAliases>
 </configuration>

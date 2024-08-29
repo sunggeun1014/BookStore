@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	<link rel="stylesheet" href="/customer_orders/css/list.css">
+	<link rel="stylesheet" href="/admin/customer_orders/css/list.css">
 	<!-- DataTables CSS -->
 	
 	<!-- Bulma CSS -->
@@ -32,12 +32,12 @@
 								</select>
 								<span class="date_container">
 					        		<input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
-					        		<img class="input_date_image" src="/images/datepicker_icon.jpg" alt="달력이미지">
+					        		<img class="input_date_image" src="/admin/images/datepicker_icon.jpg" alt="달력이미지">
 					        	</span>
 					        	&nbsp;&nbsp;-
 								<span class="date_container">
 						        	<input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD" readonly="readonly" value="" />
-						        	<img class="input_date_image" src=" /images/datepicker_icon.jpg" alt="달력이미지">
+						        	<img class="input_date_image" src=" /admin/images/datepicker_icon.jpg" alt="달력이미지">
 						        </span>
 							</div>
 				        </div>
@@ -74,7 +74,7 @@
 							</span>
 							<span class="search_area">
 								<input type="text" id="word" name="word" value="" placeholder="검색할 주문번호 입력">
-								<img src="/images/search_icon.jpg" id="search_btn" class="search_img" alt="검색 이미지" >
+								<img src="/admin/images/search_icon.jpg" id="search_btn" class="search_img" alt="검색 이미지" >
 							</span>
 						</div>
 					</div>
@@ -87,35 +87,37 @@
 			<div class="total_list_cnt_area">
 				<span id="total_list_cnt"></span>
 				<span>
-					<input type="button" value="배송요청" id="delivery_status">				
+					<input type="button" value="배송요청" id="delivery_request_btn" onclick="delivery_request()">				
 				</span>
 			</div>
-			<table id="content_table">
-				<thead>
-					<tr>
-						<th>
-							<input type="checkbox" id="select_all" class="checkbox_area"/>
-						</th>
-						<th>NO</th>
-						<th>주문번호</th>
-						<th>주문자ID</th>
-						<th>이름</th>
-						<th>총구매금액</th>
-						<th class="tb_data_center">구매날짜</th>
-						<th>배송상태</th>
-						<th>결제상태</th>
-						<th>주문상태</th>
-						<th class="tb_data_center">요청날짜</th>
-					</tr>
-				</thead>
-			</table>
+			<form id="table_form">
+				<table id="content_table">
+					<thead>
+						<tr>
+							<th>
+								<input type="checkbox" id="select_all" class="checkbox_area"/>
+							</th>
+							<th>NO</th>
+							<th>주문번호</th>
+							<th>주문자ID</th>
+							<th>이름</th>
+							<th>총구매금액</th>
+							<th class="tb_data_center">구매날짜</th>
+							<th>배송상태</th>
+							<th>결제상태</th>
+							<th>주문상태</th>
+							<th class="tb_data_center">요청날짜</th>
+						</tr>
+					</thead>
+				</table>
+			</form>
 		</div>
 	</div>
 	
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<script src="/commons/common.js"></script>
-	<script src="/customer_orders/js/list.js"></script>
+	<script src="/admin/commons/common.js"></script>
+	<script src="/admin/customer_orders/js/list.js"></script>
 	<!-- DataTables JS -->
 	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
 	<!-- DataTables with Bulma integration JS -->

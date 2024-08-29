@@ -9,6 +9,8 @@
 .data_select_area, .order_status_area, .search_conditions_area { padding: 10px 20px; font-size: 16px; border-bottom: solid 1px #D8D8D8; }
 .filter_bar_area { margin-top: 13px; text-align: right; }
 .reset_btn { font-size: 18px; font-weight: bold; cursor: pointer; }
+.text_red { color: red; }
+.text_green { color: #10A142; }
 
 
 #date_select_box { width: 140px; height: 40px; padding: 0 10px; border-radius: 5px; font-size: 16px; }
@@ -26,17 +28,19 @@
 .search_area { position: relative; margin-left: 10px; }
 .search_img { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer; }
 #word { width: 300px; height: 40px; border: 1px solid black; border-radius: 5px; padding: 0 10px; font-size: 16px; }
+.order_num_link { color: black; text-decoration: underline; }
 
-.content_area { margin: 10px 10px 10px auto; width: 1186px; background-color: white; border-radius: 20px; padding: 20px 26px; }
-#content_table > thead > tr > th { padding: 16.5px 0; border-top: solid 1px #D8D8D8; border-bottom: solid 1px #D8D8D8; font-size: 16px; font-weight: bold; background-color: #D8D8D8; }
+.content_area { margin: 10px 10px 10px auto; width: 1186px; background-color: white; border-radius: 20px; padding: 10px 26px 20px 26px; }
+#content_table > thead > tr > th { padding: 16.5px 0; border-top: solid 1px #D8D8D8; border-bottom: solid 1px #D8D8D8; font-size: 16px; font-weight: bold; background-color: #FAFAFA; }
 #content_table > tbody > tr > td { padding: 16.5px 0; border-bottom: solid 1px #D8D8D8; font-size: 14px; }
 .dt_data_center { text-align: center !important; }
 .dt_data_right { text-align: right !important; }
 .dt-column-order { text-align: right !important; }
 .dt-paging { margin-top: 20px; } 
 div.dt-paging ul { justify-content: center !important; }
-.total_list_cnt_area { padding-bottom: 14px; font-size: 16px; font-weight: bold; }
-
+.total_list_cnt_area { display: flex; justify-content: space-between; padding: 7px 0; }
+.total_list_cnt_area > #total_list_cnt { font-size: 16px; font-weight: bold; line-height: 40px; }
+#delivery_request_btn { width: 80px; height: 40px; font-size: 16px; color: white; background-color: #4777F6; border: none; border-radius: 5px; cursor: pointer; }
 
 
 

@@ -14,12 +14,6 @@ function checkbox_handler() {
 	});
 }
 
-function reset_btn() {
-	$(".reset_btn").on("click", function() {
-		document.getElementById("filter_form").reset();
-	});
-}
-
 function datepicker() {
 	const checkDates = () => {
 		const startDate = startDatePicker.selectedDates[0];

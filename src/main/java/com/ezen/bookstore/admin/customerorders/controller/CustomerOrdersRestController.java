@@ -1,4 +1,4 @@
-package com.ezen.bookstore.customerorders.controller;
+package com.ezen.bookstore.admin.customerorders.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,25 +6,28 @@ import java.util.Map;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezen.bookstore.commons.SearchCondition;
-import com.ezen.bookstore.customerorders.dto.CustomerOrdersDTO;
-import com.ezen.bookstore.customerorders.service.CustomerOrdersService;
+import com.ezen.bookstore.admin.commons.AccountManagement;
+import com.ezen.bookstore.admin.commons.SearchCondition;
+import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
+import com.ezen.bookstore.admin.customerorders.service.CustomerOrdersService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/rest")
+@RequestMapping("/admin/customer_orders_rest")
 public class CustomerOrdersRestController {
 	
 	private final CustomerOrdersService cos;
 	
     @GetMapping(value = "/customerOrders", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> getTableData() {
-        // DataTables가 요구하는 형식으로 JSON 데이터 구성
         Map<String, Object> responseMap = new HashMap<>();
         List<CustomerOrdersDTO> list = cos.getCustomerOrdersList();
         
@@ -34,7 +37,7 @@ public class CustomerOrdersRestController {
         return responseMap;
     }
     
-    @GetMapping(value = "dataFilter", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/dataFilter", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> getDataFilter(SearchCondition condition) {
     	Map<String, Object> responseMap = new HashMap<>();
         List<CustomerOrdersDTO> list = cos.getDataFilter(condition);
@@ -44,5 +47,13 @@ public class CustomerOrdersRestController {
     	
     	return responseMap;
     }
+    
+    @PostMapping(value = "/deliveryRequest")
+    public int deliveryRequest(@RequestBody List<Integer> order_nums, HttpSession session) {
+    	int result = cos.deliveryRequestSave(order_nums, session.getAttribute(AccountManagement.ADMIN_ID).toString());
+    	return result;
+    }
+    
+    
     
 }

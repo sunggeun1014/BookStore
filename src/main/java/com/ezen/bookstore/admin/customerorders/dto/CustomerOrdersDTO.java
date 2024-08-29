@@ -1,4 +1,4 @@
-package com.ezen.bookstore.customerorders.dto;
+package com.ezen.bookstore.admin.customerorders.dto;
 
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -18,7 +18,8 @@ public class CustomerOrdersDTO {
 	private Timestamp order_purchase_date;      
 	private Timestamp order_modify_date;          
 	private String member_id;
-	private String member_name;
+	private String retrieve_addr;
+	private String retrieve_addr_detail;
 	
 	private Integer order_detail_num;       
 	private Integer order_detail_qty;       
@@ -27,6 +28,16 @@ public class CustomerOrdersDTO {
 	private Integer order_detail_price;
 	private Integer total_order_price;
 	private String order_status;
+	
+	private String member_name;
+	private String member_pw;
+	private String member_email;
+	private String member_phoneno;
+	private String member_addr;
+	private String member_detail_addr;
+	private String naver_login_cd;
+	private String kakao_login_cd;
+	private Timestamp member_date;
 	
     public String getFormatPrice() {
         if (this.total_order_price == null) {

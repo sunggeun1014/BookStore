@@ -3,7 +3,7 @@ let table = null;
 $(document).ready(function() {
 	table = $('#content_table').DataTable({
 		ajax: {
-			url: '/rest/customerOrders',
+			url: '/admin/customer_orders_rest/customerOrders',
 			dataSrc: function(json) {
 				$("#total_list_cnt").text(`총 ${json.recordsTotal}건`);
 				return json.data;
@@ -13,12 +13,17 @@ $(document).ready(function() {
 		columns: [
 			{ 
                 data: null, // 데이터 소스가 없으므로 null로 설정
-                render: function () {
-                    return '<input type="checkbox" class="row_checkbox checkbox_area">';
+                render: function (data, type, row) {
+                    return `<input type="checkbox" class="row_checkbox checkbox_area" name="order_num" value="${row.order_num}">`;
 				}
             },
 			{ data: null },
-			{ data: 'order_num' },
+			{ 
+				data: 'order_num',
+				render: function(data, type, row) {
+					return `<a href="/admin/customer_orders/detail?order_num=${data}" class="order_num_link">${data}</a>`;
+				}
+			},
 			{ data: 'member_id' },
 			{ data: 'member_name' },
 			{ 
@@ -60,6 +65,16 @@ $(document).ready(function() {
 			   render: function(data, type, row, meta){
 			      return meta.row + 1;
 			   }
+			},
+			{
+				targets:[9],
+				createdCell: function(td, cellData) {
+				    if (cellData === "변경요청") {
+				        $(td).addClass('text_red');
+				    } else if(cellData === "처리완료") {
+				        $(td).addClass('text_green');
+					}
+				}
 			}
 		],
 		info: false,
@@ -83,12 +98,14 @@ $(document).ready(function() {
 	
 
     $('#search_btn').on('click', function() {
-		filter()
+		filter();
         table.draw();
     });
 
-	$("#word").on("keypress", function() {
-		table.draw();
+	$("#word").on("keydown", function(e) {
+		if(e.key === 'Enter') {
+			filter();
+		}
 	})
 	
 	checkbox_handler();
@@ -97,7 +114,7 @@ $(document).ready(function() {
 });
 
 function filter() {
-	table.ajax.url("/rest/dataFilter");
+	table.ajax.url("/admin/customer_orders_rest/dataFilter");
 	table.settings()[0].ajax.data = function(d) {
 		d.date_column = $("#date_select_box").val();
 		d.start_date = $("#start_date").val();
@@ -108,6 +125,12 @@ function filter() {
 	} 
 	
 	table.ajax.reload();
+}
+
+function reset_btn() {
+	$(".reset_btn").on("click", function() {
+		document.getElementById("filter_form").reset();
+	});
 }
 
 function date_btn_click(day) {
@@ -128,4 +151,28 @@ function date_btn_click(day) {
 	
 	$("#start_date").val(`${start_year}-${start_month}-${start_day}`);
 	$("#end_date").val(`${end_year}-${end_month}-${end_day}`);
+}
+
+function delivery_request() {
+	var checked_values = $("#table_form input[name='order_num']:checked")
+	    .map(function() {
+	        return $(this).val();
+	    }).get();
+		
+	if(checked_values.length > 0) { 
+		$.ajax({
+			url: "/admin/customer_orders_rest/deliveryRequest",
+			method: "POST",
+			contentType: 'application/json',
+			data: JSON.stringify(checked_values),
+			success: function(data) {
+				console.log(data, "요청완료");
+			},
+			error: function () {
+				console.log("ERROR");
+			}
+		});
+	} else {
+		// 요청 창 띄우기
+	}
 }

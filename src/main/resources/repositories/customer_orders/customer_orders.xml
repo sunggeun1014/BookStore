@@ -93,4 +93,30 @@
 				</if>
 			</if>
 	</select>
+	
+	<insert id="deliveryRequestSave" parameterType="String">
+		INSERT
+		    INTO delivery_request (
+		        request_num,
+		        manager_id
+		    ) VALUES(
+		    	delivery_request_seq.nextval,
+		    	#{manager_id}
+		    )
+	</insert>
+	
+	<insert id="deliveryDetailSave" parameterType="Integer">
+		INSERT
+		    INTO delivery_request_detail (
+		        request_detail_num,
+		        request_num,
+		        order_num
+		    ) VALUES(
+		    	delivery_request_detail_seq.nextval,
+		    	delivery_request_seq.currval,
+		    	#{order_num}
+		    )
+	</insert>
+	
+	
 </mapper>
