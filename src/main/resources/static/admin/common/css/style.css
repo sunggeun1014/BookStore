@@ -2,9 +2,10 @@
   margin: 0 auto;
   width: 1440px;
   height: auto; /* 자동으로 높이 설정 */
-  min-height: 100vh; /* 최소 높이를 뷰포트의 높이로 설정 */  background-color: #EBECF0;
+  min-height: 100vh; /* 최소 높이를 뷰포트의 높이로 설정 */  
+  background-color: #EBECF0;
   display: grid;
-  grid-template-columns: 310px auto;
+  grid-template-columns: 260px 1fr;
 }
 
 .side-menu {
@@ -116,6 +117,10 @@
   font-size: 14px;
   font-weight: 400;
   color: #7E7E7E;
+}
+
+.sub-menu-list li.selected a {
+	font-weight: 700;
 }
 
 /* 헤더 */
