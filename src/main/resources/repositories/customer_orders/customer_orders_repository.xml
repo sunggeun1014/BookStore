@@ -49,7 +49,7 @@
 		    END                         AS order_status,
 		    co.order_purchase_date,
 		    co.order_modify_date,
-		    SUM(cod.order_detail_price) AS total_order_price
+		    SUM(cod.order_detail_price * cod.order_detail_qty) AS total_order_price
 		FROM
 		    customer_orders        co
 		    LEFT JOIN members                m ON co.member_id = m.member_id
@@ -130,13 +130,13 @@
 		    m.member_name,
 		    m.member_email,
 		    m.member_phoneno,
-		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total
+		    NVL(SUM(cod.order_detail_price * cod.order_detail_qty), 0) AS order_price_total
 		FROM
 		    customer_orders        co
 		    LEFT JOIN members                m ON co.member_id = m.member_id
 		    LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
 		WHERE
-		    co.order_num = 5000005
+		    co.order_num = #{order_num}
 		GROUP BY
 		    co.order_num,
 		    co.member_id,
@@ -152,6 +152,7 @@
 	
 	<select id="getDetailList" resultType="customerOrders" parameterType="Integer">
 		SELECT
+			cod.order_detail_num,
 		    b.book_name,
 		    cod.book_isbn,
 		    cod.order_detail_price,
@@ -181,5 +182,12 @@
 		    LEFT JOIN books                  b ON cod.book_isbn = b.book_isbn
 		WHERE cod.order_num = #{order_num}
 	</select>
+	
+	<update id="orderStatusUpdate" parameterType="customerOrders">
+		UPDATE customer_order_details SET
+    		order_detail_status = #{order_detail_status} 
+    	where
+    		order_detail_num = #{order_detail_num}
+	</update>
 	
 </mapper>

@@ -39,5 +39,9 @@ public class CustomerOrdersRepository {
 	public List<CustomerOrdersDTO> getCustomerOrdersDetailList(int order_num) {
 		return sql.selectList("CustomerOrders.getDetailList", order_num);
 	}
+	
+	public int orderStatusUpdate(CustomerOrdersDTO dto) {
+		return sql.update("CustomerOrders.orderStatusUpdate", dto);
+	}
 
 }

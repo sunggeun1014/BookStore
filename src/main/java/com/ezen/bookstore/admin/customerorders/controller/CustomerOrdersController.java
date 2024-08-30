@@ -30,8 +30,10 @@ public class CustomerOrdersController {
 	public String customerOrdersList(Model model, int order_num) {
 		model.addAttribute("detail", cos.getCustomerOrdersDetail(order_num));
 		model.addAttribute("detailList", cos.getCustomerOrdersDetailList(order_num));
+
+		model.addAttribute("template", "/admin/customer_orders/orders_detail");
 		
-		return "/admin/customer_orders/orders_detail";
+		return "/admin/index";
 	}
 
 }

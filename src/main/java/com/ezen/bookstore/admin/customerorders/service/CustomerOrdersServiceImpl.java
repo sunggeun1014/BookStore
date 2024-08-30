@@ -77,6 +77,22 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 		return null;
 	}
 
+	@Override
+	public int orderStatusUpdate(List<CustomerOrdersDTO> list) {
+		int result = 0;
+		
+		try {
+			for(CustomerOrdersDTO dto : list) {
+				result += cor.orderStatusUpdate(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+
 	
 	
 }
