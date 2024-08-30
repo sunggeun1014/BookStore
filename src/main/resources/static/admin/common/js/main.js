@@ -1,5 +1,3 @@
-console.log("하이");
-
 document.addEventListener("DOMContentLoaded", function() {
     const menuItems = document.querySelectorAll(".menu-items");
 
@@ -114,17 +112,6 @@ function datepicker(start, end) {
       	onChange: checkDates
     });
 
-}
-
-// 숫자 형식 , 로 구분하여 반환 해주는 함수 ex) 10000 => 10,000 
-function numberFormatter(number) {
-	const formatter = new Intl.NumberFormat('en-US', {
-	    style: 'decimal', // 또는 'currency'로 설정 가능
-	    minimumFractionDigits: 0,
-	    maximumFractionDigits: 0
-	});
-	
-	return formatter.format(number) + "원";
 }
 
 getClocks();
