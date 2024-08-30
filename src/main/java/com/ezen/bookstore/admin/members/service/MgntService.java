@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class MgntService {
 	
-private final  MgntRepository mgntRepository;
+	private final  MgntRepository mgntRepository;
 	
 	public List<MembersDTO> list(){
 		// DB에서 모든 주문 목록을 꺼내와야 한다

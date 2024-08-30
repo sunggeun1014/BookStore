@@ -1,10 +1,10 @@
 var table;
 $(document).ready(function() {
 
-	table = $('#member').DataTable({
+	table = $('#manager').DataTable({
 		ajax: {
 			// 값을 받아오는 url, data타입 작성
-			url: '/admin/members/json',
+			url: '/admin/managers/json',
 			dataSrc: 'data'
 		},
 		
@@ -15,24 +15,33 @@ $(document).ready(function() {
         
         // html에서 컬럼 순서대로 db에 저장되어있는 컬럼 이름으로 매핑
 		columns: [
-			{ data: 'member_name' },
+			{
+				data: null,  // 이 컬럼은 데이터베이스에서 가져오는 데이터를 사용하지 않음
+				render: function(data, type, row, meta) {
+					return meta.row + 1;  // meta.row는 0부터 시작하는 행 인덱스이므로 +1 해줌
+				},
+				orderable: false,  // 이 컬럼에 대해 정렬을 비활성화
+				searchable: false  // 이 컬럼에 대해 검색을 비활성화
+			},
+			{ data: 'manager_name' },
 			{ 
-				data: 'member_id',
+				data: 'manager_id',
 				render: function(data, type, row) {
-                    return '<a href="#" class="member-id-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
+                    return '<a href="#" class="manager-id-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
                 }
 			},
-			{ data: 'member_email' },
-			{ data: 'member_phoneNo' },
+			{ data: 'manager_email' },
+			{ data: 'manager_dept'},
+			{ data: 'manager_phoneNo'},
+			{ data: 'manager_addr'},
 			{
-				data: 'member_date',
+				data: 'manager_join_date',
 				render: function(data, type, row) {
 					// date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
 					if (type === 'display' || type === 'filter') {
 						var date = new Date(data);
 						var formattedDate = date.toISOString().split('T')[0];
-						var formattedTime = date.toTimeString().split(' ')[0].substring(0, 5); // Extract HH:MM
-						return formattedDate + ' ' + formattedTime;
+						return formattedDate;
 					}
 					return data;
 				}
@@ -52,10 +61,9 @@ $(document).ready(function() {
 			zeroRecords: "조회된 정보가 없습니다.",
 			emptyTable: "조회된 정보가 없습니다.",
 		}
-		
 	});
 	
-	$('#member tbody').on('click', '.member-id-link', function(e) {
+	$('#manager tbody').on('click', '.manager-id-link', function(e) {
         e.preventDefault(); // 기본 링크 동작 방지
 
         // 클릭된 링크의 행 데이터 가져오기
@@ -69,7 +77,6 @@ $(document).ready(function() {
     $('#searchButton').on('click', function() {
         var selectedColumn = $('#searchColumn').val();
         var keyword = $('#searchKeyword').val();
-        console.log(selectedColumn);
         // 선택된 컬럼과 입력된 키워드로 필터링
         table.column(selectedColumn).search(keyword).draw(); 
     });
@@ -90,15 +97,15 @@ $(document).ready(function() {
 		function(settings, data, dataIndex) {
 			var startDate = $('#startDate').val();
 			var endDate = $('#endDate').val();
-			var memberDate = data[4];
+			var managerDate = data[7];
 
 			// 날짜 형식을 Date 객체로 변환
 			var start = startDate ? new Date(startDate) : null;
 			var end = endDate ? new Date(endDate) : null;
-			var member = new Date(memberDate);
+			var manager = new Date(managerDate);
 
 			if ((start === null && end === null) ||
-				(start <= member && (end === null || member <= end))) {
+				(start <= manager && (end === null || manager <= end))) {
 				return true;
 			}
 			return false;
@@ -140,7 +147,7 @@ function resetFilters() {
 	// 검색어 필터 초기화
 	$('#searchKeyword').val('');
 	// 기본 첫 번째 옵션으로 설정 html쪽 select 첫번째로 초기화 시켜준다
-	$('#searchColumn').val('0');
+	$('#searchColumn').val('1');
 
 	// 날짜 필터 초기화
 	$('#startDate').val('');
@@ -175,11 +182,11 @@ function postToDetailPage(data) {
     
     var form = $('<form>', {
         method: 'POST',
-        action: '/admin/members/details'  // 서버의 상세 페이지 URL로 설정
+        action: '/admin/managers/details'  // 서버의 상세 페이지 URL로 설정
     });
 
     // 데이터를 숨김 필드로 추가
-    form.append($('<input>', { type: 'hidden', name: 'member_id', value: data.member_id }));
+    form.append($('<input>', { type: 'hidden', name: 'manager_id', value: data.manager_id }));
 
     // 폼을 body에 추가하고 제출
     form.appendTo('body').submit();
