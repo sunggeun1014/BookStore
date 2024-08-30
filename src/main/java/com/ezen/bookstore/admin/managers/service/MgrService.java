@@ -3,6 +3,7 @@ package com.ezen.bookstore.admin.managers.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 import com.ezen.bookstore.admin.managers.repository.MgrRepository;
@@ -24,4 +25,12 @@ public class MgrService {
 	public ManagersDTO detailList(String managerId) {
 		return mgrRepository.getManagerDetails(managerId);
 	}
+	
+	@Transactional
+    public void changeDept(String managerId, String dept) {
+        if (dept == null || dept.isEmpty()) {
+            throw new IllegalArgumentException("리뷰 ID 목록이 비어 있습니다.");
+        }
+        mgrRepository.changeAllByDept(managerId, dept);
+    }
 }

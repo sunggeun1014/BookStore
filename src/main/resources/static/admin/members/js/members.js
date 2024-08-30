@@ -5,7 +5,10 @@ $(document).ready(function() {
 		ajax: {
 			// 값을 받아오는 url, data타입 작성
 			url: '/admin/members/json',
-			dataSrc: 'data'
+			dataSrc: function(json) {
+				$('#total-row').text('총 ' + json.size + '건');
+				return json.data;
+			}
 		},
 		
 		// 모든 컬럼을 가운데 정렬

@@ -32,9 +32,8 @@ table.dataTable tbody tr {
 }
 
 #members td, #members th {
-   text-align: center; /* 텍스트 가운데 정렬 */
-   vertical-align: middle; /* 수직 가운데 정렬 */
+   text-align: center;
+   vertical-align: middle; 
 }
-
 
 

@@ -6,6 +6,9 @@
 <title>Table Example</title>
 
 <link rel="stylesheet" href="/admin/members/css/members.css" />
+<link rel="stylesheet" href="/admin/managers/css/managers.css" />
+<link rel="stylesheet" href="/admin/common/css/modal.css" />
+
 
 <!-- DataPicker -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -68,9 +71,28 @@
 
 	<!-- 이곳에 내가 받을 값들의 컬럼을 적어준다 -->
 	<div class="table-container white-frame">
+	
+		<div class="select-wrap">
+			<span id="total-row" class="table-column-head-txt"></span>	
+
+			<button id="commit-button" class="default-btn" style="float: right;">등록</button>
+			<button id="change-button" class="default-btn" style="float: right;">변경</button>			
+			
+			<select id="searchDept" class="select">
+				<option value="01">물류팀</option>
+				<option value="02">운영팀</option>
+			</select>
+			<div class="select-arrow-down column"></div>
+			
+		</div>
+		
 		<table id="manager" class="table is-striped" style="width: 100%">
 			<thead>
 				<tr>
+					<th>
+						<input type="checkbox" id="select-all">
+						<label for="select-all"></label>
+					</th>
 					<th>NO</th>
 					<th>이름</th>
 					<th>아이디</th>
@@ -83,6 +105,18 @@
 			</thead>
 			<tbody></tbody>
 		</table>
+	</div>
+	
+	<!-- 모달 추가 -->
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<p>정말로 삭제하시겠습니까?</p>
+			<div class="modal-footer">
+				<button id="confirm-delete" class="default-btn">Yes</button>
+				&nbsp;
+				<button id="cancel-delete" class="default-btn cancle">No</button>
+			</div>
+		</div>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>

@@ -38,7 +38,25 @@
 			managers
 		WHERE manager_id = #{manager_id}
 			
-	</select>
+	</select>	
+    
+<!--     <update id="updateManagerDept" parameterType="java.util.List"> -->
+<!--         UPDATE Managers -->
+<!--         SET  -->
+<!--         manager_dept = #{manager_dept}         -->
+<!--         WHERE member_id IN -->
+<!--         <foreach item="id" collection="list" open="(" separator="," close=")"> -->
+<!--             #{id} -->
+<!--         </foreach> -->
+<!--     </update> -->
+    
+    <update id="updateManagerDept" parameterType="java.util.List">
+        UPDATE Managers
+        SET 
+        manager_dept = #{dept}        
+        WHERE manager_id = #{managerId}
+        
+    </update>
 	
 	
 </mapper>
