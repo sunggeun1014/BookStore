@@ -106,20 +106,19 @@ $(document).ready(function() {
 			var rowData = $('#reviews').DataTable().row($(this).closest('tr')).data();
 			selectedIds.push(rowData.review_num); // 삭제할 리뷰 번호 수집
 		});
-
+		
+		document.getElementById('confirm-delete').style.display = "inline-block";
+		document.getElementById('cancel-delete').style.display = "inline-block";
+		
 		if (selectedIds.length > 0) {
 			// 메시지를 기본 메시지로 리셋
 			document.querySelector('#myModal .modal-content p').textContent = `${selectedIds.length}개의 항목을 삭제하시겠습니까?`;
 
 			// Yes와 No 버튼을 보이게 설정
-			document.getElementById('confirm-delete').style.display = "inline-block";
-			document.getElementById('cancel-delete').style.display = "inline-block";
 			modal.style.display = "block"; // 모달 표시
 		} else {
 			// alert 대신 모달 메시지 변경
 			document.querySelector('#myModal .modal-content p').textContent = '삭제할 항목을 선택하세요.';
-			document.getElementById('confirm-delete').style.display = "none";
-			document.getElementById('cancel-delete').style.display = "none";
 			modal.style.display = "block";
 		}
 	});
@@ -150,13 +149,10 @@ $(document).ready(function() {
 				$('#reviews').DataTable().ajax.reload();  // 테이블 새로고침
 			},
 			error: function(error) {
-				document.getElementById('confirm-delete').style.display = "none";
-				document.getElementById('cancel-delete').style.display = "none";
 				document.querySelector('#myModal .modal-content p').textContent = '삭제 중 오류가 발생했습니다.';
 				setTimeout(function() {
 					modal.style.display = "none";
-					document.getElementById('confirm-delete').style.display = "inline-block";
-					document.getElementById('cancel-delete').style.display = "inline-block";
+
 				}, 3000);
 			}
 		});
@@ -270,8 +266,7 @@ function setDateRange(days) {
 function resetFilters() {
 	// 검색어 필터 초기화
 	$('#searchKeyword').val('');
-	// 기본 첫 번째 옵션으로 설정 html쪽 select 4번째로 초기화 시켜준다
-	$('#searchColumn').val('1');
+	$('#searchColumn').val('5');
 
 	// 날짜 필터 초기화
 	$('#startDate').val('');
@@ -296,24 +291,3 @@ function setActive(element) {
 }
 
 datepicker("startDate", "endDate");
-
-document.addEventListener("DOMContentLoaded", function() {
-	// HTML에서 data 속성으로 전달된 값을 JavaScript로 읽어오기
-	var reviewRating = document.getElementById('starRating').getAttribute('data-rating');
-
-	// 데이터가 문자열로 들어오므로, 정수형으로 변환
-	reviewRating = parseInt(reviewRating, 10);
-
-	var starHtml = '';
-
-	// 채워진 별과 빈 별 아이콘으로 변경
-	for (var i = 0; i < reviewRating; i++) {
-		starHtml += '<span class="fas fa-star stars"></span>'; // 채워진 별
-	}
-	for (var i = reviewRating; i < 5; i++) {
-		starHtml += '<span class="far fa-star empty-stars"></span>'; // 빈 별
-	}
-
-	// 별점 HTML 요소에 출력
-	document.getElementById("starRating").innerHTML = starHtml;
-});

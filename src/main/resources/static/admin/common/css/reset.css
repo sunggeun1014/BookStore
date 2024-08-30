@@ -21,6 +21,7 @@ time, mark, audio, video {
    vertical-align: baseline;
 }
 html {
+	font-size: 16px;
    font-family: 'SUIT', sans-serif;
 }
 /* HTML5 display-role reset for older browsers */
