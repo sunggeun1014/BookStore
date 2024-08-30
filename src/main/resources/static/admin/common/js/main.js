@@ -116,3 +116,25 @@ function datepicker(start, end) {
 
 getClocks();
 setInterval(getClocks, 1000)
+
+// 날짜 옵션 기능
+function setDateOption(day, obj, event) {
+    const now_date = new Date();
+    const new_date = new Date(); 
+    
+	new_date.setDate(now_date.getDate() - day);
+
+	const start_year = new_date.getFullYear();
+	const start_month = (new_date.getMonth() + 1).toString().padStart(2, '0');
+	const start_day    = new_date.getDate().toString().padStart(2, '0');
+    
+	const end_year = now_date.getFullYear();
+	const end_month = (now_date.getMonth() + 1).toString().padStart(2, '0');
+	const end_day    = now_date.getDate().toString().padStart(2, '0');
+	
+    $(".startDate").val(`${start_year}-${start_month}-${start_day}`);
+    $(".endDate").val(`${end_year}-${end_month}-${end_day}`);
+	
+	$(".date-btn").removeClass("active");
+	$(obj).addClass("active");
+}

@@ -24,40 +24,40 @@
 			<div class="header">
 				<h1 class="search-list-title">주문내역조회</h1>
 			</div>
-		
+			
 			<div class="content">
 				<div class="search-filter">
 					<div class="filter-group">
 						<span class="search-list-subject">날짜검색</span>
 						<div class="select-wrap">
 							<select id="dateColumn" class="select">
-								<option value="purchase">구매날짜</option>
+								<option id="select-purchase" value="purchase">구매날짜</option>
 								<option value="reuqest">요청날짜</option>
 							</select>
 							<div class="select-arrow-down"></div>
 						</div>
 						<div class="date-picker">
 							<div class="input-date-box">
-								<input type="text" id="startDate" class="placeholder"
+								<input type="text" id="startDate" class="placeholder startDate"
 									placeholder="YYYY-MM-DD" />
 									<i class="fa-solid fa-calendar-days"></i>
 							</div>
 							<div class="calendar-slash">-</div>
 							<div class="input-date-box">
-								<input type="text" id="endDate" class="placeholder"
+								<input type="text" id="endDate" class="placeholder endDate"
 									placeholder="YYYY-MM-DD" />
 								<i class="fa-solid fa-calendar-days"></i>
 							</div>
 						</div>
 						<div class="date-options date-pick-btn">
-							<button class="date-option today today-btn date-btn" onclick="setToday()">오늘</button>
-							<button class="date-option week-btn date-btn" onclick="setDateRange(7)">1주일</button>
-							<button class="date-option month-btn date-btn" onclick="setDateRange(30)">1개월</button>
-							<button class="date-option year-btn date-btn" onclick="setDateRange(365)">1년</button>
+							<button class="date-option today today-btn date-btn" onclick="setDateOption(0, this, event)">오늘</button>
+							<button class="date-option week-btn date-btn" onclick="setDateOption(7, this, event)">1주일</button>
+							<button class="date-option month-btn date-btn" onclick="setDateOption(30, this, event)">1개월</button>
+							<button class="date-option year-btn date-btn" onclick="setDateOption(365, this, event)">1년</button>
 						</div>
 					</div>
 				</div>
-				<div class="search-bar-group">
+				<div class="search-bar-radio-group">
 					<div class="search-list-subject">주문상태</div>
 					<div class="select-wrap">
 						<input type="radio" id="order-status-all" name="order_status" value="" checked="checked"/>
@@ -81,37 +81,40 @@
 	      				<input type="text" name="word" id="word" class="searchKeyword search-input" placeholder="검색할 주문번호 입력" />
 	      				<button id="searchButton"><span class="material-symbols-outlined">search</span></button>	
 	    			</div>
-	
-					<button id="reset-button" onclick="resetFilters()">초기화</button>			
+				</div>
+				<div class="reset-button">
+					<button id="reset-button" onclick="resetBtn();">초기화</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	
 	<div class="table-container white-frame">
-		<span id="data-count"></span>
-		<button id="delete-button" class="button is-danger" style="float: right;">배송요청</button>
-		<table id="customer-orders-table" class="table is-striped" style="width: 100%">
-			<thead>
-				<tr>
-					<th>
-						<input type="checkbox" id="select-all">
-						<label for="select-all"></label>
-					</th>
-					<th>NO</th>
-					<th>주문번호</th>
-					<th>주문자ID</th>
-					<th>이름</th>
-					<th>총구매금액</th>
-					<th>구매날짜</th>
-					<th>배송상태</th>
-					<th>결제상태</th>
-					<th>주문상태</th>
-					<th>요청날짜</th>
-				</tr>
-			</thead>
-			<tbody></tbody>
-		</table>
+		<span id="data-count" class="data-count"></span>
+		<button id="request-button" class="default-btn" onclick="delivery_request();" style="float: right;">배송요청</button>
+		<form id="table-form">
+			<table id="customer-orders-table" class="table is-striped" style="width: 100%">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="select-all" class="">
+							<label for="select-all"></label>
+						</th>
+						<th>NO</th>
+						<th>주문번호</th>
+						<th>주문자ID</th>
+						<th>이름</th>
+						<th>총구매금액</th>
+						<th>구매날짜</th>
+						<th>배송상태</th>
+						<th>결제상태</th>
+						<th>주문상태</th>
+						<th>요청날짜</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</form>
 	</div>
 	
 	<script src="/admin/common/js/main.js"></script>

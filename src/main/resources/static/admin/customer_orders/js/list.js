@@ -14,7 +14,7 @@ $(document).ready(function() {
 			{ 
                 data: null, // 데이터 소스가 없으므로 null로 설정
                 render: function (data, type, row) {
-                    return `<input type="checkbox" class="" name="order_num" value="${row.order_num}"><label for="select-all"></label>`;
+                    return `<input type="checkbox" name="order_num" class="checkbox row-checkbox" value="${row.order_num}"><label for="select-all"></label>`;
 				}
             },
 			{ data: null },
@@ -61,6 +61,10 @@ $(document).ready(function() {
 				className:"dt_data_right"
 			},
 			{
+				targets:[3, 7, 10],
+				className:"dt_data_text_center"
+			},
+			{
 			   targets:[1],
 			   render: function(data, type, row, meta){
 			      return meta.row + 1;
@@ -70,9 +74,9 @@ $(document).ready(function() {
 				targets:[9],
 				createdCell: function(td, cellData) {
 				    if (cellData === "변경요청") {
-				        $(td).addClass('text-red');
+				        $(td).addClass('text-color-red');
 				    } else if(cellData === "처리완료") {
-				        $(td).addClass('text-green');
+				        $(td).addClass('text-color-green');
 					}
 				}
 			}
@@ -93,9 +97,8 @@ $(document).ready(function() {
 	});
 
 	table.on('draw', function() {
-	    $(".checkbox_area").prop('checked', false);
+	    $(".checkbox").prop('checked', false);
 	});
-	
 
     $('#searchButton').on('click', function() {
 		filter();
@@ -109,51 +112,32 @@ $(document).ready(function() {
 	})
 	
 	datepicker("startDate", "endDate");
+	checkboxHandler();
 });
 
 function filter() {
+	const input = Number($("#word").val());
+	
 	table.ajax.url("/admin/customer_orders_rest/dataFilter");
 	
-	table.settings()[0].ajax.data = function(d) {
-		d.date_column = $("#dateColumn").val();
-		d.start_date = $("#startDate").val();
-		d.end_date = $("#endDate").val();
-		d.order_status = $("input[name='order_status']:checked").val();
-		d.search_conditions = $("#searchColumn").val();
-		d.word = $("#word").val();
-	} 
+	if(Number.isInteger(input)) {
+		table.settings()[0].ajax.data = function(d) {
+			d.date_column = $("#dateColumn").val();
+			d.start_date = $("#startDate").val();
+			d.end_date = $("#endDate").val();
+			d.order_status = $("input[name='order_status']:checked").val();
+			d.search_conditions = $("#searchColumn").val();
+			d.word = $("#word").val();
+		}
+	} else {
+		// modal
+	}
 	
 	table.ajax.reload();
 }
 
-function reset_btn() {
-	$(".reset_btn").on("click", function() {
-		document.getElementById("filter_form").reset();
-	});
-}
-
-function date_btn_click(day) {
-	const now_date = new Date();
-	const new_date = new Date(); 
-	
-	new_date.setDate(now_date.getDate() - day);
-	
-	const start_year = new_date.getFullYear();
-	const start_month = (new_date.getMonth() + 1).toString().padStart(2, '0');
-	const start_day	= new_date.getDate().toString().padStart(2, '0');
-	
-	
-	const end_year = now_date.getFullYear();
-	const end_month = (now_date.getMonth() + 1).toString().padStart(2, '0');
-	const end_day	= now_date.getDate().toString().padStart(2, '0');
-	
-	
-	$("#start_date").val(`${start_year}-${start_month}-${start_day}`);
-	$("#end_date").val(`${end_year}-${end_month}-${end_day}`);
-}
-
 function delivery_request() {
-	var checked_values = $("#table_form input[name='order_num']:checked")
+	var checked_values = $("#table-form input[name='order_num']:checked")
 	    .map(function() {
 	        return $(this).val();
 	    }).get();
@@ -176,8 +160,29 @@ function delivery_request() {
 	}
 }
 
-function checkbox_handler() {
-	$("#select_all").on("change", function() {
-		$(".row_checkbox").prop("checked", $(this).prop("checked"));
+function resetBtn() {
+	$(".date-btn").removeClass("active");
+	
+	$("#select-purchase").prop("selected", true);
+	$("#startDate").val("");
+	$("#endDate").val("");
+	$("#order-status-all").prop("checked", true);
+	$("#word").val("");
+}
+
+function numberFormatter(number) {
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'decimal', // 또는 'currency'로 설정 가능
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    });
+    
+    return formatter.format(number) + "원";
+}
+
+function checkboxHandler() {
+    $("#select-all").on("change", function() {
+        $(".row-checkbox").prop("checked", $(this).prop("checked"));
 	});
 }
+
