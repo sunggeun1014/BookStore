@@ -48,7 +48,23 @@ $(document).ready(function() {
 						return data;
 					}
 				},
-				{ data: 'inquiry_answer_status'}
+				{
+					data: 'inquiry_answer_status',
+					render: function(data, type, row) {
+						var color = 'black'; 
+						switch (data) {
+							case '미완료':
+								color = '#F69E47';
+								break;
+							case '처리완료':
+								color = '#10A142';
+								break;
+							default:
+								color = 'black';
+						}
+						return '<span style="color: ' + color + ';">' + data + '</span>';
+					}
+				}
 
 			],
 			"info": false,

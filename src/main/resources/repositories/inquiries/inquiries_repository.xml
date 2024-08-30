@@ -10,9 +10,25 @@
 	    r.inquiry_title,
         r.member_id,
 	    r.inquiry_write_date,
-        r.inquiry_answer_status,
+	    CASE
+        	WHEN r.inquiry_answer_status = '01' THEN
+        		'미완료'
+        	WHEN r.inquiry_answer_status = '02' THEN
+        		'처리완료'
+        END AS inquiry_answer_status,
 	    c.answer_write_date,
-        r.inquiry_type
+        CASE
+        	WHEN r.inquiry_type = '01' THEN
+        		'상품문의'
+        	WHEN r.inquiry_type = '02' THEN
+        		'배송문의'
+        	WHEN r.inquiry_type = '03' THEN
+        		'결제문의'
+        	WHEN r.inquiry_type = '04' THEN
+        		'반품문의'
+        	WHEN r.inquiry_type = '05' THEN
+        		'기타'
+        END AS inquiry_type
 	FROM 
 	    inquiries r
 	JOIN 
@@ -20,14 +36,32 @@
 	ON 
 	    r.inquiry_num = c.inquiry_num
 	</select>
+	
 	<select id="getDetailList" resultType="inquiries" parameterType="Integer">
 	SELECT 
             r.inquiry_num,
             r.inquiry_title,
             r.member_id,
             r.inquiry_write_date,
-            r.inquiry_answer_status,
-            r.inquiry_type,
+            r.inquiry_content,
+            CASE
+	        	WHEN r.inquiry_answer_status = '01' THEN
+	        		'미완료'
+	        	WHEN r.inquiry_answer_status = '02' THEN
+	        		'처리완료'
+        	END AS inquiry_answer_status,
+            CASE
+	        	WHEN r.inquiry_type = '01' THEN
+	        		'상품문의'
+	        	WHEN r.inquiry_type = '02' THEN
+	        		'배송문의'
+	        	WHEN r.inquiry_type = '03' THEN
+	        		'결제문의'
+	        	WHEN r.inquiry_type = '04' THEN
+	        		'반품문의'
+	        	WHEN r.inquiry_type = '05' THEN
+	        		'기타'
+        	END AS inquiry_type,
             r.inquiries_changed,
             c.answer_content
         FROM
@@ -40,5 +74,32 @@
             r.inquiry_num = #{inquiryNum}
 	</select>
 	
+	<update id="updateInquiry" parameterType="inquiries">
+		UPDATE 
+			inquiries_answer
+		SET
+			answer_content = #{answer_content},
+			answer_write_date = CURRENT_TIMESTAMP
+		WHERE 
+			inquiry_num = #{inquiry_num}
+			
 	
+	</update>
+	
+	
+	<insert id="insertInquiry" parameterType="inquiries">
+		INSERT INTO 
+			inquiries_answer 
+			(
+		        inquiry_num, 
+		        answer_content, 
+		        answer_write_date
+	    	) 
+    	VALUES (
+		        #{inquiryNum}, 
+		        #{answerContent}, 
+		        CURRENT_TIMESTAMP
+    		)
+	
+	</insert>
 </mapper>

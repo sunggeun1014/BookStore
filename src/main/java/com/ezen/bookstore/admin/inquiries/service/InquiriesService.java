@@ -3,6 +3,7 @@ package com.ezen.bookstore.admin.inquiries.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.bookstore.admin.inquiries.dto.InquiriesDTO;
 import com.ezen.bookstore.admin.inquiries.repository.InquiriesRepository;
@@ -33,5 +34,23 @@ public class InquiriesService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@Transactional
+	public void updateInquiry(InquiriesDTO inquiriesDTO) {
+		try {
+			inquiriesRepository.updateInquiry(inquiriesDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Transactional
+	public void insertInquiry(InquiriesDTO inquiriesDTO) {
+		try {
+			inquiriesRepository.insertInquiry(inquiriesDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
