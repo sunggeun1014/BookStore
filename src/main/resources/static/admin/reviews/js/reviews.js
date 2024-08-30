@@ -61,6 +61,16 @@ $(document).ready(function() {
 			"info": false,
 			lengthChange: false,
 			dom: 'lrtip',
+			language: {
+				searchPanes: {
+					i18n: {
+						emptyMessage: "조회된 정보가 없습니다."
+					}
+				},
+				infoEmpty: "조회된 정보가 없습니다.",
+				zeroRecords: "조회된 정보가 없습니다.",
+				emptyTable: "조회된 정보가 없습니다.",
+			},
 			rowCallback: function(row, data, index) {
 				// 화면에 표시되는 열을 1부터 시작하도록 변경
 				var pageInfo = table.page.info(); // 현재 페이지 정보를 가져옴
@@ -72,11 +82,10 @@ $(document).ready(function() {
 				// 제목 컬럼의 링크 클릭 이벤트 추가
 				$(row).find('.book-title-link').on('click', function(event) {
 					event.preventDefault(); // 링크 기본 동작 방지
-					postToDetailPage(data); // 폼 생성 및 제출 함수 호출
+					postToDetailPage(data); // 폼 생성 및 제	출 함수 호출
 				});
 			}
 		});
-
 	}
 
 	$('#select-all').on('click', function() {
@@ -106,10 +115,10 @@ $(document).ready(function() {
 			var rowData = $('#reviews').DataTable().row($(this).closest('tr')).data();
 			selectedIds.push(rowData.review_num); // 삭제할 리뷰 번호 수집
 		});
-		
+
 		document.getElementById('confirm-delete').style.display = "inline-block";
 		document.getElementById('cancel-delete').style.display = "inline-block";
-		
+
 		if (selectedIds.length > 0) {
 			// 메시지를 기본 메시지로 리셋
 			document.querySelector('#myModal .modal-content p').textContent = `${selectedIds.length}개의 항목을 삭제하시겠습니까?`;

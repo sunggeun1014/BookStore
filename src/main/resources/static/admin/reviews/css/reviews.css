@@ -35,11 +35,11 @@ table.dataTable tbody tr {
 
 .filter-group, .search-bar-group {
    display: flex;
+   height: 60px;
    flex-direction: row;
    align-items: center;
    gap: 10px;
    border-bottom: 1px solid #D8D8D8;
-   padding-bottom: 8px;
 }
 
 .label {
@@ -142,7 +142,11 @@ table.dataTable tbody tr {
 	justify-content: center;
 	align-items: center;
 }
-
+#inquiries_wrapper > .dt-paging {
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
 /* reviewDetails.html */
 .text-title {
 	font-size: 24px;
