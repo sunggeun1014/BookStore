@@ -41,7 +41,7 @@
 
 	<!-- 이메일 입력 영역 -->
 
-	<form th:action="@{./update}" method="POST" onsubmit="return validateForm()">
+	<form th:action="@{/admin/members/update}" method="POST" onsubmit="return validateForm()">
 		<input type="hidden" name="member_id" th:value="${member_details.member_id}" />
 		
 		<div class="select-wrap info">	
@@ -95,7 +95,7 @@
 		</div>
 		<div class="btn">
 			<button type="submit" class="default-btn" style="margin-right: 20px;">수정</button>
-			<button class="default-btn cancle" onclick="location.href='/admin/index?path=/admin/members/members'">
+			<button class="default-btn cancle" onclick="location.href='/admin/index?path=admin/members/members'">
 			      <span>뒤로가기</span>
 			</button>
 		</div>
