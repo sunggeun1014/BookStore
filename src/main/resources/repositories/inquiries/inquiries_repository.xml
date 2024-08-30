@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Inquiries">
+	
+	<select id="getList" resultType="inquiries">
+	 SELECT 
+	    r.inquiry_num,
+	    r.inquiry_title,
+        r.member_id,
+	    r.inquiry_write_date,
+        r.inquiry_answer_status,
+	    c.answer_write_date,
+        r.inquiry_type
+	FROM 
+	    inquiries r
+	JOIN 
+	    inquiries_answer c 
+	ON 
+	    r.inquiry_num = c.inquiry_num
+	</select>
+	<select id="getDetailList" resultType="inquiries" parameterType="Integer">
+	SELECT 
+            r.inquiry_num,
+            r.inquiry_title,
+            r.member_id,
+            r.inquiry_write_date,
+            r.inquiry_answer_status,
+            r.inquiry_type,
+            r.inquiries_changed,
+            c.answer_content
+        FROM
+            inquiries r
+        JOIN
+            inquiries_answer c
+        ON
+            r.inquiry_num = c.inquiry_num
+        WHERE
+            r.inquiry_num = #{inquiryNum}
+	</select>
+	
+	
+</mapper>

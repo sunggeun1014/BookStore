@@ -86,16 +86,6 @@ table.dataTable tbody tr {
    color: #CCCCCC;
 }
 
-/*
-.date-option.active {
-    background-color: #4777F6;
-    color: #FFFFFF;
-    border: 1px solid #4777F6;
-    border-radius: 5px;
-}
-*/
-
-
 .search-bar {
    display: flex;
    flex-direction: row;
@@ -196,4 +186,65 @@ table.dataTable tbody tr {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.data-count {
+	font-weight: 700;
+    font-size: 16px;
+    color: #000000;
+}
+
+.pagination-list {
+	justify-content: center !important;
+}
+
+.search-bar-radio-group {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+	border-bottom: 1px solid #D8D8D8;
+	padding-bottom: 8px;
+	height: 49px;
+}
+
+.filter-container, .filter-container {
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+.reset-button {
+	text-align: right;
+	margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000000;
+}
+
+.order-detail-link {
+	text-decoration: underline;
+	color: #000000;
+}
+
+.text-color-red {
+	color: red !important;
+}
+
+.text-color-green {
+	color: #10A142 !important;
+}
+
+.date-btn.active {
+   border: none;
+   background-color: #4777F6;
+   color: #fff;
+   font-weight: 700;
+}
+
+.dt_data_right { 
+	text-align: right !important; 
+}
+
+.dt_data_text_center {
+	text-align: center !important; 
 }

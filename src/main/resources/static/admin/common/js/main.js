@@ -1,3 +1,4 @@
+// 사이드메뉴 클릭시 기능
 document.addEventListener("DOMContentLoaded", function() {
     const menuItems = document.querySelectorAll(".menu-items");
 
@@ -68,26 +69,25 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-
-
-
-const clock = document.querySelector(".clock")
-
-const now = new Date();
-const nowYear = now.getFullYear();
-const nowMonth = String(now.getMonth() + 1).padStart(2, "0");
-const nowDate = String(now.getDate()).padStart(2, "0");
-
-const days = `${nowYear}-${nowMonth}-${nowDate}`;
-
+// 헤더 시계
 function getClocks() {
-  const date = new Date();
-  const hours = String(date.getHours()).padStart(2, "0")
-  const minutes = String(date.getMinutes()).padStart(2, "0")
-  const seconds = String(date.getSeconds()).padStart(2, "0")
-  clock.innerText = `${days} ${hours}:${minutes}:${seconds}`
-}
+	const clock = document.querySelector(".clock")
 
+	const date = new Date();
+	const nowYear = date.getFullYear();
+	const nowMonth = String(date.getMonth() + 1).padStart(2, "0");
+	const nowDate = String(date.getDate()).padStart(2, "0");
+	const days = `${nowYear}-${nowMonth}-${nowDate}`;
+
+	const hours = String(date.getHours()).padStart(2, "0")
+	const minutes = String(date.getMinutes()).padStart(2, "0")
+	const seconds = String(date.getSeconds()).padStart(2, "0")
+	clock.innerText = `${days} ${hours}:${minutes}:${seconds}`
+}
+getClocks();
+setInterval(getClocks, 1000)
+
+// 데이트피커
 function datepicker(start, end) {
 	const checkDates = () => {
 	   const startDate = startDatePicker.selectedDates[0];
@@ -114,5 +114,24 @@ function datepicker(start, end) {
 
 }
 
-getClocks();
-setInterval(getClocks, 1000)
+// 날짜 옵션 기능
+function setDateOption(day, obj, event) {
+    const now_date = new Date();
+    const new_date = new Date(); 
+    
+	new_date.setDate(now_date.getDate() - day);
+
+	const start_year = new_date.getFullYear();
+	const start_month = (new_date.getMonth() + 1).toString().padStart(2, '0');
+	const start_day    = new_date.getDate().toString().padStart(2, '0');
+    
+	const end_year = now_date.getFullYear();
+	const end_month = (now_date.getMonth() + 1).toString().padStart(2, '0');
+	const end_day    = now_date.getDate().toString().padStart(2, '0');
+	
+    $(".startDate").val(`${start_year}-${start_month}-${start_day}`);
+    $(".endDate").val(`${end_year}-${end_month}-${end_day}`);
+	
+	$(".date-btn").removeClass("active");
+	$(obj).addClass("active");
+}
