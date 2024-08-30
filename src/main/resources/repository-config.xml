@@ -4,10 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <!-- window > Preferences > Maven > download artifact javadoc 체크 -->
 <configuration>
+
    <typeAliases>
     
       <typeAlias type="com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO" alias="customerOrders"/>
       <typeAlias type="com.ezen.bookstore.admin.commons.SearchCondition" alias="condition"/>
       <typeAlias type="com.ezen.bookstore.admin.members.dto.MembersDTO" alias="member"/>
+      <typeAlias type="com.ezen.bookstore.admin.reviews.dto.ReviewsDTO" alias="reviews"/>      
    </typeAliases>
+
 </configuration>
