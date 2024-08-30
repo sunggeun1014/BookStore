@@ -7,5 +7,6 @@
 	<typeAliases>
 		<typeAlias type="com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO" alias="customerOrders"/>
 		<typeAlias type="com.ezen.bookstore.admin.commons.SearchCondition" alias="condition"/>
+		<typeAlias type="com.ezen.bookstore.admin.reviews.dto.ReviewsDTO" alias="reviews"/>
 	</typeAliases>
 </configuration>
