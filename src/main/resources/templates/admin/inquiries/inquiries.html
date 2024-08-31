@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>inquiries</title>
 
-<link rel="stylesheet" href="/admin/reviews/css/reviews.css" />
-<link rel="stylesheet" href="/admin/common/css/modal.css">
+	<link rel="stylesheet" href="/admin/reviews/css/reviews.css" />
+	<link rel="stylesheet" href="/admin/common/css/modal.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-</head>
-<body>
+<div>
 	<div class="filter-container white-frame">
 		<div class="header">
 			<h1 class="search-list-title">1:1 문의 조회</h1>
@@ -45,7 +40,7 @@
 				<div class="search-list-subject">처리 상태</div>
 				<div class="select-wrap">
 					<select id="searchColumn" class="select">
-						<option value="2">문의분류</option>
+						<option value="2">문의유형</option>
 						<option value="3">회원ID</option>
 					</select>
 					<div class="select-arrow-down"></div>
@@ -59,17 +54,18 @@
 						<label for="order-status-change">미답변</label>
 						<input type="radio" id="order-status-completion" name="order_status" value="completion"/>
 						<label for="order-status-completion">처리완료</label>
-				</div>
+					</div>
 
-				<button id="reset-button" onclick="resetFilters()">초기화</button>			
+					<button id="reset-button" onclick="resetFilters()">초기화</button>			
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="table-container white-frame">
-		<span id="total-row" class="table-column-head-txt"></span>
-		<button id="delete-button" class="button is-danger" style="float: right;">답변 등록</button>
+		<div class="table-total-row" style="margin-bottom: 20px;">
+			<span id="total-row" class="table-column-head-txt" style="margin-left: 10px;"></span>
+		</div>
 		<table id="inquiries" class="table is-striped" style="width: 100%">
 			<thead>
 				<tr>
@@ -85,12 +81,12 @@
 			<tbody></tbody>
 		</table>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
-	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.bulma.js"></script>
+	<script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="//cdn.datatables.net/2.1.5/js/dataTables.min.js"></script>
+	<script src="//cdn.datatables.net/2.1.5/js/dataTables.bulma.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	<script src="/admin/common/js/main.js"></script>
 	<script src="/admin/inquiries/js/inquiries.js"></script>
-</body>
+</div>
+
 </html>

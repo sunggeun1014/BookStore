@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Manager Details</title>
+<link rel="stylesheet" href="/admin/managers/css/managerDetails.css" />
+</head>
+<body>
+	<div class="white-frame">
+		<h1 class="search-list-title">매니저 정보 수정</h1>
+		
+		<div class="info">
+			<span class="search-list-subject">아이디<span class="important">*</span></span>
+			<input type="text" th:value=${manager_details.manager_id} readonly>
+		</div>
+		<div class="info">
+			<span class="search-list-subject">비밀번호<span class="important">*</span></span> 
+			<input type="password" class="pw" th:value="${manager_details.manager_pw}" readonly>
+		</div>
+		
+		<div class="info">
+			<span class="search-list-subject">비밀번호 확인<span class="important">*</span></span> 
+			<input type="password" class="pw" >
+		</div>
+		
+		<div class="info">
+			<span class="search-list-subject">이름<span class="important">*</span></span> 
+			<input type="text" th:value=${manager_details.manager_name} readonly>
+		</div>
+		
+		<div class="select-wrap info">	
+			<span class="search-list-subject">이메일<span class="important">*</span></span>
+			<input type="text" id="emailUser" name="emailUser" th:value="${emailUser}" class="gray-text" onclick="this.value='';" /> 
+			<span class="search-list-subject-symbol">@</span>			 				
+			<div class="select-box">
+				<select id="emailDomain" name="emailDomain" th:value="${emailDomain}"  onchange="toggleCustomDomain()">
+					<option value="naver.com" th:selected="${emailDomain == 'naver.com'}">naver.com</option>
+					<option value="gmail.com" th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
+					<option value="daum.net" th:selected="${emailDomain == 'daum.net'}">daum.net</option>
+					<option value="yahoo.com" th:selected="${emailDomain == 'yahoo.com'}">yahoo.com</option>
+					<option value="custom">직접 입력</option>			
+				</select>
+				<div class="select-arrow-down" id="email"></div>						
+			</div>
+	       	<input type="text" id="customEmailDomain" name="customEmailDomain" style="display:none;" placeholder="이메일 도메인 입력" width:150px;/>			
+		</div>
+		
+		<div class="select-wrap info">
+			<span class="search-list-subject">전화번호<span class="important">*</span></span>
+			<div class="select-box">			
+				<select id="countryNum" name="countryNum" th:value="${countryNum}">
+					<option value="010" th:selected="${countryNum == '010'}">010</option>
+					<option value="011" th:selected="${countryNum == '011'}">011</option>
+					<option value="016" th:selected="${countryNum == '016'}">016</option>
+					<option value="017" th:selected="${countryNum == '017'}">017</option>
+					<option value="018" th:selected="${countryNum == '018'}">018</option>
+					<option value="019" th:selected="${countryNum == '019'}">019</option>
+				</select>
+				<div class="select-arrow-down" id="phoneNum"></div>
+			</div>
+			<span class="search-list-subject-symbol">-</span>
+			
+			<input type="number" id="userPart1" class="num gray-text" name="userPart1" min="0" max="9999" th:value="${userPart1}" title="4자리 숫자를 입력해주세요" required oninput="limitLength(this, 4)" onclick="this.value='';" />
+		  	<span class="search-list-subject-symbol">-</span>
+		  	
+		  	<input type="number" id="userPart2" class="num gray-text" name="userPart2" min="0" max="9999" th:value="${userPart2}" title="4자리 숫자를 입력해주세요" required oninput="limitLength(this, 4)" onclick="this.value='';" />	  	
+		</div>
+		
+		<div class="info">
+			<span class="search-list-subject">주소</span>
+			<input type="text" id="address_kakao" name="manager_addr" th:value="${manager_details.manager_addr}" class="gray-text" readonly />
+		</div>
+		<div class="info">
+			<span class="search-list-subject">상세주소</span>
+			<input type="text" name="member_detail_addr" th:value="${manager_details.manager_detail_addr}" onclick="this.value='';" class="gray-text" />
+		</div>
+		
+		<div class="select-wrap info">
+			<span class="search-list-subject">부서명<span class="important">*</span></span>
+			<div class="select-box">
+				<select id="deptName" name="deptName" th:value="${manager_details.manager_dept}">
+					<option th:value="1.0" th:text="'1.0' == ${manager_details.manager_dept} ? '물류팀' : '물류팀'">물류팀</option>
+	    			<option th:value="2.0" th:text="'2.0' == ${manager_details.manager_dept} ? '운영팀' : '운영팀'">운영팀</option>
+				</select>
+				<div class="select-arrow-down" id="dept"></div>
+			</div>
+			
+		</div>
+		
+		<div class="info">
+			<span class="search-list-subject">프로필</span>
+		
+			<div class="img-input-wrap">
+				<label for="input-file" class="input-file-label"> <i
+					class="fa-solid fa-plus"></i> <img src="" alt="" id="preview" />
+				</label> <input type="file" name="" id="input-file" class="input-img-file" />
+			</div>
+			<label>형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
+		</div>
+		
+		<div class="btn">
+			<button type="submit" class="default-btn" style="margin-right: 20px;">수정</button>
+			<button class="default-btn cancle" onclick="location.href='/admin/index?path=admin/managers/managers'">
+			      <span>뒤로가기</span>
+			</button>
+		</div>
+		
+		
+	</div>
+	
+	
+	<script src="/admin/members/js/memberDetails.js"></script>
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+		window.onload = function(){
+		    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+		        //카카오 지도 발생
+		        new daum.Postcode({
+		            oncomplete: function(data) { //선택시 입력값 세팅
+		                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+		                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+		            }
+		        }).open();
+		    });
+		}
+	</script>
+</body>
+</html>

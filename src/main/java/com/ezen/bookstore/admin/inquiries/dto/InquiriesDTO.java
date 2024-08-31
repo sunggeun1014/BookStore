@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class InquiriesDTO {
-	private Integer inquiry_num;
+	private Integer inquiry_num; 
 	private String inquiry_title;
 	private String inquiry_content;
 	private String member_id;

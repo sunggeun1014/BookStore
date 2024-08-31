@@ -117,10 +117,6 @@ table.dataTable tbody tr {
 	color: lightgray; /* 빈 별 색상 */
 }
 
-#reviews td, #reviews th {
-	text-align: center; /* 텍스트 가운데 정렬 */
-	vertical-align: middle; /* 수직 가운데 정렬 */
-}
 
 .material-symbols-outlined {
   font-variation-settings:
@@ -161,4 +157,8 @@ table.dataTable tbody tr {
 	gap: 10px;
 	border-bottom: 1px solid #C0C0C0;
 	padding: 20px 20px;
+}
+
+.table-total-row {
+	margin-bottom: 20px;
 }

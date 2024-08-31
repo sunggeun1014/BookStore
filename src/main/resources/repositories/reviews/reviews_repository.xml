@@ -28,10 +28,38 @@
 	
 	<!-- 여러 리뷰를 삭제하는 SQL -->
     <delete id="deleteReviews" parameterType="java.util.List">
-        DELETE FROM Reviews
-        WHERE review_num IN
-        <foreach item="num" collection="list" open="(" separator="," close=")">
-            #{num}
-        </foreach>
+    DELETE FROM 
+    	Reviews
+    WHERE 
+    	review_num 
+    IN
+      <foreach item="num" collection="list" open="(" separator="," close=")">
+        #{num}
+      </foreach>
     </delete>
+    
+    <select id="getDetailList" resultType="reviews" parameterType="Integer">
+ 	SELECT 
+        r.review_num, 
+        r.member_id, 
+        r.order_detail_num, 
+        r.review_content, 
+        r.review_rating, 
+        r.review_write_date, 
+        c.book_isbn,
+        b.book_name
+    FROM 
+        Reviews r
+    JOIN 
+        Customer_Order_Details c 
+    ON 
+    	r.order_detail_num = c.order_detail_num
+    JOIN 
+        Books b 
+    ON 
+    	c.book_isbn = b.book_isbn
+    WHERE 
+        r.review_num = #{reviewNum} 
+    
+    </select>
 </mapper>

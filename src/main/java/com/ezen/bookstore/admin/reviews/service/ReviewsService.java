@@ -18,16 +18,33 @@ public class ReviewsService {
 
 	private final ReviewRepository reviewRepository;
 	
+	@Transactional(readOnly = true)
 	public List<ReviewsDTO> list() {
-		return reviewRepository.getAll();
+		try {
+			return reviewRepository.getAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
+	@Transactional(readOnly = true)
+	public ReviewsDTO getDetailList(Integer reviewNum) {
+		try {
+			return reviewRepository.getDetailList(reviewNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	@Transactional
     public void deleteReviewsByIds(List<Integer> reviewIds) {
-        if (reviewIds == null || reviewIds.isEmpty()) {
-            throw new IllegalArgumentException("리뷰 ID 목록이 비어 있습니다.");
-        }
-        reviewRepository.deleteAllByIdIn(reviewIds);
+		try {
+			reviewRepository.deleteAllByIdIn(reviewIds);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 }
 
