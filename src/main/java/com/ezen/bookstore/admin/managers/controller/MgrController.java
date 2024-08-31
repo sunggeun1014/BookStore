@@ -1,5 +1,8 @@
 package com.ezen.bookstore.admin.managers.controller;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 import com.ezen.bookstore.admin.managers.service.MgrService;
-import com.ezen.bookstore.admin.members.dto.MembersDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -87,6 +90,44 @@ public class MgrController {
                     .body("변경 중 오류가 발생했습니다.");
         }
     }
+	
+	@PostMapping("/join")
+	public String joinProccess(@ModelAttribute ManagersDTO managersDTO, 
+					            @RequestParam("emailUser") String emailUser, 
+					            @RequestParam("emailDomain") String emailDomain,
+					            @RequestParam("countryNum") String countryNum,
+					            @RequestParam("userPart1") String userPart1,
+					            @RequestParam("userPart2") String userPart2
+								) {
+		
+		String manager_email = emailUser +"@" + emailDomain;
+		String manager_phoneNo = countryNum + "-" + userPart1 + "-" + userPart2;
+	    Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+	    String originName = "1111";
+	    String changed = "1111";
+		
+		managersDTO.setManager_email(manager_email);
+		managersDTO.setManager_phoneNo(manager_phoneNo);
+		managersDTO.setManager_join_date(now);
+		managersDTO.setManager_profile_changed(changed);
+		managersDTO.setManager_profile_original(originName);
+		System.out.println("managersDTO:" + managersDTO.getManager_id());
+		System.out.println("managersDTO:" + managersDTO.getManager_pw());
+		System.out.println("managersDTO:" + managersDTO.getManager_email());
+		System.out.println("managersDTO:" + managersDTO.getManager_name());
+		System.out.println("managersDTO:" + managersDTO.getManager_phoneNo());
+		System.out.println("managersDTO:" + managersDTO.getManager_addr());
+		System.out.println("managersDTO:" + managersDTO.getManager_detail_addr());
+		System.out.println("managersDTO:" + managersDTO.getManager_dept());
+		System.out.println("managersDTO:" + managersDTO.getManager_profile_changed());
+		System.out.println("managersDTO:" + managersDTO.getManager_profile_original());
+		System.out.println("managersDTO:" + managersDTO.getManager_join_date());
+		
+		mgrService.joinProcess(managersDTO);
+		
+		return "redirect:/admin/index?path=admin/managers/managers";
+	}
+	
 	
 	
 

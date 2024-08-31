@@ -30,4 +30,9 @@ public class MgrRepository {
 	    params.put("dept", dept);
 		sql.update("Managers.updateManagerDept", params);
 	}
+	
+	public int addManager(ManagersDTO managersDTO) {
+			
+		return sql.insert("Managers.addManager",managersDTO);
+	}
 }

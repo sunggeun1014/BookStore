@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 // 헤더 시계
+const clock = document.querySelector(".clock")
 function getClocks() {
-	const clock = document.querySelector(".clock")
 
 	const date = new Date();
 	const nowYear = date.getFullYear();

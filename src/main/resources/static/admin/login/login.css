@@ -1,0 +1,64 @@
+body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center; /* 수평 중앙 정렬 */
+        align-items: center;     /* 수직 중앙 정렬 */
+        background-color: #f5f5f5; /* 배경색 설정, 필요에 따라 조정 */
+    }
+    
+    .inner {
+        display: flex;
+        justify-content: center; /* 수평 중앙 정렬 */
+        align-items: center;     /* 수직 중앙 정렬 */
+        flex-direction: column;  /* 세로로 정렬 */
+        height: 100%;
+    }
+
+    .white-frame {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 690px;
+        height: 660px;
+    }
+
+    .logo-wrap img {
+        max-width: 100%;
+        height: auto;
+        
+        margin-top: 80px;
+    }
+
+    #id, #password {
+        border: none; /* 기본 테두리 제거 */
+	    border-bottom: 2px solid #C0C0C0; /* 아래쪽 테두리만 남김 */
+	    outline: none; /* 포커스 시 생길 수 있는 테두리 제거 */
+	    width: 460px;
+	    height: 60px;
+	    padding: 10px;
+	    margin: 10px 0;
+	    box-sizing: border-box;
+	    background-color: white; /* 배경색 지정 */
+	    font-size: 16px; /* 텍스트 크기 */
+	    border-radius: 0; /* 모서리 둥글게 처리하지 않음 */
+    }
+
+    .default-btn {
+        width: 460px;
+        height: 60px;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 30px;
+    }
+
+    .default-btn:hover {
+        background-color: #0056b3;
+    }

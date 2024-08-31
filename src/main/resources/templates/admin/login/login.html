@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>로그인 화면</title>
+<link rel="stylesheet" href="/admin/common/css/common.css" />
+<link rel="stylesheet" href="/admin/common/css/style.css" />
+<link rel="stylesheet" href="/admin/login/login.css" />
+
+</head>
+<body>    
+    <form action="/loginProc" method="post" name="loginForm">
+	<div class="inner">
+    	<div class="white-frame">
+	    	<div class="logo-wrap">
+		    <img src="/admin/common/img/admin-로고.svg" alt="로고" />
+			</div>
+			
+	        <input id="id" class="id" type="text" name="username" placeholder="id"/>
+	        <br>
+	        
+	        <input id="password" class="password" type="password" name="password" placeholder="password"/>
+	        <br>
+	        
+	        <button class="default-btn">로그인</button>
+		</div>
+	</div>
+    </form>
+</body>
+</html>
