@@ -1,0 +1,77 @@
+/* 공통 스타일 */
+input, select {
+    margin-left: 50px;
+}
+
+label {
+    margin-left: 80px;
+}
+
+.input-file-label{
+	margin-left: 50px;
+}
+
+.info {
+    display: flex;
+    border-bottom: 2px solid #D8D8D8;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    align-items: center; /* 자식 요소들을 수직 중앙 정렬 */
+    position: relative;
+}
+
+.search-list-title:first-child {
+    margin-bottom: 30px;
+}
+
+.select-box {
+    display: flex;
+    align-items: center; /* 자식 요소들을 수직 중앙 정렬 */
+    position: relative;  /* 필요 시 position relative 사용 */
+}
+
+.select-arrow-down {
+    margin-right: 5px; /* 선택 상자와 화살표 사이에 간격 추가 */
+}
+
+/* 특정 요소 스타일 */
+select#emailUser, select#deptName, select#emailDomain {
+    width: 150px;
+    margin-left: 20px;
+}
+
+select#countryNum {
+    width: 80px;
+}
+
+.input-file-label {
+    margin-right: 30px;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-list-subject-symbol, input#userPart1.num.gray-text, input#userPart2.num.gray-text {
+    margin-left: 20px;
+}
+
+span.search-list-subject {
+    margin-left: 30px;
+}
+
+div#email.select-arrow-down, div#dept.select-arrow-down {
+    margin-left: 30px;
+}
+
+select#deptName{
+	margin-left:50px;
+}
+
+.important {
+    color: red;
+    position: relative;
+    top: -5px;
+}
