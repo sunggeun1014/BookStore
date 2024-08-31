@@ -1,6 +1,8 @@
 package com.ezen.bookstore.admin.customerorders.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -78,12 +80,12 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 	}
 
 	@Override
-	public int orderStatusUpdate(List<CustomerOrdersDTO> list) {
+	public int orderStatusUpdate(List<Integer> list, String order_detail_status) {
 		int result = 0;
 		
 		try {
-			for(CustomerOrdersDTO dto : list) {
-				result += cor.orderStatusUpdate(dto);
+			for(int order_detail_num : list) {
+				result += cor.orderStatusUpdate(order_detail_num, order_detail_status);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +94,5 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 		return result;
 	}
 
-
-	
 	
 }

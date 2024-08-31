@@ -183,7 +183,7 @@
 		WHERE cod.order_num = #{order_num}
 	</select>
 	
-	<update id="orderStatusUpdate" parameterType="customerOrders">
+	<update id="orderStatusUpdate" parameterType="java.util.HashMap">
 		UPDATE customer_order_details SET
     		order_detail_status = #{order_detail_status} 
     	where

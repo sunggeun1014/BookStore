@@ -1,6 +1,8 @@
 package com.ezen.bookstore.admin.customerorders.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -40,8 +42,13 @@ public class CustomerOrdersRepository {
 		return sql.selectList("CustomerOrders.getDetailList", order_num);
 	}
 	
-	public int orderStatusUpdate(CustomerOrdersDTO dto) {
-		return sql.update("CustomerOrders.orderStatusUpdate", dto);
+	public int orderStatusUpdate(int order_detail_num, String order_detail_status) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("order_detail_num", order_detail_num);
+		map.put("order_detail_status", order_detail_status);
+		
+		return sql.update("CustomerOrders.orderStatusUpdate", map);
 	}
 
 }

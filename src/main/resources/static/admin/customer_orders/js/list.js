@@ -129,11 +129,9 @@ function filter() {
 			d.search_conditions = $("#searchColumn").val();
 			d.word = $("#word").val();
 		}
-	} else {
-		// modal
+		table.ajax.reload();
 	}
 	
-	table.ajax.reload();
 }
 
 function delivery_request() {
@@ -141,7 +139,8 @@ function delivery_request() {
 	    .map(function() {
 	        return $(this).val();
 	    }).get();
-		
+		console.log(checked_values);
+		console.log(checked_values.length);
 	if(checked_values.length > 0) { 
 		$.ajax({
 			url: "/admin/customer_orders_rest/deliveryRequest",
@@ -149,14 +148,14 @@ function delivery_request() {
 			contentType: 'application/json',
 			data: JSON.stringify(checked_values),
 			success: function(data) {
-				console.log(data, "요청완료");
+				getCheckModal(`${data}건 요청완료`);
 			},
 			error: function () {
-				console.log("ERROR");
+				getCheckModal("ERROR");
 			}
 		});
 	} else {
-		// 요청 창 띄우기
+		getCheckModal("1개 이상의 선택이 필요합니다.");
 	}
 }
 
@@ -185,4 +184,3 @@ function checkboxHandler() {
         $(".row-checkbox").prop("checked", $(this).prop("checked"));
 	});
 }
-

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	<link rel="stylesheet" href="/admin/orders_detail/css/detail.css">
+	<link rel="stylesheet" href="/admin/customer_orders/css/detail.css">
 	<!-- Bulma CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.1/css/bulma.min.css">
 	<link rel="stylesheet" href="/admin/customer_orders/css/detail.css">
@@ -79,43 +79,42 @@
 		</div>
 	</div>
 	<div class="white-frame">
-		<div>
-			<div class="detail-list-area">
-				<div>
-					<span class="detail-total-cnt" th:text="'총 ' + ${#lists.size(detailList)} + '건'"></span>
-				</div>
-				<div class="request-completion-btn select-wrap">
-					<select id="request-select-area" class="select" name="order_detail_status">
-						<option value="05">취소완료</option>
-						<option value="06">교환완료</option>
-						<option value="07">반품완료</option>
-						<option value="08">처리불가</option>
-					</select>
-					<div class="select-arrow-down"></div>
-					<span>
-						<!-- <button class="default-btn" onclick="requestCompletionBtn()">완료</button> -->
-						<button class="default-btn" onclick="getModal('테스트작업입니다')">완료</button>
-					</span>
+		<form id="table-form" action="/admin/customer_orders/orderStatusUpdate" method="GET">
+			<div>
+				<div class="detail-list-area">
+					<div>
+						<span class="detail-total-cnt" th:text="'총 ' + ${#lists.size(detailList)} + '건'"></span>
+					</div>
+					<div class="request-completion-btn select-wrap">
+						<select id="request-select-area" class="select" name="order_detail_status">
+							<option value="05">취소완료</option>
+							<option value="06">교환완료</option>
+							<option value="07">반품완료</option>
+							<option value="08">처리불가</option>
+						</select>
+						<div class="select-arrow-down"></div>
+						<span>
+							<button class="default-btn" onclick="getConfirmModal('주문 상태를 변경하시겠습니까?', requestCompletionBtn);">완료</button>
+						</span>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="table-data-container">
-			<div class="table-column-area">
-				<div class="checkbox-column">
-					<span>
-						<input type="checkbox" id="select-all" class="checkbox">
-						<label for="select-all"></label>
-					</span>				
+			<div class="table-data-container">
+				<div class="table-column-area">
+					<div class="checkbox-column">
+						<span>
+							<input type="checkbox" id="select-all" class="checkbox">
+							<label for="select-all"></label>
+						</span>				
+					</div>
+					<div class="no-column"><span>NO</span></div>
+					<div class="book-title-column"><span>책제목</span></div>
+					<div class="isbn-column"><span>ISBN</span></div>
+					<div class="price-column"><span>가격</span></div>
+					<div class="qty-column"><span>수량</span></div>
+					<div class="purchase-column"><span>구매금액</span></div>
+					<div class="order-status-column"><span>주문상태</span></div>
 				</div>
-				<div class="no-column"><span>NO</span></div>
-				<div class="book-title-column"><span>책제목</span></div>
-				<div class="isbn-column"><span>ISBN</span></div>
-				<div class="price-column"><span>가격</span></div>
-				<div class="qty-column"><span>수량</span></div>
-				<div class="purchase-column"><span>구매금액</span></div>
-				<div class="order-status-column"><span>주문상태</span></div>
-			</div>
-			<form id="table-form">
 				<div class="table-data-area" th:each="info, status : ${detailList}">
 					<div class="checkbox-data">
 						<span>
@@ -152,11 +151,12 @@
 						</div>
 					</div>
 				</div>
-			</form>
-			<div class="total-price-area">
-				<span th:text="'총 금액: ' + ${#numbers.formatInteger(detail.order_price_total, 0, 'COMMA')} + '원'"></span>
+				<div class="total-price-area">
+					<span th:text="'총 금액: ' + ${#numbers.formatInteger(detail.order_price_total, 0, 'COMMA')} + '원'"></span>
+				</div>
 			</div>
-		</div>
+			<input type="hidden" name="order_num" th:value="${detail.order_num}">
+		</form>
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>

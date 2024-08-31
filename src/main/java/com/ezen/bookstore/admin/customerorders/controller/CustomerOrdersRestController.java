@@ -54,11 +54,5 @@ public class CustomerOrdersRestController {
     	return cos.deliveryRequestSave(order_nums, session.getAttribute(AccountManagement.ADMIN_ID).toString());
     }
     
-    @PutMapping(value = "/orderStatusUpdate")
-    public int orderStatusUpdate(@RequestBody List<CustomerOrdersDTO> list) {
-    	return cos.orderStatusUpdate(list);
-    }
-    
-    
     
 }
