@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Insert title here</title>
 <link rel="stylesheet" href="/admin/reviews/css/reviews.css" />
 <style>
 textarea:focus {
@@ -13,9 +9,8 @@ textarea:focus {
 }
 </style>
 
-</head>
-<body>
-	<div class="container" style="padding-bottom: 30px;">
+<div>
+	<div class="container" style="padding-bottom: 30px;" th:with="status = ${inquiries.inquiry_answer_status}">
 		<!-- 뒤로가기 버튼 -->
 		<button class="back-btn"
 			onclick="location.href='/admin/index?path=admin/inquiries/inquiries'">
@@ -36,8 +31,9 @@ textarea:focus {
 					th:text="${inquiries.member_id}"></span>
 			</div>
 			<div class="text-group">
-				<span class="search-list-subject">작성날짜</span> <span
-					th:text="${inquiries.inquiry_write_date}"></span>
+				<span class="search-list-subject">작성날짜</span> 
+				<span th:text="${#dates.format(inquiries.inquiry_write_date, 'YYYY-MM-dd HH:mm')}"></span>
+
 			</div>
 			<div class="text-group">
 				<span class="search-list-subject">문의 분류</span> <span
@@ -53,14 +49,14 @@ textarea:focus {
 			</div>
 			<div class="text-group">
 				<span class="search-list-subject">답변여부</span> <span
-					th:text="${inquiries.inquiry_answer_status}"
-					th:style="'color: ' + (${inquiries.inquiry_answer_status == '처리완료'} ? '#10A142' : (${inquiries.inquiry_answer_status == '미완료'} ? '#F69E47' : ''))"></span>
+					th:text="${status}"
+					th:style="'color: ' + (${status == '처리완료'} ? '#10A142' : (${status == '미완료'} ? '#F69E47' : ''))"></span>
 				<span th:text="${inquiries.manager_id}"></span>
 			</div>
 		</div>
 
 		<form
-			th:action="@{${inquiries.inquiry_answer_status == '처리완료' ? '/admin/inquiries/update' : '/admin/inquiries/insert'}}"
+			th:action="@{${status == '처리완료' ? '/admin/inquiries/update' : '/admin/inquiries/insert'}}"
 			th:object="${inquiries}" method="POST">
 			<div class="white-frame"
 				style="margin-top: 30px; min-height: 350px; height: auto">
@@ -70,10 +66,11 @@ textarea:focus {
 
 					<!-- textarea 내용 설정 -->
 					<textarea th:field="*{answer_content}"
-						th:attr="placeholder=${inquiries.inquiry_answer_status == '미완료' ? '내용을 입력하세요' : ''}"
-						th:utext="${inquiries.inquiry_answer_status == '처리완료' ? inquiries.inquiry_answer_status : ''}"
-						style="width: 100%; min-height: 230px; height: auto; padding: 10px; border-radius: 5px; border: 1px solid #c0c0c0; display: block; color: #666666; resize: none;">
-            </textarea>
+						th:attr="placeholder=${status == '미완료' ? '내용을 입력하세요' : ''}"
+						th:utext="${status == '처리완료' ? status : ''}"
+						style="width: 100%; min-height: 230px; height: auto; padding: 10px; border-radius: 5px; border: 1px solid #c0c0c0; display: block; color: #666666; resize: none;"
+						maxlength="1000">
+            		</textarea>
 				</div>
 				<div
 					style="display: flex; justify-content: center; align-items: center; gap: 20px;">
@@ -90,5 +87,5 @@ textarea:focus {
 
 
 	</div>
-</body>
+</div>
 </html>

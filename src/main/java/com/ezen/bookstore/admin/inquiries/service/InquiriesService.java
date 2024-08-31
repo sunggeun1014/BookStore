@@ -16,41 +16,23 @@ public class InquiriesService {
 	
 	private final InquiriesRepository inquiriesRepository;
 	
-	
+	@Transactional(readOnly = true)
 	public List<InquiriesDTO> getList() {
-		try {
-			return inquiriesRepository.getList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		return inquiriesRepository.getList();
 	}
 	
+	@Transactional(readOnly = true)
 	public InquiriesDTO getDetailList(Integer inquiryNum) {
-		try {
-			return inquiriesRepository.getDetailList(inquiryNum);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+		return inquiriesRepository.getDetailList(inquiryNum);
 	}
 	
 	@Transactional
 	public void updateInquiry(InquiriesDTO inquiriesDTO) {
-		try {
-			inquiriesRepository.updateInquiry(inquiriesDTO);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		inquiriesRepository.updateInquiry(inquiriesDTO);
 	}
 	
 	@Transactional
 	public void insertInquiry(InquiriesDTO inquiriesDTO) {
-		try {
-			inquiriesRepository.insertInquiry(inquiriesDTO);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		inquiriesRepository.insertInquiry(inquiriesDTO);
 	}
 }

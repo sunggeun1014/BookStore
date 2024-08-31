@@ -5,36 +5,27 @@
 <mapper namespace="Inquiries">
 	
 	<select id="getList" resultType="inquiries">
-	 SELECT 
-	    r.inquiry_num,
-	    r.inquiry_title,
-        r.member_id,
-	    r.inquiry_write_date,
+	SELECT 
+	    i.inquiry_num, 
+	    i.inquiry_title,
+	    i.member_id,
+	    i.inquiry_write_date,
 	    CASE
-        	WHEN r.inquiry_answer_status = '01' THEN
-        		'미완료'
-        	WHEN r.inquiry_answer_status = '02' THEN
-        		'처리완료'
-        END AS inquiry_answer_status,
-	    c.answer_write_date,
-        CASE
-        	WHEN r.inquiry_type = '01' THEN
-        		'상품문의'
-        	WHEN r.inquiry_type = '02' THEN
-        		'배송문의'
-        	WHEN r.inquiry_type = '03' THEN
-        		'결제문의'
-        	WHEN r.inquiry_type = '04' THEN
-        		'반품문의'
-        	WHEN r.inquiry_type = '05' THEN
-        		'기타'
-        END AS inquiry_type
+	        WHEN i.inquiry_answer_status = '01' THEN '미완료'
+	        WHEN i.inquiry_answer_status = '02' THEN '처리완료'
+	    END AS inquiry_answer_status, 
+	    CASE
+	        WHEN i.inquiry_type = '01' THEN '상품문의'
+	        WHEN i.inquiry_type = '02' THEN '배송문의'
+	        WHEN i.inquiry_type = '03' THEN '결제문의'
+	        WHEN i.inquiry_type = '04' THEN '반품문의'
+	        WHEN i.inquiry_type = '05' THEN '기타'
+	    END AS inquiry_type, 
+    	ia.answer_write_date
 	FROM 
-	    inquiries r
-	JOIN 
-	    inquiries_answer c 
-	ON 
-	    r.inquiry_num = c.inquiry_num
+    	inquiries i
+	LEFT JOIN 
+    	inquiries_answer ia ON i.inquiry_num = ia.inquiry_num
 	</select>
 	
 	<select id="getDetailList" resultType="inquiries" parameterType="Integer">
@@ -66,7 +57,7 @@
             c.answer_content
         FROM
             inquiries r
-        JOIN
+        LEFT OUTER JOIN
             inquiries_answer c
         ON
             r.inquiry_num = c.inquiry_num
