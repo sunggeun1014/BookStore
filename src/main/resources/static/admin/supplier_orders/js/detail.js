@@ -3,7 +3,7 @@ let table = null;
 $(document).ready(function() {
 	table = $('#customer-orders-table').DataTable({
 		ajax: {
-			url: '/admin/customer_orders_rest/customerOrders',
+			url: '/admin/customer_orders_rest/supplierOrders',
 			dataSrc: function(json) {
 				$("#data-count").text(`총 ${json.recordsTotal}건`);
 				return json.data;
@@ -11,12 +11,6 @@ $(document).ready(function() {
 		},
 		order: [[10, 'desc']],
 		columns: [
-			{ 
-                data: null, // 데이터 소스가 없으므로 null로 설정
-                render: function (data, type, row) {
-                    return `<input type="checkbox" id="select-row" name="order_num" class="checkbox row-checkbox" value="${row.order_num}"><label for="select-row"></label>`;
-				}
-            },
 			{ data: null },
 			{ 
 				data: 'order_num',
@@ -39,16 +33,7 @@ $(document).ready(function() {
 					return date.toISOString().split('T')[0];
 				}
 			},
-			{ data: 'order_delivery_status' },
-			{ data: 'order_payment_status' },
-			{ data: 'order_status' },
-			{
-                data: 'order_modify_date',
-                render: function (data, type, row) {
-					const date = new Date(data);
-                    return row.order_purchase_date === data ? '-' : date.toISOString().split('T')[0];
-                }
-            }
+			{ data: 'order_delivery_status' }
 		],
 		columnDefs: [
 			{ targets: 0, orderable: false },
@@ -175,45 +160,4 @@ function checkboxHandler() {
     $("#select-all").on("change", function() {
         $(".row-checkbox").prop("checked", $(this).prop("checked"));
 	});
-}
-
-function getConfirmModal(msg, func) {
-    let divArea = $("<div class='modal-area'></div>");
-    let contentArea = $("<div class='modal-content-area'></div>");
-    
-    let messageArea = $(`<div class='modal-message-area'><span class='modal-message'>${msg}</span></div>`);
-    let btnArea = $("<div class='modal-btn-area'><span class='modal-check-btn'>확인</span><span class='modal-close-btn'>취소</span></div>");
-    
-    contentArea.append(messageArea);
-    contentArea.append(btnArea);
-    divArea.append(contentArea);
-
-    $("body").append(divArea);
-    $(".modal-check-btn").on("click", function() {
-		func();
-        divArea.remove(); // 모달 제거
-    });
-    
-    // 취소 버튼 클릭 이벤트
-    $(".modal-close-btn").on("click", function() {
-        divArea.remove(); // 모달 제거
-    });
-}
-
-function getCheckModal(msg) {
-    let divArea = $("<div class='modal-area'></div>");
-    let contentArea = $("<div class='modal-content-area'></div>");
-    
-    let messageArea = $(`<div class='modal-message-area'><span class='modal-message'>${msg}</span></div>`);
-    let btnArea = $("<div class='modal-btn-area'><span class='modal-check-btn'>확인</span></div>");
-    
-    contentArea.append(messageArea);
-    contentArea.append(btnArea);
-    divArea.append(contentArea);
-
-    $("body").append(divArea);
-    $(".modal-check-btn").on("click", function() {
-        divArea.remove(); // 모달 제거
-    });
-    
 }

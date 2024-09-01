@@ -12,7 +12,6 @@ table.dataTable tbody tr {
    border-radius: 20px;
    padding: 20px 26px;
    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-   
 }
 
 .table-container {
@@ -220,15 +219,10 @@ table.dataTable tbody tr {
 .order-detail-link {
 	text-decoration: underline;
 	color: #000000;
-	cursor: pointer;
 }
 
-.text-color-red {
-	color: red !important;
-}
-
-.text-color-green {
-	color: #10A142 !important;
+.text-color-blue {
+	color: #4777F6 !important;
 }
 
 .date-btn.active {
@@ -309,6 +303,10 @@ table.dataTable tbody tr {
 
 .modal-close-btn:hover {
     background-color: #999;
+}
+
+.dt-empty {
+	text-align: center;
 }
 
 .dt-empty {

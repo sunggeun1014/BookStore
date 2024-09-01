@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="/admin/customer_orders/css/detail.css">
 </head>
 <body>
-	<button class="back-btn" onclick="location.href='/admin/index?path=/admin/customer_orders/orders_list'">
+	<button class="back-btn" onclick="location.href='/admin/customer_orders/list'">
 		<i class="fa-solid fa-chevron-left"></i>
 		<span>뒤로가기</span>
 	</button>
@@ -63,7 +63,7 @@
 			</div>		
 		</div>
 	</div>
-	<div class="table-container white-frame" th:if="${#lists.size(detailList) > 0}">
+	<div class="table-container white-frame" th:if="${!#lists.isEmpty(detailList.?[order_detail_status == '교환요청' or order_detail_status == '반품요청' or order_detail_status == '교환완료' or order_detail_status == '반품완료' or order_detail_status == '처리불가'])}">
 		<div>
 			<div class="request-title-area">
 				<span class="search-list-title">반품요청 정보</span>
@@ -132,13 +132,13 @@
 						<span th:text="${info.book_isbn}"></span>
 					</div>
 					<div class="price-data">
-						<span th:text="${#numbers.formatInteger(info.order_detail_price, 0, 'COMMA')}"></span>
+						<span th:text="${#numbers.formatInteger(info.order_detail_price, 0, 'COMMA')} + '원'"></span>
 					</div>
 					<div class="qty-data">
-						<span th:text="${info.order_detail_qty}"></span>
+						<span th:text="${info.order_detail_qty} + '개'"></span>
 					</div>
 					<div class="purchase-data" >
-						<span th:text="${#numbers.formatInteger(info.order_price_sum, 0, 'COMMA')}"></span>
+						<span th:text="${#numbers.formatInteger(info.order_price_sum, 0, 'COMMA')} + '원'"></span>
 					</div>
 					<div class="order-status-data request-text-red" th:if="${info.order_detail_status eq '취소요청' or info.order_detail_status eq '교환요청' or info.order_detail_status eq '반품요청'}">
 						<div>
