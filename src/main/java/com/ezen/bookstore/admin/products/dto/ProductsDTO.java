@@ -1,0 +1,34 @@
+package com.ezen.bookstore.admin.products.dto;
+
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.sql.Timestamp;
+import java.util.Date;
+
+@Data
+public class ProductsDTO {
+    private String book_isbn;
+    private String book_name;
+    private Integer book_price;
+    private String book_publisher;
+    private String book_author;
+    private Integer book_qty;
+    private String book_intro;
+    private String book_country_type;
+    private String book_category;
+    private String book_state;
+    private String book_thumbnail;
+    private MultipartFile thumbnail_img;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Timestamp book_publish_date;
+    private Timestamp book_register_date;
+    private String book_deleted;
+
+    public void setBook_price(String book_price) {
+        this.book_price = Integer.parseInt(book_price.replace(",", ""));
+    }
+
+}

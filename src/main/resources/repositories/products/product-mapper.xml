@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Products">
+    <select id="getAll" resultType="products">
+        SELECT
+        book_isbn,
+        book_name,
+        book_price,
+        book_publisher,
+        book_author,
+        book_qty,
+        book_intro,
+        book_country_type,
+        book_category,
+        book_state,
+        book_thumbnail,
+        book_publish_date,
+        book_register_date
+        FROM
+        books
+    </select>
+
+    <select id="findByCondition" resultType="products">
+        SELECT
+        book_isbn,
+        book_name,
+        book_price,
+        book_publisher,
+        book_author,
+        book_qty,
+        book_intro,
+        book_country_type,
+        book_category,
+        book_state,
+        book_thumbnail,
+        book_publish_date,
+        book_register_date
+        FROM
+        books
+        WHERE 1=1
+        <if test="book_state != null and book_state != ''">
+            AND book_state = #{book_state}
+        </if>
+        <if test="start_date != null">
+            AND book_register_date >= #{start_date}
+        </if>
+        <if test="end_date != null">
+            AND book_register_date &lt;= #{end_date}
+        </if>
+        <if test="search_conditions != null and search_conditions != '' and word != null and word != ''">
+            <choose>
+                <when test="search_conditions == 'bookIsbn'">
+                    AND book_isbn LIKE CONCAT('%', #{word}, '%')
+                </when>
+                <when test="search_conditions == 'bookName'">
+                    AND book_name LIKE CONCAT('%', #{word}, '%')
+                </when>
+            </choose>
+        </if>
+    </select>
+
+    <select id="getDetail" parameterType="String" resultType="products">
+        SELECT
+        book_isbn,
+        book_name,
+        book_price,
+        book_publisher,
+        book_author,
+        book_qty,
+        book_intro,
+        book_country_type,
+        book_category,
+        book_state,
+        book_thumbnail,
+        book_publish_date,
+        book_register_date
+        FROM
+        books
+        WHERE
+        book_isbn = #{book_isbn}
+    </select>
+
+    <select id="getBookState" parameterType="String" resultType="products">
+        SELECT
+        book_isbn,
+        book_name,
+        book_price,
+        book_publisher,
+        book_author,
+        book_qty,
+        book_intro,
+        book_country_type,
+        book_category,
+        book_state,
+        book_thumbnail,
+        book_publish_date,
+        book_register_date
+        FROM
+        books
+        WHERE
+        book_state = #{book_state}
+    </select>
+
+    <insert id="insertBookInfo">
+
+    </insert>
+
+    <update id="updateBookInfo" parameterType="products">
+        UPDATE
+        books
+        SET
+        book_name = #{book_name},
+        book_price = #{book_price},
+        book_publisher = #{book_publisher},
+        book_author = #{book_author},
+        book_qty = #{book_qty},
+        book_intro = #{book_intro},
+        book_country_type = #{book_country_type, jdbcType=CHAR},
+        book_category = #{book_category},
+        book_state = #{book_state},
+        book_publish_date = #{book_publish_date},
+        book_thumbnail = #{book_thumbnail}
+        WHERE
+        book_isbn = #{book_isbn}
+    </update>
+
+    <update id="updateBookState" parameterType="products">
+        UPDATE
+        books
+        SET
+        book_state = #{book_state}
+        WHERE
+        book_isbn = #{book_isbn}
+    </update>
+
+</mapper>
