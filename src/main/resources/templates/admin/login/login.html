@@ -9,22 +9,23 @@
 
 </head>
 <body>    
-    <form action="/loginProc" method="post" name="loginForm">
 	<div class="inner">
     	<div class="white-frame">
 	    	<div class="logo-wrap">
 		    <img src="/admin/common/img/admin-로고.svg" alt="로고" />
 			</div>
 			
-	        <input id="id" class="id" type="text" name="username" placeholder="id"/>
-	        <br>
-	        
-	        <input id="password" class="password" type="password" name="password" placeholder="password"/>
-	        <br>
-	        
-	        <button class="default-btn">로그인</button>
+		    <form th:action="@{/loginProc}" method="POST">		    	
+		    
+		        <input id="id" class="id" type="text" th:name="username" placeholder="id"/>
+		        <br>
+		        
+		        <input id="password" class="password" type="password" th:name="password" placeholder="password"/>
+		        <br>
+		        
+		        <button type="submit" class="default-btn">로그인</button>
+		    </form>
 		</div>
 	</div>
-    </form>
 </body>
 </html>

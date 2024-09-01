@@ -1,7 +1,6 @@
 package com.ezen.bookstore.admin.managers.controller;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -111,17 +110,7 @@ public class MgrController {
 		managersDTO.setManager_join_date(now);
 		managersDTO.setManager_profile_changed(changed);
 		managersDTO.setManager_profile_original(originName);
-		System.out.println("managersDTO:" + managersDTO.getManager_id());
-		System.out.println("managersDTO:" + managersDTO.getManager_pw());
-		System.out.println("managersDTO:" + managersDTO.getManager_email());
-		System.out.println("managersDTO:" + managersDTO.getManager_name());
-		System.out.println("managersDTO:" + managersDTO.getManager_phoneNo());
-		System.out.println("managersDTO:" + managersDTO.getManager_addr());
-		System.out.println("managersDTO:" + managersDTO.getManager_detail_addr());
-		System.out.println("managersDTO:" + managersDTO.getManager_dept());
-		System.out.println("managersDTO:" + managersDTO.getManager_profile_changed());
-		System.out.println("managersDTO:" + managersDTO.getManager_profile_original());
-		System.out.println("managersDTO:" + managersDTO.getManager_join_date());
+		
 		
 		mgrService.joinProcess(managersDTO);
 		
