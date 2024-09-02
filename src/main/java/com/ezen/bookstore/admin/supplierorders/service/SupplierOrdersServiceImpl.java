@@ -1,0 +1,41 @@
+package com.ezen.bookstore.admin.supplierorders.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.ezen.bookstore.admin.commons.SearchCondition;
+import com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO;
+import com.ezen.bookstore.admin.supplierorders.repository.SupplierOrdersRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class SupplierOrdersServiceImpl implements SupplierOrdersService {
+	
+	private final SupplierOrdersRepository sor;
+	
+	@Override
+	public List<SupplierOrdersDTO> getSupplierOrdersList() {
+		try {
+			return sor.getSupplierOrdersList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public List<SupplierOrdersDTO> getDataFilter(SearchCondition condition) {
+		try {
+			return sor.getDataFilter(condition);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+}

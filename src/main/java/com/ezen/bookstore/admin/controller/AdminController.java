@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AdminController {
 	
+	@GetMapping("/login")
+	public String login() {
+		
+		return "/admin/login/login";
+	}
+	
 	@GetMapping("/index")
 	public String test(Model model, String path) {
 		model.addAttribute("template", path);

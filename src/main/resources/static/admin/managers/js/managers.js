@@ -209,7 +209,7 @@ $(document).ready(function() {
         function(settings, data, dataIndex) {
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
-            var managerDate = data[7];
+            var managerDate = data[8];
 
             // 날짜 형식을 Date 객체로 변환
             var start = startDate ? new Date(startDate) : null;
@@ -259,7 +259,7 @@ function resetFilters() {
     // 검색어 필터 초기화
     $('#searchKeyword').val('');
     // 기본 첫 번째 옵션으로 설정 html쪽 select 첫번째로 초기화 시켜준다
-    $('#searchColumn').val('1');
+    $('#searchColumn').val('3');
 
     // 날짜 필터 초기화
     $('#startDate').val('');
