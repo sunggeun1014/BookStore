@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/admin/myinfo/css/myinfo.css" />
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            display: none; /* 기본적으로 숨김 */
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="white-frame">
+        <!-- manager 객체가 null이 아닌 경우에만 폼을 렌더링 -->
+        <div th:if="${manager != null}">
+            <form action="/admin/myinfo/update" method="POST" enctype="multipart/form-data" onsubmit="return prepareSubmit()">
+                <h1 class="search-list-title">내 정보 수정</h1>
+
+                <div class="info">
+                    <span class="search-list-subject">아이디</span>
+                    <div class="text-readonly">
+                        <span th:text="${manager.manager_id}">아이디 들어갈 자리</span>
+                    </div>
+                    <input type="hidden" name="manager_id" th:value="${manager.manager_id}" />
+                </div>
+
+                <!-- 비밀번호 필드 -->
+                <div class="info">
+                    <span class="search-list-subject important">비밀번호</span>
+                    <div>
+                        <input type="password" class="input-pw" name="manager_pw" placeholder="새 비밀번호 입력">
+                    </div>
+                </div>
+
+                <div class="info">
+                    <span class="search-list-subject important">비밀번호 확인</span>
+                    <div>
+                        <input type="password" class="input-pw" name="manager_pw_check" placeholder="새 비밀번호 확인">
+                    </div>
+                </div>
+
+                <!-- 이메일 필드 -->
+                <div class="select-wrap info">
+                    <span class="search-list-subject">이메일</span>
+                    <div class="info-items">
+                        <input type="text" id="emailUser" name="emailUser" class="gray-text" placeholder="이메일 입력"/>
+                        <span class="search-list-subject-symbol">@</span>
+                        <div class="select-box">
+                            <select id="emailDomain" name="emailDomain" onchange="toggleCustomDomain()">
+                                <option value="">선택하세요</option>
+                                <option value="naver.com">naver.com</option>
+                                <option value="gmail.com">gmail.com</option>
+                                <option value="daum.net">daum.net</option>
+                                <option value="yahoo.com">yahoo.com</option>
+                                <option value="custom">직접 입력</option>
+                            </select>
+                            <div class="select-arrow-down" id="email"></div>
+                        </div>
+                        <input type="text" id="customEmailDomain" name="customEmailDomain" style="display:none;"/>
+                    </div>
+                    <input type="hidden" id="fullEmail" name="manager_email" />
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <!-- 전화번호 필드 -->
+                <div class="select-wrap info">
+                    <span class="search-list-subject">전화번호</span>
+                    <div class="info-items">
+                        <div class="select-box">
+                            <select id="countryNum" name="countryNum">
+                                <option value="">선택하세요</option>
+                                <option value="010">010</option>
+                                <option value="011">011</option>
+                                <option value="016">016</option>
+                                <option value="017">017</option>
+                                <option value="018">018</option>
+                                <option value="019">019</option>
+                            </select>
+                            <div class="select-arrow-down" id="phoneNum"></div>
+                        </div>
+                        <span class="search-list-subject-symbol">-</span>
+                        <input type="number" id="userPart1" class="gray-num" placeholder="1234"/>
+                        <span class="search-list-subject-symbol">-</span>
+                        <input type="number" id="userPart2" class="gray-num" placeholder="1234"/>
+                    </div>
+                    <input type="hidden" id="fullPhone" name="manager_phoneNo" />
+                    <span class="error-message" id="phoneError"></span>
+                </div>
+
+                <!-- 주소 필드 -->
+                <div class="info">
+                    <span class="search-list-subject">주소</span>
+                    <div>
+                        <input type="text" id="address_kakao" name="manager_addr" class="gray-text" placeholder="주소 입력" />
+                    </div>
+                </div>
+
+                <div class="info">
+                    <span class="search-list-subject">상세주소</span>
+                    <div>
+                        <input type="text" id="manager_detail_addr" name="manager_detail_addr" class="gray-text" placeholder="상세 주소 입력"/>
+                    </div>
+                </div>
+
+                <!-- 부서명 필드 -->
+                <div class="select-wrap info">
+                    <span class="search-list-subject">부서명</span>
+                    <div class="text-readonly">
+                        <span th:text="${manager.manager_dept}"></span>
+                    </div>
+                </div>
+
+                <!-- 프로필 사진 -->
+                <div class="info">
+                    <span class="search-list-subject">프로필</span>
+                    <div class="info-items">
+                        <div class="img-input-wrap">
+                            <label for="input-file" class="input-file-label">
+                                <i class="fa-solid fa-plus"></i>
+                                <!-- 업로드된 프로필 이미지를 표시 -->
+                                <img th:src="@{/common/img/profile/{profile}(profile=${manager.manager_profile_changed != null ? manager.manager_profile_changed : 'default_profile.png'})}" alt="사진" id="preview"/>
+                            </label>
+                            <!-- 파일 형식 제한 -->
+                            <input type="file" name="profileImage" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png"/>
+                        </div>
+                        <label>형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- manager 객체가 null인 경우에 대한 처리 -->
+        <div th:if="${manager == null}">
+            <p>관리자 정보를 불러올 수 없습니다. 관리자에게 문의하세요.</p>
+        </div>
+    </div>
+
+    <script src="/admin/myinfo/js/myinfo.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</div>
+</body>
+</html>

@@ -35,4 +35,8 @@ public class MgrRepository {
 			
 		return sql.insert("Managers.addManager",managersDTO);
 	}
+	
+	public void updateManager(ManagersDTO managersDTO) {
+		sql.update("Managers.updateManager", managersDTO);
+	}
 }

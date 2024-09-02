@@ -162,3 +162,13 @@ table.dataTable tbody tr {
 .table-total-row {
 	margin-bottom: 20px;
 }
+
+table td:not([align]) {
+	text-align: center !important;
+}
+
+.btn-box {
+	display: flex;
+	justify-content: center;
+	align-items: center; gap: 20px;
+}

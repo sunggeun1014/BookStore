@@ -4,8 +4,7 @@ $(document).ready(function() {
 	if (!$.fn.DataTable.isDataTable('#reviews')) {
 		table = $('#reviews').DataTable({
 			columnDefs: [
-				{ targets: 0, orderable: false }, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
-
+				{ targets: 0, orderable: false } // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
 			],
 			order: [[6, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
 			ajax: {

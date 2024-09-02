@@ -46,4 +46,9 @@ public class MgrService {
         // 데이터베이스에 저장
         mgrRepository.addManager(managersDTO);
     }
+    
+    @Transactional
+    public void updateManager(ManagersDTO managersDTO) {
+    	mgrRepository.updateManager(managersDTO);
+    }
 }
