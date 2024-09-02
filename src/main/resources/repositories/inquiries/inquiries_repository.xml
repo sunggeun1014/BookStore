@@ -84,12 +84,14 @@
 			(
 		        inquiry_num, 
 		        answer_content, 
-		        answer_write_date
+		        answer_write_date,
+		        manager_id
 	    	) 
     	VALUES (
 		        #{inquiryNum}, 
 		        #{answerContent}, 
-		        CURRENT_TIMESTAMP
+		        CURRENT_TIMESTAMP,
+		        'dojin96541'
     		)
 	
 	</insert>
