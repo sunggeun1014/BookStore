@@ -20,31 +20,18 @@ public class ReviewsService {
 	
 	@Transactional(readOnly = true)
 	public List<ReviewsDTO> list() {
-		try {
-			return reviewRepository.getAll();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+		return reviewRepository.getAll();
 	}
+	
 	@Transactional(readOnly = true)
 	public ReviewsDTO getDetailList(Integer reviewNum) {
-		try {
-			return reviewRepository.getDetailList(reviewNum);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+		return reviewRepository.getDetailList(reviewNum);
 	}
 	
 	
 	@Transactional
     public void deleteReviewsByIds(List<Integer> reviewIds) {
-		try {
-			reviewRepository.deleteAllByIdIn(reviewIds);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		reviewRepository.deleteAllByIdIn(reviewIds);
     }
 }
 
