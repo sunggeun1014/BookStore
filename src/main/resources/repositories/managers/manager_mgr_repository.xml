@@ -40,16 +40,6 @@
 			
 	</select>	
     
-<!--     <update id="updateManagerDept" parameterType="java.util.List"> -->
-<!--         UPDATE Managers -->
-<!--         SET  -->
-<!--         manager_dept = #{manager_dept}         -->
-<!--         WHERE member_id IN -->
-<!--         <foreach item="id" collection="list" open="(" separator="," close=")"> -->
-<!--             #{id} -->
-<!--         </foreach> -->
-<!--     </update> -->
-    
     <update id="updateManagerDept" parameterType="java.util.List">
         UPDATE Managers
         SET 
@@ -57,6 +47,35 @@
         WHERE manager_id = #{managerId}
         
     </update>
+    
+    <insert id="addManager" parameterType="manager">
+    	INSERT INTO managers (
+		    manager_id,
+		    manager_pw,
+		    manager_name,
+		    manager_phoneNo,
+		    manager_email,
+		    manager_profile_original,
+		    manager_profile_changed,
+		    manager_addr,
+		    manager_detail_addr,
+		    manager_dept,
+		    manager_join_date
+		) VALUES (
+		    #{manager_id},
+		    #{manager_pw},
+		    #{manager_name},
+		    #{manager_phoneNo},
+		    #{manager_email},
+		    #{manager_profile_original},
+		    #{manager_profile_changed},
+		    #{manager_addr},
+		    #{manager_detail_addr},
+		    #{manager_dept},
+		   	#{manager_join_date}
+		    
+		)
+    </insert>
 	
 	
 </mapper>
