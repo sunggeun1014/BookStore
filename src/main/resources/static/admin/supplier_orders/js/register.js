@@ -32,7 +32,7 @@ function orderAddBtn() {
 			"isbn": isbn.val(),
 			"title": title.val(),
 			"publisher": publisher.val(),
-			"price": price.val(),
+			"price": numberFormatter(price.val()),
 			"qty": qty.val(),
 			"total_price": numberFormatter(price.val() * qty.val()) 
 		});
@@ -91,7 +91,7 @@ function orderListDraw() {
 	
 	addOrderInfoList.forEach((data, index, array) => {
 		let row = $("<div class='row-data-area'></div>");		
-		
+		$("list-count");
 		let item = $(`
 			<div class="check-data">
 				<span>
@@ -124,7 +124,7 @@ function orderListDraw() {
 			</div>
 			
 			<div class="total-price-data">
-				<span>${data["total-price"]}</span>
+				<span>${data["total_price"]}</span>
 			</div>
 		`);
 		

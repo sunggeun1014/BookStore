@@ -7,12 +7,10 @@ import java.util.Map;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezen.bookstore.admin.commons.AccountManagement;
 import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
 import com.ezen.bookstore.admin.customerorders.service.CustomerOrdersService;
@@ -51,7 +49,7 @@ public class CustomerOrdersRestController {
     
     @PostMapping(value = "/deliveryRequest")
     public int deliveryRequest(@RequestBody List<Integer> order_nums, HttpSession session) {
-    	return cos.deliveryRequestSave(order_nums, session.getAttribute(AccountManagement.ADMIN_ID).toString());
+    	return cos.deliveryRequestSave(order_nums, session.getAttribute("admin_id").toString());
     }
     
     
