@@ -37,5 +37,27 @@ public class SupplierOrdersServiceImpl implements SupplierOrdersService {
 		
 		return null;
 	}
+
+	@Override
+	public List<SupplierOrdersDTO> getSupplierOrdersDetailList(Integer order_num) {
+		try {
+			return sor.getSupplierOrdersDetailList(order_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		return null;
+	}
+
+	@Override
+	public SupplierOrdersDTO getSupplierOrdersDetail(Integer order_num) {
+		try {
+			return sor.getSupplierOrdersDetail(order_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	
 }

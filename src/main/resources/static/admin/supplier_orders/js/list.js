@@ -132,10 +132,8 @@ function delivery_request() {
 function resetBtn() {
 	$(".date-btn").removeClass("active");
 	
-	$("#select-purchase").prop("selected", true);
 	$("#startDate").val("");
 	$("#endDate").val("");
-	$("#order-status-all").prop("checked", true);
 	$("#word").val("");
 }
 

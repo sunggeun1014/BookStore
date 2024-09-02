@@ -23,4 +23,13 @@ public class SupplierOrdersRepository {
 	public List<SupplierOrdersDTO> getDataFilter(SearchCondition condition) {
 		return sql.selectList("SupplierOrders.getList", condition);
 	}
+	
+	public List<SupplierOrdersDTO> getSupplierOrdersDetailList(Integer order_num) {
+		return sql.selectList("SupplierOrders.getDetailList", order_num);
+	}
+	
+	public SupplierOrdersDTO getSupplierOrdersDetail(Integer order_num) {
+		return sql.selectOne("SupplierOrders.getDetail", order_num);
+	}
+	
 }

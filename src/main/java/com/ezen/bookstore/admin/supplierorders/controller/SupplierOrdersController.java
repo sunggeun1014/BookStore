@@ -29,4 +29,15 @@ public class SupplierOrdersController {
 		
 		return "/admin/index";
 	}
+	
+	@GetMapping("/detail")
+	public String orderRegister(Model model, Integer order_num) {
+		model.addAttribute("detail", sos.getSupplierOrdersDetail(order_num));
+		model.addAttribute("detailList", sos.getSupplierOrdersDetailList(order_num));
+		model.addAttribute("template", "/admin/supplier_orders/supplierDetail");
+		
+		return "/admin/index";
+	}
+	
+	
 }

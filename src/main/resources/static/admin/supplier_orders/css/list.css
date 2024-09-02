@@ -306,9 +306,5 @@ table.dataTable tbody tr {
 }
 
 .dt-empty {
-	text-align: center;
-}
-
-.dt-empty {
 	text-align: center !important;
 }

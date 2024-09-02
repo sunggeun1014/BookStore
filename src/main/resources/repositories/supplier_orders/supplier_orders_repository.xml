@@ -36,5 +36,38 @@
 				</if>
 			</if>
 	</select>
-
+	
+	<select id="getDetailList" resultType="supplierOrders" parameterType="Integer">
+		SELECT
+		    sod.order_detail_isbn,
+		    sod.order_detail_title,
+		    sod.order_detail_qty,
+		    sod.order_detail_price,
+		    sod.order_detail_price * sod.order_detail_qty AS detail_total_price
+		FROM
+		    supplier_orders        so
+		    INNER JOIN supplier_order_details sod ON so.order_num = sod.order_num
+		WHERE
+		    so.order_num = #{order_num}
+		ORDER BY
+		    order_detail_num DESC
+	</select>
+	
+	<select id="getDetail" resultType="supplierOrders" parameterType="Integer">
+		SELECT
+		    so.order_num,
+		    m.manager_name,
+		    so.order_date,
+		    NVL(SUM(sod.order_detail_qty * sod.order_detail_price), 0) AS order_total_price
+		FROM
+		    supplier_orders        so
+		    LEFT JOIN supplier_order_details sod ON so.order_num = sod.order_num
+		    LEFT JOIN managers               m ON so.manager_id = m.manager_id
+		WHERE
+		    so.order_num = 3000000
+		GROUP BY
+		    so.order_num,
+		    m.manager_name,
+		    so.order_date
+	</select>
 </mapper>

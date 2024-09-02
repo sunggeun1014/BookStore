@@ -18,7 +18,10 @@ function requestCompletionBtn() {
 	}).get();
 	
 	if(form.length > 0) {
-		document.getElementById("table-form").submit();	
+		getConfirmModal('주문 상태를 변경하시겠습니까?', function() {
+			document.getElementById("table-form").submit();
+		})
+		
 	} else {
 		getCheckModal('1개 이상의 선택이 필요합니다.');
 	}
