@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SupplierOrders">
+
+	<select id="getList" resultType="supplierOrders" parameterType="condition">
+		SELECT * FROM (SELECT
+		    so.order_num,
+		    CASE
+		        WHEN so.order_status = '01' THEN '입고대기'
+		        WHEN so.order_status = '02' THEN '입고완료'
+		    END AS order_status,
+		    NVL(SUM(sod.order_detail_qty), 0)                          AS order_total_qty,
+		    NVL(SUM(sod.order_detail_price * sod.order_detail_qty), 0) AS order_total_price,
+		    so.order_date,
+		    so.manager_id
+		FROM
+		    supplier_orders        so
+		    LEFT JOIN supplier_order_details sod ON so.order_num = sod.order_num
+		GROUP BY
+		    so.order_num,
+		    so.order_status,
+		    so.order_date,
+		    so.manager_id) rs
+		WHERE 1 = 1
+			<if test="start_date != null and !start_date.equals('')">
+				AND to_char(order_date, 'YYYY-MM-DD') >= #{start_date}
+			</if>
+			<if test="end_date != null and !end_date.equals('')">
+				AND to_char(order_date, 'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+			</if>
+			<if test="search_conditions != null and !search_conditions.equals('')">
+				<if test="word != null and !word.equals('')">
+					AND order_num = #{word}
+				</if>
+			</if>
+	</select>
+
+</mapper>

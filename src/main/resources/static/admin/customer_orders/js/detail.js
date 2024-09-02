@@ -1,4 +1,6 @@
-checkboxHandler();
+$(document).ready(function() {
+	checkboxHandler();
+});
 
 $("button").on("click", function(event) {
     event.preventDefault();
@@ -11,6 +13,10 @@ function checkboxHandler() {
 }
 
 function requestCompletionBtn() {
+	const form = $("#table-form input[name='order_detail_num']:checked").map(function() {
+		return $(this).val();
+	}).get();
+	
 	if(form.length > 0) {
 		document.getElementById("table-form").submit();	
 	} else {

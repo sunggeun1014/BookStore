@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.bookstore.admin.commons.AccountManagement;
+import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
 import com.ezen.bookstore.admin.customerorders.service.CustomerOrdersService;
 
@@ -23,20 +24,23 @@ public class CustomerOrdersController {
 	private final CustomerOrdersService cos;
 
 	@GetMapping("/list")
-	public String customerOrdersList(HttpSession session) {
+	public String customerOrdersList(HttpSession session, Model model) {
 		// 테스트용 세션
 		session.setAttribute(AccountManagement.ADMIN_ID, "dev001");
 		session.setMaxInactiveInterval(60 * 60);
 		
-		return "/admin/customer_orders/orders_list";
+		model.addAttribute("template", "/admin/customer_orders/customerList");
+		
+		return "/admin/index";
 	}
 	
 	@GetMapping("/detail")
-	public String customerOrdersList(Model model, int order_num) {
+	public String customerOrdersList(Model model, int order_num, SearchCondition condition) {
 		model.addAttribute("detail", cos.getCustomerOrdersDetail(order_num));
 		model.addAttribute("detailList", cos.getCustomerOrdersDetailList(order_num));
+		model.addAttribute("condition", condition);
 
-		model.addAttribute("template", "/admin/customer_orders/orders_detail");
+		model.addAttribute("template", "/admin/customer_orders/customerDetail");
 		
 		return "/admin/index";
 	}
