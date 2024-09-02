@@ -33,6 +33,13 @@
 		</rollingPolicy>
 	</appender>
 	
+	<!-- Logger -->
+	<logger name="jdbc.connection" level="OFF" appender-ref="CONSOLE" />
+	<logger name="jdbc.audit" level="OFF" appender-ref="CONSOLE" />
+	<logger name="jdbc.resultset" level="OFF" appender-ref="CONSOLE" />
+	<logger name="jdbc.sqlonly" level="INFO" appender-ref="CONSOLE" />
+	<logger name="jdbc.resultsettable" level="INFO" appender-ref="CONSOLE" />
+	
 	<root level="INFO">
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="FILE" />

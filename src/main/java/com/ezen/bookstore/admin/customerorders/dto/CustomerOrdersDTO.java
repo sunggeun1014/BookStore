@@ -8,7 +8,6 @@ import lombok.Data;
 
 @Data
 public class CustomerOrdersDTO {
-
 	private Integer order_num;        
 	private String order_addr ;
 	private String order_addr_detail; 
@@ -43,11 +42,4 @@ public class CustomerOrdersDTO {
 	private Integer order_price_sum;
 	private Integer order_price_total;
 	
-    public String getFormatPrice() {
-        if (this.total_order_price == null) {
-            return "";
-        }
-        DecimalFormat df = new DecimalFormat("#,###원");
-        return df.format(this.total_order_price);
-    }
 }

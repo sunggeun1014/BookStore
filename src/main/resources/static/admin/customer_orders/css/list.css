@@ -248,3 +248,68 @@ table.dataTable tbody tr {
 .dt_data_text_center {
 	text-align: center !important; 
 }
+
+
+/* 모달 스타일 */
+.modal-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 다른 요소보다 위에 표시 */
+}
+
+.modal-content-area {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 */
+}
+
+.modal-message-area {
+    margin-bottom: 20px;
+}
+
+.modal-message {
+    font-size: 16px;
+    color: #333;
+}
+
+.modal-btn-area {
+    display: flex;
+    justify-content: space-around;
+}
+
+.modal-check-btn,
+.modal-close-btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100px;
+    text-align: center;
+}
+
+.modal-check-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-close-btn {
+    background-color: #ccc;
+    color: #333;
+}
+
+.modal-check-btn:hover {
+    background-color: #0056b3;
+}
+
+.modal-close-btn:hover {
+    background-color: #999;
+}

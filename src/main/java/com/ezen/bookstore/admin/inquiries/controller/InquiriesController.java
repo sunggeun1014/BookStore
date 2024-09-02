@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,13 +39,38 @@ public class InquiriesController {
 	}
 
 	@PostMapping("/details")
-	public String showReviewDetails(@RequestParam("inquiry_num") Integer inquiryNum, Model model) {
+	public String showInquiriesDetails(@RequestParam("inquiry_num") Integer inquiryNum, Model model) {
 		InquiriesDTO tables = iqs.getDetailList(inquiryNum);
 
 		model.addAttribute("inquiries", tables);
 		
 		String templatePath = "/admin/inquiries/inquiriesDetails";
 		model.addAttribute("template", templatePath); // 경로를 template로 전달
+		
+		return "admin/index";
+	}
+	
+	
+	
+	@PostMapping("/update")
+	public String updateInquiries(@ModelAttribute("inquiries") InquiriesDTO inquiriesDTO, Model model) {
+		
+		iqs.updateInquiry(inquiriesDTO);
+		
+		String templatePath = "/admin/inquiries/inquiries";
+		model.addAttribute("template", templatePath);
+		
+		return "admin/index";
+	}
+	
+	@PostMapping("/insert")
+	public String insertInquiries(@ModelAttribute("inquiries") InquiriesDTO inquiriesDTO, Model model) {
+		
+		iqs.insertInquiry(inquiriesDTO);
+		
+		String templatePath = "/admin/inquiries/inquiries";
+		model.addAttribute("template", templatePath);
+		
 		
 		return "admin/index";
 	}

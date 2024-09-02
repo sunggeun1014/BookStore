@@ -41,7 +41,7 @@ $(document).ready(function() {
 					render: function(data, type, row) {
 						if (type === 'display' || type === 'filter') {
 							var date = new Date(data);
-							var formattedDate = date.toISOString().split('T')[0];
+							var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
 							return formattedDate;
 						}
 						return data;
@@ -172,21 +172,26 @@ $(document).ready(function() {
 		modal.style.display = "none";
 	};
 
-
 	// 검색 버튼 클릭 이벤트 핸들러
 	$('#searchButton').on('click', function() {
-		var selectedColumn = $('#searchColumn').val();
-		var keyword = $('#searchKeyword').val();
-		// 선택된 컬럼과 입력된 키워드로 필터링
-		table.column(selectedColumn).search(keyword).draw();
+		applySearchFilter(); // 검색 필터 적용 함수 호출
 	});
 
-	// searchKeyword에서 Enter 키를 누를 때 searchButton 클릭 이벤트 실행
+	// 검색 입력에서 Enter 키를 누를 때 검색 필터 적용
 	$('#searchKeyword').on('keypress', function(event) {
 		if (event.key === 'Enter') {
-			$('#searchButton').click();
+			applySearchFilter();
 		}
 	});
+
+	// 검색 필터 적용 함수
+	function applySearchFilter() {
+		var selectedColumn = $('#searchColumn').val(); // 선택한 열의 인덱스
+		var keyword = $('#searchKeyword').val(); // 입력된 검색어
+		// 선택한 열로 검색 필터를 적용
+		table.column(selectedColumn).search(keyword).draw();
+	}
+
 
 	$('#startDate, #endDate').on('change', function() {
 		table.draw(); // 날짜 변경 시 테이블 다시 그리기
@@ -228,7 +233,7 @@ $(document).ready(function() {
 		});
 	});
 
-
+	datepicker("startDate", "endDate");
 });
 
 function postToDetailPage(data) {
@@ -248,12 +253,6 @@ function postToDetailPage(data) {
 
 	// 데이터를 숨김 필드로 추가
 	form.append($('<input>', { type: 'hidden', name: 'review_num', value: data.review_num }));
-	form.append($('<input>', { type: 'hidden', name: 'review_content', value: data.review_content }));
-	form.append($('<input>', { type: 'hidden', name: 'book_name', value: data.book_name }));
-	form.append($('<input>', { type: 'hidden', name: 'book_isbn', value: data.book_isbn }));
-	form.append($('<input>', { type: 'hidden', name: 'member_id', value: data.member_id }));
-	form.append($('<input>', { type: 'hidden', name: 'review_write_date', value: data.review_write_date }));
-	form.append($('<input>', { type: 'hidden', name: 'review_rating', value: data.review_rating }));
 
 	// 폼을 body에 추가하고 제출
 	form.appendTo('body').submit();
@@ -298,5 +297,3 @@ function setActive(element) {
 	// 클릭된 요소에 'active' 클래스를 추가
 	element.classList.add('active');
 }
-
-datepicker("startDate", "endDate");

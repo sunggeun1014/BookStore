@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,10 +51,8 @@ public class CustomerOrdersRestController {
     
     @PostMapping(value = "/deliveryRequest")
     public int deliveryRequest(@RequestBody List<Integer> order_nums, HttpSession session) {
-    	int result = cos.deliveryRequestSave(order_nums, session.getAttribute(AccountManagement.ADMIN_ID).toString());
-    	return result;
+    	return cos.deliveryRequestSave(order_nums, session.getAttribute(AccountManagement.ADMIN_ID).toString());
     }
-    
     
     
 }
