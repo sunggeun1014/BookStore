@@ -22,7 +22,9 @@ import com.ezen.bookstore.admin.security.service.CustomUserDetails;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 @Controller
@@ -37,11 +39,22 @@ public class AdminController {
     }
 	
 	@GetMapping("/index")
-    public String index(Model model, String path) {
+    public String index(HttpSession session, Model model, String path) {
+		
+		model.addAttribute("template", path);
+		
+		log.info("{}", session.getAttribute("username"));
+		
+		if(session.getAttribute("username") != null) {
+			 return "/admin/index";
+		}
+		
         // 현재 인증된 사용자 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            
+            String managerId = userDetails.getUsername();
             String username = userDetails.getManagerName();
             
             // 부서명을 설정
@@ -57,24 +70,24 @@ public class AdminController {
                     departmentName = "기타";
                     break;
             }
-
-            model.addAttribute("username", username);
-            model.addAttribute("authority", departmentName);
+            
+            session.setAttribute("username", username);
+            session.setAttribute("authority", departmentName);
+            session.setAttribute("managerId", managerId);
         }
 
-        model.addAttribute("template", path);
-        
         return "/admin/index";
+       
     }
 	
 	@GetMapping("/myinfo")
 	public String getMyInfo(HttpSession session, Model model) {
-	    session.setAttribute("managerId", "dojin96541");
 	    
 	    String managerId = (String) session.getAttribute("managerId");
+	    log.info(managerId);
 	    
 	    ManagersDTO managersDTO = mgrService.detailList(managerId);
-	    System.out.println("ManagersDTO: " + managersDTO); // DTO 객체를 로그로 출력
+	    log.info("ManagersDTO: " + managersDTO); // DTO 객체를 로그로 출력
 	    
 	    if (managersDTO != null) {
 	    	model.addAttribute("manager", managersDTO);

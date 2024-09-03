@@ -1,34 +1,29 @@
 package com.ezen.bookstore.admin.security.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.ezen.bookstore.admin.security.service.CustomAuthenticationFailureHandler;
 import com.ezen.bookstore.admin.security.service.CustomUserDetailsService;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
 	private final PasswordEncoder passwordEncoder;
 
-    
-    // 생성자 주입을 통해 PasswordEncoder를 주입받음
-    @Autowired
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder) {
-        this.customUserDetailsService = customUserDetailsService;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(customUserDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder);  // 주입받은 PasswordEncoder 사용
@@ -37,7 +32,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
         	.authenticationProvider(authenticationProvider())
         	.sessionManagement(session -> session
@@ -45,7 +40,7 @@ public class SecurityConfig {
             .maximumSessions(1)                 // 최대 동시 세션 수
             .expiredUrl("/login?expired=true")  // 세션 만료 시 리다이렉트할 URL
             )
-        	.csrf().disable()
+        	.csrf(csrf -> csrf.disable())
         	.authorizeHttpRequests(auth -> auth
                 // 로그인 페이지와 리소스 경로는 누구나 접근 가능
         		// "/admin/**"
@@ -102,5 +97,5 @@ public class SecurityConfig {
 		        .permitAll()
     );
      */
-     
+	
 }
