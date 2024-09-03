@@ -10,4 +10,5 @@ public class SearchCondition {
 	private String order_status;
 	private String search_conditions;
 	private String word;
+	private String book_state;
 }
