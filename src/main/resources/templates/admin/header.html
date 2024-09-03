@@ -11,11 +11,14 @@
 		<div class="user-profile">
 			<i class="fa-solid fa-circle-user header"></i>
 			<div class="text-wrap">
-				<p>관리자</p>
-				<p>홍길동</p>
+				 <p th:text="${authority}"></p> <!-- 권한명 출력 -->
+                 <p th:text="${username}"></p>
 			</div>            
 		</div>
-		<i class="fa-solid fa-right-from-bracket log-out"></i>
+		<form action="/admin/logout" id="logoutForm" method="POST" style="display:none;">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> <!-- CSRF 토큰 추가 -->
+		</form>
+		<i class="fa-solid fa-right-from-bracket log-out" onclick="document.getElementById('logoutForm').submit();" style="cursor: pointer;"></i>
 	</div>
 </div>
 </html>

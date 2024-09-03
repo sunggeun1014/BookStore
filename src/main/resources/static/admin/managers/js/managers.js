@@ -62,11 +62,11 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     // date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
                     if (type === 'display' || type === 'filter') {
-                        var date = new Date(data);
-                        var formattedDate = date.toISOString().split('T')[0];
-                        return formattedDate;
-                    }
-                    return data;
+							var date = new Date(data);
+							var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+							return formattedDate;
+						}
+					return data;
                 }
             }
         ],

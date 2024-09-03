@@ -1,5 +1,6 @@
 package com.ezen.bookstore.admin.managers.dto;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,8 +20,6 @@ public class ManagersDTO {
 	private String manager_addr;
 	private String manager_detail_addr;
 	private String manager_dept;
-	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date manager_join_date;
+	private Timestamp manager_join_date;
 	
 }
