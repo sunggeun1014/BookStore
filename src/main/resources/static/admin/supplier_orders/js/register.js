@@ -18,6 +18,10 @@ function orderAddBtn() {
 	const qty = $("#order_detail_qty");
 	
 	if(!isbn.val()) {
+		if(isbn.val().length != 13) {
+			getCheckModal('ISBN을 입력해 주세요.', isbn);
+			return;
+		}
 		getCheckModal('ISBN을 입력해 주세요.', isbn);
 	}else if(!title.val()){
 		getCheckModal('책제목을 입력해 주세요.', title);
@@ -103,12 +107,12 @@ function orderListDraw() {
 				<span>${array.length - index}</span>
 			</div>
 			
-			<div class="isbn-data">
-				<span>${data["isbn"]}</span>
-			</div>
-			
 			<div class="book-title-data">
 				<span>${data["title"]}</span>
+			</div>
+			
+			<div class="isbn-data">
+				<span>${data["isbn"]}</span>
 			</div>
 			
 			<div class="publisher-data">
