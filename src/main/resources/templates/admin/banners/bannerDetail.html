@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배너 수정</title>
+    <link rel="stylesheet" href="/admin/banners/css/banners.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <div class="form-container white-frame">
+        <div class="header">
+            <h1 class="search-list-title">배너/팝업 수정</h1>
+        </div>
+        <form action="/admin/banners/update" id="bannerForm" method="post" enctype="multipart/form-data" class="content">
+            <input type="hidden" name="banner_num" th:value="${banners.banner_num}">
+
+            <div class="filter-group">
+                <div class="search-list-subject insert-subject">
+                    제목 <label class="required">*</label>
+                </div>
+                <input type="text" name="banner_title" class="insert-input" th:value="${banners.banner_title}" required>
+            </div>
+
+            <div class="radio-group">
+                <div class="search-list-subject insert-subject">
+                    유형 <label class="required">*</label>
+                </div>
+                <div class="radio-wrap">
+                    <input type="radio" name="banner_position" value="01" id="position-banner" class="radio" th:checked="${banners.banner_position == '01'}"> <label for="position-banner">배너</label> 
+                    <input type="radio" name="banner_position" value="02" id="position-popup" class="radio" th:checked="${banners.banner_position == '02'}"> <label for="position-popup">팝업</label>
+                </div>
+            </div>
+
+            <div class="radio-group">
+                <div class="search-list-subject insert-subject">
+                    노출 여부 <label class="required">*</label>
+                </div>
+                <div class="radio-wrap">
+                    <input type="radio" name="banner_visible" value="01" id="visible" class="radio" th:checked="${banners.banner_visible == '01'}"> <label for="visible">노출</label> 
+                    <input type="radio" name="banner_visible" value="02" id="hidden" class="radio" th:checked="${banners.banner_visible == '02'}"> <label for="hidden">비노출</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="search-list-subject insert-subject">
+                    노출 기간 <label class="required">*</label>
+                </div>
+                <div class="date-picker">
+                    <div class="input-date-box">
+                        <input type="text" name="banner_start" id="startDate" class="placeholder" placeholder="YYYY-MM-DD" th:value="${#dates.format(banners.banner_start, 'yyyy-MM-dd')}" />
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <div class="calendar-slash">-</div>
+                    <div class="input-date-box">
+                        <input type="text" name="banner_end" id="endDate" class="placeholder" placeholder="YYYY-MM-DD" th:value="${#dates.format(banners.banner_end, 'yyyy-MM-dd')}" />
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                </div>
+            </div>    
+
+            <div class="filter-group image-wrap">
+                <div class="search-list-subject insert-subject">
+                    이미지<label class="required">*</label>
+                </div>
+                <div class="img-input-wrap">
+                    <label for="input-file" class="input-file-label"> 
+                        <i class="fa-solid fa-plus"></i> 
+                    </label> 
+                    <input type="file" name="banner_image" id="input-file" class="input-img-file" th:value="${banners.banner_changed}" />
+                </div>
+                <div class="file-name" th:text="${banners.banner_changed}"></div>
+            </div>
+            
+            <div class="submit-btns">
+                <button type="submit" id="update-button"class="default-btn">수정</button>
+                <button type="button" class="default-btn cancle" onclick="location.href='/admin/index?path=admin/banners/banners'">취소</button>
+            </div>
+        </form>
+    </div>
+
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<p>수정하시겠습니까?</p>
+			<div class="modal-footer">
+				<button id="confirm-update" class="modal-btn confirm">확인</button>
+				<button id="cancel-update" class="modal-btn cancel">취소</button>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="/admin/common/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="/admin/banners/js/banners.js"></script>
+</body>
+</html>
