@@ -38,8 +38,9 @@ $(document).ready(function() {
                 {
                     data: 'book_isbn',
                     render: function(data, type, row) {
+                        //                    return '<a href="#" class="manager-id-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
                         const url = '/admin/index?path=/admin/products/editProduct&book_isbn=' + encodeURIComponent(data);
-                        return '<a href="' + url + '" class="book-isbn-link" data-isbn="' + data + '">' + data + '</a>';
+                        return '<a href="#" class="book-isbn-link" data-isbn="' + data + '">' + data + '</a>';
                     }
                 },
                 {
@@ -143,6 +144,16 @@ $(document).ready(function() {
             "info": false,
             lengthChange: false,
             dom: 'lrtip',
+            language: {
+                searchPanes: {
+                    i18n: {
+                        emptyMessage: "조회된 정보가 없습니다."
+                    }
+                },
+                infoEmpty: "조회된 정보가 없습니다.",
+                zeroRecords: "조회된 정보가 없습니다.",
+                emptyTable: "조회된 정보가 없습니다.",
+            },
             rowCallback: function(row, data) {
                 $(row).attr('data-id', data.book_isbn); // 각 행에 고유 ID 설정
 
@@ -177,79 +188,7 @@ $(document).ready(function() {
         }
     });
 
-    // 모달 관련 변수
-    var modal = document.getElementById("myModal");
-    var confirmDeleteButton = document.getElementById("confirm-delete");
-    var cancelDeleteButton = document.getElementById("cancel-delete");
-
-    // 삭제 버튼 클릭 이벤트 핸들러
-    $('#delete-button').on('click', function() {
-        var selectedIds = [];
-        $('#product').DataTable().$('.row-checkbox:checked').each(function() {
-            var rowData = $('#product').DataTable().row($(this).closest('tr')).data();
-            selectedIds.push(rowData.book_isbn); // 삭제할 리뷰 번호 수집
-        });
-
-        if (selectedIds.length > 0) {
-            // 메시지를 기본 메시지로 리셋
-            document.querySelector('#myModal .modal-content p').textContent = `${selectedIds.length}개의 항목을 삭제하시겠습니까?`;
-
-            // Yes와 No 버튼을 보이게 설정
-            document.getElementById('confirm-delete').style.display = "inline-block";
-            document.getElementById('cancel-delete').style.display = "inline-block";
-            modal.style.display = "block"; // 모달 표시
-        } else {
-            // alert 대신 모달 메시지 변경
-            document.querySelector('#myModal .modal-content p').textContent = '삭제할 항목을 선택하세요.';
-            document.getElementById('confirm-delete').style.display = "none";
-            document.getElementById('cancel-delete').style.display = "none";
-            modal.style.display = "block";
-        }
-    });
-
-    // 모달 외부 클릭 시 닫기
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
-
-    // 삭제 확인 버튼
-    confirmDeleteButton.onclick = function() {
-        var selectedIds = [];
-        $('#product').DataTable().$('.row-checkbox:checked').each(function() {
-            var rowData = $('#product').DataTable().row($(this).closest('tr')).data();
-            selectedIds.push(rowData.review_num);
-        });
-
-        $.ajax({
-            url: '/admin/products/delete',  // 서버의 삭제 처리 URL
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(selectedIds),  // 선택된 리뷰 번호들을 JSON으로 전송
-            success: function(response) {
-                modal.style.display = "none";
-                document.querySelector('#myModal .modal-content p').textContent = '삭제가 완료되었습니다.';
-                $('#reviews').DataTable().ajax.reload();  // 테이블 새로고침
-            },
-            error: function(error) {
-                document.getElementById('confirm-delete').style.display = "none";
-                document.getElementById('cancel-delete').style.display = "none";
-                document.querySelector('#myModal .modal-content p').textContent = '삭제 중 오류가 발생했습니다.';
-                setTimeout(function() {
-                    modal.style.display = "none";
-                    document.getElementById('confirm-delete').style.display = "inline-block";
-                    document.getElementById('cancel-delete').style.display = "inline-block";
-                }, 3000);
-            }
-        });
-    };
-
-    // 삭제 취소 버튼
-    cancelDeleteButton.onclick = function() {
-        modal.style.display = "none";
-    };
-
+    datepicker("startDate", "endDate");
 
     // 검색 버튼 클릭 이벤트 핸들러
     const searchBtn = document.querySelector("#searchButton");
@@ -278,25 +217,6 @@ $(document).ready(function() {
         table.draw(); // 날짜 변경 시 테이블 다시 그리기
     });
 
-    // 날짜 필터링 로직 추가
-    $.fn.DataTable.ext.search.push(
-        function(settings, data, dataIndex) {
-            var startDate = $('#startDate').val();
-            var endDate = $('#endDate').val();
-            var registerDate = data[8];
-
-            // 날짜 형식을 Date 객체로 변환
-            var start = startDate ? new Date(startDate) : null;
-            var end = endDate ? new Date(endDate) : null;
-            var bookRegister = new Date(registerDate);
-
-            if ((start === null && end === null) ||
-                (start <= bookRegister && (end === null || bookRegister <= end))) {
-                return true;
-            }
-            return false;
-        }
-    );
 
     document.querySelectorAll('.input-box input').forEach(function(input) {
         input.addEventListener('focus', function() {
@@ -360,6 +280,14 @@ function pickDateBtn() {
 
 function getToDetailPage(data) {
     // 폼 생성
+    console.log(data);
+
+    var existingForm = $('#postToDetailForm');
+
+    if (existingForm.length) {
+        existingForm.remove();
+    }
+
     var form = $('<form>', {
         method: 'GET',
         action: '/admin/products/editProduct'  // 서버의 상세 페이지 URL로 설정

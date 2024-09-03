@@ -50,7 +50,7 @@
             </p>
             <div class="date-picker">
                 <div class="input-date-box">
-                    <input type="text" name="book_publish_date" id="startDate" class="placeholder input-date"
+                    <input type="text" maxlength="8" name="book_publish_date" id="singleDate" class="placeholder input-date"
                            placeholder="YYYY-MM-DD"/>
 
                     <i class="fa-solid fa-calendar-days"></i>
@@ -71,8 +71,7 @@
                 </div>
                 <div class="select-wrap">
                     <select id="select-lists" name="book_category">
-                        <option></option>
-                        <option></option>
+                        <option th:each="val : ${book_category}" th:value="${val?.category_name}" th:text="${val?.category_name}"></option>
                     </select>
                     <div class="select-arrow-down"></div>
                 </div>
@@ -162,6 +161,8 @@
     </div>
 </div>
 
-<script src="/admin/products/js/edit-product.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script src="/admin/products/js/add-product.js"></script>
 </body>
 </html>

@@ -1,11 +1,12 @@
-const searchInput = document.querySelector(".search-input")
-const bookModal = document.querySelector("#search-book-modal")
-const closeBtn = document.querySelector("#close-btn")
+console.log("ggg")
 
-searchInput.addEventListener("click", function () {
-    bookModal.classList.add("on");
-})
+function datepicker(elementId) {
+    flatpickr(`#${elementId}`, {
+        dateFormat: "Y-m-d",
+        enableTime: false,
+        defaultDate: null,
+        allowInput: true
+    });
+}
 
-closeBtn.addEventListener("click", function () {
-    bookModal.classList.remove("on")
-})
+datepicker("singleDate");

@@ -2,6 +2,7 @@ package com.ezen.bookstore.admin.products.controller;
 
 import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.products.dto.CategoryDTO;
+import com.ezen.bookstore.admin.products.dto.InventoryDTO;
 import com.ezen.bookstore.admin.products.dto.ProductsDTO;
 import com.ezen.bookstore.admin.products.service.ProductsService;
 import lombok.RequiredArgsConstructor;
@@ -61,11 +62,8 @@ public class ProductsController {
         if (bookISBN != null || bookISBN.isEmpty()) {
             log.warn("isbn 못받아왔다");
         }
-        log.info("Received request for book ISBN: {}", bookISBN);
         ProductsDTO productDetail = productService.detailList(bookISBN);
         List<CategoryDTO> bookCategory = productService.categoryList();
-
-        log.info("Retrieved product detail: {}", productDetail);
 
         model.addAttribute("product_detail", productDetail);
         model.addAttribute("book_category", bookCategory);
@@ -76,16 +74,9 @@ public class ProductsController {
     }
 
     @PostMapping("/editProduct")
-    public String editBookDetail(@RequestParam("book_isbn") String bookISBN, @RequestParam("book_publish_date") String date, ProductsDTO productDTO) {
+    public String editBookDetail(@RequestParam("book_isbn") String bookISBN, ProductsDTO productDTO) {
 
         productDTO.setBook_isbn(bookISBN);
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedDate = dateFormat.parse(date);
-            productDTO.setBook_publish_date(new Timestamp(parsedDate.getTime()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         productService.updateBookInfo(productDTO);
         return "redirect:/admin/products/editProduct?book_isbn=" + bookISBN;
@@ -93,6 +84,12 @@ public class ProductsController {
 
     @GetMapping("/addProduct")
     public String addBook(Model model) {
+        List<CategoryDTO> bookCategory = productService.categoryList();
+        List<InventoryDTO> inventory = productService.inventoryList();
+
+        model.addAttribute("book_category", bookCategory);
+        model.addAttribute("inventory", inventory);
+
         model.addAttribute("template", "/admin/products/add-product");
 
         return "admin/index";

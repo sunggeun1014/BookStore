@@ -73,3 +73,7 @@
 .pagination-link.is-current, .pagination-link.is-selected {
     background-color: #4777F6;
 }
+
+.pagination-list {
+    justify-content: center;
+}

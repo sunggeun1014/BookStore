@@ -23,7 +23,7 @@ public class ProductsDTO {
     private MultipartFile thumbnail_img;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Timestamp book_publish_date;
+    private Date book_publish_date;
     private Timestamp book_register_date;
     private String book_deleted;
 

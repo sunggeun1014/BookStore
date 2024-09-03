@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>상품정보</title>
     <link rel="stylesheet" href="/admin/products/css/edit-product.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 <div class="filter-container white-frame">
@@ -45,7 +46,7 @@
             </p>
             <div class="date-picker">
                 <div class="input-date-box">
-                    <input type="text" name="book_publish_date" id="startDate" class="placeholder input-date"
+                    <input type="text" name="book_publish_date" id="singleDate" class="placeholder input-date"
                            placeholder="YYYY-MM-DD"
                            th:value="${product_detail != null ? #dates.format(product_detail.book_publish_date, 'yyyy-MM-dd') : ''}"/>
 
@@ -154,7 +155,11 @@
     </div>
 </div>
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script src="/admin/products/js/edit-product.js"></script>
+
 </body>
 </html>

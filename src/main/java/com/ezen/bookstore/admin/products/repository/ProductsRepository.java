@@ -1,6 +1,7 @@
 package com.ezen.bookstore.admin.products.repository;
 
 import com.ezen.bookstore.admin.products.dto.CategoryDTO;
+import com.ezen.bookstore.admin.products.dto.InventoryDTO;
 import com.ezen.bookstore.admin.products.dto.ProductsDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -46,6 +47,10 @@ public class ProductsRepository {
 
     public List<CategoryDTO> getCategory() {
         return sql.selectList("Category.getCategory");
+    }
+
+    public List<InventoryDTO> getInventory() {
+        return sql.selectList("Inventory.getInvList");
     }
 
     public void updateBookInfo(ProductsDTO productsDTO) {
