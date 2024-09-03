@@ -6,33 +6,36 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.bookstore.admin.reviews.dto.ReviewsDTO;
-import com.ezen.bookstore.admin.reviews.repository.ReviewRepository;
+import com.ezen.bookstore.admin.reviews.mapper.ReviewsMapper;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor
 @Slf4j
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class ReviewsServiceImpl implements ReviewsService {
 
-    private final ReviewRepository reviewRepository;
-
+    ReviewsMapper reviewsMapper;
+    
     @Override
     @Transactional(readOnly = true)
     public List<ReviewsDTO> list() {
-        return reviewRepository.getAll();
+    	return reviewsMapper.getAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public ReviewsDTO getDetailList(Integer reviewNum) {
-        return reviewRepository.getDetailList(reviewNum);
+    	return reviewsMapper.getDetailList(reviewNum);
     }
 
     @Override
     @Transactional
     public void deleteReviewsByIds(List<Integer> reviewIds) {
-        reviewRepository.deleteAllByIdIn(reviewIds);
+    	reviewsMapper.deleteAllByIdIn(reviewIds);
     }
 }

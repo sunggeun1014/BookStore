@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Reviews">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.bookstore.admin.reviews.mapper.ReviewsMapper">
 	
 	<select id="getAll" resultType="reviews">
 	 SELECT 
@@ -27,7 +25,7 @@
 	</select>
 	
 	<!-- 여러 리뷰를 삭제하는 SQL -->
-    <delete id="deleteReviews" parameterType="java.util.List">
+    <delete id="deleteReviews" parameterType="List">
     DELETE FROM 
     	Reviews
     WHERE 
@@ -62,4 +60,5 @@
         r.review_num = #{reviewNum} 
     
     </select>
+	
 </mapper>
