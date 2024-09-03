@@ -48,7 +48,7 @@ public class MgrController {
 	@PostMapping("/details")
 	public String showMemberDetails(@RequestParam("manager_id") String managerID, Model model) {
 	    ManagersDTO managerDetails = mgrService.detailList(managerID);
-
+	    
 	    String[] emailParts = managerDetails.getManager_email().split("@");
 	    String emailUser = emailParts[0];
 	    String emailDomain = emailParts[1];
@@ -64,7 +64,7 @@ public class MgrController {
 	    model.addAttribute("countryNum", countryNum);
 	    model.addAttribute("userPart1", userPart1);
 	    model.addAttribute("userPart2", userPart2);
-	    
+	    	    
 	    String templatePath = "/admin/managers/managerDetails";
         model.addAttribute("template", templatePath);  // 경로를 template로 전달
 

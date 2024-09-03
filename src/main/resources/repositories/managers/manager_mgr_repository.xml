@@ -15,7 +15,8 @@
 			manager_profile_changed,
 			manager_addr,
 			manager_detail_addr,
-			manager_dept
+			manager_dept,
+			manager_join_date
 			
 		FROM 
 			managers
