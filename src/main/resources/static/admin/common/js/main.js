@@ -93,11 +93,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 9488bda6f252673f7799f5e6ac1a9288e29f81cf
 const clock = document.querySelector(".clock")
 
 const now = new Date();
@@ -142,9 +137,6 @@ function datepicker(start, end) {
 }
 
 getClocks();
-<<<<<<< HEAD
-setInterval(getClocks, 1000)
-=======
 setInterval(getClocks, 1000)
 
 // 날짜 옵션 기능
@@ -212,4 +204,3 @@ function getCheckModal(msg, focusElement) {
     });
     
 }
->>>>>>> 9488bda6f252673f7799f5e6ac1a9288e29f81cf
