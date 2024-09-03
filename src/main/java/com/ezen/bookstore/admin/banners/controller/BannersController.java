@@ -1,16 +1,18 @@
 package com.ezen.bookstore.admin.banners.controller;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,23 +56,25 @@ public class BannersController {
 	    @ModelAttribute BannersDTO bannersDTO,
 	    @RequestParam("banner_image") MultipartFile bannerImage, Model model) {
 
+		log.info("배너 등록 요청 데이터: {}", bannersDTO);
+		
 	    try {
-			bannersService.insertBanner(bannersDTO, bannerImage);
-		} catch (IllegalStateException | IOException e) {
-            log.error("파일 업로드 실패", e);
-            model.addAttribute("error", "파일 업로드 실패");
-            return "/admin/banners/bannerInsert";			
-		}
-	    return "redirect:/admin/index";
+	        bannersService.insertBanner(bannersDTO, bannerImage);
+	        model.addAttribute("success", "배너 등록 성공");
+	    } catch (Exception e) {
+	        log.error("배너 등록 실패", e);
+	        model.addAttribute("error", "배너 등록 실패");
+	    }
+
+	    return "redirect:/admin/index?path=admin/banners/banners";
 	}
-	
+
 
     @PostMapping("/details")
     public String showBannerDetails(@RequestParam("banner_num") Integer bannerNum, Model model) {
-    	BannersDTO tables = bannersService.detailList(bannerNum);
+    	BannersDTO banners = bannersService.detailList(bannerNum);
     	
-    	model.addAttribute("banners", tables);
-    	
+    	model.addAttribute("banners", banners);
 
 		String templatePath = "/admin/banners/bannerDetail";
         model.addAttribute("template", templatePath); 
@@ -80,12 +84,29 @@ public class BannersController {
     }
     
     @PostMapping("/update")
-    public String updateBanners(@ModelAttribute("banners") BannersDTO bannersDTO, Model model) {
+    public String updateBanners(@ModelAttribute BannersDTO bannersDTO,
+    	    @RequestParam("banner_image") MultipartFile bannerImage, 
+    	    Model model) {
     	
-    	bannersService.updateBanner(bannersDTO);
+    	try {
+    		bannersService.updateBanner(bannersDTO, bannerImage);
+			model.addAttribute("success", "배너 수정 성공");
+		} catch (Exception e) {
+            log.error("배너 수정 실패", e);
+            model.addAttribute("error", "배너 수정 실패: " + e.getMessage());
+		}
     	
-    	return "/admin/index";
+    	return "redirect:/admin/index?path=admin/banners/banners";
     }
     
 
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteBanners(@RequestBody List<Integer> bannerNums) {
+        try {
+            bannersService.deleteBanners(bannerNums);
+            return ResponseEntity.ok("삭제가 완료되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
+        }
+    }
 }

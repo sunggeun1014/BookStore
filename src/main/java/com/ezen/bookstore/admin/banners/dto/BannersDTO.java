@@ -26,4 +26,5 @@ public class BannersDTO {
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date banner_date;
+	
 }

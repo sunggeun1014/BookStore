@@ -156,6 +156,13 @@ table.dataTable tbody tr {
 	height: 150px;
 }
 
+.file-name {
+	font-size: 12px;
+    padding-top: 80px;
+    height: auto;
+    padding-left: 0;
+}
+
 #reset-button {
     cursor: pointer;
 }

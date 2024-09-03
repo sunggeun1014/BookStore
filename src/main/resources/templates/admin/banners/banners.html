@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Banners</title>
+<title>Banner/Popup</title>
 
 <link rel="stylesheet" href="/admin/banners/css/banners.css" />
 <link rel="stylesheet" href="/admin/common/css/modal.css">
@@ -42,9 +42,9 @@
 			<div class="radio-group">
 				<div class="search-list-subject">유형</div>
 				<div class="radio-wrap">
-						<input type="radio" name="banner-position" id="position-all"> <label for="position-all">전체</label>
-						<input type="radio" name="banner-position" id="position-banner" class="radio"> <label for="position-banner">배너</label>
-						<input type="radio" name="banner-position" id="position-popup" class="radio"> <label for="position-popup">팝업</label>
+						<input type="radio" name="banner-position" id="position-all" value="" checked> <label for="position-all">전체</label>
+						<input type="radio" name="banner-position" id="position-banner" value="배너" class="radio"> <label for="position-banner">배너</label>
+						<input type="radio" name="banner-position" id="position-popup" value="팝업" class="radio"> <label for="position-popup">팝업</label>
 				</div>
 
 			</div>
@@ -52,7 +52,7 @@
 			<div class="search-bar-group">
 				<div class="search-list-subject">검색어</div>
 				<div class="search-container">
-					<input type="text" name="" id="searchKeyword" class="search-input" placeholder="검색할 내용 입력" />
+					<input type="text" name="" id="searchKeyword" class="search-input" placeholder="검색어를 입력하세요" />
 					<button id="searchButton">
 						<span class="material-symbols-outlined">search</span>
 					</button>
@@ -67,7 +67,7 @@
 			<button id="delete-button" class="button is-danger delete-button" style="float: right;">삭제</button>
 			<button id="insert-button" class="button is-link default-btn" style="float: right;">등록</button>
 		</div>
-		<table id="banner" class="table is-striped" style="width: 100%;">
+		<table id="banners" class="table is-striped" style="width: 100%;">
 			<thead>
 				<tr>
 					<th>
@@ -97,12 +97,12 @@
 		</div>
 	</div>	
 
+	<script src="/admin/common/js/main.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
 	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.bulma.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	<script src="/admin/common/js/main.js"></script>
 	<script src="/admin/banners/js/banners.js"></script>
 </body>
 </html>

@@ -19,7 +19,7 @@ public class BannersRepository {
 		return sql.selectList("Banners.getAll");
 	}
 
-	public BannersDTO getBannerDetails(Integer bannerNum) {
+	public BannersDTO getBannerDetail(Integer bannerNum) {
 		return sql.selectOne("Banners.getDetail", bannerNum);
 	}
 	
@@ -31,5 +31,8 @@ public class BannersRepository {
 		sql.insert("Banners.insertBanner", bannersDTO);
 	}
 	
+	public void deleteBanner(Integer bannerNum) {
+		sql.delete("Banners.deleteBanner", bannerNum);
+	}
 
 }
