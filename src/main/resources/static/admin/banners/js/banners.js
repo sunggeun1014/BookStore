@@ -2,7 +2,7 @@ var table;
 $(document).ready(function() {
 	if (!$.fn.DataTable.isDataTable('#banners')) {
 		table = $('#banners').DataTable({
-
+			order: [[1, 'asc']], // 번호 오름차순에 따라 정렬
 			ajax: {
 				url: '/admin/banners/json',
 				dataSrc: 'data'
@@ -49,7 +49,8 @@ $(document).ready(function() {
 						}
 						return '';
 					},
-					title: '노출 기간'
+					title: '노출 기간',
+					orderable: false
 				},
 
 				{
@@ -62,9 +63,9 @@ $(document).ready(function() {
 							'<button class="status-btn' + onClass + '">노출</button>' +
 							'<button class="status-btn' + offClass + '">비노출</button>' +
 							'</div>';
-						console.log('Generated HTML:', html); // Log the generated HTML
 						return html;
-					}
+					},
+					orderable: false,
 				},
 				{
 					data: 'banner_date',
@@ -235,12 +236,6 @@ $(document).ready(function() {
 			table.column(3).search(selectedPosition).draw();
 		}
 	});
-
-	// 등록 버튼
-	$('#insert-button').on('click', function() {
-		location.href = '/admin/banners/insert';
-	});
-
 
 	document.querySelectorAll('.input-box input').forEach(function(input) {
 		input.addEventListener('focus', function() {

@@ -65,7 +65,7 @@
 	<div class="table-container white-frame">
 		<div class="btns">
 			<button id="delete-button" class="button is-danger delete-button" style="float: right;">삭제</button>
-			<button id="insert-button" class="button is-link default-btn" style="float: right;">등록</button>
+			<button id="insert-button" class="button is-link default-btn" style="float: right;" onclick="location.href='/admin/banners/insert'">등록</button>
 		</div>
 		<table id="banners" class="table is-striped" style="width: 100%;">
 			<thead>
@@ -87,9 +87,10 @@
 		</table>
 	</div>
 	
+	<!-- 모달(삭제)  -->
 	<div id="myModal" class="modal">
 		<div class="modal-content">
-			<p>정말로 삭제하시겠습니까?</p>
+			<p></p>
 			<div class="modal-footer">
 				<button id="confirm-delete" class="modal-btn confirm">확인</button>
 				<button id="cancel-delete" class="modal-btn cancel">취소</button>

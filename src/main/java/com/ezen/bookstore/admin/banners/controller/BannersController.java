@@ -55,8 +55,6 @@ public class BannersController {
 	public String insertBanner(
 	    @ModelAttribute BannersDTO bannersDTO,
 	    @RequestParam("banner_image") MultipartFile bannerImage, Model model) {
-
-		log.info("배너 등록 요청 데이터: {}", bannersDTO);
 		
 	    try {
 	        bannersService.insertBanner(bannersDTO, bannerImage);
@@ -71,7 +69,7 @@ public class BannersController {
 
 
     @PostMapping("/details")
-    public String showBannerDetails(@RequestParam("banner_num") Integer bannerNum, Model model) {
+    public String showBannerDetail(@RequestParam("banner_num") Integer bannerNum, Model model) {
     	BannersDTO banners = bannersService.detailList(bannerNum);
     	
     	model.addAttribute("banners", banners);
@@ -84,7 +82,7 @@ public class BannersController {
     }
     
     @PostMapping("/update")
-    public String updateBanners(@ModelAttribute BannersDTO bannersDTO,
+    public String updateBanner(@ModelAttribute BannersDTO bannersDTO,
     	    @RequestParam("banner_image") MultipartFile bannerImage, 
     	    Model model) {
     	
