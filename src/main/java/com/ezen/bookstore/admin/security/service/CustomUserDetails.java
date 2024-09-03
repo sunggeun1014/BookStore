@@ -10,7 +10,9 @@ import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final ManagersDTO managersDTO;
+	private static final long serialVersionUID = -1573691849618309598L;
+	
+	private final ManagersDTO managersDTO;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(ManagersDTO managersDTO, Collection<? extends GrantedAuthority> authorities) {
@@ -22,9 +24,12 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
-
     
-    public String getPassword() {
+    public ManagersDTO getManagersDTO() {
+		return managersDTO;
+	}
+
+	public String getPassword() {
         return managersDTO.getManager_pw();
     }
 
