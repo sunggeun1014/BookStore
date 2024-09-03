@@ -35,4 +35,15 @@ public class MgrRepository {
 			
 		return sql.insert("Managers.addManager",managersDTO);
 	}
+	
+	public boolean findById(String manager_Id) {
+		if(sql.selectList("Managers.findById", manager_Id).size() != 0) {
+			
+			return false;
+		} else {
+			
+			return true;
+		}
+		
+	}
 }

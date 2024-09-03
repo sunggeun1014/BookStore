@@ -1,7 +1,7 @@
 package com.ezen.bookstore.admin.managers.service;
 import java.util.List;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MgrService {
 	
     private final MgrRepository mgrRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public List<ManagersDTO> list() {
         // DB에서 모든 주문 목록을 꺼내와야 한다
@@ -39,11 +39,15 @@ public class MgrService {
     @Transactional
     public void joinProcess(ManagersDTO managersDTO) {
         // 비밀번호 암호화
-        String encodedPassword = bCryptPasswordEncoder.encode(managersDTO.getManager_pw());
+        String encodedPassword = passwordEncoder.encode(managersDTO.getManager_pw());
         managersDTO.setManager_pw(encodedPassword);
         System.out.println(encodedPassword);
 
         // 데이터베이스에 저장
         mgrRepository.addManager(managersDTO);
+    }
+    
+    public boolean isManagerIdAvailable(String managerId) {
+        return mgrRepository.findById(managerId);
     }
 }

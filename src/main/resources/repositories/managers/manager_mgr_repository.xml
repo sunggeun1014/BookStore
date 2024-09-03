@@ -77,5 +77,8 @@
 		)
     </insert>
 	
+	<select id="findById" parameterType="String" resultType="manager">
+    	SELECT * FROM Managers WHERE manager_id = #{manager_id}
+	</select>
 	
 </mapper>
