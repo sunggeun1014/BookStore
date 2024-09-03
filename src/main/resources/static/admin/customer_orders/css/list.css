@@ -1,6 +1,12 @@
 table.dataTable tbody tr {
     background-color: white !important;
 }
+
+td {
+	justify-content: center;
+	align-items: center; 	
+}
+
 .container {
    display: flex;
    flex-direction: column;
@@ -212,7 +218,7 @@ table.dataTable tbody tr {
 
 .dt_data_text_center {
 	line-height: 30px;
-	text-align: center !important; 
+	text-align: center !important;
 }
 
 .dt-empty {

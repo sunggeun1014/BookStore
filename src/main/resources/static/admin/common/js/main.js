@@ -200,7 +200,7 @@ function getConfirmModal(msg, func) {
 
     $("body").append(divArea);
     $("#confirm-delete").on("click", function() {
-      func();
+     	func();
         divArea.remove(); // 모달 제거
     });
     
@@ -208,6 +208,8 @@ function getConfirmModal(msg, func) {
     $("#cancel-delete").on("click", function() {
         divArea.remove(); // 모달 제거
     });
+	
+	$("#confirm-delete").focus();
 }
 
 function getCheckModal(msg, focusElement) {
@@ -231,5 +233,6 @@ function getCheckModal(msg, focusElement) {
          focusElement.focus();
       }
     });
-    
+	
+    $("#confirm-delete").focus();
 }

@@ -17,9 +17,9 @@ function orderAddBtn() {
 	const price = $("#order_detail_price");
 	const qty = $("#order_detail_qty");
 	
-	if(!isbn.val()) {
+	if(!isbn.val() || isbn.val().length != 13) {
 		if(isbn.val().length != 13) {
-			getCheckModal('ISBN을 입력해 주세요.', isbn);
+			getCheckModal('13자리의 숫자를 입력해 주세요', isbn);
 			return;
 		}
 		getCheckModal('ISBN을 입력해 주세요.', isbn);
@@ -32,13 +32,14 @@ function orderAddBtn() {
 	}else if(!qty.val()) {
 		getCheckModal('수량을 입력해 주세요.', qty);
 	}else {
-		addOrderInfoList.push({
+		addOrderInfoList.unshift({
 			"isbn": isbn.val(),
 			"title": title.val(),
 			"publisher": publisher.val(),
 			"price": numberFormatter(price.val()),
 			"qty": qty.val(),
-			"total_price": numberFormatter(price.val() * qty.val()) 
+			"total_price": numberFormatter(price.val() * qty.val()),
+			"sum": price.val() * qty.val()
 		});
 		
 		orderListDraw();
@@ -47,15 +48,20 @@ function orderAddBtn() {
 }
 
 function orderListDraw() {
+	const sum = Array.from(addOrderInfoList).reduce((total, data) => total + parseInt(data["sum"]), 0);
+	
+	$("#select-all").prop("checked", false);
 	$(".row-data-area").remove();
+	$("#list-count").text(`총 ${addOrderInfoList.length}건`);
+	$("#total-purchase-amount").text(`총 구매금액: ${numberFormatter(sum)}`);
 	
 	addOrderInfoList.forEach((data, index, array) => {
-		let row = $("<div class='row-data-area'></div>");		
+		let row = $("<div class='row-data-area'></div>");
 		$("list-count");
 		let item = $(`
 			<div class="check-data">
 				<span>
-					<input type="checkbox" id="select-row" name="" class="checkbox row-checkbox" value=""><label for="select-row"></label>
+					<input type="checkbox" id="select-row" name="check" class="checkbox row-checkbox" value="${index}"><label for="select-row"></label>
 				</span>
 			</div>
 			
@@ -71,16 +77,12 @@ function orderListDraw() {
 				<span>${data["isbn"]}</span>
 			</div>
 			
-			<div class="publisher-data">
-				<span>${data["publisher"]}</span>
-			</div>
-			
 			<div class="price-data">
 				<span>${data["price"]}</span>
 			</div>
 			
 			<div class="qty-data">
-				<span>${data["qty"]}</span>
+				<span>${data["qty"]}개</span>
 			</div>
 			
 			<div class="total-price-data">
@@ -108,4 +110,25 @@ function numberFormatter(number) {
     });
     
     return formatter.format(number) + "원";
+}
+
+function checkboxHandler() {
+    $("#select-all").on("change", function() {
+        $(".row-checkbox").prop("checked", $(this).prop("checked"));
+	});
+}
+
+function orderDeleteBtn() {
+	const checkedValues = $("#order-register-list-form input[name='check']:checked").map(function() {
+		return parseInt($(this).val());
+	});
+	
+	let temp = addOrderInfoList.filter((element, index) => {
+		if(!Array.from(checkedValues).includes(index)) {
+			return element;
+		}
+	});
+	console.log(temp);
+	addOrderInfoList = temp; 
+	orderListDraw();
 }
