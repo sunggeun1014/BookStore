@@ -39,8 +39,10 @@ public class AdminController {
 	@GetMapping("/index")
     public String index(Model model, String path) {
         // 현재 인증된 사용자 정보 가져오기
+		// Authentication : 현재 사용자의 정보를 가져오기 위해 사용하는 객체
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+        	// 사용자의 정보를 담고있는 객체이다
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             String username = userDetails.getManagerName();
             
