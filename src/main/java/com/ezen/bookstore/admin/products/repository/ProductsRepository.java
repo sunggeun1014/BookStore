@@ -1,5 +1,6 @@
 package com.ezen.bookstore.admin.products.repository;
 
+import com.ezen.bookstore.admin.products.dto.CategoryDTO;
 import com.ezen.bookstore.admin.products.dto.ProductsDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -19,18 +20,18 @@ public class ProductsRepository {
     }
 
     public List<ProductsDTO> findBookCondition(
-            String bookState,
-            Date startDate,
-            Date endDate,
-            String searchColumn,
-            String searchKeyword) {
+            String book_state,
+            Date start_date,
+            Date end_date,
+            String search_conditions,
+            String word) {
         HashMap<String, Object> paraMap = new HashMap<>();
 
-        paraMap.put("book_state", bookState);
-        paraMap.put("start_date", startDate);
-        paraMap.put("end_date", endDate);
-        paraMap.put("search_condition", searchColumn);
-        paraMap.put("word", searchKeyword);
+        paraMap.put("book_state", book_state);
+        paraMap.put("start_date", start_date);
+        paraMap.put("end_date", end_date);
+        paraMap.put("search_conditions", search_conditions);
+        paraMap.put("word", word);
 
         return sql.selectList("Products.findByCondition", paraMap);
     }
@@ -41,6 +42,10 @@ public class ProductsRepository {
 
     public ProductsDTO getBookDetail(String bookISBN){
         return sql.selectOne("Products.getDetail", bookISBN);
+    }
+
+    public List<CategoryDTO> getCategory() {
+        return sql.selectList("Category.getCategory");
     }
 
     public void updateBookInfo(ProductsDTO productsDTO) {

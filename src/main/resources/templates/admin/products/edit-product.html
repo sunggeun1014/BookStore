@@ -8,16 +8,6 @@
 <body>
 <div class="filter-container white-frame">
     <h3 class="search-list-title" th:text="'상품상세 ' + '[' + ${product_detail.book_isbn} + ']'"></h3>
-    <div class="product-info book-search">
-        <p class="search-list-subject">책검색</p>
-        <div class="search-container">
-            <input type="text" id="search-keyword" class="search-input"
-                   placeholder="책 제목 또는 isbn을 입력하세요"/>
-            <button id="searchButton">
-                <span class="material-symbols-outlined">search</span>
-            </button>
-        </div>
-    </div>
 
     <form action="/admin/products/editProduct" id="edit-form" method="post">
         <div class="product-info">
@@ -82,9 +72,7 @@
                         <option th:value="${product_detail != null ? product_detail.book_category : ''}"
                                 th:text="${product_detail != null ? product_detail.book_category : ''}"
                         ></option>
-                        <option th:value="${product_detail != null ? product_detail.book_category : ''}"
-                                th:text="${product_detail != null ? product_detail.book_category : ''}"
-                        ></option>
+                        <option th:each="val : ${book_category}" th:value="${val?.category_name}" th:text="${val?.category_name}"></option>
                     </select>
                     <div class="select-arrow-down"></div>
                 </div>

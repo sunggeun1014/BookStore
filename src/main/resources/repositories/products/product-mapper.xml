@@ -51,10 +51,10 @@
         </if>
         <if test="search_conditions != null and search_conditions != '' and word != null and word != ''">
             <choose>
-                <when test="search_conditions == 'bookIsbn'">
+                <when test="search_conditions == 'book_isbn'">
                     AND book_isbn LIKE CONCAT('%', #{word}, '%')
                 </when>
-                <when test="search_conditions == 'bookName'">
+                <when test="search_conditions == 'book_name'">
                     AND book_name LIKE CONCAT('%', #{word}, '%')
                 </when>
             </choose>
@@ -104,14 +104,44 @@
     </select>
 
     <insert id="insertBookInfo">
-
+        INSERT INTO
+        books (
+        book_isbn,
+        book_name,
+        book_price,
+        book_publisher,
+        book_author,
+        book_qty,
+        book_intro,
+        book_country_type,
+        book_category,
+        book_state,
+        book_thumbnail,
+        book_publish_date,
+        book_register_date
+        ) VALUES (
+        #{book_isbn},
+        #{book_name},
+        #{book_price},
+        #{book_price},
+        #{book_publisher},
+        #{book_author},
+        #{book_qty},
+        #{book_intro},
+        #{book_country_type},
+        #{book_category},
+        #{book_state},
+        #{book_thumbnail},
+        #{book_publish_date},
+        #{book_register_date}
+        );
     </insert>
 
     <update id="updateBookInfo" parameterType="products">
         UPDATE
         books
         SET
-        book_name = #{book_name},
+        book_name = #{book_name, jdbcType=VARCHAR},
         book_price = #{book_price},
         book_publisher = #{book_publisher},
         book_author = #{book_author},

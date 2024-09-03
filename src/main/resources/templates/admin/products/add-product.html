@@ -7,8 +7,8 @@
 </head>
 <body>
 <div class="filter-container white-frame">
-    <h3 class="search-list-title" th:text="'상품상세 ' + '[' + ${product_detail.book_isbn} + ']'"></h3>
-    <div class="product-info book-search">
+    <h3 class="search-list-title">상품등록</h3>
+    <div class="book-search">
         <p class="search-list-subject">책검색</p>
         <div class="search-container">
             <input type="text" id="search-keyword" class="search-input"
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <form action="/admin/products/addProduct" id="add-form" method="post">
+    <form action="/addProduct" id="add-form" method="post">
         <div class="product-info">
             <p class="search-list-subject">ISBN
                 <span class="important">*</span>
@@ -138,12 +138,30 @@
 
     <div class="button-wrap">
         <button class="default-btn" form="add-form">등록</button>
-        <button class="default-btn cancel" onclick="location.href='/admin/index?path=admin/products/products'">
-            취소
+        <button class="default-btn cancel" onclick="location.href='/admin/index?path=admin/products/products'">취소</button>
     </div>
 </div>
 
+<div id="search-book-modal">
+    <div class="modal-content">
+        <button id="close-btn">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <table id="import-books" class="table table-center" style="width: 100%">
+            <thead class="table-head">
+            <tr class="table-column-head">
+                <th class="table-column-head-txt">NO</th>
+                <th class="table-column-head-txt">ISBN</th>
+                <th class="table-column-head-txt">책제목</th>
+                <th class="table-column-head-txt">수량</th>
+                <th class="table-column-head-txt">구역번호</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
 
-<script src="/admin/products/js/add-product.js"></script>
+<script src="/admin/products/js/edit-product.js"></script>
 </body>
 </html>

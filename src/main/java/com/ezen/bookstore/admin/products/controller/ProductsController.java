@@ -1,6 +1,7 @@
 package com.ezen.bookstore.admin.products.controller;
 
 import com.ezen.bookstore.admin.commons.SearchCondition;
+import com.ezen.bookstore.admin.products.dto.CategoryDTO;
 import com.ezen.bookstore.admin.products.dto.ProductsDTO;
 import com.ezen.bookstore.admin.products.service.ProductsService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +33,7 @@ public class ProductsController {
             @RequestParam(required = false) String book_state,
             @RequestParam(required = false) String start_date,
             @RequestParam(required = false) String end_date,
-            @RequestParam(required = false) String search_condition,
+            @RequestParam(required = false) String search_conditions,
             @RequestParam(required = false) String word
     ) throws ParseException {
         List<ProductsDTO> products;
@@ -39,7 +43,7 @@ public class ProductsController {
         condition.setBook_state(book_state);
         condition.setStart_date(start_date);
         condition.setEnd_date(end_date);
-        condition.setSearch_conditions(search_condition);
+        condition.setSearch_conditions(search_conditions);
         condition.setWord(word);
 
         // 모든 검색 조건을 한 번에 서비스로 전달
@@ -59,9 +63,12 @@ public class ProductsController {
         }
         log.info("Received request for book ISBN: {}", bookISBN);
         ProductsDTO productDetail = productService.detailList(bookISBN);
+        List<CategoryDTO> bookCategory = productService.categoryList();
+
         log.info("Retrieved product detail: {}", productDetail);
 
         model.addAttribute("product_detail", productDetail);
+        model.addAttribute("book_category", bookCategory);
 
         model.addAttribute("template", "/admin/products/edit-product");
 
@@ -69,9 +76,17 @@ public class ProductsController {
     }
 
     @PostMapping("/editProduct")
-    public String editBookDetail(@RequestParam("book_isbn") String bookISBN, @ModelAttribute ProductsDTO productDTO) {
-        log.info("Received request to update book with ISBN: {}", bookISBN);
+    public String editBookDetail(@RequestParam("book_isbn") String bookISBN, @RequestParam("book_publish_date") String date, ProductsDTO productDTO) {
+
         productDTO.setBook_isbn(bookISBN);
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = dateFormat.parse(date);
+            productDTO.setBook_publish_date(new Timestamp(parsedDate.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         productService.updateBookInfo(productDTO);
         return "redirect:/admin/products/editProduct?book_isbn=" + bookISBN;
     }
@@ -79,6 +94,7 @@ public class ProductsController {
     @GetMapping("/addProduct")
     public String addBook(Model model) {
         model.addAttribute("template", "/admin/products/add-product");
+
         return "admin/index";
     }
 }

@@ -57,8 +57,13 @@
 .table thead {
     height: 50px;
     background-color: #FAFAFA;
-    border-top: 1px solid #D8D8D8;
-    border-bottom: 1px solid #D8D8D8;
+    color: #7E7E7E;
+}
+
+.table td, .table thead th {
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #D8D8D8;
 }
 
 .dt-column-title {

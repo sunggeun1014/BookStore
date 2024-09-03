@@ -1,6 +1,7 @@
 package com.ezen.bookstore.admin.products.service;
 
 import com.ezen.bookstore.admin.commons.SearchCondition;
+import com.ezen.bookstore.admin.products.dto.CategoryDTO;
 import com.ezen.bookstore.admin.products.dto.ProductsDTO;
 import com.ezen.bookstore.admin.products.repository.ProductsRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +58,10 @@ public class ProductsService {
 
     public ProductsDTO detailList(String bookISBN){
         return productRepository.getBookDetail(bookISBN);
+    }
+
+    public List<CategoryDTO> categoryList() {
+        return productRepository.getCategory();
     }
 
     public void updateBookInfo(ProductsDTO productsDTO) {

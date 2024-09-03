@@ -13,6 +13,7 @@
       <typeAlias type="com.ezen.bookstore.admin.reviews.dto.ReviewsDTO" alias="reviews"/>
       <typeAlias type="com.ezen.bookstore.admin.inquiries.dto.InquiriesDTO" alias="inquiries"/>
       <typeAlias type="com.ezen.bookstore.admin.products.dto.ProductsDTO" alias="products"/>
+      <typeAlias type="com.ezen.bookstore.admin.products.dto.CategoryDTO" alias="category"/>
    </typeAliases>
 
 </configuration>
