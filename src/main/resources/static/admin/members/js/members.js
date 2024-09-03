@@ -201,5 +201,3 @@ function setActive(element) {
 
 datepicker("startDate", "endDate");
 
-
-

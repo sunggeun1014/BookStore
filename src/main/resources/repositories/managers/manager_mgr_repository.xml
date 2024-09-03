@@ -15,7 +15,8 @@
 			manager_profile_changed,
 			manager_addr,
 			manager_detail_addr,
-			manager_dept
+			manager_dept,
+			manager_join_date
 			
 		FROM 
 			managers
@@ -105,4 +106,8 @@
 	    WHERE manager_id = #{manager_id}
 	</update>
 
+	<select id="findById" parameterType="String" resultType="manager">
+    	SELECT * FROM Managers WHERE manager_id = #{manager_id}
+	</select>
+	
 </mapper>

@@ -92,6 +92,7 @@
 					AND order_num = #{word}
 				</if>
 			</if>
+		ORDER BY order_modify_date desc
 	</select>
 	
 	<insert id="deliveryRequestSave" parameterType="String">

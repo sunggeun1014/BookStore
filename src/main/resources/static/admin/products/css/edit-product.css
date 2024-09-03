@@ -1,0 +1,157 @@
+.search-list-title {
+    margin-bottom: 20px;
+}
+
+.book-search, .product-info, .book-price, .book-qty, .filter-wrap, .radio-filter {
+    display: flex;
+    align-items: center;
+}
+
+.filter-wrap, .radio-filter {
+    gap: 10px;
+}
+
+.book-search {
+    position: relative;
+    height: 60px;
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.search-list-subject {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.important {
+    display: inline-block;
+    height: 30px;
+    color: #E54F53;
+}
+
+input[type=text]:not(.placeholder, .search-input, .input-price) {
+    width: 400px;
+    padding-right: 10px;
+}
+
+.search-input {
+    width: 450px;
+}
+
+#searchButton {
+    right: -135px;
+}
+
+.product-info {
+    height: 60px;
+    padding-left: 20px;
+    border-bottom: 1px solid #D8D8D8;
+}
+
+.book-price {
+    margin-right: 150px;
+}
+
+.input-price {
+    width: 140px;
+    padding-right: 10px;
+}
+
+.file-container p {
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #7E7E7E;
+}
+
+.thumbnail-wrap {
+    height: 150px;
+}
+
+.book-info {
+    height: 320px;
+}
+
+.custom-textarea {
+    width: 90%;
+    height: 280px;
+    padding: 10px;
+    border: 1px solid #7E7E7E;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+}
+
+.button-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* 책 재고 정보 모달 */
+#search-book-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* 블랙 w/ opacity */
+}
+#search-book-modal.on {
+    display: block;
+}
+
+#search-book-modal .modal-content {
+    position: absolute;
+    top: 25px;
+    right: 26px;
+    width: 972px;
+    padding: 20px 25px;
+    border: 1px solid #666;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+/* 스크롤방지 */
+.stop-scroll{
+    height: 100%;
+    overflow: hidden;
+}
+
+#search-book-modal #close-btn {
+    margin-bottom: 20px;
+    text-align: center;
+    float: right;
+}
+
+#search-book-modal #close-btn i {
+    font-size: 24px;
+    color: #666666;
+}
+
+#search-book-modal #close-btn i:hover {
+    transform: rotate(115deg);
+}
+
+#search-book-modal .table-center td, .table-center th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#search-book-modal .table thead {
+    height: 50px;
+    background-color: #FAFAFA;
+}
+
+#search-book-modal .table thead th {
+    color: #7E7E7E;
+}
+
+#search-book-modal .table td, .table thead th {
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #D8D8D8;
+}

@@ -32,11 +32,15 @@ public class MgrRepository {
 	}
 	
 	public int addManager(ManagersDTO managersDTO) {
-			
 		return sql.insert("Managers.addManager",managersDTO);
 	}
 	
 	public void updateManager(ManagersDTO managersDTO) {
 		sql.update("Managers.updateManager", managersDTO);
 	}
+	
+	public boolean findById(String manager_Id) {
+		return sql.selectList("Managers.findById", manager_Id).size() == 0;
+	}
+	
 }

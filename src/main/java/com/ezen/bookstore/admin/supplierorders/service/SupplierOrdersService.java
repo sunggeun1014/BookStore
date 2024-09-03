@@ -8,4 +8,6 @@ import com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO;
 public interface SupplierOrdersService {
 	public List<SupplierOrdersDTO> getSupplierOrdersList();
 	public List<SupplierOrdersDTO> getDataFilter(SearchCondition condition);
+	public List<SupplierOrdersDTO> getSupplierOrdersDetailList(Integer order_num);
+	public SupplierOrdersDTO getSupplierOrdersDetail(Integer order_num);
 }

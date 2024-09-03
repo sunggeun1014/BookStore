@@ -1,33 +1,55 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns="http://www.thymeleaf.org">
-	<link rel="stylesheet" href="/admin/managers/css/managerDetails.css" />
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" href="/admin/managers/css/managerDetails.css" />
+<link rel="stylesheet" href="/admin/managers/css/managerReg.css" />
+<link rel="stylesheet" href="/admin/common/css/modal.css" />
+
 <div>
 	<div class="white-frame">
-		<form action="/admin/managers/join" method="POST">
+		<form action="/admin/managers/join" method="POST" id="joinForm">
 			<h1 class="search-list-title">매니저 정보 등록</h1>
 			
-			<div class="info">
-				<span class="search-list-subject">아이디<span class="important">*</span></span>
-				<input type="text" name="manager_id" placeholder="아이디를 입력해주세요" >
-			</div>
-			<div class="info">
-				<span class="search-list-subject">비밀번호<span class="important">*</span></span> 
-				<input type="password" class="pw" name="manager_pw" placeholder="비밀번호를 입력해주세요">
-			</div>
-			
-			<div class="info">
-				<span class="search-list-subject">비밀번호 확인<span class="important">*</span></span> 
-				<input type="password" class="pw" name="manager_pw_check" placeholder="비밀번호를 한번더 입력해주세요">
+			<div class="info ">
+				    <span class="search-list-subject important">아이디</span>
+				<div class="id-area">
+					<input type="text" id="manager_id" name="manager_id" 
+		       			th:value="${managersDTO != null} ? ${managersDTO.manager_id} : ''" placeholder="아이디를 입력해주세요">			    
+		       		<div class="id-reference">※ 영문자와 숫자, 최소 5자</div>
+	       		</div>
+			    <span id="idCheckForm" class="check-comment" style="color: red; display: none;">'아이디 양식과 일치하지 않습니다.'</span>			    
+			    <span id="idCheckResult" class="check-comment" style="color: red; display: none;">이미 사용 중인 아이디입니다.</span>
+			    <span id="idCheckSuccess" class="check-comment" style="color: green; display: none;">사용 가능한 아이디입니다.</span>
 			</div>
 			
 			<div class="info">
-				<span class="search-list-subject">이름<span class="important">*</span></span> 
-				<input type="text" name="manager_name" placeholder="이름을 입력해주세요">
+					<span class="search-list-subject important">비밀번호</span> 
+				<div class="pw-area">
+					<input type="password" class="pw" name="manager_pw" id="manager_pw" placeholder="비밀번호를 입력해주세요">
+					<div class="pw-reference">※ 특수문자, 영문자, 숫자 포함, 최소 8자</div>
+				</div>
+				
+			</div>
+			
+			<div class="info">
+				<span class="search-list-subject important">비밀번호 확인</span> 
+				<input type="password" class="pw" name="manager_pw_check" id="manager_pw_check" placeholder="비밀번호를 한번더 입력해주세요">
+				<span id="pwCheckForm" class="check-comment" style="color: red; display: none;">비밀번호 양식과 일치하지 않습니다.</span>
+				<span id="pwCheckResult" class="check-comment" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</span>
+			    <span id="pwCheckSuccess" class="check-comment" style="color: green; display: none;">비밀번호가 일치합니다.</span>
+			</div>
+			
+			<div class="info">
+				<span class="search-list-subject important">이름</span> 
+					<input type="text" id="manager_name" name="manager_name" 
+						th:value="${managersDTO != null} ? ${managersDTO.manager_name} : ''" placeholder="이름을 입력해주세요">			
 			</div>
 			
 			<div class="select-wrap info">	
-				<span class="search-list-subject">이메일<span class="important">*</span></span>
-				<input type="text" id="emailUser" name="emailUser" class="gray-text" onclick="this.value='';" /> 
+				<span class="search-list-subject important">이메일</span>
+				<input type="text" id="emailUser" name="emailUser" 
+    				th:value="${emailUser != null ? emailUser : ''}" placeholder="이메일을 입력해주세요">
+			
 				<span class="search-list-subject-symbol">@</span>			 				
 				<div class="select-box">
 					<select id="emailDomain" name="emailDomain" onchange="toggleCustomDomain()">
@@ -43,7 +65,7 @@
 			</div>
 			
 			<div class="select-wrap info">
-			    <span class="search-list-subject">전화번호<span class="important">*</span></span>
+			    <span class="search-list-subject important">전화번호</span>
 			    <div class="select-box">            
 			        <select id="countryNum" name="countryNum">
 			            <option value="010">010</option>
@@ -58,27 +80,29 @@
 			    <span class="search-list-subject-symbol">-</span>
 			
 			    <input type="number" id="userPart1" class="num gray-text" name="userPart1" min="0" max="9999" title="4자리 숫자를 입력해주세요" required oninput="limitLength(this, 4)" 
-			    	placeholder="1234"/>
+			    	th:value="${userPart1} ? ${userPart1} : ''" placeholder="1234"/>
 			    <span class="search-list-subject-symbol">-</span>
 			    
 			    <input type="number" id="userPart2" class="num gray-text" name="userPart2" min="0" max="9999" title="4자리 숫자를 입력해주세요" required oninput="limitLength(this, 4)" 
-			    	placeholder="1234"/>
+			    	th:value="${userPart2} ? ${userPart2} : ''" placeholder="1234"/>
 			</div>
 	
 			
 			<div class="info">
-				<span class="search-list-subject">주소</span>
-				<input type="text" id="address_kakao" name="manager_addr" class="gray-text" readonly />
+				<span class="search-list-subject important">주소</span>
+				<input type="text" id="address_kakao" name="manager_addr" class="gray-text"
+					th:value="${managersDTO} ? ${managersDTO.manager_addr} : ''" />
 			</div>
 			<div class="info">
-				<span class="search-list-subject">상세주소</span>
-				<input type="text" name="manager_detail_addr" onclick="this.value='';" class="gray-text" />
+				<span class="search-list-subject important">상세주소</span>
+				<input type="text" id="manager_detail_addr" name="manager_detail_addr" onclick="this.value='';" class="gray-text" 
+					th:value="${managersDTO} ? ${managersDTO.manager_detail_addr} : ''"/>
 			</div>
 			
 			<div class="select-wrap info">
-				<span class="search-list-subject">부서명<span class="important">*</span></span>
+				<span class="search-list-subject important">부서명</span>
 				<div class="select-box">
-					<select name="manager_dept" >
+					<select id="manager_dept" name="manager_dept" class="dept-select" >
 						<option value="" disabled selected>부서 선택</option>
 						<option value="01">물류팀</option>
 	               		<option value="02">운영팀</option>
@@ -98,8 +122,10 @@
 				</div>
 				<label>형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
 			</div>
+			<input type="hidden" id="errorCode" value="/*[[${errorCode}]]*/" />
+			
 			<div class="btn">
-				<button type="submit" class="default-btn" style="margin-right: 20px;">등록</button>
+				<button type="submit" id="reg-button" class="default-btn" style="margin-right: 20px;" >등록</button>
 				<button class="default-btn cancle" onclick="location.href='/admin/index?path=admin/managers/managers'">
 				      <span>뒤로가기</span>
 				</button>
@@ -108,23 +134,45 @@
 		
 		
 	</div>
+	<!-- 모달 -->
+	 <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p id="modal-message">등록이 완료되었습니다</p>
+            <div class="modal-footer">
+                <button id="confirm-join" class="modal-btn confirm">확인</button>
+            </div>
+        </div>
+    </div>
 	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
 	<script src="/admin/members/js/memberDetails.js"></script>
+	<script src="/admin/managers/js/managerReg.js"></script>
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
-		window.onload = function(){
-		    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
-		        //카카오 지도 발생
-		        new daum.Postcode({
-		            oncomplete: function(data) { //선택시 입력값 세팅
-		                document.getElementById("address_kakao").value = data.address; // 주소 넣기
-		                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
-		            }
-		        }).open();
-		    });
-		}
+		window.onload = function() {
+		    var addressInput = document.getElementById("address_kakao");
+	
+		    if (addressInput) {
+		        addressInput.addEventListener("click", function() {
+		            new daum.Postcode({
+		                oncomplete: function(data) {
+		                    // 주소 입력 필드에 값 설정
+		                    addressInput.value = data.address;
+	
+		                    // 상세주소 입력 필드에 포커스 주기 (약간의 지연 추가)
+		                    setTimeout(function() {
+		                        var detailAddressInput = document.getElementById("manager_detail_addr");
+		                        if (detailAddressInput) {
+		                            detailAddressInput.focus();
+		                        }
+		                    }, 100);  // 100ms 지연
+		                }
+		            }).open(); // 팝업 창을 엽니다
+		        });
+		    }
+		};
 	</script>
 </div>
 </html>

@@ -48,7 +48,7 @@ public class MgrController {
 	@PostMapping("/details")
 	public String showMemberDetails(@RequestParam("manager_id") String managerID, Model model) {
 	    ManagersDTO managerDetails = mgrService.detailList(managerID);
-
+	    
 	    String[] emailParts = managerDetails.getManager_email().split("@");
 	    String emailUser = emailParts[0];
 	    String emailDomain = emailParts[1];
@@ -64,7 +64,7 @@ public class MgrController {
 	    model.addAttribute("countryNum", countryNum);
 	    model.addAttribute("userPart1", userPart1);
 	    model.addAttribute("userPart2", userPart2);
-	    
+	    	    
 	    String templatePath = "/admin/managers/managerDetails";
         model.addAttribute("template", templatePath);  // 경로를 template로 전달
 
@@ -90,14 +90,44 @@ public class MgrController {
         }
     }
 	
+	@PostMapping("/checkId")
+	@ResponseBody
+	public ResponseEntity<Map<String, Boolean>> checkManagerId(@RequestBody Map<String, String> payload) {
+	    String managerId = payload.get("manager_id");
+	    boolean isAvailable = mgrService.isManagerIdAvailable(managerId);
+	    
+	    Map<String, Boolean> response = new HashMap<>();
+	    response.put("isAvailable", isAvailable);
+	    
+	    return ResponseEntity.ok(response);
+	}
+	
 	@PostMapping("/join")
 	public String joinProccess(@ModelAttribute ManagersDTO managersDTO, 
 					            @RequestParam("emailUser") String emailUser, 
 					            @RequestParam("emailDomain") String emailDomain,
 					            @RequestParam("countryNum") String countryNum,
 					            @RequestParam("userPart1") String userPart1,
-					            @RequestParam("userPart2") String userPart2
+					            @RequestParam("userPart2") String userPart2,
+					            Model model
 								) {
+		
+		if (!mgrService.isManagerIdAvailable(managersDTO.getManager_id())) {
+			
+	        model.addAttribute("errorCode", 1);
+	        
+	        model.addAttribute("managersDTO", managersDTO);
+	        model.addAttribute("emailUser", emailUser);
+	        model.addAttribute("emailDomain", emailDomain);
+	        model.addAttribute("countryNum", countryNum);
+	        model.addAttribute("userPart1", userPart1);
+	        model.addAttribute("userPart2", userPart2);
+	        
+	        String templatePath = "/admin/managers/managerReg";
+	        model.addAttribute("template", templatePath);  // 경로를 template로 전달
+	        
+	        return "/admin/index";
+	    }
 		
 		String manager_email = emailUser +"@" + emailDomain;
 		String manager_phoneNo = countryNum + "-" + userPart1 + "-" + userPart2;

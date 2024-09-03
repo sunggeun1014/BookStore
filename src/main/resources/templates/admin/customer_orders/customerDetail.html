@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
 	<link rel="stylesheet" href="/admin/customer_orders/css/detail.css">
 	<!-- Bulma CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.1/css/bulma.min.css">
 	<link rel="stylesheet" href="/admin/customer_orders/css/detail.css">
-</head>
-<body>
+
+<div>
 	<button class="back-btn" onclick="location.href='/admin/customer_orders/list'">
 		<i class="fa-solid fa-chevron-left"></i>
 		<span>뒤로가기</span>
@@ -94,7 +91,7 @@
 						</select>
 						<div class="select-arrow-down"></div>
 						<span>
-							<button class="default-btn" onclick="getConfirmModal('주문 상태를 변경하시겠습니까?', requestCompletionBtn);">완료</button>
+							<button class="default-btn" onclick="requestCompletionBtn();">완료</button>
 						</span>
 					</div>
 				</div>
@@ -161,5 +158,5 @@
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="/admin/customer_orders/js/detail.js"></script>
-</body>
+</div>
 </html>
