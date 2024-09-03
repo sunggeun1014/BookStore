@@ -92,6 +92,7 @@
 		        #{answerContent}, 
 		        CURRENT_TIMESTAMP,
 		        'dojin96541'
+		        #{managerId}
     		)
 	
 	</insert>

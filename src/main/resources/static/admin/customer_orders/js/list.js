@@ -14,7 +14,7 @@ $(document).ready(function() {
 			{ 
                 data: null, // 데이터 소스가 없으므로 null로 설정
                 render: function (data, type, row) {
-                    return `<input type="checkbox" name="order_num" class="checkbox row-checkbox" value="${row.order_num}"><label for="select-all"></label>`;
+                    return `<input type="checkbox" id="select-row" name="order_num" class="checkbox row-checkbox" value="${row.order_num}"><label for="select-row"></label>`;
 				}
             },
 			{ data: null },
@@ -54,14 +54,6 @@ $(document).ready(function() {
 			{ targets: 0, orderable: false },
 			{
 				targets:"_all" ,
-				className:"dt_data_center"
-			},
-			{
-				targets:[1, 2, 5],
-				className:"dt_data_right"
-			},
-			{
-				targets:[3, 7, 10],
 				className:"dt_data_text_center"
 			},
 			{
@@ -118,9 +110,10 @@ $(document).ready(function() {
 function filter() {
 	const input = Number($("#word").val());
 	
-	table.ajax.url("/admin/customer_orders_rest/dataFilter");
 	
 	if(Number.isInteger(input)) {
+		table.ajax.url("/admin/customer_orders_rest/dataFilter");
+		
 		table.settings()[0].ajax.data = function(d) {
 			d.date_column = $("#dateColumn").val();
 			d.start_date = $("#startDate").val();
@@ -129,19 +122,17 @@ function filter() {
 			d.search_conditions = $("#searchColumn").val();
 			d.word = $("#word").val();
 		}
-	} else {
-		// modal
+		table.ajax.reload();
 	}
 	
-	table.ajax.reload();
 }
 
 function delivery_request() {
-	var checked_values = $("#table-form input[name='order_num']:checked")
+	let checked_values = $("#table-form input[name='order_num']:checked")
 	    .map(function() {
 	        return $(this).val();
 	    }).get();
-		
+
 	if(checked_values.length > 0) { 
 		$.ajax({
 			url: "/admin/customer_orders_rest/deliveryRequest",
@@ -149,14 +140,14 @@ function delivery_request() {
 			contentType: 'application/json',
 			data: JSON.stringify(checked_values),
 			success: function(data) {
-				console.log(data, "요청완료");
+				getCheckModal(`${data}건 요청완료`);
 			},
 			error: function () {
-				console.log("ERROR");
+				getCheckModal("ERROR");
 			}
 		});
 	} else {
-		// 요청 창 띄우기
+		getCheckModal("1개 이상의 선택이 필요합니다.");
 	}
 }
 
@@ -186,3 +177,43 @@ function checkboxHandler() {
 	});
 }
 
+function getConfirmModal(msg, func) {
+    let divArea = $("<div class='modal-area'></div>");
+    let contentArea = $("<div class='modal-content-area'></div>");
+    
+    let messageArea = $(`<div class='modal-message-area'><span class='modal-message'>${msg}</span></div>`);
+    let btnArea = $("<div class='modal-btn-area'><span class='modal-check-btn'>확인</span><span class='modal-close-btn'>취소</span></div>");
+    
+    contentArea.append(messageArea);
+    contentArea.append(btnArea);
+    divArea.append(contentArea);
+
+    $("body").append(divArea);
+    $(".modal-check-btn").on("click", function() {
+		func();
+        divArea.remove(); // 모달 제거
+    });
+    
+    // 취소 버튼 클릭 이벤트
+    $(".modal-close-btn").on("click", function() {
+        divArea.remove(); // 모달 제거
+    });
+}
+
+function getCheckModal(msg) {
+    let divArea = $("<div class='modal-area'></div>");
+    let contentArea = $("<div class='modal-content-area'></div>");
+    
+    let messageArea = $(`<div class='modal-message-area'><span class='modal-message'>${msg}</span></div>`);
+    let btnArea = $("<div class='modal-btn-area'><span class='modal-check-btn'>확인</span></div>");
+    
+    contentArea.append(messageArea);
+    contentArea.append(btnArea);
+    divArea.append(contentArea);
+
+    $("body").append(divArea);
+    $(".modal-check-btn").on("click", function() {
+        divArea.remove(); // 모달 제거
+    });
+    
+}

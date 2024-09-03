@@ -36,19 +36,9 @@
 			manager_dept
 		FROM 
 			managers
-		WHERE manager_id = #{manager_id}
+		WHERE manager_id = #{managerId}
 			
 	</select>	
-    
-<!--     <update id="updateManagerDept" parameterType="java.util.List"> -->
-<!--         UPDATE Managers -->
-<!--         SET  -->
-<!--         manager_dept = #{manager_dept}         -->
-<!--         WHERE member_id IN -->
-<!--         <foreach item="id" collection="list" open="(" separator="," close=")"> -->
-<!--             #{id} -->
-<!--         </foreach> -->
-<!--     </update> -->
     
     <update id="updateManagerDept" parameterType="java.util.List">
         UPDATE Managers
@@ -57,6 +47,62 @@
         WHERE manager_id = #{managerId}
         
     </update>
+    
+    <insert id="addManager" parameterType="manager">
+    	INSERT INTO managers (
+		    manager_id,
+		    manager_pw,
+		    manager_name,
+		    manager_phoneNo,
+		    manager_email,
+		    manager_profile_original,
+		    manager_profile_changed,
+		    manager_addr,
+		    manager_detail_addr,
+		    manager_dept,
+		    manager_join_date
+		) VALUES (
+		    #{manager_id},
+		    #{manager_pw},
+		    #{manager_name},
+		    #{manager_phoneNo},
+		    #{manager_email},
+		    #{manager_profile_original},
+		    #{manager_profile_changed},
+		    #{manager_addr},
+		    #{manager_detail_addr},
+		    #{manager_dept},
+		   	#{manager_join_date}
+		    
+		)
+    </insert>
 	
-	
+	<!-- 동적 업데이트 쿼리 -->
+    <update id="updateManager" parameterType="manager">
+    	UPDATE managers
+    <set>
+        <trim suffixOverrides=",">
+            <if test="manager_pw != null and manager_pw != ''">
+                manager_pw = #{manager_pw},
+            </if>
+            <if test="manager_phoneNo != null and manager_phoneNo != ''">
+                manager_phoneNo = #{manager_phoneNo},
+            </if>
+            <if test="manager_email != null and manager_email != ''">
+                manager_email = #{manager_email},
+            </if>
+            <if test="manager_profile_changed != null and manager_profile_changed != ''">
+                manager_profile_changed = #{manager_profile_changed},
+            </if>
+            <if test="manager_addr != null and manager_addr != ''">
+                manager_addr = #{manager_addr},
+            </if>
+            <if test="manager_detail_addr != null and manager_detail_addr != ''">
+                manager_detail_addr = #{manager_detail_addr}
+            </if>
+        </trim>
+    </set>
+	    WHERE manager_id = #{manager_id}
+	</update>
+
 </mapper>
