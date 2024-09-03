@@ -25,8 +25,8 @@
 	right: 10px;
 }
 
-.supplier-input-area, .info-title-interval {
-	margin-left: 50px;
+.info-title-interval {
+	margin-left: 150px;
 }
 
 .supplier-register-btn {
@@ -35,6 +35,10 @@
 	gap: 20px;
 	padding-top: 30px;
 	padding-bottom: 10px;
+}
+
+.input-size {
+	width: 300px;
 }
 
 /* 모달 스타일 */
@@ -104,6 +108,7 @@
 .list-info-area {
 	display: flex;
 	justify-content: space-between;
+	margin-bottom: 10px;
 }
 
 .list-count {
@@ -115,14 +120,38 @@
 
 .column-area {
 	display: flex;
+	padding: 10px 0;
+	border-top: 1px solid #D8D8D8;
+	border-bottom: 1px solid #D8D8D8;
+}
+
+.column-area > div {
+	line-height: 30px;
 }
 
 .row-data-area {
 	display: flex;
+	padding: 10px 0;
+	border-bottom: 1px solid #D8D8D8;
+}
+
+.row-data-area > div {
+	line-height: 30px;
 }
 
 #order-register-list-form {
 	text-align: center;
+}
+
+.check-column, .check-data {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 수직 정렬 */
+}
+
+.check-data > span {
+	display: flex;
+	align-items: center; /* 수직 정렬 */
 }
 
 .check-column, .check-data { width: 5%; }
@@ -131,4 +160,20 @@
 .isbn-column, .isbn-data { width: 20%; }
 .price-column, .price-data { width: 12%; }
 .qty-column, .qty-data { width: 12%; }
-.purchase-column, .purchase-data { width: 16%; }
+.total-price-column, .total-price-data { width: 16%; }
+
+.total-purchase-area {
+	display: flex;
+	float: right;
+	color: #000000;
+	font-size: 18px;
+    font-weight: 700;
+    padding: 20px;
+}
+
+.order-decision-area {
+	display: flex;
+	margin-top: 100px;
+	gap: 20px;
+	justify-content: center; 
+}

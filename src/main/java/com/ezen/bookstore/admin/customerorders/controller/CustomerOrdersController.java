@@ -65,9 +65,6 @@ public class CustomerOrdersController {
     
     @GetMapping(value = "/orderStatusUpdate")
     public String orderStatusUpdate(@RequestParam(value = "order_detail_num") List<Integer> list, String order_detail_status, int order_num) {
-    	for(int dto : list) {
-    		System.out.println(dto);
-    	}
     	cos.orderStatusUpdate(list, order_detail_status);
     	
     	return "redirect:/admin/customer_orders/detail?order_num=" + order_num;
