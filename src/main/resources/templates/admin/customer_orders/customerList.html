@@ -1,30 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
 	<link rel="stylesheet" href="/admin/customer_orders/css/list.css">
 	
 	<!-- Bulma CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.1/css/bulma.min.css">
-	<!-- Font Awesome CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<!-- DataTables with Bulma integration -->
-	<link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.bulma.css">
 	<!-- DatePicker -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-</head>
-<body>
+    
+<div>
 	<div class="filter-container white-frame">
 		<div class="header">
 			<h1 class="search-list-title">주문내역조회</h1>
 		</div>
 	
 		<div class="filter-container white-frame">
-			<div class="header">
-				<h1 class="search-list-title">주문내역조회</h1>
-			</div>
-			
 			<div class="content">
 				<div class="search-filter">
 					<div class="filter-group">
@@ -50,10 +40,10 @@
 							</div>
 						</div>
 						<div class="date-options date-pick-btn">
-							<button class="date-option today today-btn date-btn" onclick="setDateOption(0, this, event)">오늘</button>
-							<button class="date-option week-btn date-btn" onclick="setDateOption(7, this, event)">1주일</button>
-							<button class="date-option month-btn date-btn" onclick="setDateOption(30, this, event)">1개월</button>
-							<button class="date-option year-btn date-btn" onclick="setDateOption(365, this, event)">1년</button>
+							<button class="date-option today today-btn date-btn" onclick="setDateOption(0, this)">오늘</button>
+							<button class="date-option week-btn date-btn" onclick="setDateOption(7, this)">1주일</button>
+							<button class="date-option month-btn date-btn" onclick="setDateOption(30, this)">1개월</button>
+							<button class="date-option year-btn date-btn" onclick="setDateOption(365, this)">1년</button>
 						</div>
 					</div>
 				</div>
@@ -78,7 +68,7 @@
 					</div>
 					
 				    <div class="search-container">
-	      				<input type="text" name="word" id="word" class="searchKeyword search-input" placeholder="검색할 주문번호 입력" />
+	      				<input type="number" name="word" id="word" class="searchKeyword search-input" placeholder="조회할 주문번호 입력" />
 	      				<button id="searchButton"><span class="material-symbols-outlined">search</span></button>	
 	    			</div>
 				</div>
@@ -97,7 +87,7 @@
 				<thead>
 					<tr>
 						<th>
-							<input type="checkbox" id="select-all" class="">
+							<input type="checkbox" id="select-all" class="checkbox">
 							<label for="select-all"></label>
 						</th>
 						<th>NO</th>
@@ -125,5 +115,5 @@
 	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
 	<!-- DataTables with Bulma integration JS -->
 	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.bulma.js"></script>
-</body>
+</div>
 </html>

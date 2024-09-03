@@ -35,6 +35,7 @@ public class MgntController {
 
 		Map<String, Object> response = new HashMap<>();
 		response.put("data", tables);
+        response.put("size", tables.size());
 
 		return response;
 	}

@@ -5,18 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezen.bookstore.admin.commons.AccountManagement;
 import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
 import com.ezen.bookstore.admin.customerorders.service.CustomerOrdersService;
+import com.ezen.bookstore.admin.security.service.CustomUserDetails;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -49,11 +50,12 @@ public class CustomerOrdersRestController {
     }
     
     @PostMapping(value = "/deliveryRequest")
-    public int deliveryRequest(@RequestBody List<Integer> order_nums, HttpSession session) {
-    	int result = cos.deliveryRequestSave(order_nums, session.getAttribute(AccountManagement.ADMIN_ID).toString());
-    	return result;
+    public int deliveryRequest(@RequestBody List<Integer> order_nums) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails detail = (CustomUserDetails) authentication.getPrincipal();
+		
+    	return cos.deliveryRequestSave(order_nums, detail.getUsername());
     }
-    
     
     
 }

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Manager Details</title>
+<link rel="stylesheet" href="/admin/managers/css/managerDetails.css" />
+</head>
+<body>
+	<div class="white-frame">
+		<h1 class="search-list-title">매니저 정보 조회</h1>
+		
+		<div class="info">
+			<span class="search-list-subject">아이디</span>
+			<span class="search-list-subject " th:text="${manager_details.manager_id}"></span>
+		</div>
+		
+		<div class="info">
+			<span class="search-list-subject">이름</span> 
+			<span class="search-list-subject " th:text="${manager_details.manager_name}"></span>
+		</div>
+		
+		<div class="select-wrap info">	
+			<span class="search-list-subject">이메일</span>
+			<span class="search-list-subject " th:text="${emailUser}"></span>
+			<span class="search-list-subject-symbol">@</span>			 				
+			<span class="search-list-subject " th:text="${emailDomain}"></span>
+	       				
+		</div>
+		
+		<div class="select-wrap info">
+			<span class="search-list-subject">전화번호</span>
+			<span class="search-list-subject value" th:text="${countryNum}"></span>							
+			<span class="search-list-subject-symbol">-</span>
+			<span class="search-list-subject value" th:text="${userPart1}"></span>				
+		  	<span class="search-list-subject-symbol">-</span>
+			<span class="search-list-subject value" th:text="${userPart2}"></span>									  	
+		</div>
+		
+		<div class="info">
+			<span class="search-list-subject">주소</span>
+			<span class="search-list-subject" th:text="${manager_details.manager_addr}"></span>
+		</div>
+		<div class="info">
+			<span class="search-list-subject">상세주소</span>
+			<span class="search-list-subject" th:text="${manager_details.manager_detail_addr}"></span>
+		</div>
+		
+		<div class="select-wrap info">
+			<span class="search-list-subject">부서명</span>
+			<span class="search-list-subject" th:switch="${manager_details.manager_dept}">
+			    <span th:case="'01'">물류팀</span>
+			    <span th:case="'02'">운영팀</span>
+			</span>
+			
+		
+			
+		</div>
+		
+		<div class="info">
+			<span class="search-list-subject">프로필</span>
+		
+			<div class="img-input-wrap">
+			
+				<label for="input-file" class="input-file-label"> <i
+					class="fa-solid fa-plus"></i> <img src="" alt="" id="preview" />
+				</label> <input type="file" name="" id="input-file" class="input-img-file" />
+			</div>
+			<label>형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
+		</div>
+		
+		<div class="btn">
+			<button class="default-btn cancle" onclick="location.href='/admin/index?path=admin/managers/managers'">
+			      <span>뒤로가기</span>
+			</button>
+		</div>
+		
+		
+	</div>
+	
+	
+	<script src="/admin/members/js/memberDetails.js"></script>
+	
+	
+</body>
+</html>

@@ -93,6 +93,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 9488bda6f252673f7799f5e6ac1a9288e29f81cf
 const clock = document.querySelector(".clock")
 
 const now = new Date();
@@ -137,4 +142,74 @@ function datepicker(start, end) {
 }
 
 getClocks();
+<<<<<<< HEAD
 setInterval(getClocks, 1000)
+=======
+setInterval(getClocks, 1000)
+
+// 날짜 옵션 기능
+function setDateOption(day, obj) {
+    const now_date = new Date();
+    const new_date = new Date(); 
+    
+    new_date.setDate(now_date.getDate() - day);
+
+    const start_year = new_date.getFullYear();
+    const start_month = (new_date.getMonth() + 1).toString().padStart(2, '0');
+    const start_day    = new_date.getDate().toString().padStart(2, '0');
+    
+    const end_year = now_date.getFullYear();
+    const end_month = (now_date.getMonth() + 1).toString().padStart(2, '0');
+    const end_day    = now_date.getDate().toString().padStart(2, '0');
+    
+    $(".startDate").val(`${start_year}-${start_month}-${start_day}`);
+    $(".endDate").val(`${end_year}-${end_month}-${end_day}`);
+    
+    $(".date-btn").removeClass("active");
+    $(obj).addClass("active");
+}
+
+function getConfirmModal(msg, func) {
+    let divArea = $("<div class='modal-area'></div>");
+    let contentArea = $("<div class='modal-content-area'></div>");
+    
+    let messageArea = $(`<div class='modal-message-area'><span class='modal-message'>${msg}</span></div>`);
+    let btnArea = $("<div class='modal-btn-area'><span class='modal-check-btn'>확인</span><span class='modal-close-btn'>취소</span></div>");
+    
+    contentArea.append(messageArea);
+    contentArea.append(btnArea);
+    divArea.append(contentArea);
+
+    $("body").append(divArea);
+    $(".modal-check-btn").on("click", function() {
+		func();
+        divArea.remove(); // 모달 제거
+    });
+    
+    // 취소 버튼 클릭 이벤트
+    $(".modal-close-btn").on("click", function() {
+        divArea.remove(); // 모달 제거
+    });
+}
+
+function getCheckModal(msg, focusElement) {
+    let divArea = $("<div class='modal-area'></div>");
+    let contentArea = $("<div class='modal-content-area'></div>");
+    
+    let messageArea = $(`<div class='modal-message-area'><span class='modal-message'>${msg}</span></div>`);
+    let btnArea = $("<div class='modal-btn-area'><span class='modal-check-btn'>확인</span></div>");
+    
+    contentArea.append(messageArea);
+    contentArea.append(btnArea);
+    divArea.append(contentArea);
+
+    $("body").append(divArea);
+    $(".modal-check-btn").on("click", function() {
+        divArea.remove(); // 모달 제거
+		if(focusElement) {
+			focusElement.focus();
+		}
+    });
+    
+}
+>>>>>>> 9488bda6f252673f7799f5e6ac1a9288e29f81cf

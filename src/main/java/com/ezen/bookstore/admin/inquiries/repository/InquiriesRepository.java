@@ -21,4 +21,12 @@ public class InquiriesRepository {
 	public InquiriesDTO getDetailList(Integer inquiryNum) {
 		return sql.selectOne("Inquiries.getDetailList", inquiryNum);
 	}
+	
+	public void updateInquiry(InquiriesDTO inquiriesDTO) {
+		sql.update("Inquiries.updateInquiry", inquiriesDTO);
+	}
+	
+	public void insertInquiry(InquiriesDTO inquiriesDTO) {
+		sql.insert("Inquiries.insertInquiry", inquiriesDTO);
+	}
 }

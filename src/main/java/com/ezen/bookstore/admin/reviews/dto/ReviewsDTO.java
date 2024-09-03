@@ -1,5 +1,6 @@
 package com.ezen.bookstore.admin.reviews.dto;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,7 +17,6 @@ public class ReviewsDTO {
 	private Integer review_rating;
 	private Integer order_detail_num;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date review_write_date;
+	private Timestamp review_write_date;
 }
 

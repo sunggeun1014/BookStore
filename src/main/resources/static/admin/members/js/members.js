@@ -5,7 +5,10 @@ $(document).ready(function() {
 		ajax: {
 			// 값을 받아오는 url, data타입 작성
 			url: '/admin/members/json',
-			dataSrc: 'data'
+			dataSrc: function(json) {
+				$('#total-row').text('총 ' + json.size + '건');
+				return json.data;
+			}
 		},
 		
 		// 모든 컬럼을 가운데 정렬
@@ -42,7 +45,17 @@ $(document).ready(function() {
 		"info": false, // 기본 적용 텍스쳐 숨기기
 		lengthChange: false, // 기본 적용 텍스쳐 숨기기
 		dom: 'lrtip', // 기본 검색 필드 숨기기 (f를 제거)
-
+		language: {
+			searchPanes: {
+				i18n: {
+					emptyMessage: "조회된 정보가 없습니다."
+				}
+			},
+			infoEmpty: "조회된 정보가 없습니다.",
+			zeroRecords: "조회된 정보가 없습니다.",
+			emptyTable: "조회된 정보가 없습니다.",
+		}
+		
 	});
 	
 	$('#member tbody').on('click', '.member-id-link', function(e) {
@@ -59,6 +72,7 @@ $(document).ready(function() {
     $('#searchButton').on('click', function() {
         var selectedColumn = $('#searchColumn').val();
         var keyword = $('#searchKeyword').val();
+        console.log(selectedColumn);
         // 선택된 컬럼과 입력된 키워드로 필터링
         table.column(selectedColumn).search(keyword).draw(); 
     });
@@ -186,6 +200,4 @@ function setActive(element) {
 }
 
 datepicker("startDate", "endDate");
-
-
 

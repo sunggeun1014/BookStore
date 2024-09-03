@@ -1,13 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <div id="header" th:fragment="header">
 	<div class="title-wrap">
 		<p class="header-title">whale books 관리자페이지</p>
+<<<<<<< HEAD
 		<p class="clock"></p>
 	</div>
 
+=======
+		<p class="clock"></p>      
+	</div>
+     
+>>>>>>> 9488bda6f252673f7799f5e6ac1a9288e29f81cf
 	<div class="user-wrap">
 		<div class="user-profile">
 			<i class="fa-solid fa-circle-user header"></i>
 			<div class="text-wrap">
+<<<<<<< HEAD
 				<p>관리자</p>
 				<p>홍길동</p>
 			</div>
@@ -17,3 +27,16 @@
 		</button>
 	</div>
 </div>
+=======
+				 <p th:text="${authority}"></p> <!-- 권한명 출력 -->
+                 <p th:text="${username}"></p>
+			</div>            
+		</div>
+		<form action="/admin/logout" id="logoutForm" method="POST" style="display:none;">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> <!-- CSRF 토큰 추가 -->
+		</form>
+		<i class="fa-solid fa-right-from-bracket log-out" onclick="document.getElementById('logoutForm').submit();" style="cursor: pointer;"></i>
+	</div>
+</div>
+</html>
+>>>>>>> 9488bda6f252673f7799f5e6ac1a9288e29f81cf
