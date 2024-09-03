@@ -126,18 +126,16 @@ $(document).ready(function() {
 			getCheckModal("이메일을 확인해주세요.", manager_emailUser);
 		} else {
 	        // 모든 검증 통과 시
-	        $('#modal-message').text('등록이 완료되었습니다.');
-	        $('#myModal').show();
+			getCheckModal("등록이 완료 되었습니다.", manager_emailUser);
 	    }
 	});
 	
     // 모달 확인 버튼 클릭 시
-    $('#confirm-join').on('click', function() {
-        $('#myModal').hide();
-        if (idCheckPassed && pwCheckPassed) {
-            $('#joinForm').submit();  // 모든 조건이 맞을 때만 폼 제출
-        }
-    });
+    $(document).on('click', '#confirm-delete', function() {
+    if (idCheckPassed && pwCheckPassed) {
+        $('#joinForm').submit();  // 모든 조건이 맞을 때만 폼 제출
+    }
+	});
 
     // 모달 외부 클릭 시 모달 닫기
     window.onclick = function(event) {
