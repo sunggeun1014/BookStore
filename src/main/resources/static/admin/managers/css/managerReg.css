@@ -1,3 +1,4 @@
+
 .dept-select {
 	width: 110px;
 }
@@ -8,4 +9,12 @@
 
 .check-comment{
 	margin-left: 10px;
+}
+
+
+.id-reference, .pw-reference {
+	margin-left: 50px;
+    margin-top: 5px; /* input 요소와 간격을 줄 수 있습니다 */
+    font-size: 12px; /* 글자 크기 조정 */
+    color: #666666; /* 글자 색상 조정 */
 }

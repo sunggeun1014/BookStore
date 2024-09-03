@@ -1,6 +1,6 @@
 /* 모달 스타일 추가 */
 .modal {
-   display: none;
+   
    position: fixed;
    z-index: 1000;
    left: 0;
@@ -14,7 +14,6 @@
 .modal-content {
    display: flex;
    flex-direction: column;
-   justify-content: space-between;
    background-color: #fefefe;
    margin: 15% auto; /* 상하 좌우 가운데 정렬 */
    border: 1px solid #888;
@@ -24,9 +23,12 @@
    border-radius: 8px;
 }
 
-.modal-content p {
-   text-align: center;
-   padding-top: 30px;
+.modal-text {
+	height: 80%;
+	padding: 0 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .modal-footer {

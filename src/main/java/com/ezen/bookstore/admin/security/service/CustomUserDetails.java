@@ -23,12 +23,12 @@ public class CustomUserDetails implements UserDetails {
         return authorities;
     }
 
-    @Override
+    
     public String getPassword() {
         return managersDTO.getManager_pw();
     }
 
-    @Override
+    
     public String getUsername() {
         return managersDTO.getManager_id();
     }

@@ -1,35 +1,40 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <link rel="stylesheet" href="/admin/managers/css/managerDetails.css" />
 <link rel="stylesheet" href="/admin/managers/css/managerReg.css" />
+<link rel="stylesheet" href="/admin/common/css/modal.css" />
 
 <div>
 	<div class="white-frame">
 		<form action="/admin/managers/join" method="POST" id="joinForm">
 			<h1 class="search-list-title">매니저 정보 등록</h1>
 			
-			<div class="info">
-			    <span class="search-list-subject important">아이디</span>
-				<input type="text" id="manager_id" name="manager_id" 
-	       			th:value="${managersDTO != null} ? ${managersDTO.manager_id} : ''" placeholder="아이디를 입력해주세요">			    
-	       		<button type="button" class="default-btn cancle overlap" id="checkIdBtn">
-				    <span>중복 확인</span>
-			    </button>
+			<div class="info ">
+				    <span class="search-list-subject important">아이디</span>
+				<div class="id-area">
+					<input type="text" id="manager_id" name="manager_id" 
+		       			th:value="${managersDTO != null} ? ${managersDTO.manager_id} : ''" placeholder="아이디를 입력해주세요">			    
+		       		<div class="id-reference">※ 영문자와 숫자, 최소 5자</div>
+	       		</div>
+			    <span id="idCheckForm" class="check-comment" style="color: red; display: none;">'아이디 양식과 일치하지 않습니다.'</span>			    
 			    <span id="idCheckResult" class="check-comment" style="color: red; display: none;">이미 사용 중인 아이디입니다.</span>
 			    <span id="idCheckSuccess" class="check-comment" style="color: green; display: none;">사용 가능한 아이디입니다.</span>
 			</div>
 			
 			<div class="info">
-				<span class="search-list-subject important">비밀번호</span> 
-				<input type="password" class="pw" name="manager_pw" id="manager_pw" placeholder="비밀번호를 입력해주세요">
+					<span class="search-list-subject important">비밀번호</span> 
+				<div class="pw-area">
+					<input type="password" class="pw" name="manager_pw" id="manager_pw" placeholder="비밀번호를 입력해주세요">
+					<div class="pw-reference">※ 특수문자, 영문자, 숫자 포함, 최소 8자</div>
+				</div>
+				
 			</div>
 			
 			<div class="info">
 				<span class="search-list-subject important">비밀번호 확인</span> 
 				<input type="password" class="pw" name="manager_pw_check" id="manager_pw_check" placeholder="비밀번호를 한번더 입력해주세요">
-				<button type="button" id="checkPwBtn" class="default-btn cancle overlap" >
-				      <span>확인</span>
-				</button>
+				<span id="pwCheckForm" class="check-comment" style="color: red; display: none;">비밀번호 양식과 일치하지 않습니다.</span>
 				<span id="pwCheckResult" class="check-comment" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</span>
 			    <span id="pwCheckSuccess" class="check-comment" style="color: green; display: none;">비밀번호가 일치합니다.</span>
 			</div>
@@ -85,7 +90,7 @@
 			
 			<div class="info">
 				<span class="search-list-subject important">주소</span>
-				<input type="text" id="address_kakao" name="manager_addr" class="gray-text" readonly
+				<input type="text" id="address_kakao" name="manager_addr" class="gray-text"
 					th:value="${managersDTO} ? ${managersDTO.manager_addr} : ''" />
 			</div>
 			<div class="info">
@@ -97,7 +102,7 @@
 			<div class="select-wrap info">
 				<span class="search-list-subject important">부서명</span>
 				<div class="select-box">
-					<select name="manager_dept" class="dept-select" >
+					<select id="manager_dept" name="manager_dept" class="dept-select" >
 						<option value="" disabled selected>부서 선택</option>
 						<option value="01">물류팀</option>
 	               		<option value="02">운영팀</option>
@@ -120,7 +125,7 @@
 			<input type="hidden" id="errorCode" value="/*[[${errorCode}]]*/" />
 			
 			<div class="btn">
-				<button type="submit" id="reg-button" class="default-btn" style="margin-right: 20px;">등록</button>
+				<button type="submit" id="reg-button" class="default-btn" style="margin-right: 20px;" >등록</button>
 				<button class="default-btn cancle" onclick="location.href='/admin/index?path=admin/managers/managers'">
 				      <span>뒤로가기</span>
 				</button>

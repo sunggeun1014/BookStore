@@ -5,26 +5,56 @@
 <title>로그인 화면</title>
 <link rel="stylesheet" href="/admin/common/css/common.css" />
 <link rel="stylesheet" href="/admin/common/css/style.css" />
-<link rel="stylesheet" href="/admin/login/login.css" />
+<link rel="stylesheet" href="/admin/login/css/login.css" />
 
 </head>
 <body>    
-	<div class="inner">
-    	<div class="white-frame">
-	    	<div class="logo-wrap">
-		    <img src="/admin/common/img/admin-로고.svg" alt="로고" />
-			</div>
-			
-		     <form th:action="@{/loginProc}" method="POST">
-		     	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> <!-- CSRF 토큰 추가 -->
-		     	
-                <input id="id" class="id" type="text" th:name="username" placeholder="id" required />
+    <div class="inner">
+        <div class="white-frame">
+            <div class="logo-wrap">
+                <img src="/admin/common/img/login-로고.png" alt="로고" />
+            </div>
+            
+            <form th:action="@{/loginProc}" method="POST">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> <!-- CSRF 토큰 추가 -->
+
+                <div th:if="${param.accessError}" class="error-message">
+                    <p th:text="${param.accessError}"></p>
+                </div>
+
+                <div class="frame">
+                    <div class="input-container" id="usernameContainer" 
+                         th:classappend="${param.usernameError} ? 'error-border' : ''">
+                        <input id="id" class="id" type="text" th:name="username" 
+                               placeholder="id" required />
+                    </div>
+                    
+                    <div th:if="${param.usernameError}" class="error-message">
+                        <p th:text="${param.usernameError}"></p>
+                    </div>
+                </div>
+                
                 <br>
-                <input id="password" class="password" type="password" th:name="password" placeholder="password" required />
+                
+                <div class="frame">
+                    <div class="input-container" id="passwordContainer" 
+                         th:classappend="${param.passwordError} ? 'error-border' : ''">
+                        <input id="password" class="password" type="password" th:name="password" 
+                               placeholder="password" required />
+                    </div>
+                    
+                    <div th:if="${param.passwordError}" class="error-message">
+                        <p th:text="${param.passwordError}"></p>
+                    </div>
+                </div>
+                
                 <br>
+                
                 <button type="submit" class="default-btn">로그인</button>
             </form>
-		</div>
-	</div>
+        </div>
+    </div>
+
+    <script src="/admin/login/js/login.js"></script>
 </body>
 </html>

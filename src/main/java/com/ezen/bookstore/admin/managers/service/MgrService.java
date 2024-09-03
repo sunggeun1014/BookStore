@@ -11,6 +11,7 @@ import com.ezen.bookstore.admin.managers.repository.MgrRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Transactional
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -19,16 +20,18 @@ public class MgrService {
     private final MgrRepository mgrRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional(readOnly = true)
     public List<ManagersDTO> list() {
         // DB에서 모든 주문 목록을 꺼내와야 한다
         return mgrRepository.getMembers();
     }
 
+    @Transactional(readOnly = true)
     public ManagersDTO detailList(String managerId) {
         return mgrRepository.getManagerDetails(managerId);
     }
 
-    @Transactional
+    
     public void changeDept(String managerId, String dept) {
         if (dept == null || dept.isEmpty()) {
             throw new IllegalArgumentException("리뷰 ID 목록이 비어 있습니다.");
@@ -36,7 +39,6 @@ public class MgrService {
         mgrRepository.changeAllByDept(managerId, dept);
     }
 
-    @Transactional
     public void joinProcess(ManagersDTO managersDTO) {
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(managersDTO.getManager_pw());
@@ -47,6 +49,11 @@ public class MgrService {
         mgrRepository.addManager(managersDTO);
     }
     
+    public void updateManager(ManagersDTO managersDTO) {
+    	mgrRepository.updateManager(managersDTO);
+    }
+    
+    @Transactional(readOnly = true)
     public boolean isManagerIdAvailable(String managerId) {
         return mgrRepository.findById(managerId);
     }

@@ -1,13 +1,15 @@
 package com.ezen.bookstore.admin.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.ezen.bookstore.admin.security.service.CustomAuthenticationFailureHandler;
 import com.ezen.bookstore.admin.security.service.CustomUserDetailsService;
 
 @Configuration
@@ -15,32 +17,51 @@ import com.ezen.bookstore.admin.security.service.CustomUserDetailsService;
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
+	private final PasswordEncoder passwordEncoder;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+    
+    // 생성자 주입을 통해 PasswordEncoder를 주입받음
+    @Autowired
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder) {
         this.customUserDetailsService = customUserDetailsService;
+        this.passwordEncoder = passwordEncoder;
     }
-    
-    
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(customUserDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);  // 주입받은 PasswordEncoder 사용
+        authProvider.setHideUserNotFoundExceptions(false);
+        return authProvider;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+        	.authenticationProvider(authenticationProvider())
         	.sessionManagement(session -> session
-                .sessionFixation().migrateSession()  // 세션 고정 보호 설정
-                .maximumSessions(1)                 // 최대 동시 세션 수
-                .expiredUrl("/login?expired=true")  // 세션 만료 시 리다이렉트할 URL
+            .sessionFixation().migrateSession()  // 세션 고정 보호 설정
+            .maximumSessions(1)                 // 최대 동시 세션 수
+            .expiredUrl("/login?expired=true")  // 세션 만료 시 리다이렉트할 URL
             )
         	.csrf().disable()
         	.authorizeHttpRequests(auth -> auth
                 // 로그인 페이지와 리소스 경로는 누구나 접근 가능
+<<<<<<< HEAD
                 // "/admin/**"
                 .requestMatchers("/admin/login/**", "/admin/resources/**", "/static/**", "/admin/common/**", "/admin/**", "/**/").permitAll()
+=======
+        		// "/admin/**"
+                .requestMatchers("/admin/login/**", "/admin/resources/**", "/static/**", "/admin/common/**").permitAll()
+>>>>>>> 22ab07eb48f31eb122b980491db1ab78ccada1c8
                 .anyRequest().hasAuthority("ROLE_USER") // ROLE_USER 권한이 있어야만 접근 가능
             )
             .formLogin(form -> form
             	.loginProcessingUrl("/loginProc")	
                 .loginPage("/admin/login") // 커스텀 로그인 페이지 설정
                 .defaultSuccessUrl("/admin/index", true) // 로그인 성공 시 리다이렉트 경로
+                .failureHandler(new CustomAuthenticationFailureHandler()) // 커스텀 FailureHandler 설정
                 .permitAll()
             )
             .logout(logout -> logout

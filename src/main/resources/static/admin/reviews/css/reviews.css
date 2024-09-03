@@ -126,6 +126,16 @@ table.dataTable tbody tr {
   'opsz' 24
 }
 
+#reviews td, #reviews th {
+   text-align: center;
+   vertical-align: middle; 
+}
+
+#inquiries td, #inquiries th {
+   text-align: center;
+   vertical-align: middle; 
+}
+
 /* Center the DataTable pagination controls */
 #reviews_wrapper>.dt-paging {
 	display: flex;
@@ -161,4 +171,14 @@ table.dataTable tbody tr {
 
 .table-total-row {
 	margin-bottom: 20px;
+}
+
+table td:not([align]) {
+	text-align: center !important;
+}
+
+.btn-box {
+	display: flex;
+	justify-content: center;
+	align-items: center; gap: 20px;
 }
