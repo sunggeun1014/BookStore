@@ -38,8 +38,7 @@ $(document).ready(function() {
                 {
                     data: 'book_isbn',
                     render: function(data, type, row) {
-                        //                    return '<a href="#" class="manager-id-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
-                        const url = '/admin/index?path=/admin/products/editProduct&book_isbn=' + encodeURIComponent(data);
+                        // const url = '/admin/index?path=/admin/products/editProduct&book_isbn=' + encodeURIComponent(data);
                         return '<a href="#" class="book-isbn-link" data-isbn="' + data + '">' + data + '</a>';
                     }
                 },
@@ -281,12 +280,6 @@ function pickDateBtn() {
 function getToDetailPage(data) {
     // 폼 생성
     console.log(data);
-
-    var existingForm = $('#postToDetailForm');
-
-    if (existingForm.length) {
-        existingForm.remove();
-    }
 
     var form = $('<form>', {
         method: 'GET',

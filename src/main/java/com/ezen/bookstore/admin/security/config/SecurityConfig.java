@@ -48,13 +48,8 @@ public class SecurityConfig {
         	.csrf().disable()
         	.authorizeHttpRequests(auth -> auth
                 // 로그인 페이지와 리소스 경로는 누구나 접근 가능
-<<<<<<< HEAD
-                // "/admin/**"
-                .requestMatchers("/admin/login/**", "/admin/resources/**", "/static/**", "/admin/common/**", "/admin/**", "/**/").permitAll()
-=======
-        		// "/admin/**"
-                .requestMatchers("/admin/login/**", "/admin/resources/**", "/static/**", "/admin/common/**").permitAll()
->>>>>>> 22ab07eb48f31eb122b980491db1ab78ccada1c8
+                // "/admin/**", "/**/"
+                .requestMatchers("/admin/login/**", "/admin/resources/**", "/static/**", "/admin/common/**", "/admin/**").permitAll()
                 .anyRequest().hasAuthority("ROLE_USER") // ROLE_USER 권한이 있어야만 접근 가능
             )
             .formLogin(form -> form
