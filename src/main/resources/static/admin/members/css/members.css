@@ -31,9 +31,11 @@ table.dataTable tbody tr {
    margin-top: 8px;
 }
 
-#members td, #members th {
-   text-align: center;
-   vertical-align: middle; 
+#member th {
+    text-align: center;
 }
 
-
+/* 테이블 데이터 셀 중앙 정렬 */
+#member td {
+    text-align: center;
+}

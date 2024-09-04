@@ -16,8 +16,18 @@ $(document).ready(function() {
             { targets: '_all', className: 'dt-center' }
         ],
         
+        order: [[8, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
+        
         // html에서 컬럼 순서대로 db에 저장되어있는 컬럼 이름으로 매핑
 		columns: [
+			{
+                data: null,
+                render: function() {
+                    return '';
+                },
+                orderable: true,  // 이 컬럼에 대해 정렬을 비활성화
+                searchable: false  // 이 컬럼에 대해 검색을 비활성화
+            },
 			{ data: 'member_name' },
 			{ 
 				data: 'member_id',
@@ -41,7 +51,17 @@ $(document).ready(function() {
 				}
 			}
 		],
-
+		
+		drawCallback: function(settings) {
+	        var api = this.api();
+	        var startIndex = api.page.info().start; // 현재 페이지 시작 인덱스 가져오기
+	
+	        // 번호 열을 다시 설정
+	        api.column(0, { search: 'applied', order: 'applied' }).nodes().each(function(cell, i) {
+	            cell.innerHTML = startIndex + i + 1;  // 각 행에 번호 설정
+	        });
+        },
+        
 		"info": false, // 기본 적용 텍스쳐 숨기기
 		lengthChange: false, // 기본 적용 텍스쳐 숨기기
 		dom: 'lrtip', // 기본 검색 필드 숨기기 (f를 제거)
@@ -143,7 +163,7 @@ function resetFilters() {
 	// 검색어 필터 초기화
 	$('#searchKeyword').val('');
 	// 기본 첫 번째 옵션으로 설정 html쪽 select 첫번째로 초기화 시켜준다
-	$('#searchColumn').val('0');
+	$('#searchColumn').val('2');
 
 	// 날짜 필터 초기화
 	$('#startDate').val('');

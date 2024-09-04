@@ -1,7 +1,12 @@
-function limitLength(input, maxLength) {
-	if (input.value.length > maxLength) {
-		input.value = input.value.slice(0, maxLength);
-	}
+function isNumberKey(evt) {
+    var charCode = evt.which ? evt.which : evt.keyCode;
+    
+    // charCode 46은 소수점, 69는 'e' (소문자), 43은 '+', 45는 '-'를 의미합니다.
+    // 이들 문자가 입력되지 않도록 차단합니다.
+    if (charCode === 46 || charCode === 69 || charCode === 43 || charCode === 45) {
+        return false; // e, ., +, -를 차단
+    }
+    return true; // 숫자는 허용
 }
 
 document.querySelectorAll('.input-box input').forEach(function(input) {

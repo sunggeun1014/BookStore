@@ -17,7 +17,7 @@
 		       			th:value="${managersDTO != null} ? ${managersDTO.manager_id} : ''" placeholder="아이디를 입력해주세요">			    
 		       		<div class="id-reference">※ 영문자와 숫자, 최소 5자</div>
 	       		</div>
-			    <span id="idCheckForm" class="check-comment" style="color: red; display: none;">'아이디 양식과 일치하지 않습니다.'</span>			    
+			    <span id="idCheckForm" class="check-comment" style="color: red; display: none;">아이디 양식과 일치하지 않습니다.</span>			    
 			    <span id="idCheckResult" class="check-comment" style="color: red; display: none;">이미 사용 중인 아이디입니다.</span>
 			    <span id="idCheckSuccess" class="check-comment" style="color: green; display: none;">사용 가능한 아이디입니다.</span>
 			</div>
@@ -79,12 +79,12 @@
 			    </div>
 			    <span class="search-list-subject-symbol">-</span>
 			
-			    <input type="number" id="userPart1" class="num gray-text" name="userPart1" min="0" max="9999" title="4자리 숫자를 입력해주세요" required oninput="limitLength(this, 4)" 
-			    	th:value="${userPart1} ? ${userPart1} : ''" placeholder="1234"/>
+			    <input type="number" id="userPart1" class="num gray-text" name="userPart1" min="0" max="9999" title="4자리 숫자를 입력해주세요" required oninput="limitLength(this, 4)"  
+			    	 placeholder="1234" step="1"/>
 			    <span class="search-list-subject-symbol">-</span>
 			    
 			    <input type="number" id="userPart2" class="num gray-text" name="userPart2" min="0" max="9999" title="4자리 숫자를 입력해주세요" required oninput="limitLength(this, 4)" 
-			    	th:value="${userPart2} ? ${userPart2} : ''" placeholder="1234"/>
+			    	 placeholder="1234" step="1"/>
 			</div>
 	
 			
