@@ -53,10 +53,10 @@ public class AdminController {
 	    
 	    ManagersDTO sessionInfo = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
 
-	    String fullEmail = sessionInfo.getManager_email();
-	    String localPart = fullEmail != null ? fullEmail.split("@")[0] : "";
-	
-	    sessionInfo.setManager_email(localPart);
+	    String[] emailParts = sessionInfo.getManager_email().split("@");
+	    String emailUser = emailParts[0];
+	    String emailDomain = emailParts[1];
+	    
 	    
 	    String fullPhone = sessionInfo.getManager_phoneNo();
 	    String countryNum = "";
@@ -74,6 +74,8 @@ public class AdminController {
 	    
 	    
 	    model.addAttribute("managers", sessionInfo);
+	    model.addAttribute("emailUser", emailUser);
+	    model.addAttribute("emailDomain", emailDomain);
 	    model.addAttribute("countryNum", countryNum);
 	    model.addAttribute("userPart1", userPart1);
 	    model.addAttribute("userPart2", userPart2);
