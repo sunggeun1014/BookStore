@@ -1,11 +1,29 @@
 var table;
 $(document).ready(function() {
 	if (!$.fn.DataTable.isDataTable('#banners')) {
-		table = $('#banners').DataTable({
+		table = $('#banners').removeAttr('width').DataTable({
+			autoWidth: false,
+			"paging": true,
+			columnDefs: [
+				{ targets: 0, orderable: false }, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
+				// 가운데정렬
+				{
+					className: 'table-center',
+					targets: '_all'
+				},
+				{
+					width: '40px',
+					targets: 0
+				},
+			],
+
 			order: [[1, 'asc']], // 번호 오름차순에 따라 정렬
 			ajax: {
 				url: '/admin/banners/json',
-				dataSrc: 'data'
+				dataSrc: function(json) {
+					$('#total-row').text('총 ' + json.size + '건');
+					return json.data;
+				}
 			},
 
 			columns: [
@@ -16,14 +34,27 @@ $(document).ready(function() {
 					},
 					orderable: false,
 				},
-				{ data: 'banner_num' },
+				{
+					data: 'banner_num',
+					width: '20px',
+					className: 'select-td',
+				},
 				{
 					data: 'banner_title',
+					width: '250px',
+					className: 'select-td',
 					render: function(data, type, row) {
 						return '<a href="#" class="banner-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
 					}
 				},
-				{ data: 'banner_position' },
+				{
+					data: 'banner_position',
+					width: '100px',
+					className: 'select-td',
+					render: function(data, type, row) {
+						return data === '01' ? '배너' : '팝업';
+					}
+				},
 				{
 					data: null,
 					render: function(data, type, row) {
@@ -50,13 +81,16 @@ $(document).ready(function() {
 						return '';
 					},
 					title: '노출 기간',
+					width: '250px',
+					className: 'select-td',
 					orderable: false
 				},
 
 				{
 					data: 'banner_visible',
+					width: '160px',
+					className: 'select-td',
 					render: function(data, type, row) {
-						console.log('Data:', data); // Log the data value
 						const onClass = data === '01' ? ' on' : '';
 						const offClass = data === '02' ? ' off' : '';
 						const html = '<div class="status-btn-wrap">' +
@@ -69,6 +103,8 @@ $(document).ready(function() {
 				},
 				{
 					data: 'banner_date',
+					width: '180px',
+					className: 'select-td',
 					render: function(data, type, row) {
 						// date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
 						if (type === 'display' || type === 'filter') {
@@ -116,11 +152,7 @@ $(document).ready(function() {
 		}
 	});
 
-	// 모달 관련 변수
 	var modal = document.getElementById("myModal");
-	var confirmDeleteButton = document.getElementById("confirm-delete");
-	var cancelDeleteButton = document.getElementById("cancel-delete");
-
 
 	// 삭제 버튼 클릭 이벤트 핸들러
 	$('#delete-button').on('click', function() {
@@ -129,34 +161,31 @@ $(document).ready(function() {
 			var rowData = $('#banners').DataTable().row($(this).closest('tr')).data();
 			selectedIds.push(rowData.banner_num); // 삭제할 배너 번호 수집
 		});
-
 		if (selectedIds.length > 0) {
-			// 메시지를 기본 메시지로 리셋
-			document.querySelector('#myModal .modal-content p').textContent = `${selectedIds.length}개의 항목을 삭제하시겠습니까?`;
-
-			// Yes와 No 버튼을 보이게 설정
-			document.getElementById('confirm-delete').style.display = "inline-block";
-			document.getElementById('cancel-delete').style.display = "inline-block";
-			modal.style.display = "block"; // 모달 표시
+			getConfirmModal(`${selectedIds.length}개의 항목을 삭제하시겠습니까?`, function() {
+				$.ajax({
+					url: '/admin/banners/delete',  // 서버의 삭제 처리 URL
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(selectedIds),  // 선택된 배너번호들을 JSON으로 전송
+					success: function(response) {
+						$('#banners').DataTable().ajax.reload();  // 테이블 새로고침
+					},
+					error: function(error) {
+						getCheckModal('삭제 중 오류가 발생했습니다.');
+					}
+				});
+			});
 		} else {
-			// alert 대신 모달 메시지 변경
-			document.querySelector('#myModal .modal-content p').textContent = '삭제할 항목을 선택하세요.';
-			document.getElementById('confirm-delete').style.display = "none";
-			document.getElementById('cancel-delete').style.display = "none";
-			modal.style.display = "block";
+			getCheckModal('삭제할 항목을 선택하세요.');
 		}
 	});
 
 
-	// 모달 외부 클릭 시 닫기
-	window.onclick = function(event) {
-		if (event.target == modal) {
-			modal.style.display = "none";
-		}
-	};
 
-	// 삭제 확인 버튼
-	confirmDeleteButton.onclick = function() {
+
+	// 삭제 확인 및 취소 버튼
+	$('#confirm-delete').on('click', function() {
 		var selectedIds = [];
 		$('#banners').DataTable().$('.row-checkbox:checked').each(function() {
 			var rowData = $('#banners').DataTable().row($(this).closest('tr')).data();
@@ -164,32 +193,31 @@ $(document).ready(function() {
 		});
 
 		$.ajax({
-			url: '/admin/banners/delete',  // 서버의 삭제 처리 URL
+			url: '/admin/banners/delete',
 			type: 'POST',
 			contentType: 'application/json',
-			data: JSON.stringify(selectedIds),  // 선택된 배너번호들을 JSON으로 전송
+			data: JSON.stringify(selectedIds),
 			success: function(response) {
-				modal.style.display = "none";
-				document.querySelector('#myModal .modal-content p').textContent = '삭제가 완료되었습니다.';
-				$('#banners').DataTable().ajax.reload();  // 테이블 새로고침
+				modal.hide();
+				$('#myModal .modal-content p').text('삭제가 완료되었습니다.');
+				$('#banners').DataTable().ajax.reload();
 			},
 			error: function(error) {
-				document.getElementById('confirm-delete').style.display = "none";
-				document.getElementById('cancel-delete').style.display = "none";
-				document.querySelector('#myModal .modal-content p').textContent = '삭제 중 오류가 발생했습니다.';
+				$('#confirm-delete').hide();
+				$('#cancel-delete').hide();
+				$('#myModal .modal-content p').text('삭제 중 오류가 발생했습니다.');
 				setTimeout(function() {
-					modal.style.display = "none";
-					document.getElementById('confirm-delete').style.display = "inline-block";
-					document.getElementById('cancel-delete').style.display = "inline-block";
+					modal.hide();
+					$('#confirm-delete').show();
+					$('#cancel-delete').show();
 				}, 3000);
 			}
 		});
-	};
+	});
 
-	// 삭제 취소 버튼
-	cancelDeleteButton.onclick = function() {
-		modal.style.display = "none";
-	};
+	$('#cancel-delete').on('click', function() {
+		modal.hide();
+	});
 
 	// 검색 버튼 클릭 이벤트 핸들러
 	$('#searchButton').on('click', function() {
@@ -230,12 +258,15 @@ $(document).ready(function() {
 	// 라디오 버튼 필터링 이벤트
 	$('input[name="banner-position"]').on('change', function() {
 		var selectedPosition = $('input[name="banner-position"]:checked').val();
-		if (selectedPosition === 'all') {
-			table.column(3).search('').draw();
-		} else {
-			table.column(3).search(selectedPosition).draw();
+		if (selectedPosition === '') {
+			table.column(3).search('').draw(); // '전체' 선택 시
+		} else if (selectedPosition === '01') {
+			table.column(3).search('배너').draw(); // 필터링 적용
+		} else if (selectedPosition === '02') {
+			table.column(3).search('팝업').draw(); // 필터링 적용
 		}
 	});
+
 
 	document.querySelectorAll('.input-box input').forEach(function(input) {
 		input.addEventListener('focus', function() {
@@ -303,9 +334,17 @@ function resetFilters() {
 	$('#position-all').prop('checked', true);
 
 	// DataTables 검색 및 필터링 초기화
-	table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화
+	table.search('').columns().search('').draw();
 
-	table.draw();
+	// 체크박스 선택 해제
+	$('#select-all').prop('checked', false);
+	$('#banners').find('.row-checkbox').prop('checked', false);
+
+	// 컬럼별 정렬 상태 초기화
+	table.order([1, 'asc']).draw();
+
+	// 페이지 번호 초기화
+	table.page('first').draw('page');
 }
 
 
