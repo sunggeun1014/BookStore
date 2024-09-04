@@ -8,10 +8,12 @@ import com.ezen.bookstore.admin.products.service.ProductsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,6 +52,7 @@ public class ProductsController {
         // 모든 검색 조건을 한 번에 서비스로 전달
         products = productService.getBooksByCondition(condition);
 
+
         // DataTables가 요구하는 형식으로 JSON 데이터 구성
         Map<String, Object> response = new HashMap<>();
         response.put("data", products);
@@ -85,13 +88,51 @@ public class ProductsController {
     @GetMapping("/addProduct")
     public String addBook(Model model) {
         List<CategoryDTO> bookCategory = productService.categoryList();
-        List<InventoryDTO> inventory = productService.inventoryList();
 
         model.addAttribute("book_category", bookCategory);
-        model.addAttribute("inventory", inventory);
 
         model.addAttribute("template", "/admin/products/add-product");
 
         return "admin/index";
     }
+
+    @GetMapping(value = "/inventory/json", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, Object> getInventoryData() {
+        List<InventoryDTO> inventory = productService.inventoryList();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", inventory);
+        return response;
+    }
+
+    @PostMapping("/addProduct")
+    public String insertBook(@ModelAttribute ProductsDTO productDTO, Model model) throws IOException {
+
+        productService.insertBook(productDTO);
+
+//        model.addAttribute("template", "/admin/products/product");
+
+        return "redirect:/admin/products/products";
+    }
+
+    @PostMapping("/checkISBN")
+    public ResponseEntity<Map<String, Boolean>> checkISBN(@RequestBody Map<String, String> request) {
+        String bookISBN = request.get("book_isbn");
+        boolean exists = productService.existsIsbn(bookISBN);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("exists", exists);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/delete")
+    public String deleteBook(@RequestBody List<String> bookISBNs) {
+        for (String bookISBN : bookISBNs) {
+            productService.deleteBook(bookISBN);
+        }
+        return "redirect:/admin/products/products";
+    }
+
 }

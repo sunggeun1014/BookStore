@@ -17,7 +17,7 @@ $(document).ready(function() {
                 url: '/admin/products/json',
                 dataSrc: 'data',
                 data: function (d) {
-                    d.bookState = $('input[name="bookState"]:checked').val();
+                    d.book_state = $('input[name="book_state"]:checked').val();
                 }
             },
             columns: [
@@ -167,9 +167,7 @@ $(document).ready(function() {
 
     // 판매중/판매중지 라디오버튼
     $('input[name="book_state"]').on('change', function () {
-        const selectedBookState = $('input[name="book_state"]:checked').val();
-        console.log('Selected bookState:', selectedBookState);  // 콘솔로 선택된 값 확인
-        table.ajax.reload();
+        table.ajax.reload(); // 필터 조건에 맞게 데이터를 다시 로드
     });
 
 
@@ -179,15 +177,40 @@ $(document).ready(function() {
         $('input[type="checkbox"]', rows).prop('checked', this.checked);
     });
 
+    // 개별 체크박스 선택 시 배경색 변경
     $('#product tbody').on('change', '.row-checkbox', function() {
-        if (!this.checked) {
-            $('#check-all').prop('checked', false);
-        } else if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
+        const $row = $(this).closest('tr'); // 체크박스가 있는 행을 선택
+
+        if (this.checked) {
+            $row.addClass('selected-row'); // 배경색을 변경할 클래스 추가
+        } else {
+            $row.removeClass('selected-row'); // 배경색을 변경할 클래스 제거
+        }
+
+        // 전체 체크박스와 개별 체크박스의 선택 상태를 비교하여 '전체 선택' 체크박스 상태를 업데이트
+        if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
             $('#check-all').prop('checked', true);
+        } else {
+            $('#check-all').prop('checked', false);
         }
     });
 
-    datepicker("startDate", "endDate");
+    // '전체 선택' 체크박스의 상태 변경 시
+    $('#check-all').on('change', function() {
+        const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
+
+        // 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
+        $('.row-checkbox').prop('checked', isChecked);
+
+        // 각 행에 대해 배경색을 업데이트
+        if (isChecked) {
+            $('#product tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
+        } else {
+            $('#product tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
+        }
+    });
+
+
 
     // 검색 버튼 클릭 이벤트 핸들러
     const searchBtn = document.querySelector("#searchButton");
@@ -230,11 +253,61 @@ $(document).ready(function() {
             resetButton.addEventListener('click', resetFilters);
         }
     });
+
+
+    pickDateBtn();
+    datepicker("startDate", "endDate");
+    confirmDelete();
 });
 
-pickDateBtn();
-datepicker("startDate", "endDate");
-setToday();
+function checkAll(tableID) {
+    const checkAll = document.querySelector("#check-all")
+
+    checkAll.addEventListener("click", function () {
+        const rows = $(tableID).DataTable().rows({'search': 'applied' }).nodes();
+        $('input[type="checkbox"]', rows).prop('checked', this.checked)
+    })
+}
+
+
+function confirmDelete() {
+    const delBtn = document.querySelector("#delete-button");
+
+    delBtn.addEventListener("click", function() {
+        // 선택된 체크박스의 행에서 book_isbn 값을 수집
+        const selectedRows = $('#product').DataTable().rows('.selected-row').data();
+
+        const bookISBN = [];
+
+        for (let i = 0; i < selectedRows.length; i++) {
+            bookISBN.push(selectedRows[i].book_isbn)
+        }
+
+        console.log(bookISBN)
+
+        if (bookISBN.length > 0) {
+            getConfirmModal("삭제하시겠습니까?", function() {
+                $.ajax({
+                    url: "/admin/products/delete",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(bookISBN), // book_isbns 배열을 JSON으로 전송
+                    success: function(response) {
+                        // 삭제 성공 시 테이블 다시 불러오기
+                        table.ajax.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("삭제 요청 실패:", error);
+                    }
+                });
+            });
+        } else {
+            alert("삭제할 항목을 선택해주세요.");
+        }
+    });
+}
+
+
 
 function setToday() {
     var today = new Date().toISOString().split('T')[0];

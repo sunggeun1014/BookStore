@@ -10,15 +10,12 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Repository
 public class ProductsRepository {
     private final SqlSessionTemplate sql;
-
-    public List<ProductsDTO> getlist() {
-        return sql.selectList("Products.getAll");
-    }
 
     public List<ProductsDTO> findBookCondition(
             String book_state,
@@ -37,10 +34,6 @@ public class ProductsRepository {
         return sql.selectList("Products.findByCondition", paraMap);
     }
 
-    public List<ProductsDTO> getBookState(String bookState) {
-        return sql.selectList("Products.getBookState", bookState);
-    }
-
     public ProductsDTO getBookDetail(String bookISBN){
         return sql.selectOne("Products.getDetail", bookISBN);
     }
@@ -53,8 +46,30 @@ public class ProductsRepository {
         return sql.selectList("Inventory.getInvList");
     }
 
+    public String deleteState (String bookISBN) {
+        return sql.selectOne("Products.deleteState", bookISBN);
+    }
+
+    public boolean existsByIsbn(String bookISBN) {
+        return sql.selectOne("Products.existsByIsbn", bookISBN) != null;
+    }
+
+    public void insertBook(ProductsDTO productsDTO) {
+        sql.insert("Products.insertBookInfo", productsDTO);
+    }
+
     public void updateBookInfo(ProductsDTO productsDTO) {
         sql.update("Products.updateBookInfo", productsDTO);
+    }
+
+    public void deleteBook(String bookISBN) {
+        String deletedStatus = "02";
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("book_isbn", bookISBN);
+        params.put("book_deleted", deletedStatus);
+
+        sql.update("Products.deleteBook", params);
     }
 
 }

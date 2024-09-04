@@ -77,3 +77,7 @@
 .pagination-list {
     justify-content: center;
 }
+
+.selected-row {
+    background-color: #FAFAFA;
+}

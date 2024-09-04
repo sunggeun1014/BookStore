@@ -26,10 +26,10 @@
             </div>
 
             <div class="date-pick-btn">
-                <button class="today-btn date-btn active">오늘</button>
-                <button class="week-btn date-btn">1주일</button>
-                <button class="month-btn date-btn">1개월</button>
-                <button class="year-btn date-btn">1년</button>
+                <button class="today-btn date-btn" onclick="setToday()">오늘</button>
+                <button class="week-btn date-btn" onclick="setDateRange(7)">1주일</button>
+                <button class="month-btn date-btn" onclick="setDateRange(30)">1개월</button>
+                <button class="year-btn date-btn" onclick="setDateRange(365)">1년</button>
             </div>
         </div>
     </div>
@@ -38,8 +38,8 @@
         <p class="search-list-subject">상품상태</p>
 
         <div class="filter-wrap radio-filter">
-            <input type="radio" name="book_state" id="whole" value="" checked/>
-            <label for="whole">전체</label>
+            <input type="radio" name="book_state" id="all" value="" checked/>
+            <label for="all">전체</label>
             <input type="radio" name="book_state" id="onsale" value="01"/>
             <label for="onsale">판매중</label>
             <input type="radio" name="book_state" id="stopsale" value="02"/>
