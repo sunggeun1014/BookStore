@@ -11,43 +11,38 @@
 		
 		<div class="info">
 			<span class="search-list-subject">아이디</span>
-			<span class="search-list-subject " th:text="${manager_details.manager_id}"></span>
+			<span class="search-list-subject value" th:text="${manager_details.manager_id}"></span>
 		</div>
 		
 		<div class="info">
 			<span class="search-list-subject">이름</span> 
-			<span class="search-list-subject " th:text="${manager_details.manager_name}"></span>
+			<span class="search-list-subject value" th:text="${manager_details.manager_name}"></span>
 		</div>
 		
 		<div class="select-wrap info">	
 			<span class="search-list-subject">이메일</span>
-			<span class="search-list-subject " th:text="${emailUser}"></span>
-			<span class="search-list-subject-symbol">@</span>			 				
-			<span class="search-list-subject " th:text="${emailDomain}"></span>
+			<span class="search-list-subject value" th:text="${manager_details.manager_email}"></span>
+			
 	       				
 		</div>
 		
 		<div class="select-wrap info">
 			<span class="search-list-subject">전화번호</span>
-			<span class="search-list-subject value" th:text="${countryNum}"></span>							
-			<span class="search-list-subject-symbol">-</span>
-			<span class="search-list-subject value" th:text="${userPart1}"></span>				
-		  	<span class="search-list-subject-symbol">-</span>
-			<span class="search-list-subject value" th:text="${userPart2}"></span>									  	
+			<span class="search-list-subject value" th:text="${manager_details.manager_phoneNo}"></span>															  	
 		</div>
 		
 		<div class="info">
 			<span class="search-list-subject">주소</span>
-			<span class="search-list-subject" th:text="${manager_details.manager_addr}"></span>
+			<span class="search-list-subject value" th:text="${manager_details.manager_addr}"></span>
 		</div>
 		<div class="info">
 			<span class="search-list-subject">상세주소</span>
-			<span class="search-list-subject" th:text="${manager_details.manager_detail_addr}"></span>
+			<span class="search-list-subject value" th:text="${manager_details.manager_detail_addr}"></span>
 		</div>
 		
 		<div class="select-wrap info">
 			<span class="search-list-subject">부서명</span>
-			<span class="search-list-subject" th:switch="${manager_details.manager_dept}">
+			<span class="search-list-subject value" th:switch="${manager_details.manager_dept}">
 			    <span th:case="'01'">물류팀</span>
 			    <span th:case="'02'">운영팀</span>
 			</span>
@@ -65,7 +60,7 @@
 					class="fa-solid fa-plus"></i> <img src="" alt="" id="preview" />
 				</label> <input type="file" name="" id="input-file" class="input-img-file" />
 			</div>
-			<label>형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
+			<label class="caution">형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
 		</div>
 		
 		<div class="btn">

@@ -11,8 +11,11 @@
 		<div class="user-profile">
 			<i class="fa-solid fa-circle-user header"></i>
 			<div class="text-wrap">
-				 <p th:text="${session.managersDTO.manager_dept}"></p> <!-- 권한명 출력 -->
-				 <p th:text="${session.managersDTO.manager_name}"></p>
+				<th:block th:switch="${session.managersDTO.manager_dept}">
+				    <p th:case="'01'">물류팀</p>
+				    <p th:case="'02'">운영팀</p>
+				</th:block>
+				<p th:text="${session.managersDTO.manager_name}"></p>
 			</div>            
 		</div>
 		<form action="/admin/logout" id="logoutForm" method="POST" style="display:none;">

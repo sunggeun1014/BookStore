@@ -16,6 +16,9 @@ $(document).ready(function() {
             { targets: '_all', className: 'dt-center' }
         ],
         
+        order: [[8, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
+
+        
         // html에서 컬럼 순서대로 db에 저장되어있는 컬럼 이름으로 매핑
         columns: [
             {
@@ -26,13 +29,9 @@ $(document).ready(function() {
                 orderable: false,
             },
             {
-                data: null,  // 이 컬럼은 데이터베이스에서 가져오는 데이터를 사용하지 않음
-                render: function(data, type, row, meta) {
-                    if (meta && meta.row !== undefined) {
-                        return meta.row + 1;  // meta.row가 유효하면 1을 더해 반환
-                    } else {
-                        return '';  // meta.row가 없을 경우 빈 문자열 반환
-                    }
+                data: null,
+                render: function() {
+                    return '';
                 },
                 orderable: false,  // 이 컬럼에 대해 정렬을 비활성화
                 searchable: false  // 이 컬럼에 대해 검색을 비활성화
@@ -56,21 +55,45 @@ $(document).ready(function() {
                 }				
             },
             { data: 'manager_phoneNo' },
-            { data: 'manager_addr' },
+            { 
+				data: 'manager_addr' ,
+				
+				render : function(data){
+						
+					 if (data.length > 10) {
+		                    return data.substring(0, 10) + '...';
+		             } else {
+						
+	                   return data;
+		             }
+
+				}
+			},
             {
                 data: 'manager_join_date',
-                render: function(data, type, row) {
+                render: function(data, type) {
                     // date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
                     if (type === 'display' || type === 'filter') {
-							var date = new Date(data);
-							var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
-							return formattedDate;
-						}
+						var date = new Date(data);
+						var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+						
+						return formattedDate;
+					} 		
 					return data;
                 }
             }
         ],
-
+        
+		drawCallback: function(settings) {
+            // 페이지 내 항목의 순서 번호를 업데이트합니다.
+            var api = this.api();
+            api.column(1, { page: 'current' }).nodes().each(function(cell, i) {
+                // 페이지의 첫 번째 항목 인덱스를 기준으로 순서 번호를 계산합니다.
+                var pageStart = api.settings()[0]._iDisplayStart;
+                $(cell).html(pageStart + i + 1);
+            });
+        },
+        
         "info": false, // 기본 적용 텍스쳐 숨기기
         lengthChange: false, // 기본 적용 텍스쳐 숨기기
         dom: 'lrtip', // 기본 검색 필드 숨기기 (f를 제거)
@@ -84,6 +107,9 @@ $(document).ready(function() {
             zeroRecords: "조회된 정보가 없습니다.",
             emptyTable: "조회된 정보가 없습니다.",
         }
+        
+        
+    
     });
     
     $('#select-all').on('click', function() {
@@ -100,7 +126,7 @@ $(document).ready(function() {
         var selectedIds = [];
         var selectedDept = $('#searchDept').val();  // 선택된 부서 값 가져오기 (문자열 그대로)
 		console.log("Selected Dept:", selectedDept);  // 선택된 부서의 값을 콘솔에 출력
-
+		
         $('#manager').DataTable().$('.row-checkbox:checked').each(function() {
             var rowData = $('#manager').DataTable().row($(this).closest('tr')).data();
             selectedIds.push(rowData.manager_id); // 변경할 매니저 id 수집
@@ -109,17 +135,14 @@ $(document).ready(function() {
 
         if (selectedIds.length > 0) {
             // 메시지를 기본 메시지로 리셋
-            document.querySelector('#myModal .modal-content p').textContent = `${selectedIds.length}개의 항목을 변경하시겠습니까?`;
-
-            // Yes와 No 버튼을 보이게 설정
-            document.getElementById('confirm-delete').style.display = "inline-block";
-            document.getElementById('cancel-delete').style.display = "inline-block";
-            modal.style.display = "block"; // 모달 표시
+            getConfirmModal(`${selectedIds.length}개의 항목을 변경하시겠습니까?`, deleteBtn);
+			
+            
         } else {
             // alert 대신 모달 메시지 변경
-            document.querySelector('#myModal .modal-content p').textContent = '변경할 항목을 선택하세요.';
-            document.getElementById('confirm-delete').style.display = "none";
-            document.getElementById('cancel-delete').style.display = "none";
+           	getCheckModal(`변경할 항목을 선택해 주세요.`);
+
+         
             modal.style.display = "block";
         }
     });
@@ -132,7 +155,7 @@ $(document).ready(function() {
     };
     
     // 삭제 확인 버튼
-    confirmDeleteButton.onclick = function() {
+    const deleteBtn = function() {
         var selectedIds = [];
         var selectedDept = $('#searchDept').val();  // 선택된 부서 값 가져오기 (문자열 그대로)
 
@@ -153,27 +176,16 @@ $(document).ready(function() {
                 managerDept: selectedDept
             }),  // 선택된 id들을 JSON으로 전송
             success: function(response) {
-                modal.style.display = "none";
-                document.querySelector('#myModal .modal-content p').textContent = '변경이 완료되었습니다.';
+           		getCheckModal(`변경이 완료 되었습니다.`);
                 $('#manager').DataTable().ajax.reload();  // 테이블 새로고침
             },
             error: function(error) {
-                document.getElementById('confirm-delete').style.display = "none";
-                document.getElementById('cancel-delete').style.display = "none";
-                document.querySelector('#myModal .modal-content p').textContent = '변경 중 오류가 발생했습니다.';
-                setTimeout(function() {
-                    modal.style.display = "none";
-                    document.getElementById('confirm-delete').style.display = "inline-block";
-                    document.getElementById('cancel-delete').style.display = "inline-block";
-                }, 3000);
+           		getCheckModal(`변경중 오류가 발생 했습니다.`);
+             
             }
         });
     };
     
-    // 삭제 취소 버튼
-    cancelDeleteButton.onclick = function() {
-        modal.style.display = "none";
-    };
     
     $('#manager tbody').on('click', '.manager-id-link', function(e) {
         e.preventDefault(); // 기본 링크 동작 방지

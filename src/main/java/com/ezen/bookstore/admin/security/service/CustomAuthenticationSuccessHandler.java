@@ -23,8 +23,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 		
         ManagersDTO managersDTO = userDetails.getManagersDTO();
-        managersDTO.setManager_pw(null);     
-        
+        managersDTO.setManager_pw(null);        
+        System.out.println(managersDTO);
         session.setAttribute("managersDTO", managersDTO);
         
         response.sendRedirect("/admin/index");

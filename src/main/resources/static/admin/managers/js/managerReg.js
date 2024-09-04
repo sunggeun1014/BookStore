@@ -96,7 +96,7 @@ $(document).ready(function() {
         var manager_dept = $('#manager_dept').val();
 
         if (!idCheckPassed || !pwCheckPassed) {
-            getCheckModal('아이디 중복 또는 비밀번호가 일치하지 않습니다.');
+            getCheckModal('아이디 중복 또는 비밀번호가 <br>일치하지 않습니다.');
             return;
         } else if (!manager_name) {
             getCheckModal("이름을 입력해주세요.");
@@ -134,12 +134,6 @@ $(document).ready(function() {
         }
     });
 
-//    // 모달 확인 버튼 클릭 시 폼 제출
-//    $(document).on('click', '#confirm-delete', function() {
-//        if (idCheckPassed && pwCheckPassed) {
-//            $('#joinForm').submit();  // 모든 조건이 맞을 때만 폼 제출
-//        }
-//    });
 
     // 모달 외부 클릭 시 모달 닫기
     window.onclick = function(event) {
