@@ -141,4 +141,21 @@ $(document).ready(function() {
             $('#myModal').hide();
         }
     };
+	
+
 });
+
+document.getElementById("userPart1").addEventListener("input", function() {
+    limitLength(this, 4); // userPart1 필드는 최대 4자리 숫자
+});
+
+document.getElementById("userPart2").addEventListener("input", function() {
+    limitLength(this, 4); // userPart2 필드는 최대 4자리 숫자
+});
+   
+   
+function limitLength(input, maxLength) {
+    if (input.value.length > maxLength) {
+        input.value = input.value.slice(0, maxLength);
+    }
+}
