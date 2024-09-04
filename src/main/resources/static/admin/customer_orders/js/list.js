@@ -17,7 +17,10 @@ $(document).ready(function() {
                     return `<input type="checkbox" id="select-row" name="order_num" class="checkbox row-checkbox" value="${row.order_num}"><label for="select-row"></label>`;
 				}
             },
-			{ data: null },
+			{ 
+				data: null,
+				orderable: false
+			},
 			{ 
 				data: 'order_num',
 				render: function(data, type, row) {
@@ -39,8 +42,14 @@ $(document).ready(function() {
 					return date.toISOString().split('T')[0];
 				}
 			},
-			{ data: 'order_delivery_status' },
-			{ data: 'order_payment_status' },
+			{ 
+				data: 'order_delivery_status',
+				orderable: false
+			},
+			{ 
+				data: 'order_payment_status',
+				orderable: false
+			},
 			{ data: 'order_status' },
 			{
                 data: 'order_modify_date',
@@ -58,8 +67,12 @@ $(document).ready(function() {
 			},
 			{
 			   targets:[1],
-			   render: function(data, type, row, meta){
-			      return meta.row + 1;
+			   render: function(data, type, row, meta) {
+			       if (type === 'display') {
+			           var start = meta.settings._iDisplayStart;
+			           return start + meta.row + 1;
+			       }
+			       return data;
 			   }
 			},
 			{
@@ -86,6 +99,13 @@ $(document).ready(function() {
 		    zeroRecords: "조회된 정보가 없습니다.",
 		    emptyTable: "조회된 정보가 없습니다.",
 		},
+		drawCallback: function(settings) {
+		    var api = this.api();
+		    api.column(1, { page: 'current' }).nodes().each(function(cell, i) {
+		        var pageStart = api.settings()[0]._iDisplayStart;
+		        $(cell).html(pageStart + i + 1);
+		    });
+		}
 	});
 
 	table.on('draw', function() {

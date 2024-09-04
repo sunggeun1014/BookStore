@@ -64,10 +64,44 @@
 		    LEFT JOIN supplier_order_details sod ON so.order_num = sod.order_num
 		    LEFT JOIN managers               m ON so.manager_id = m.manager_id
 		WHERE
-		    so.order_num = 3000000
+		    so.order_num = #{order_num}
 		GROUP BY
 		    so.order_num,
 		    m.manager_name,
 		    so.order_date
 	</select>
+	
+	<insert id="orderInsert" parameterType="String">
+		INSERT INTO supplier_orders (
+		    order_num,
+		    order_status,
+		    order_date,
+		    manager_id
+		) VALUES (
+		    supplier_orders_seq.NEXTVAL,
+		    '01',
+		    current_timestamp,
+		    #{manager_id}
+		)
+	</insert>
+	
+	<insert id="orderDetailInsert" parameterType="supplierOrders">
+		INSERT INTO supplier_order_details (
+		    order_detail_num,
+		    order_detail_isbn,
+		    order_detail_title,
+		    order_detail_qty,
+		    order_detail_price,
+		    order_detail_publisher,
+		    order_num
+		) VALUES (
+		    supplier_order_details_seq.NEXTVAL,
+		    #{order_detail_isbn},
+		    #{order_detail_title},
+		    #{order_detail_qty},
+		    #{order_detail_price},
+		    #{order_detail_publisher},
+		    supplier_orders_seq.CURRVAL
+		)
+	</insert>
 </mapper>

@@ -115,61 +115,48 @@ $(document).ready(function() {
 			selectedIds.push(rowData.review_num); // 삭제할 리뷰 번호 수집
 		});
 
-		document.getElementById('confirm-delete').style.display = "inline-block";
-		document.getElementById('cancel-delete').style.display = "inline-block";
 
 		if (selectedIds.length > 0) {
 			// 메시지를 기본 메시지로 리셋
-			document.querySelector('#myModal .modal-content p').textContent = `${selectedIds.length}개의 항목을 삭제하시겠습니까?`;
+			getConfirmModal(`${selectedIds.length}개의 항목을 삭제하시겠습니까?`, deleteBtn);
 
 			// Yes와 No 버튼을 보이게 설정
-			modal.style.display = "block"; // 모달 표시
 		} else {
 			// alert 대신 모달 메시지 변경
-			document.querySelector('#myModal .modal-content p').textContent = '삭제할 항목을 선택하세요.';
-			modal.style.display = "block";
+			getCheckModal('삭제할 항목을 선택하세요.')
 		}
 	});
 
 	// 모달 외부 클릭 시 닫기
 	window.onclick = function(event) {
-		if (event.target == modal) {
-			modal.style.display = "none";
-		}
-	};
+	        if (event.target == $('#myModal')[0]) {
+	            $('#myModal').hide();
+	        }
+	    };
 
 	// 삭제 확인 버튼
-	confirmDeleteButton.onclick = function() {
+	const deleteBtn = function() {
 		var selectedIds = [];
 		$('#reviews').DataTable().$('.row-checkbox:checked').each(function() {
 			var rowData = $('#reviews').DataTable().row($(this).closest('tr')).data();
 			selectedIds.push(rowData.review_num);
 		});
-
+		
 		$.ajax({
 			url: '/admin/reviews/delete',  // 서버의 삭제 처리 URL
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(selectedIds),  // 선택된 리뷰 번호들을 JSON으로 전송
 			success: function(response) {
-				modal.style.display = "none";
-				document.querySelector('#myModal .modal-content p').textContent = '삭제가 완료되었습니다.';
+				getCheckModal('삭제가 완료되었습니다.')
 				$('#reviews').DataTable().ajax.reload();  // 테이블 새로고침
 			},
 			error: function(error) {
-				document.querySelector('#myModal .modal-content p').textContent = '삭제 중 오류가 발생했습니다.';
-				setTimeout(function() {
-					modal.style.display = "none";
-
-				}, 3000);
+				getCheckModal('삭제 중 오류가 발생했습니다.')
 			}
 		});
 	};
 
-	// 삭제 취소 버튼
-	cancelDeleteButton.onclick = function() {
-		modal.style.display = "none";
-	};
 
 	// 검색 버튼 클릭 이벤트 핸들러
 	$('#searchButton').on('click', function() {

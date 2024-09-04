@@ -25,7 +25,7 @@
 	</select>
 	
 	<!-- 여러 리뷰를 삭제하는 SQL -->
-    <delete id="deleteReviews" parameterType="List">
+    <delete id="deleteAllByIdIn" parameterType="List">
     DELETE FROM 
     	Reviews
     WHERE 

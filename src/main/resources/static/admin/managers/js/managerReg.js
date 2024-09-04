@@ -1,3 +1,26 @@
+window.onload = function() {
+    var addressInput = document.getElementById("address_kakao");
+
+    if (addressInput) {
+        addressInput.addEventListener("click", function() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 주소 입력 필드에 값 설정
+                    addressInput.value = data.address;
+
+                    // 상세주소 입력 필드에 포커스 주기 (약간의 지연 추가)
+                    setTimeout(function() {
+                        var detailAddressInput = document.getElementById("manager_detail_addr");
+                        if (detailAddressInput) {
+                            detailAddressInput.focus();
+                        }
+                    }, 100);  // 100ms 지연
+                }
+            }).open(); // 팝업 창을 엽니다
+        });
+    }
+};
+
 $(document).ready(function() {
     var idCheckPassed = false;  // 아이디 중복 확인 플래그
     var pwCheckPassed = false;  // 비밀번호 일치 확인 플래그
@@ -96,7 +119,7 @@ $(document).ready(function() {
         var manager_dept = $('#manager_dept').val();
 
         if (!idCheckPassed || !pwCheckPassed) {
-            getCheckModal('아이디 중복 또는 비밀번호가 일치하지 않습니다.');
+            getCheckModal('아이디 중복 또는 비밀번호가 <br>일치하지 않습니다.');
             return;
         } else if (!manager_name) {
             getCheckModal("이름을 입력해주세요.");
@@ -134,12 +157,6 @@ $(document).ready(function() {
         }
     });
 
-//    // 모달 확인 버튼 클릭 시 폼 제출
-//    $(document).on('click', '#confirm-delete', function() {
-//        if (idCheckPassed && pwCheckPassed) {
-//            $('#joinForm').submit();  // 모든 조건이 맞을 때만 폼 제출
-//        }
-//    });
 
     // 모달 외부 클릭 시 모달 닫기
     window.onclick = function(event) {
@@ -147,4 +164,39 @@ $(document).ready(function() {
             $('#myModal').hide();
         }
     };
+	
+
 });
+
+function previewImage(event) {
+   var input = event.target;
+
+   if (input.files && input.files[0]) {
+       var reader = new FileReader();
+
+       reader.onload = function(e) {
+           var preview = document.getElementById('preview');
+           var imgIn = document.getElementById('img-in');
+           preview.src = e.target.result; 
+           imgIn.style.display = 'none';
+           preview.style.display = 'block';
+       }
+
+       reader.readAsDataURL(input.files[0]); 
+   }
+}
+   
+document.getElementById("userPart1").addEventListener("input", function() {
+    limitLength(this, 4); // userPart1 필드는 최대 4자리 숫자
+});
+
+document.getElementById("userPart2").addEventListener("input", function() {
+    limitLength(this, 4); // userPart2 필드는 최대 4자리 숫자
+});
+   
+   
+function limitLength(input, maxLength) {
+    if (input.value.length > maxLength) {
+        input.value = input.value.slice(0, maxLength);
+    }
+}

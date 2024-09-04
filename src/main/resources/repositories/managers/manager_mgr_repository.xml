@@ -7,17 +7,12 @@
 	<select id="getAll" resultType="manager">	
 		SELECT
 			manager_id,
-			manager_pw,
 			manager_name,
 			manager_phoneNo,
 			manager_email,
-			manager_profile_original,
-			manager_profile_changed,
 			manager_addr,
-			manager_detail_addr,
 			manager_dept,
-			manager_join_date
-			
+			manager_join_date			
 		FROM 
 			managers
 			
@@ -26,7 +21,6 @@
 	<select id="getDetail" parameterType="String" resultType="manager">
 		SELECT
 			manager_id,
-			manager_pw,
 			manager_name,
 			manager_phoneNo,
 			manager_email,
@@ -73,8 +67,7 @@
 		    #{manager_addr},
 		    #{manager_detail_addr},
 		    #{manager_dept},
-		   	#{manager_join_date}
-		    
+		   	#{manager_join_date}		    
 		)
     </insert>
 	
@@ -83,7 +76,7 @@
     	UPDATE managers
     <set>
         <trim suffixOverrides=",">
-            <if test="manager_pw != null and manager_pw != ''">
+            <if test="manager_pw != null and !manager_pw.equals('')">
                 manager_pw = #{manager_pw},
             </if>
             <if test="manager_phoneNo != null and manager_phoneNo != ''">
@@ -91,6 +84,9 @@
             </if>
             <if test="manager_email != null and manager_email != ''">
                 manager_email = #{manager_email},
+            </if>
+            <if test="manager_profile_original != null and manager_profile_original != ''">
+            	manager_profile_original = #{manager_profile_original},
             </if>
             <if test="manager_profile_changed != null and manager_profile_changed != ''">
                 manager_profile_changed = #{manager_profile_changed},

@@ -1,9 +1,6 @@
 package com.ezen.bookstore.admin.banners.service;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -67,17 +64,8 @@ public class BannersService {
     
     private void imageUpload(MultipartFile bannerImage, BannersDTO bannersDTO) throws IOException {
         if (bannerImage != null && !bannerImage.isEmpty()) {
-            String originalFilename = bannerImage.getOriginalFilename();
-            String changedFileName = String.format("%s-%s", System.currentTimeMillis(), originalFilename);
-
-            Path rootPath = Paths.get("/Users/hyejin/Desktop/banner");
-
-            if (!Files.exists(rootPath)) {
-                Files.createDirectories(rootPath);
-            }
-
-            Path imagePath = rootPath.resolve(changedFileName);
-            bannerImage.transferTo(imagePath.toFile());
+        	String originalFilename = "original";
+        	String changedFileName = String.format("%s-%s", System.currentTimeMillis(), originalFilename);
 
             bannersDTO.setBanner_original(originalFilename);
             bannersDTO.setBanner_changed(changedFileName);

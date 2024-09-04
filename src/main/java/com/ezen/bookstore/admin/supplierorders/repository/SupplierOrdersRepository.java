@@ -32,4 +32,12 @@ public class SupplierOrdersRepository {
 		return sql.selectOne("SupplierOrders.getDetail", order_num);
 	}
 	
+	public void orderConfirmInsert(List<SupplierOrdersDTO> list, String manager_id) {
+		sql.insert("SupplierOrders.orderInsert", manager_id);
+		
+		for(SupplierOrdersDTO dto : list) {
+			sql.insert("SupplierOrders.orderDetailInsert", dto);
+		}
+	}
+	
 }

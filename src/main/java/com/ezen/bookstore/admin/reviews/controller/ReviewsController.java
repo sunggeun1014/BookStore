@@ -58,7 +58,7 @@ public class ReviewsController {
 	@PostMapping("/delete")
 	public String deleteReviews(@RequestBody List<Integer> reviewIds, Model model) {
 		
-		reviewService.deleteReviewsByIds(reviewIds);
+		reviewService.deleteReviewsById(reviewIds);
 		
 		String templatePath = "/admin/reviews/reviews";
 		

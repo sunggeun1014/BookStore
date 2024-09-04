@@ -104,3 +104,8 @@ select#deptName{
     height: 100%;
     object-fit: cover;
 }
+.btn-box {
+	display: flex;
+	justify-content: center;
+	align-items: center; gap: 20px;
+}

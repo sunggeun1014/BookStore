@@ -5,14 +5,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ezen.bookstore.admin.commons.AccountManagement;
 import com.ezen.bookstore.admin.commons.SearchCondition;
+import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 import com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO;
 import com.ezen.bookstore.admin.supplierorders.service.SupplierOrdersService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -44,4 +51,10 @@ public class SupplierOrdersRestController {
     	return responseMap;
     }
 
+	@PostMapping("/orderConfirm")
+	public void orderConfirm(Model model, @RequestBody List<SupplierOrdersDTO> list, HttpSession session) {
+		sos.orderConfirmInsert(list, ((ManagersDTO)session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
+		
+		model.addAttribute("template", "/admin/supplier_orders/supplierList");
+	}
 }

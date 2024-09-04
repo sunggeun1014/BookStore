@@ -9,9 +9,12 @@ $(document).ready(function() {
 				return json.data;
 			}
 		},
-		order: [[5, 'desc']],
+		order: [[1, 'desc']],
 		columns: [
-			{ data: null },
+			{ 
+				data: null,
+				orderable: false
+			},
 			{ 
 				data: 'order_num',
 				render: function(data, type, row) {
@@ -54,8 +57,12 @@ $(document).ready(function() {
 			},
 			{
 			   targets:[0],
-			   render: function(data, type, row, meta){
-			      return meta.row + 1;
+			   render: function(data, type, row, meta) {
+			       if (type === 'display') {
+			           var start = meta.settings._iDisplayStart;
+			           return start + meta.row + 1;
+			       }
+			       return data;
 			   }
 			}
 		],
@@ -72,6 +79,13 @@ $(document).ready(function() {
 		    zeroRecords: "조회된 정보가 없습니다.",
 		    emptyTable: "조회된 정보가 없습니다.",
 		},
+		drawCallback: function(settings) {
+            var api = this.api();
+            api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
+                var pageStart = api.settings()[0]._iDisplayStart;
+                $(cell).html(pageStart + i + 1);
+            });
+        }
 	});
 
     $('#searchButton').on('click', function() {

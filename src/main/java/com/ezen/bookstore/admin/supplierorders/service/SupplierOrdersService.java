@@ -10,4 +10,5 @@ public interface SupplierOrdersService {
 	public List<SupplierOrdersDTO> getDataFilter(SearchCondition condition);
 	public List<SupplierOrdersDTO> getSupplierOrdersDetailList(Integer order_num);
 	public SupplierOrdersDTO getSupplierOrdersDetail(Integer order_num);
+	public void orderConfirmInsert(List<SupplierOrdersDTO> dto, String manager_id);
 }
