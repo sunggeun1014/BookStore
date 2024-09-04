@@ -5,11 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.ezen.bookstore.admin.security.service.CustomAuthenticationFailureHandler;
+import com.ezen.bookstore.admin.security.service.CustomAuthenticationSuccessHandler;
 import com.ezen.bookstore.admin.security.service.CustomUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
@@ -35,22 +35,23 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
         	.authenticationProvider(authenticationProvider())
-        	.sessionManagement(session -> session
-            .sessionFixation().migrateSession()  // 세션 고정 보호 설정
-            .maximumSessions(1)                 // 최대 동시 세션 수
-            .expiredUrl("/login?expired=true")  // 세션 만료 시 리다이렉트할 URL
+	        	.sessionManagement(session -> session
+	            .sessionFixation().migrateSession()  // 세션 고정 보호 설정
+	            .maximumSessions(1)                 // 최대 동시 세션 수
+	            .expiredUrl("/login?expired=true")  // 세션 만료 시 리다이렉트할 URL
             )
         	.csrf(csrf -> csrf.disable())
         	.authorizeHttpRequests(auth -> auth
                 // 로그인 페이지와 리소스 경로는 누구나 접근 가능
         		// "/admin/**"
-                .requestMatchers("/admin/login/**", "/admin/resources/**", "/static/**", "/admin/common/**").permitAll()
+                .requestMatchers("/admin/login/**", "/admin/resources/**", "/static/**", "/admin/common/**", "/admin/**").permitAll()
                 .anyRequest().hasAuthority("ROLE_USER") // ROLE_USER 권한이 있어야만 접근 가능
             )
             .formLogin(form -> form
             	.loginProcessingUrl("/loginProc")	
                 .loginPage("/admin/login") // 커스텀 로그인 페이지 설정
-                .defaultSuccessUrl("/admin/index", true) // 로그인 성공 시 리다이렉트 경로
+                .successHandler(new CustomAuthenticationSuccessHandler()) // 로그인 성공 시 커스텀 핸들러 사용
+                //.defaultSuccessUrl("/admin/index", true) // 로그인 성공 시 리다이렉트 경로
                 .failureHandler(new CustomAuthenticationFailureHandler()) // 커스텀 FailureHandler 설정
                 .permitAll()
             )
@@ -68,6 +69,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+    
     
     /*
      	.requestMatchers("/public/**").permitAll() : /public으로 시작하는 모든 url에 대해 접근 허용 로그인 하지 않은 사용자도 경로 접근 가능
