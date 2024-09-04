@@ -8,7 +8,18 @@ window.onload = function() {
                }).open();
            });
        }
+	
+	   
+	   
+	   document.getElementById("userPart1").addEventListener("input", function() {
+	       limitLength(this, 4); // userPart1 필드는 최대 4자리 숫자
+	   });
 
+	   document.getElementById("userPart2").addEventListener("input", function() {
+	       limitLength(this, 4); // userPart2 필드는 최대 4자리 숫자
+	   });
+		   
+		   
        function limitLength(input, maxLength) {
            if (input.value.length > maxLength) {
                input.value = input.value.slice(0, maxLength);
@@ -20,24 +31,69 @@ window.onload = function() {
                this.value = '';
            });
        });
+		
+	   
+	   // 비밀번호 유효성 검사 함수
+	   function validatePassword(password) {
+	       var pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;  // 특수문자, 영문자, 숫자 포함, 최소 8자
+	   	   return pwPattern.test(password);
+	   }
 
+	   // 이메일 유효성 검사 함수 (특수문자 포함 불가)
+	   function validateEmail(email) {
+	  	   var emailPattern = /^[a-zA-Z0-9]+$/;  // 영문자와 숫자만 허용
+	   	   return emailPattern.test(email);
+	   }
+		  
+		  
        function validateForm() {
            let isValid = true;
-
+		   // 비밀번호 검증
+		   const inputPw = document.getElementById("input-pw").value.trim();
+		   const inputPwCheck = document.getElementById("input-pw-check").value.trim();
+		   const pwError = document.getElementById("pwError");
+		   
+		   if (!(inputPw === inputPwCheck)) {
+		   		pwError.textContent = "비밀번호가 일치하지 않습니다.";
+			 	isValid = false;
+				
+				return isValid;
+		   }
+		   
+		   if (inputPwCheck && !validatePassword(inputPwCheck)) {
+				pwError.textContent = "비밀번호 양식에 맞춰 작성해주세요"
+				
+				isValid = false;
+				
+				return isValid;
+		   }
+		   
+		   
+		   
            // 이메일 검증
            const emailUser = document.getElementById("emailUser").value.trim();
            const emailDomainSelect = document.getElementById("emailDomain").value;
            const customEmailDomain = document.getElementById("customEmailDomain").value.trim();
            const emailError = document.getElementById("emailError");
-
-           if ((emailUser && (emailDomainSelect === "" || (emailDomainSelect === "custom" && customEmailDomain === ""))) ||
-               (!emailUser && (emailDomainSelect !== "" && emailDomainSelect !== "custom"))) {
-               emailError.style.display = "block";
-               emailError.textContent = "이메일을 모두 입력해 주세요.";
-               isValid = false;
-           } else {
-               emailError.style.display = "none";
-           }
+		  
+		   if (!validateEmail(emailUser)) {
+				emailError.style.display = "block";
+				emailError.textContent = "영문자와 숫자만 입력하세요"
+				isValid = false;
+				
+				return isValid;
+		   }
+		   
+		   if ((emailUser !== "" && !emailUser)) {
+				if ((emailDomainSelect === "" && !emailDomainSelect) || (customEmailDomain === "" && !customEmailDomain)) {
+	               emailError.style.display = "block";
+	               emailError.textContent = "이메일을 모두 입력해 주세요.";
+	               isValid = false;
+			
+				   return isValid;		
+				}
+		   }
+		   
 
            // 전화번호 검증
            const countryNum = document.getElementById("countryNum").value;
@@ -49,9 +105,10 @@ window.onload = function() {
                phoneError.style.display = "block";
                phoneError.textContent = "전화번호를 모두 입력해 주세요.";
                isValid = false;
-           } else {
-               phoneError.style.display = "none";
-           }
+           	   
+			   
+			   return isValid;
+		   }
 
            return isValid; // 폼 제출을 허용하거나 중지
        }

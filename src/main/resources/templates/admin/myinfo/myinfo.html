@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="/admin/myinfo/css/myinfo.css" />
     <style>
         .error-message {
+        	margin-left: 50px;
             color: red;
             font-size: 0.9em;
             display: none;
@@ -17,7 +18,7 @@
             <div class="info">
                 <span class="search-list-subject">아이디</span>
                 <div class="text-readonly">
-                    <span th:text="*{manager_id}">아이디 들어갈 자리</span>
+                    <span th:text="${managers.manager_id}"></span>
                 </div>
                 <input type="hidden" th:field="*{manager_id}"/>
             </div>
@@ -26,25 +27,28 @@
             <div class="info">
                 <span class="search-list-subject important">비밀번호</span>
                 <div>
-                    <input type="password" class="input-pw" th:field="*{manager_pw}" placeholder="새 비밀번호 입력">
+                    <input type="password" id="input-pw" class="input-pw" placeholder="새 비밀번호 입력">
                 </div>
             </div>
 
             <div class="info">
                 <span class="search-list-subject important">비밀번호 확인</span>
                 <div>
-                    <input type="password" class="input-pw" th:field="*{manager_pw_check}" placeholder="새 비밀번호 확인">
+                    <input type="password" id="input-pw-check" class="input-pw" th:field="*{manager_pw}" placeholder="새 비밀번호 확인">
                 </div>
+                <div>
+                </div>
+	                <span class="error-message" id="pwError" style="display: block;">※ 특수문자, 영문자, 숫자 포함, 최소 8자</span>
             </div>
 
             <!-- 이메일 필드 -->
             <div class="select-wrap info">
                 <span class="search-list-subject">이메일</span>
                 <div class="info-items">
-                    <input type="text" id="emailUser" th:field="*{emailUser}" class="gray-text" placeholder="이메일 입력"/>
+                    <input type="text" id="emailUser" class="gray-text" th:value="${managers.manager_email}"/>
                     <span class="search-list-subject-symbol">@</span>
                     <div class="select-box">
-                        <select id="emailDomain" th:field="*{emailDomain}" onchange="toggleCustomDomain()">
+                        <select id="emailDomain" onchange="toggleCustomDomain()">
                             <option value="">선택하세요</option>
                             <option value="naver.com">naver.com</option>
                             <option value="gmail.com">gmail.com</option>
@@ -54,10 +58,14 @@
                         </select>
                         <div class="select-arrow-down" id="email"></div>
                     </div>
-                    <input type="text" id="customEmailDomain" th:field="*{customEmailDomain}" style="display:none;"/>
+                    <input type="text" id="customEmailDomain" style="display:none;"/>
                 </div>
-                <input type="hidden" th:field="*{manager_email}" />
-                <span class="error-message" id="emailError"></span>
+                <div>
+	                <input type="hidden" id="fullEmail" th:field="*{manager_email}" />
+                </div>
+                <div>
+	                <span class="error-message" id="emailError"></span>
+                </div>
             </div>
 
             <!-- 전화번호 필드 -->
@@ -65,37 +73,41 @@
                 <span class="search-list-subject">전화번호</span>
                 <div class="info-items">
                     <div class="select-box">
-                        <select id="countryNum" th:field="*{countryNum}">
-                            <option value="010">010</option>
-                            <option value="011">011</option>
-                            <option value="016">016</option>
-                            <option value="017">017</option>
-                            <option value="018">018</option>
-                            <option value="019">019</option>
-                        </select>
+                        <select id="countryNum" name="countryNum">
+			                <option value="010" th:selected="${countryNum == '010'}">010</option>
+			                <option value="011" th:selected="${countryNum == '011'}">011</option>
+			                <option value="016" th:selected="${countryNum == '016'}">016</option>
+			                <option value="017" th:selected="${countryNum == '017'}">017</option>
+			                <option value="018" th:selected="${countryNum == '018'}">018</option>
+			                <option value="019" th:selected="${countryNum == '019'}">019</option>
+			            </select>
                         <div class="select-arrow-down" id="phoneNum"></div>
                     </div>
                     <span class="search-list-subject-symbol">-</span>
-                    <input type="number" id="userPart1" th:field="*{userPart1}" class="gray-num" placeholder="1234"/>
+                    <input type="number" id="userPart1" class="gray-num" max="9999" step="1" th:value="${userPart1}" />
                     <span class="search-list-subject-symbol">-</span>
-                    <input type="number" id="userPart2" th:field="*{userPart2}" class="gray-num" placeholder="1234"/>
+                    <input type="number" id="userPart2" class="gray-num" max="9999" step="1" th:value="${userPart2}" />
                 </div>
-                <input type="hidden" th:field="*{manager_phoneNo}" />
-                <span class="error-message" id="phoneError"></span>
+                <div>
+	                <input type="hidden" id="fullPhone" th:field="*{manager_phoneNo}" />
+                </div>
+                <div>
+	                <span class="error-message" id="phoneError"></span>
+                </div>
             </div>
 
             <!-- 주소 필드 -->
             <div class="info">
                 <span class="search-list-subject">주소</span>
                 <div>
-                    <input type="text" th:field="*{manager_addr}" class="gray-text" placeholder="주소 입력" />
+                    <input type="text" id="address_kakao" th:field="*{manager_addr}" class="gray-text"/>
                 </div>
             </div>
 
             <div class="info">
                 <span class="search-list-subject">상세주소</span>
                 <div>
-                    <input type="text" th:field="*{manager_detail_addr}" class="gray-text" placeholder="상세 주소 입력"/>
+                    <input type="text" th:field="*{manager_detail_addr}" class="gray-text"/>
                 </div>
             </div>
 
@@ -103,29 +115,30 @@
             <div class="select-wrap info">
                 <span class="search-list-subject">부서명</span>
                 <div class="text-readonly">
-                    <span th:text="*{manager_dept} == '01' ? '물류팀' : '운영팀'"></span>
+                    <span th:text="${managers.manager_dept} == '01' ? '물류팀' : '운영팀'"></span>
                 </div>
             </div>
 
             <!-- 프로필 사진 -->
-            <div class="info">
+            <div class="info" style="border-bottom: none;">
                 <span class="search-list-subject">프로필</span>
                 <div class="info-items">
                     <div class="img-input-wrap">
                         <label for="input-file" class="input-file-label">
                             <i class="fa-solid fa-plus" id="img-in"></i>
-                            <input type="file" th:field="*{profileImage}" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png" onchange="previewImage(event)"/>
-                            <img th:src="@{/common/img/profile/{profile}(profile=${manager.manager_profile_changed != null ? manager.manager_profile_changed : 'default_profile.png'})}" alt="사진" id="preview"/>
+                            <input type="file" name="profileImage" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png" onchange="previewImage(event)"/>
+							<img th:src="@{/admin/common/img/profile/{profile}(profile=${managers.manager_profile_changed != null ? managers.manager_profile_changed : 'default_profile.png'})}" alt="사진" id="preview"/>
                         </label>
                     </div>
                     <label>형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
                 </div>
-                <div class="btn-box">
-                    <button type="submit" class="default-btn">수정</button>
-                    <button type="button" class="default-btn cancle" onclick="location.href='/admin/index?path=admin/index'">취소</button>
-                </div>
             </div>
-        </form>
+			<div class="btn-box">
+				<button type="submit" class="default-btn">수정</button>
+				<button type="button" class="default-btn cancle"
+					onclick="location.href='/admin/index?path=admin/index'">취소</button>
+			</div>
+		</form>
     </div>
     
     <script src="/admin/myinfo/js/myinfo.js"></script>

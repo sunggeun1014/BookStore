@@ -35,7 +35,7 @@ public class ReviewsServiceImpl implements ReviewsService {
 
     @Override
     @Transactional
-    public void deleteReviewsByIds(List<Integer> reviewIds) {
+    public void deleteReviewsById(List<Integer> reviewIds) {
     	reviewsMapper.deleteAllByIdIn(reviewIds);
     }
 }

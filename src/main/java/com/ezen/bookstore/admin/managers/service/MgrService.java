@@ -50,6 +50,13 @@ public class MgrService {
     }
     
     public void updateManager(ManagersDTO managersDTO) {
+    	String password = managersDTO.getManager_pw();
+
+    	if (!password.isEmpty()) {
+    		String encodedPassword = passwordEncoder.encode(password);
+    		managersDTO.setManager_pw(encodedPassword);
+    	}
+    	
     	mgrRepository.updateManager(managersDTO);
     }
     
