@@ -3,20 +3,20 @@ datepicker("singleDate");
 
 checkEditForm();
 
-// function getCountryValue() {
-//     const countryRadio = document.querySelector('input[name="book_country_type"]:checked');
-//     return countryRadio ? countryRadio.value : null;
-// }
-//
-// function getStateValue() {
-//     const stateRadio = document.querySelector('input[name="book_state"]:checked');
-//     return stateRadio ? stateRadio.value : null;
-// }
-//
-// function getCategoryValue() {
-//     const categorySelect = document.querySelector('select[name="book_category"]');
-//     return categorySelect ? categorySelect.value : null;
-// }
+function getCountryValue() {
+    const countryRadio = document.querySelector('input[name="book_country_type"]:checked');
+    return countryRadio ? countryRadio.value : null;
+}
+
+function getStateValue() {
+    const stateRadio = document.querySelector('input[name="book_state"]:checked');
+    return stateRadio ? stateRadio.value : null;
+}
+
+function getCategoryValue() {
+    const categorySelect = document.querySelector('select[name="book_category"]');
+    return categorySelect ? categorySelect.value : null;
+}
 
 function checkEditForm() {
     const editForm = document.querySelector("#edit-form")
@@ -31,12 +31,6 @@ function checkEditForm() {
 
     editForm.addEventListener("submit", function(event) {
         event.preventDefault();
-
-        if (inputISBN.value === "") {
-            getCheckModal("ISBN을 입력해주세요");
-            inputISBN.focus();
-            return;
-        }
 
         if (inputName.value === "") {
             getCheckModal("책제목을 입력해주세요");
@@ -103,7 +97,7 @@ function checkEditForm() {
         // 모든 유효성 검사를 통과한 경우
         if (bookISBN.length > 0) {
             getConfirmModal("수정하시겠습니까?", function() {
-                addForm.submit(); // 폼 제출
+                editForm.submit(); // 폼 제출
             });
         } else {
             getErrorModal();

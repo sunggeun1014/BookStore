@@ -20,6 +20,8 @@ public class ProductsDTO {
     private String book_category;
     private String book_state;
     private String book_thumbnail;
+    private String book_thumbnail_original;
+    private String book_thumbnail_changed;
     private MultipartFile thumbnail_img_file;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

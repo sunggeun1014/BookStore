@@ -88,6 +88,7 @@
                        max="10"
                        class="input-price"
                        name="book_price"
+                       id="book-price"
                        th:value="${product_detail != null ? #numbers.formatDecimal(product_detail.book_price, 0, 'COMMA', 0, 'POINT') : ''}"
                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                        th:attr="data-original-value=${product_detail != null ? product_detail.book_price : ''}"
@@ -98,7 +99,7 @@
                     <span class="important">*</span>
                 </p>
                 <div class="input-qty-container">
-                    <input type="number" name="book_qty" id="" class="input-qty" placeholder="수량"
+                    <input type="number" name="book-qty" id="book-qty" class="input-qty" placeholder="수량"
                            th:value="${product_detail != null ? product_detail.book_qty : ''}"/>
                 </div>
             </div>
@@ -133,7 +134,7 @@
                              alt="Book Thumbnail"
                              id="preview"/>
                     </label>
-                    <input type="file" name="book_thumbnail" id="input-file" class="input-img-file"/>
+                    <input type="file" name="book_thumbnail" id="input-file" class="input-img-file" accept="image/jpeg, image/png, image/jpg"/>
                 </div>
             </div>
         </div>
@@ -142,7 +143,7 @@
             <p class="search-list-subject">책소개
                 <span class="important">*</span>
             </p>
-            <textarea name="book_intro" id="" cols="30" rows="10" class="custom-textarea"
+            <textarea name="book_intro" id="book_intro" cols="30" rows="10" class="custom-textarea"
                       th:text="${product_detail != null ? product_detail.book_intro : ''}"></textarea>
         </div>
         <th:block th:if="${product_detail.book_deleted == '02'}">
