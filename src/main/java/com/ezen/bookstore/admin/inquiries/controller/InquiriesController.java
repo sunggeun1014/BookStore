@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ezen.bookstore.admin.commons.AccountManagement;
 import com.ezen.bookstore.admin.inquiries.dto.InquiriesDTO;
 import com.ezen.bookstore.admin.inquiries.service.InquiriesService;
+import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -67,8 +69,9 @@ public class InquiriesController {
 	@PostMapping("/insert")
 	public String insertInquiries(@ModelAttribute("inquiries") InquiriesDTO inquiriesDTO, HttpSession session, Model model) {
 		
-		String managerId = (String) session.getAttribute("managerId");
-        inquiriesDTO.setManager_id(managerId);  // DTO에 manager_id 설정
+		ManagersDTO sessionInfo = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
+		
+        inquiriesDTO.setManager_id(sessionInfo.getManager_id());  // DTO에 manager_id 설정
         
 		iqs.insertInquiry(inquiriesDTO);
 		

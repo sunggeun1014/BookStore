@@ -1,9 +1,11 @@
 package com.ezen.bookstore.admin.supplierorders.repository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO;
@@ -32,12 +34,13 @@ public class SupplierOrdersRepository {
 		return sql.selectOne("SupplierOrders.getDetail", order_num);
 	}
 	
-	public void orderConfirmInsert(List<SupplierOrdersDTO> list, String manager_id) {
+	@Transactional
+	public void orderConfirmInsert(List<SupplierOrdersDTO> list, String manager_id) throws SQLException {
 		sql.insert("SupplierOrders.orderInsert", manager_id);
 		
 		for(SupplierOrdersDTO dto : list) {
 			sql.insert("SupplierOrders.orderDetailInsert", dto);
-		}
+		}	
 	}
 	
 }
