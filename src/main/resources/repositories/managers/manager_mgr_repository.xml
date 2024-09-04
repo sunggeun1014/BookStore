@@ -76,7 +76,7 @@
     	UPDATE managers
     <set>
         <trim suffixOverrides=",">
-            <if test="manager_pw != null and manager_pw != ''">
+            <if test="manager_pw != null and !manager_pw.equals('')">
                 manager_pw = #{manager_pw},
             </if>
             <if test="manager_phoneNo != null and manager_phoneNo != ''">
@@ -84,6 +84,9 @@
             </if>
             <if test="manager_email != null and manager_email != ''">
                 manager_email = #{manager_email},
+            </if>
+            <if test="manager_profile_original != null and manager_profile_original != ''">
+            	manager_profile_original = #{manager_profile_original},
             </if>
             <if test="manager_profile_changed != null and manager_profile_changed != ''">
                 manager_profile_changed = #{manager_profile_changed},

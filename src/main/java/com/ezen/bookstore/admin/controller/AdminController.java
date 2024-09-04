@@ -2,6 +2,8 @@ package com.ezen.bookstore.admin.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -50,14 +52,32 @@ public class AdminController {
 	    
 	    String managerId = (String) session.getAttribute("managerId");
 	    log.info(managerId);
-	    
 	    ManagersDTO managersDTO = mgrService.detailList(managerId);
-	    log.info("ManagersDTO: " + managersDTO); // DTO 객체를 로그로 출력
+
+	    String fullEmail = managersDTO.getManager_email();
+	    String localPart = fullEmail != null ? fullEmail.split("@")[0] : "";
+	
+	    managersDTO.setManager_email(localPart);
 	    
-	    if (managersDTO != null) {
-	    	model.addAttribute("manager", managersDTO);
+	    String fullPhone = managersDTO.getManager_phoneNo();
+	    String countryNum = "";
+	    String userPart1 = "";
+	    String userPart2 = "";
+
+	    if (fullPhone != null && !fullPhone.isEmpty()) {
+	        String[] phoneParts = fullPhone.split("-");
+	        if (phoneParts.length == 3) {
+	            countryNum = phoneParts[0];
+	            userPart1 = phoneParts[1];
+	            userPart2 = phoneParts[2];
+	        }
 	    }
 	    
+	    
+	    model.addAttribute("managers", managersDTO);
+	    model.addAttribute("countryNum", countryNum);
+	    model.addAttribute("userPart1", userPart1);
+	    model.addAttribute("userPart2", userPart2);
 	    String templatePath = "/admin/myinfo/myinfo";
 	    
 	    model.addAttribute("template", templatePath);
@@ -67,50 +87,51 @@ public class AdminController {
 
 	
 	@PostMapping("/myinfo/update")
-	public String updateMyInfo(@ModelAttribute("manager") ManagersDTO managersDTO,
-	                           @RequestParam("profileImage") MultipartFile profileImage,
-	                           HttpSession session,
-	                           Model model) {
+    public String updateMyInfo(@ModelAttribute("managers") ManagersDTO managersDTO,
+                               @RequestParam MultipartFile profileImage,
+                               HttpSession session,
+                               Model model) {
 
 	    String managerId = (String) session.getAttribute("managersDTO");
 	    managersDTO.setManager_id(managerId);
+        if (!profileImage.isEmpty()) {
+            try {
+                // 원본 파일 이름과 확장자 추출
+                String originalFilename = profileImage.getOriginalFilename();
+                String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
 
-	    // 이미지가 비어있지 않은 경우에만 처리
-	    if (!profileImage.isEmpty()) {
-	        try {
-	            // 원본 파일 이름과 확장자 추출
-	            String originalFilename = profileImage.getOriginalFilename();
-	            String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-	            
-	            // 현재 시간으로 새로운 파일 이름 생성
-	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-	            String formattedTime = LocalDateTime.now().format(formatter);
-	            String newFileName = "profile_img_" + formattedTime + fileExtension;
+                // 현재 시간으로 새로운 파일 이름 생성
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                String formattedTime = LocalDateTime.now().format(formatter);
+                String newFileName = "profile_img_" + formattedTime + fileExtension;
 
-	            // 프로젝트의 정적 리소스 디렉토리에 이미지 저장 경로 설정
-	            String uploadDir = "src/main/resources/static/common/img/profile/";
-	            String uploadPath = uploadDir + newFileName;
+                // 프로젝트의 정적 리소스 디렉토리에 이미지 저장 경로 설정
+                String projectDir = System.getProperty("user.dir");  // 프로젝트의 현재 작업 디렉토리 경로
+                String uploadDir = projectDir + "/src/main/resources/static/admin/common/img/profile/"; // 파일 저장 폴더 경로
+                Path uploadPath = Paths.get(uploadDir, newFileName);
 
-	            // 파일을 지정된 경로에 저장
-	            File uploadDirFile = new File(uploadDir);
-	            if (!uploadDirFile.exists()) {
-	                uploadDirFile.mkdirs(); // 디렉토리가 없으면 생성
-	            }
-	            profileImage.transferTo(new File(uploadPath));
+                // 폴더가 없으면 생성
+                File uploadDirFile = new File(uploadDir);
+                if (!uploadDirFile.exists()) {
+                    uploadDirFile.mkdirs();
+                }
 
-	            // DTO에 파일 정보 설정
-	            managersDTO.setManager_profile_original(originalFilename);
-	            managersDTO.setManager_profile_changed(newFileName);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            return "admin/index";
-	        }
-	    }
+                // 파일을 지정된 경로에 저장
+                profileImage.transferTo(uploadPath.toFile());
 
-	    // 서비스 호출하여 데이터베이스 업데이트
-	    mgrService.updateManager(managersDTO);
+                // DTO에 파일 정보 설정
+                managersDTO.setManager_profile_original(originalFilename);
+                managersDTO.setManager_profile_changed(newFileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "admin/myinfo"; // 에러 발생 시 다시 마이페이지로 이동
+            }
+        }
 
-	    return "admin/index";  // 업데이트 후 마이페이지로 리다이렉트
-	}
+        // 서비스 호출하여 데이터베이스 업데이트
+        mgrService.updateManager(managersDTO);
+
+        return "admin/index";  // 업데이트 후 마이페이지로 리다이렉트
+    }
     
 }
