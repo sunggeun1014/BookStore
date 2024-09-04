@@ -6,37 +6,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.bookstore.admin.inquiries.dto.InquiriesDTO;
-import com.ezen.bookstore.admin.inquiries.repository.InquiriesRepository;
+import com.ezen.bookstore.admin.inquiries.mapper.InquiriesMapper;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
 public class InquiriesServiceImpl implements InquiriesService {
 
-    private final InquiriesRepository inquiriesRepository;
+    InquiriesMapper inquiriesMapper;
 
     @Override
     @Transactional(readOnly = true)
     public List<InquiriesDTO> getList() {
-        return inquiriesRepository.getList();
+        return inquiriesMapper.getList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public InquiriesDTO getDetailList(Integer inquiryNum) {
-        return inquiriesRepository.getDetailList(inquiryNum);
+        return inquiriesMapper.getDetailList(inquiryNum);
     }
 
     @Override
     @Transactional
     public void updateInquiry(InquiriesDTO inquiriesDTO) {
-        inquiriesRepository.updateInquiry(inquiriesDTO);
+    	inquiriesMapper.updateInquiry(inquiriesDTO);
     }
 
     @Override
     @Transactional
     public void insertInquiry(InquiriesDTO inquiriesDTO) {
-        inquiriesRepository.insertInquiry(inquiriesDTO);
+    	inquiriesMapper.insertInquiry(inquiriesDTO);
     }
 }

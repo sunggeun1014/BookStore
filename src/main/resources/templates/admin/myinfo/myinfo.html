@@ -45,15 +45,15 @@
             <div class="select-wrap info">
                 <span class="search-list-subject">이메일</span>
                 <div class="info-items">
-                    <input type="text" id="emailUser" class="gray-text" th:value="${managers.manager_email}"/>
+                    <input type="text" id="emailUser" class="gray-text" th:value="${emailUser}"/>
                     <span class="search-list-subject-symbol">@</span>
                     <div class="select-box">
-                        <select id="emailDomain" onchange="toggleCustomDomain()">
+                        <select id="emailDomain" th:value="${emailDomain}" onchange="toggleCustomDomain()">
                             <option value="">선택하세요</option>
-                            <option value="naver.com">naver.com</option>
-                            <option value="gmail.com">gmail.com</option>
-                            <option value="daum.net">daum.net</option>
-                            <option value="yahoo.com">yahoo.com</option>
+                            <option value="naver.com" th:selected="${emailDomain == 'naver.com'}">naver.com</option>
+                            <option value="gmail.com" th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
+                            <option value="daum.net" th:selected="${emailDomain == 'daum.net'}">daum.net</option>
+                            <option value="yahoo.com" th:selected="${emailDomain == 'yahoo.com'}">yahoo.com</option>
                             <option value="custom">직접 입력</option>
                         </select>
                         <div class="select-arrow-down" id="email"></div>
@@ -118,16 +118,14 @@
                     <span th:text="${managers.manager_dept} == '01' ? '물류팀' : '운영팀'"></span>
                 </div>
             </div>
-
             <!-- 프로필 사진 -->
             <div class="info" style="border-bottom: none;">
                 <span class="search-list-subject">프로필</span>
                 <div class="info-items">
                     <div class="img-input-wrap">
                         <label for="input-file" class="input-file-label">
-                            <i class="fa-solid fa-plus" id="img-in"></i>
                             <input type="file" name="profileImage" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png" onchange="previewImage(event)"/>
-							<img th:src="@{/admin/common/img/profile/{profile}(profile=${managers.manager_profile_changed != null ? managers.manager_profile_changed : 'default_profile.png'})}" alt="사진" id="preview"/>
+							<img th:src="@{/admin/common/img/profile/{profile}(profile=${managers.manager_profile_changed != null ? managers.manager_profile_changed : 'default_profile.png'})}" alt="사진" id="preview" style="display: block;"/>
                         </label>
                     </div>
                     <label>형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
@@ -135,8 +133,7 @@
             </div>
 			<div class="btn-box">
 				<button type="submit" class="default-btn">수정</button>
-				<button type="button" class="default-btn cancle"
-					onclick="location.href='/admin/index?path=admin/index'">취소</button>
+				<button type="button" class="default-btn cancle" onclick="location.href='/admin/index?path=admin/index'">취소</button>
 			</div>
 		</form>
     </div>

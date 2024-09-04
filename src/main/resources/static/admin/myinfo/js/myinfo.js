@@ -155,10 +155,7 @@ window.onload = function() {
 
                reader.onload = function(e) {
                    var preview = document.getElementById('preview');
-                   var imgIn = document.getElementById('img-in');
                    preview.src = e.target.result; 
-                   imgIn.style.display = 'none';
-                   preview.style.display = 'block';
                }
 
                reader.readAsDataURL(input.files[0]); 
