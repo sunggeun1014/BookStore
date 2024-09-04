@@ -29,23 +29,19 @@ public class CustomUserDetails implements UserDetails {
 		return managersDTO;
 	}
 
-	public String getPassword() {
-        return managersDTO.getManager_pw();
-    }
-
-    
-    public String getUsername() {
+    public String getManagerId() {
         return managersDTO.getManager_id();
     }
     
-    public String getManagerName() {
-        return managersDTO.getManager_name();
-    }
-
-    public String getManagerDept() {
-        return managersDTO.getManager_dept();
-    }
+    @Override
+	public String getPassword() {
+		return managersDTO.getManager_pw();
+	}
     
+    @Override
+    public String getUsername() {
+    	return getManagerId();
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -65,6 +61,9 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+	
+
     
     
 }

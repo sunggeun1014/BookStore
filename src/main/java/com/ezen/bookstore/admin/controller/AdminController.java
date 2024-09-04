@@ -40,44 +40,9 @@ public class AdminController {
 	
 	@GetMapping("/index")
     public String index(HttpSession session, Model model, String path) {
+		        
+		model.addAttribute("template", path);			
 		
-		model.addAttribute("template", path);
-		
-		log.info("{}", session.getAttribute("username"));
-		
-		if(session.getAttribute("username") != null) {
-			 return "/admin/index";
-		}
-		
-        // 현재 인증된 사용자 정보 가져오기
-		// Authentication : 현재 사용자의 정보를 가져오기 위해 사용하는 객체
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-        	// 사용자의 정보를 담고있는 객체이다
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            
-            String managerId = userDetails.getUsername();
-            String username = userDetails.getManagerName();
-            
-            // 부서명을 설정
-            String departmentName;
-            switch (userDetails.getManagerDept()) {
-                case "01":
-                    departmentName = "물류팀";
-                    break;
-                case "02":
-                    departmentName = "운영팀";
-                    break;
-                default:
-                    departmentName = "기타";
-                    break;
-            }
-            
-            session.setAttribute("username", username);
-            session.setAttribute("authority", departmentName);
-            session.setAttribute("managerId", managerId);
-        }
-
         return "/admin/index";
        
     }
@@ -109,7 +74,7 @@ public class AdminController {
 	                           HttpSession session,
 	                           Model model) {
 
-	    String managerId = (String) session.getAttribute("managerId");
+	    String managerId = (String) session.getAttribute("managersDTO");
 	    managersDTO.setManager_id(managerId);
 
 	    // 이미지가 비어있지 않은 경우에만 처리
