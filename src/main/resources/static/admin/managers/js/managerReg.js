@@ -1,3 +1,26 @@
+window.onload = function() {
+    var addressInput = document.getElementById("address_kakao");
+
+    if (addressInput) {
+        addressInput.addEventListener("click", function() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 주소 입력 필드에 값 설정
+                    addressInput.value = data.address;
+
+                    // 상세주소 입력 필드에 포커스 주기 (약간의 지연 추가)
+                    setTimeout(function() {
+                        var detailAddressInput = document.getElementById("manager_detail_addr");
+                        if (detailAddressInput) {
+                            detailAddressInput.focus();
+                        }
+                    }, 100);  // 100ms 지연
+                }
+            }).open(); // 팝업 창을 엽니다
+        });
+    }
+};
+
 $(document).ready(function() {
     var idCheckPassed = false;  // 아이디 중복 확인 플래그
     var pwCheckPassed = false;  // 비밀번호 일치 확인 플래그
@@ -142,3 +165,21 @@ $(document).ready(function() {
         }
     };
 });
+
+	function previewImage(event) {
+       var input = event.target;
+
+       if (input.files && input.files[0]) {
+           var reader = new FileReader();
+
+           reader.onload = function(e) {
+               var preview = document.getElementById('preview');
+               var imgIn = document.getElementById('img-in');
+               preview.src = e.target.result; 
+               imgIn.style.display = 'none';
+               preview.style.display = 'block';
+           }
+
+           reader.readAsDataURL(input.files[0]); 
+       }
+   }
