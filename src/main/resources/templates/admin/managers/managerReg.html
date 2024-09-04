@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<link rel="stylesheet" href="/admin/managers/css/managerDetails.css" />
 <link rel="stylesheet" href="/admin/managers/css/managerReg.css" />
 <link rel="stylesheet" href="/admin/common/css/modal.css" />
 
 <div>
 	<div class="white-frame">
-		<form action="/admin/managers/join" method="POST" id="joinForm">
+		<form action="/admin/managers/join" method="POST" id="joinForm" enctype="multipart/form-data">
 			<h1 class="search-list-title">매니저 정보 등록</h1>
 			
 			<div class="info ">
@@ -116,9 +115,11 @@
 				<span class="search-list-subject">프로필</span>
 			
 				<div class="img-input-wrap">
-					<label for="input-file" class="input-file-label"> <i
-						class="fa-solid fa-plus"></i> <img src="" alt="" id="preview" />
-					</label> <input type="file" name="" id="input-file" class="input-img-file" />
+					<label for="input-file" class="input-file-label">
+                        <i class="fa-solid fa-plus" id="img-in"></i>
+                        <input type="file" name="profileImage" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png" onchange="previewImage(event)"/>
+						<img id="preview"/>
+                    </label>
 				</div>
 				<label>형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
 			</div>
@@ -134,15 +135,6 @@
 		
 		
 	</div>
-	<!-- 모달 -->
-	 <div id="myModal" class="modal">
-        <div class="modal-content">
-            <p id="modal-message">등록이 완료되었습니다</p>
-            <div class="modal-footer">
-                <button id="confirm-join" class="modal-btn confirm">확인</button>
-            </div>
-        </div>
-    </div>
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
@@ -150,29 +142,6 @@
 	<script src="/admin/managers/js/managerReg.js"></script>
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script>
-		window.onload = function() {
-		    var addressInput = document.getElementById("address_kakao");
 	
-		    if (addressInput) {
-		        addressInput.addEventListener("click", function() {
-		            new daum.Postcode({
-		                oncomplete: function(data) {
-		                    // 주소 입력 필드에 값 설정
-		                    addressInput.value = data.address;
-	
-		                    // 상세주소 입력 필드에 포커스 주기 (약간의 지연 추가)
-		                    setTimeout(function() {
-		                        var detailAddressInput = document.getElementById("manager_detail_addr");
-		                        if (detailAddressInput) {
-		                            detailAddressInput.focus();
-		                        }
-		                    }, 100);  // 100ms 지연
-		                }
-		            }).open(); // 팝업 창을 엽니다
-		        });
-		    }
-		};
-	</script>
 </div>
 </html>

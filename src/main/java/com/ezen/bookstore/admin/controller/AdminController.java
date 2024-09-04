@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ezen.bookstore.admin.commons.AccountManagement;
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 import com.ezen.bookstore.admin.managers.service.MgrService;
 
@@ -50,16 +51,14 @@ public class AdminController {
 	@GetMapping("/myinfo")
 	public String getMyInfo(HttpSession session, Model model) {
 	    
-	    String managerId = (String) session.getAttribute("managerId");
-	    log.info(managerId);
-	    ManagersDTO managersDTO = mgrService.detailList(managerId);
+	    ManagersDTO sessionInfo = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
 
-	    String fullEmail = managersDTO.getManager_email();
+	    String fullEmail = sessionInfo.getManager_email();
 	    String localPart = fullEmail != null ? fullEmail.split("@")[0] : "";
 	
-	    managersDTO.setManager_email(localPart);
+	    sessionInfo.setManager_email(localPart);
 	    
-	    String fullPhone = managersDTO.getManager_phoneNo();
+	    String fullPhone = sessionInfo.getManager_phoneNo();
 	    String countryNum = "";
 	    String userPart1 = "";
 	    String userPart2 = "";
@@ -74,10 +73,11 @@ public class AdminController {
 	    }
 	    
 	    
-	    model.addAttribute("managers", managersDTO);
+	    model.addAttribute("managers", sessionInfo);
 	    model.addAttribute("countryNum", countryNum);
 	    model.addAttribute("userPart1", userPart1);
 	    model.addAttribute("userPart2", userPart2);
+	    
 	    String templatePath = "/admin/myinfo/myinfo";
 	    
 	    model.addAttribute("template", templatePath);
@@ -92,8 +92,9 @@ public class AdminController {
                                HttpSession session,
                                Model model) {
 
-	    String managerId = (String) session.getAttribute("managersDTO");
-	    managersDTO.setManager_id(managerId);
+	    ManagersDTO sessionInfo = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
+	    managersDTO.setManager_id(sessionInfo.getManager_id());
+	    
         if (!profileImage.isEmpty()) {
             try {
                 // 원본 파일 이름과 확장자 추출
