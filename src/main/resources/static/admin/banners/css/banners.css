@@ -45,6 +45,14 @@ table.dataTable tbody tr {
    gap: 10px;
 }
 
+.search-list-title {
+    margin-bottom: 20px;
+}
+
+.insert-subject {
+	width: 100px;
+}
+
 .insert-filter {
    display: flex;
    flex-direction: row;
@@ -56,9 +64,10 @@ table.dataTable tbody tr {
 
 .required {
 	color: #E54F53;
+	display: inline-block;
 }
 
-.filter-group, .radio-group, .search-bar-group {
+.filter-group, .radio-group, .search-bar-group, .banner-info{
    display: flex;
    flex-direction: row;
    align-items: center;
@@ -74,12 +83,6 @@ table.dataTable tbody tr {
    color: #000000;
    margin-left: 40px;
    margin-right: 60px;
-}
-
-.date-picker {
-   display: flex;
-   flex-direction: row;
-   gap: 10px;
 }
 
 .input-date-box {
@@ -142,39 +145,58 @@ table.dataTable tbody tr {
    margin-top: 10px;
 }
 
+.dt-column-title {
+    color: #7E7E7E;
+}
+
+.table-title-wrap {
+    margin-bottom: 10px;
+}
+
+.table-title-wrap, .button-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-wrap {
+    gap: 10px;
+}
+
 .image-wrap {
 	height: 150px;
 }
 
 .file-name {
+	display: flex;
 	font-size: 12px;
-    padding-top: 80px;
-    height: auto;
-    padding-left: 0;
-}
-
-#reset-button {
-    cursor: pointer;
-}
-
-.default-btn {
-	margin-left: 10px;
+	padding-top: 80px;
+	height: auto;
+	padding-left: 0;
 }
 
 .table thead {
-    height: 50px;
     background-color: #FAFAFA;
     color: #7E7E7E;
 }    
 
+.table th:not([align]), .table td:not([align]){
+    text-align: center;/* 텍스트 가운데 정렬 */
+}
+
 .table td, .table thead th {
-	text-align: center; /* 텍스트 가운데 정렬 */
+	text-align: center; 
 	vertical-align: middle; /* 수직 가운데 정렬 */
     border-width: 1px 0 1px 0;
     border-style: solid;
     border-color: #D8D8D8;
+    height: 50px;
 }    
 
+.status-btn-wrap {
+    margin-left: 10px;	
+}
 .material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,
@@ -198,7 +220,9 @@ table.dataTable tbody tr {
 }
 
 .submit-btns {
-	padding-top: 20px;
+    padding-top: 20px;
     display: flex;
+    flex-direction: row;
+    gap: 10px;
     justify-content: center;
 }

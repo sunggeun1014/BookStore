@@ -8,10 +8,7 @@
 		SELECT
 			banner_num,
 			banner_title,
-			CASE
-				WHEN banner_position = '01' THEN '배너'
-				WHEN banner_position = '02' THEN '팝업'
-			END AS banner_position,
+			banner_position,
 			banner_start,
 			banner_end,
 			banner_visible,

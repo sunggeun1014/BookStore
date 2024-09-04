@@ -22,11 +22,13 @@
 					<div class="search-list-subject">등록일</div>
 					<div class="date-picker">
 						<div class="input-date-box">
-							<input type="text" id="startDate" class="placeholder" placeholder="YYYY-MM-DD" /> <i class="fa-solid fa-calendar-days"></i>
+							<input type="text" id="startDate" class="placeholder" placeholder="YYYY-MM-DD" /> 
+							<i class="fa-solid fa-calendar-days"></i>
 						</div>
 						<div class="calendar-slash">-</div>
 						<div class="input-date-box">
-							<input type="text" id="endDate" class="placeholder" placeholder="YYYY-MM-DD" /> <i class="fa-solid fa-calendar-days"></i>
+							<input type="text" id="endDate" class="placeholder" placeholder="YYYY-MM-DD" /> 
+							<i class="fa-solid fa-calendar-days"></i>
 						</div>
 					</div>
 					<div class="date-options date-pick-btn">
@@ -42,11 +44,13 @@
 			<div class="radio-group">
 				<div class="search-list-subject">유형</div>
 				<div class="radio-wrap">
-						<input type="radio" name="banner-position" id="position-all" value="" checked> <label for="position-all">전체</label>
-						<input type="radio" name="banner-position" id="position-banner" value="배너" class="radio"> <label for="position-banner">배너</label>
-						<input type="radio" name="banner-position" id="position-popup" value="팝업" class="radio"> <label for="position-popup">팝업</label>
+					<input type="radio" name="banner-position" id="position-all" value="" checked> 
+					<label for="position-all">전체</label> 
+					<input type="radio" name="banner-position" id="position-banner" value="01" class="radio"> 
+					<label for="position-banner">배너</label> 
+					<input type="radio" name="banner-position" id="position-popup" value="02" class="radio"> 
+					<label for="position-popup">팝업</label>
 				</div>
-
 			</div>
 
 			<div class="search-bar-group">
@@ -63,40 +67,30 @@
 	</div>
 
 	<div class="table-container white-frame">
-		<div class="btns">
-			<button id="delete-button" class="button is-danger delete-button" style="float: right;">삭제</button>
-			<button id="insert-button" class="button is-link default-btn" style="float: right;" onclick="location.href='/admin/banners/insert'">등록</button>
+		<div class="table-title-wrap">
+			<div id="total-row" class="table-data-cnt-txt"></div>
+			<div class="button-wrap">
+				<button id="delete-button" class="button is-danger delete-button">삭제</button>
+				<button id="insert-button" class="button is-link default-btn" onclick="location.href='/admin/banners/insert'">등록</button>
+			</div>
 		</div>
 		<table id="banners" class="table is-striped" style="width: 100%;">
-			<thead>
-				<tr>
-					<th>
-						<input type="checkbox" id="select-all" /> 
-						<label for="select-all"></label>
-					</th>
-					
-					<th>NO</th>
-					<th>제목</th>
-					<th>유형</th>
-					<th>노출 기간</th>
-					<th>노출 여부</th>
-					<th>등록일</th>
+			<thead class="table-head">
+				<tr class="table-column-head">
+					<th><input type="checkbox" id="select-all" /> <label for="select-all"></label></th>
+
+					<th class="table-column-head-txt">NO</th>
+					<th class="table-column-head-txt">제목</th>
+					<th class="table-column-head-txt">유형</th>
+					<th class="table-column-head-txt">노출 기간</th>
+					<th class="table-column-head-txt">노출 여부</th>
+					<th class="table-column-head-txt">등록일</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
 		</table>
 	</div>
-	
-	<!-- 모달(삭제)  -->
-	<div id="myModal" class="modal">
-		<div class="modal-content">
-			<p></p>
-			<div class="modal-footer">
-				<button id="confirm-delete" class="modal-btn confirm">확인</button>
-				<button id="cancel-delete" class="modal-btn cancel">취소</button>
-			</div>
-		</div>
-	</div>	
+
 
 	<script src="/admin/common/js/main.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
