@@ -445,17 +445,12 @@ input[type='number'] {
 	align-items: center;
 }
 
-.modal-footer {
-	display: flex;
-	justify-content: flex-end;
-	padding-top: 10px;
-}
-
-.modal-footer .button {
-	margin-left: 5px;
-}
-
 .essential::before {
     content: "*";
     color: red;
+}
+
+/* 테이블 체크 했을 때 배경색 바뀜 */
+.selected-row {
+	background-color: #FAFAFA;
 }

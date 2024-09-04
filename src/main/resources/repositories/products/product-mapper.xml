@@ -3,24 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Products">
-    <select id="getAll" resultType="products">
-        SELECT
-        book_isbn,
-        book_name,
-        book_price,
-        book_publisher,
-        book_author,
-        book_qty,
-        book_intro,
-        book_country_type,
-        book_category,
-        book_state,
-        book_thumbnail,
-        book_publish_date,
-        book_register_date
-        FROM
-        books
-    </select>
 
     <select id="findByCondition" resultType="products">
         SELECT
@@ -29,17 +11,14 @@
         book_price,
         book_publisher,
         book_author,
-        book_qty,
-        book_intro,
         book_country_type,
         book_category,
         book_state,
-        book_thumbnail,
-        book_publish_date,
         book_register_date
         FROM
         books
-        WHERE 1=1
+        WHERE
+        book_deleted = '01'
         <if test="book_state != null and book_state != ''">
             AND book_state = #{book_state}
         </if>
@@ -60,6 +39,7 @@
             </choose>
         </if>
     </select>
+
 
     <select id="getDetail" parameterType="String" resultType="products">
         SELECT
@@ -82,28 +62,22 @@
         book_isbn = #{book_isbn}
     </select>
 
-    <select id="getBookState" parameterType="String" resultType="products">
+    <select id="existsByIsbn" resultType="boolean" parameterType="string">
         SELECT
-        book_isbn,
-        book_name,
-        book_price,
-        book_publisher,
-        book_author,
-        book_qty,
-        book_intro,
-        book_country_type,
-        book_category,
-        book_state,
-        book_thumbnail,
-        book_publish_date,
-        book_register_date
-        FROM
-        books
-        WHERE
-        book_state = #{book_state}
+        book_isbn
+        FROM books
+        WHERE book_isbn = #{book_isbn}
     </select>
 
-    <insert id="insertBookInfo">
+    <select id="deleteState" resultType="String" parameterType="products">
+        SELECT
+        book_deleted
+        FROM books
+        WHERE book_isbn = #{book_isbn}
+
+    </select>
+
+    <insert id="insertBookInfo" parameterType="products">
         INSERT INTO
         books (
         book_isbn,
@@ -117,25 +91,23 @@
         book_category,
         book_state,
         book_thumbnail,
-        book_publish_date,
-        book_register_date
+        book_publish_date
         ) VALUES (
-        #{book_isbn},
-        #{book_name},
-        #{book_price},
-        #{book_price},
-        #{book_publisher},
-        #{book_author},
-        #{book_qty},
-        #{book_intro},
-        #{book_country_type},
-        #{book_category},
-        #{book_state},
-        #{book_thumbnail},
-        #{book_publish_date},
-        #{book_register_date}
-        );
+        #{book_isbn, jdbcType=VARCHAR},
+        #{book_name, jdbcType=VARCHAR},
+        #{book_price, jdbcType=NUMERIC},
+        #{book_publisher, jdbcType=VARCHAR},
+        #{book_author, jdbcType=VARCHAR},
+        #{book_qty, jdbcType=INTEGER},
+        #{book_intro, jdbcType=VARCHAR},
+        #{book_country_type, jdbcType=VARCHAR},
+        #{book_category, jdbcType=VARCHAR},
+        #{book_state, jdbcType=VARCHAR},
+        #{book_thumbnail, jdbcType=VARCHAR},
+        #{book_publish_date, jdbcType=TIMESTAMP}
+        )
     </insert>
+
 
     <update id="updateBookInfo" parameterType="products">
         UPDATE
@@ -156,11 +128,21 @@
         book_isbn = #{book_isbn}
     </update>
 
+    <!-- 밖에서 버튼 클릭으로 상태 바꿀지..? -->
     <update id="updateBookState" parameterType="products">
         UPDATE
         books
         SET
         book_state = #{book_state}
+        WHERE
+        book_isbn = #{book_isbn}
+    </update>
+
+    <update id="deleteBook" parameterType="java.util.HashMap">
+        UPDATE
+        books
+        SET
+        book_deleted = #{book_deleted}
         WHERE
         book_isbn = #{book_isbn}
     </update>

@@ -12,37 +12,37 @@
         <p class="search-list-subject">책검색</p>
         <div class="search-container">
             <input type="text" id="search-keyword" class="search-input"
-                   placeholder="책 제목 또는 isbn을 입력하세요"/>
+                   placeholder="책 제목 또는 ISBN을 입력하세요"/>
             <button id="searchButton">
                 <span class="material-symbols-outlined">search</span>
             </button>
         </div>
     </div>
 
-    <form action="/addProduct" id="add-form" method="post">
+    <form action="/admin/products/addProduct" id="add-form" method="post" enctype="multipart/form-data">
         <div class="product-info">
             <p class="search-list-subject">ISBN
                 <span class="important">*</span>
             </p>
-            <input type="text" name="book_isbn">
+            <input type="text" name="book_isbn" id="book_isbn">
         </div>
         <div class="product-info">
             <p class="search-list-subject">책제목
                 <span class="important">*</span>
             </p>
-            <input type="text" name="book_name" class="input-text-box">
+            <input type="text" name="book_name" id="book_name" class="input-text-box">
         </div>
         <div class="product-info">
             <p class="search-list-subject">출판사
                 <span class="important">*</span>
             </p>
-            <input type="text" name="book_publisher" class="input-text-box">
+            <input type="text" name="book_publisher" id="book_publisher" class="input-text-box">
         </div>
         <div class="product-info">
             <p class="search-list-subject">저자
                 <span class="important">*</span>
             </p>
-            <input type="text" name="book_author" class="input-text-box">
+            <input type="text" name="book_author" class="input-text-box" id="book_author">
         </div>
         <div class="product-info">
             <p class="search-list-subject">발행날짜
@@ -50,7 +50,7 @@
             </p>
             <div class="date-picker">
                 <div class="input-date-box">
-                    <input type="text" name="book_publish_date" id="startDate" class="placeholder input-date"
+                    <input type="text" maxlength="8" name="book_publish_date" id="singleDate" class="placeholder input-date"
                            placeholder="YYYY-MM-DD"/>
 
                     <i class="fa-solid fa-calendar-days"></i>
@@ -63,16 +63,16 @@
             </p>
             <div class="filter-wrap">
                 <div class="radio-filter">
-                    <input type="radio" name="book_country_type" id="domestic" th:value="'01'"/>
+                    <input type="radio" name="book_country_type" id="domestic" value="01"/>
                     <label for="domestic">국내</label>
 
-                    <input type="radio" name="book_country_type" id="overseas" th:value="'02'"/>
+                    <input type="radio" name="book_country_type" id="overseas" value="02"/>
                     <label for="overseas">국외</label>
                 </div>
                 <div class="select-wrap">
                     <select id="select-lists" name="book_category">
-                        <option></option>
-                        <option></option>
+                        <option value="">선택해주세요</option>
+                        <option th:each="val : ${book_category}" th:value="${val?.category_name}" th:text="${val?.category_name}"></option>
                     </select>
                     <div class="select-arrow-down"></div>
                 </div>
@@ -86,8 +86,9 @@
                 <input type="text"
                        max="10"
                        class="input-price"
+                       id="book-price"
                        name="book_price"
-                       onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                       pattern="[0-9]+"
                 />
             </div>
             <div class="book-qty">
@@ -95,7 +96,7 @@
                     <span class="important">*</span>
                 </p>
                 <div class="input-qty-container">
-                    <input type="number" name="book_qty" id="" class="input-qty" placeholder="수량"/>
+                    <input type="number" name="book_qty" id="book-qty" class="input-qty" placeholder="수량"/>
                 </div>
             </div>
         </div>
@@ -123,7 +124,7 @@
                         <i class="fa-solid fa-plus"></i>
                         <img src="" alt="Book Thumbnail" id="preview"/>
                     </label>
-                    <input type="file" name="book_thumbnail" id="input-file" class="input-img-file"/>
+                    <input type="file" name="thumbnail_img_file" id="input-file" class="input-img-file" accept="image/jpeg, image/png, image/jpg"/>
                 </div>
             </div>
         </div>
@@ -132,22 +133,22 @@
             <p class="search-list-subject">책소개
                 <span class="important">*</span>
             </p>
-            <textarea name="book_intro" id="" cols="30" rows="10" class="custom-textarea"></textarea>
+            <textarea name="book_intro" id="book_intro" cols="30" rows="10" class="custom-textarea"></textarea>
         </div>
     </form>
 
     <div class="button-wrap">
-        <button class="default-btn" form="add-form">등록</button>
+        <button class="default-btn" id="add-btn" form="add-form">등록</button>
         <button class="default-btn cancel" onclick="location.href='/admin/index?path=admin/products/products'">취소</button>
     </div>
 </div>
 
 <div id="search-book-modal">
-    <div class="modal-content">
+    <div class="modal-content-box">
         <button id="close-btn">
             <i class="fa-solid fa-xmark"></i>
         </button>
-        <table id="import-books" class="table table-center" style="width: 100%">
+        <table id="inventory" class="table table-center" style="width: 100%">
             <thead class="table-head">
             <tr class="table-column-head">
                 <th class="table-column-head-txt">NO</th>
@@ -162,6 +163,13 @@
     </div>
 </div>
 
-<script src="/admin/products/js/edit-product.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<!-- datatalbes -->
+<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.4/js/dataTables.bulma.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script src="/admin/products/js/add-product.js"></script>
 </body>
 </html>

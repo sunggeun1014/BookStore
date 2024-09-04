@@ -2,15 +2,18 @@ package com.ezen.bookstore.admin.products.controller;
 
 import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.products.dto.CategoryDTO;
+import com.ezen.bookstore.admin.products.dto.InventoryDTO;
 import com.ezen.bookstore.admin.products.dto.ProductsDTO;
 import com.ezen.bookstore.admin.products.service.ProductsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,6 +52,7 @@ public class ProductsController {
         // 모든 검색 조건을 한 번에 서비스로 전달
         products = productService.getBooksByCondition(condition);
 
+
         // DataTables가 요구하는 형식으로 JSON 데이터 구성
         Map<String, Object> response = new HashMap<>();
         response.put("data", products);
@@ -61,11 +65,8 @@ public class ProductsController {
         if (bookISBN != null || bookISBN.isEmpty()) {
             log.warn("isbn 못받아왔다");
         }
-        log.info("Received request for book ISBN: {}", bookISBN);
         ProductsDTO productDetail = productService.detailList(bookISBN);
         List<CategoryDTO> bookCategory = productService.categoryList();
-
-        log.info("Retrieved product detail: {}", productDetail);
 
         model.addAttribute("product_detail", productDetail);
         model.addAttribute("book_category", bookCategory);
@@ -76,16 +77,9 @@ public class ProductsController {
     }
 
     @PostMapping("/editProduct")
-    public String editBookDetail(@RequestParam("book_isbn") String bookISBN, @RequestParam("book_publish_date") String date, ProductsDTO productDTO) {
+    public String editBookDetail(@RequestParam("book_isbn") String bookISBN, ProductsDTO productDTO) {
 
         productDTO.setBook_isbn(bookISBN);
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedDate = dateFormat.parse(date);
-            productDTO.setBook_publish_date(new Timestamp(parsedDate.getTime()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         productService.updateBookInfo(productDTO);
         return "redirect:/admin/products/editProduct?book_isbn=" + bookISBN;
@@ -93,8 +87,52 @@ public class ProductsController {
 
     @GetMapping("/addProduct")
     public String addBook(Model model) {
+        List<CategoryDTO> bookCategory = productService.categoryList();
+
+        model.addAttribute("book_category", bookCategory);
+
         model.addAttribute("template", "/admin/products/add-product");
 
         return "admin/index";
     }
+
+    @GetMapping(value = "/inventory/json", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, Object> getInventoryData() {
+        List<InventoryDTO> inventory = productService.inventoryList();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", inventory);
+        return response;
+    }
+
+    @PostMapping("/addProduct")
+    public String insertBook(@ModelAttribute ProductsDTO productDTO, Model model) throws IOException {
+
+        productService.insertBook(productDTO);
+
+//        model.addAttribute("template", "/admin/products/product");
+
+        return "redirect:/admin/products/products";
+    }
+
+    @PostMapping("/checkISBN")
+    public ResponseEntity<Map<String, Boolean>> checkISBN(@RequestBody Map<String, String> request) {
+        String bookISBN = request.get("book_isbn");
+        boolean exists = productService.existsIsbn(bookISBN);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("exists", exists);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/delete")
+    public String deleteBook(@RequestBody List<String> bookISBNs) {
+        for (String bookISBN : bookISBNs) {
+            productService.deleteBook(bookISBN);
+        }
+        return "redirect:/admin/products/products";
+    }
+
 }

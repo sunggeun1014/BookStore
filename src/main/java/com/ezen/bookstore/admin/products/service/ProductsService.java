@@ -2,12 +2,14 @@ package com.ezen.bookstore.admin.products.service;
 
 import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.products.dto.CategoryDTO;
+import com.ezen.bookstore.admin.products.dto.InventoryDTO;
 import com.ezen.bookstore.admin.products.dto.ProductsDTO;
 import com.ezen.bookstore.admin.products.repository.ProductsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,11 +24,6 @@ import java.util.List;
 public class ProductsService {
 
     private final ProductsRepository productRepository;
-
-    public List<ProductsDTO> list(){
-        // DB에서 모든 주문 목록을 꺼내와야 한다
-        return productRepository.getlist();
-    }
 
     public List<ProductsDTO> getBooksByCondition(SearchCondition searchCondition) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -51,11 +48,6 @@ public class ProductsService {
         );
     }
 
-
-    public List<ProductsDTO> getBookState(String bookState) {
-        return productRepository.getBookState(bookState);
-    }
-
     public ProductsDTO detailList(String bookISBN){
         return productRepository.getBookDetail(bookISBN);
     }
@@ -64,8 +56,49 @@ public class ProductsService {
         return productRepository.getCategory();
     }
 
+    public List<InventoryDTO> inventoryList() {
+        return  productRepository.getInventory();
+    }
+
+    public String deleteState(String bookISBN) {
+        return productRepository.deleteState(bookISBN);
+    }
+
+    public boolean existsIsbn (String bookISBN) {
+        return productRepository.existsByIsbn(bookISBN);
+    }
+
+    public void deleteBook(String bookISBN) {
+        productRepository.deleteBook(bookISBN);
+    }
+
+    public void insertBook(ProductsDTO productsDTO) throws IOException {
+        MultipartFile thumbnailImg = productsDTO.getThumbnail_img_file();
+
+        if (thumbnailImg != null && !thumbnailImg.isEmpty()) {
+            try {
+                String fileName = thumbnailImg.getOriginalFilename();
+                Path tempPath = Files.createTempDirectory("book_thumbnails");
+                Path filePath = tempPath.resolve(fileName);
+                Files.copy(thumbnailImg.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                productsDTO.setBook_thumbnail(filePath.toString());
+            } catch (IOException e) {
+                // 로그 출력 또는 예외 처리
+                e.printStackTrace();
+            }
+
+        } else {
+            InventoryDTO inventory = new InventoryDTO();
+            productsDTO.setBook_thumbnail(inventory.getInv_isbn());
+        }
+
+        // 기본값이 설정된 후 데이터베이스에 삽입
+        productRepository.insertBook(productsDTO);
+
+    }
+
     public void updateBookInfo(ProductsDTO productsDTO) {
-        MultipartFile thumbnailImg = productsDTO.getThumbnail_img();
+        MultipartFile thumbnailImg = productsDTO.getThumbnail_img_file();
 
         if (thumbnailImg != null && !thumbnailImg.isEmpty()) {
             try {
@@ -88,16 +121,20 @@ public class ProductsService {
     }
 
     // 이미지 저장하기
-    // 경로 어디..?
-    // String rootPath = "";
-    private void saveFile(MultipartFile thumbnailImg) {
-        if (thumbnailImg != null) {
+    String rootPath = "D:/spring_upload_files/";
+    private void saveFile(ProductsDTO productsDTO, MultipartFile thumbnailImageFile) throws IllegalStateException, IOException {
+        if (thumbnailImageFile == null || thumbnailImageFile.isEmpty()) {
             return;
         }
 
-        String fileName = thumbnailImg.getOriginalFilename();
+        InventoryDTO inventoryDTO = new InventoryDTO();
+        String storedFileName = inventoryDTO.getInv_isbn();
+        String savePath = rootPath + storedFileName;
 
+        thumbnailImageFile.transferTo(new File(savePath));
 
+        // 2. 서버 컴퓨터에 파일 쓰기를 성공했다면 DB에 경로들을 보관
+        productsDTO.setBook_thumbnail(storedFileName);
     }
 
 }

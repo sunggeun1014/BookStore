@@ -45,6 +45,7 @@ public class SecurityConfig {
                 // 로그인 페이지와 리소스 경로는 누구나 접근 가능
         		// "/admin/**"
                 .requestMatchers("/admin/login/**", "/admin/resources/**", "/common/**", "/static/**", "/admin/common/**").permitAll()
+
                 .anyRequest().hasAuthority("ROLE_USER") // ROLE_USER 권한이 있어야만 접근 가능
             )
             .formLogin(form -> form
