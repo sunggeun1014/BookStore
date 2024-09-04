@@ -164,22 +164,39 @@ $(document).ready(function() {
             $('#myModal').hide();
         }
     };
+	
+
 });
 
-	function previewImage(event) {
-       var input = event.target;
+function previewImage(event) {
+   var input = event.target;
 
-       if (input.files && input.files[0]) {
-           var reader = new FileReader();
+   if (input.files && input.files[0]) {
+       var reader = new FileReader();
 
-           reader.onload = function(e) {
-               var preview = document.getElementById('preview');
-               var imgIn = document.getElementById('img-in');
-               preview.src = e.target.result; 
-               imgIn.style.display = 'none';
-               preview.style.display = 'block';
-           }
-
-           reader.readAsDataURL(input.files[0]); 
+       reader.onload = function(e) {
+           var preview = document.getElementById('preview');
+           var imgIn = document.getElementById('img-in');
+           preview.src = e.target.result; 
+           imgIn.style.display = 'none';
+           preview.style.display = 'block';
        }
+
+       reader.readAsDataURL(input.files[0]); 
    }
+}
+   
+document.getElementById("userPart1").addEventListener("input", function() {
+    limitLength(this, 4); // userPart1 필드는 최대 4자리 숫자
+});
+
+document.getElementById("userPart2").addEventListener("input", function() {
+    limitLength(this, 4); // userPart2 필드는 최대 4자리 숫자
+});
+   
+   
+function limitLength(input, maxLength) {
+    if (input.value.length > maxLength) {
+        input.value = input.value.slice(0, maxLength);
+    }
+}
