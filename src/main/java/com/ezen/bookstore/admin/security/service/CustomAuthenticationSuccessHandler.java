@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.ezen.bookstore.admin.commons.AccountManagement;
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 
 import jakarta.servlet.ServletException;
@@ -25,7 +26,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         ManagersDTO managersDTO = userDetails.getManagersDTO();
         managersDTO.setManager_pw(null);        
         System.out.println(managersDTO);
-        session.setAttribute("managersDTO", managersDTO);
+        session.setAttribute(AccountManagement.MANAGER_INFO, managersDTO);
         
         response.sendRedirect("/admin/index");
 

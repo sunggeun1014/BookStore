@@ -59,5 +59,14 @@ public class SupplierOrdersServiceImpl implements SupplierOrdersService {
 		
 		return null;
 	}
+
+	@Override
+	public void orderConfirmInsert(List<SupplierOrdersDTO> list, String manager_id) {
+		try {
+			sor.orderConfirmInsert(list, manager_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

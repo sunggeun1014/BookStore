@@ -32,13 +32,13 @@ function orderAddBtn() {
 	}else if(!qty.val()) {
 		getCheckModal('수량을 입력해 주세요.', qty);
 	}else {
-		addOrderInfoList.unshift({
+		addOrderInfoList.push({
 			"isbn": isbn.val(),
 			"title": title.val(),
 			"publisher": publisher.val(),
-			"price": numberFormatter(price.val()),
+			"price": price.val(),
 			"qty": qty.val(),
-			"total_price": numberFormatter(price.val() * qty.val()),
+			"total_price": price.val() * qty.val(),
 			"sum": price.val() * qty.val()
 		});
 		
@@ -66,7 +66,7 @@ function orderListDraw() {
 			</div>
 			
 			<div class="no-data">
-				<span>${array.length - index}</span>
+				<span>${index + 1}</span>
 			</div>
 			
 			<div class="book-title-data">
@@ -78,7 +78,7 @@ function orderListDraw() {
 			</div>
 			
 			<div class="price-data">
-				<span>${data["price"]}</span>
+				<span>${numberFormatter(data["price"])}</span>
 			</div>
 			
 			<div class="qty-data">
@@ -86,7 +86,7 @@ function orderListDraw() {
 			</div>
 			
 			<div class="total-price-data">
-				<span>${data["total_price"]}</span>
+				<span>${numberFormatter(data["total_price"])}</span>
 			</div>
 		`);
 		
@@ -131,4 +131,30 @@ function orderDeleteBtn() {
 	console.log(temp);
 	addOrderInfoList = temp; 
 	orderListDraw();
+}
+
+function orderConfirmBtn() {
+	getConfirmModal('발주 하시겠습니까?', function() {
+		let formList = [];
+		
+		addOrderInfoList.forEach(data => {
+			formList.push({
+				"order_detail_isbn": data["isbn"],
+				"order_detail_title": data["title"],
+				"order_detail_publisher": data["publisher"],
+				"order_detail_price": data["price"],
+				"order_detail_qty": data["qty"]
+			})
+		});
+		
+		fetch('/admin/supplier_orders_rest/orderConfirm', {
+		    method: 'POST',
+		    headers: {
+		        'Content-Type': 'application/json'
+		    },
+		    body: JSON.stringify(formList)
+		})
+		.then(() => location.href='/admin/supplier_orders/list')
+	});
+	
 }

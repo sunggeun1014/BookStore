@@ -68,15 +68,15 @@
 	</div>
 	
 	<div class="white-frame">
-		<form id="order-register-list-form">
-			<div class="list-info-area">
-				<div>
-					<span id="list-count" class="list-count">총 0건</span>
-				</div>	
-				<div>
-					<span><button id="delete-button" class="form-btn" onclick="orderDeleteBtn()">삭제</button></span>
-				</div>
+		<div class="list-info-area">
+			<div>
+				<span id="list-count" class="list-count">총 0건</span>
+			</div>	
+			<div>
+				<span><button id="delete-button" class="form-btn" onclick="orderDeleteBtn()">삭제</button></span>
 			</div>
+		</div>
+		<form id="order-register-list-form">
 			<div class="column-area">
 				<div class="check-column">
 					<input type="checkbox" id="select-all" class="checkbox" onclick="checkboxHandler();">
@@ -106,8 +106,8 @@
 			<span id="total-purchase-amount" class="total-purchase-amount">총 구매금액: 0원</span>
 		</div>
 		<div class="order-decision-area">
-			<span><button class="default-btn">발주확정</button></span>
-			<span><button class="default-btn cancel">취소</button></span>
+			<span><button class="default-btn" onclick="orderConfirmBtn();">발주확정</button></span>
+			<span><button class="default-btn cancel" onclick="location.href='/admin/supplier_orders/list'">취소</button></span>
 		</div>
 	</div>
 	

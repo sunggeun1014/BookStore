@@ -252,6 +252,7 @@ $(document).ready(function() {
         });
     });
 
+	datepicker("startDate", "endDate");
 });
 
 function setToday() {
@@ -326,4 +327,3 @@ function setActive(element) {
     element.classList.add('active');
 }
 
-datepicker("startDate", "endDate");
