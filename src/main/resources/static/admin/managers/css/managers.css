@@ -6,11 +6,6 @@
 #searchDept {
 	float: right;
 }
-#commit-button,#change-button {
-    float: right;
-    margin-bottom: 16px;
-    margin-left : 5px;
-}
 
 #manager td, #manager th {
    text-align: center;
@@ -26,14 +21,17 @@
     align-items: center;
 }
 
-.select-arrow-down-column {
-    margin-left: 5px;
-    font-size: 16px;
-    color: #000;
-    pointer-events: none;
-}
 
-.select-wrap > .select-arrow-down.column {
-	margin-top: 13px;
-	margin-left: 725px;
+/* 리스트 스타일 */
+.manager-list-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+.button-wrap-mgr {
+	display:flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
 }

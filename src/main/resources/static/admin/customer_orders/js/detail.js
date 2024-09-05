@@ -13,7 +13,9 @@ function checkboxHandler() {
 }
 
 function requestCompletionBtn() {
-	const form = $("#table-form input[name='order_detail_num']:checked").map(function() {
+	$("input[name='order_selected_status']").val($("#request-select-area").val());
+	
+	const form = $("#table-form").each(function() {
 		return $(this).val();
 	}).get();
 	

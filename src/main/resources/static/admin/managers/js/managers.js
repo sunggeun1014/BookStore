@@ -24,8 +24,7 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function() {
-                    return '<input type="checkbox" id="data-check" class="row-checkbox"><label for="data-check"></label>';
-                },
+                   return '<input type="checkbox" class="data-check row-checkbox"><label class="data-check-label"></label>';                },
                 orderable: false,
             },
             {
@@ -112,14 +111,45 @@ $(document).ready(function() {
     
     });
     
+     // 체크박스
     $('#select-all').on('click', function() {
-        var rows = $('#manager').DataTable().rows({ 'search': 'applied' }).nodes();
+        const rows = $('#manager').DataTable().rows({ 'search': 'applied' }).nodes();
         $('input[type="checkbox"]', rows).prop('checked', this.checked);
     });
-    
-    var modal = document.getElementById("myModal");
-    var confirmDeleteButton = document.getElementById("confirm-delete");
-    var cancelDeleteButton = document.getElementById("cancel-delete");
+
+    // 개별 체크박스 선택 시 배경색 변경
+    $('#manager tbody').on('change', '.row-checkbox', function() {
+        const $row = $(this).closest('tr'); // 체크박스가 있는 행을 선택
+
+        if (this.checked) {
+            $row.addClass('selected-row'); // 배경색을 변경할 클래스 추가
+        } else {
+            $row.removeClass('selected-row'); // 배경색을 변경할 클래스 제거
+        }
+
+        // 전체 체크박스와 개별 체크박스의 선택 상태를 비교하여 '전체 선택' 체크박스 상태를 업데이트
+        if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
+            $('#select-all').prop('checked', true);
+        } else {
+            $('#select-all').prop('checked', false);
+        }
+    });
+
+    // '전체 선택' 체크박스의 상태 변경 시
+    $('#select-all').on('change', function() {
+        const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
+
+        // 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
+        $('.row-checkbox').prop('checked', isChecked);
+
+        // 각 행에 대해 배경색을 업데이트
+        if (isChecked) {
+            $('#manager tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
+        } else {
+            $('#manager tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
+        }
+    });
+
     
     // 삭제 버튼 클릭 이벤트 핸들러
     $('#change-button').on('click', function() {
@@ -146,13 +176,6 @@ $(document).ready(function() {
             modal.style.display = "block";
         }
     });
-    
-    // 모달 외부 클릭 시 닫기
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
     
     // 삭제 확인 버튼
     const deleteBtn = function() {
