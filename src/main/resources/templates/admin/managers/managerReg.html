@@ -12,8 +12,7 @@
 			<div class="info ">
 				    <span class="search-list-subject important">아이디</span>
 				<div class="id-area">
-					<input type="text" id="manager_id" name="manager_id" 
-		       			th:value="${managersDTO != null} ? ${managersDTO.manager_id} : ''" placeholder="아이디를 입력해주세요">			    
+					<input type="text" id="manager_id" name="manager_id" placeholder="아이디를 입력해주세요">			    
 		       		<div class="id-reference">※ 영문자와 숫자, 최소 5자</div>
 	       		</div>
 			    <span id="idCheckForm" class="check-comment" style="color: red; display: none;">아이디 양식과 일치하지 않습니다.</span>			    
@@ -40,14 +39,12 @@
 			
 			<div class="info">
 				<span class="search-list-subject important">이름</span> 
-					<input type="text" id="manager_name" name="manager_name" 
-						th:value="${managersDTO != null} ? ${managersDTO.manager_name} : ''" placeholder="이름을 입력해주세요">			
+					<input type="text" id="manager_name" name="manager_name" placeholder="이름을 입력해주세요">			
 			</div>
 			
 			<div class="select-wrap info">	
 				<span class="search-list-subject important">이메일</span>
-				<input type="text" id="emailUser" name="emailUser" 
-    				th:value="${emailUser != null ? emailUser : ''}" placeholder="이메일을 입력해주세요">
+				<input type="text" id="emailUser" name="emailUser" placeholder="이메일을 입력해주세요">
 			
 				<span class="search-list-subject-symbol">@</span>			 				
 				<div class="select-box">
@@ -89,13 +86,11 @@
 			
 			<div class="info">
 				<span class="search-list-subject important">주소</span>
-				<input type="text" id="address_kakao" name="manager_addr" class="gray-text"
-					th:value="${managersDTO} ? ${managersDTO.manager_addr} : ''" />
+				<input type="text" id="address_kakao" name="manager_addr" class="gray-text" />
 			</div>
 			<div class="info">
 				<span class="search-list-subject important">상세주소</span>
-				<input type="text" id="manager_detail_addr" name="manager_detail_addr" onclick="this.value='';" class="gray-text" 
-					th:value="${managersDTO} ? ${managersDTO.manager_detail_addr} : ''"/>
+				<input type="text" id="manager_detail_addr" name="manager_detail_addr" onclick="this.value='';" class="gray-text" />
 			</div>
 			
 			<div class="select-wrap info">

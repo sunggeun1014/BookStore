@@ -3,7 +3,7 @@ let table = null;
 $(document).ready(function() {
 	table = $('#customer-orders-table').DataTable({
 		ajax: {
-			url: '/admin/customer_orders_rest/customerOrders',
+			url: '/admin/customerOrdersRest/customerOrders',
 			dataSrc: function(json) {
 				$("#data-count").text(`총 ${json.recordsTotal}건`);
 				return json.data;
@@ -24,7 +24,7 @@ $(document).ready(function() {
 			{ 
 				data: 'order_num',
 				render: function(data, type, row) {
-					return `<a href="/admin/customer_orders/detail?order_num=${data}" class="order-detail-link">${data}</a>`;
+					return `<a href="/admin/customerOrders/detail?order_num=${data}" class="order-detail-link">${data}</a>`;
 				}
 			},
 			{ data: 'member_id' },
@@ -132,7 +132,7 @@ function filter() {
 	
 	
 	if(Number.isInteger(input)) {
-		table.ajax.url("/admin/customer_orders_rest/dataFilter");
+		table.ajax.url("/admin/customerOrdersRest/dataFilter");
 		
 		table.settings()[0].ajax.data = function(d) {
 			d.date_column = $("#dateColumn").val();
@@ -155,7 +155,7 @@ function delivery_request() {
 
 	if(checked_values.length > 0) { 
 		$.ajax({
-			url: "/admin/customer_orders_rest/deliveryRequest",
+			url: "/admin/customerOrdersRest/deliveryRequest",
 			method: "POST",
 			contentType: 'application/json',
 			data: JSON.stringify(checked_values),

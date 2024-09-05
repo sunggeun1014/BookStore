@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/supplier_orders_rest")
+@RequestMapping("/admin/supplierOrdersRest")
 public class SupplierOrdersRestController {
 	
 	private final SupplierOrdersService sos;
@@ -55,6 +55,6 @@ public class SupplierOrdersRestController {
 	public void orderConfirm(Model model, @RequestBody List<SupplierOrdersDTO> list, HttpSession session) {
 		sos.orderConfirmInsert(list, ((ManagersDTO)session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
 		
-		model.addAttribute("template", "/admin/supplier_orders/supplierList");
+		model.addAttribute("template", "/admin/supplierOrders/supplierList");
 	}
 }
