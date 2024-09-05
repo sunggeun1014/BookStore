@@ -29,6 +29,10 @@
       <typeAlias type="com.ezen.bookstore.admin.banners.dto.BannersDTO" alias="banners"/>      
       <typeAlias type="com.ezen.bookstore.admin.inquiries.dto.InquiriesDTO" alias="inquiries"/>
       <typeAlias type="com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO" alias="supplierOrders"/>      
+ 
+ 
+      <typeAlias type="com.ezen.bookstore.admin.notice.dto.NoticeDTO" alias="notice"/>      
+      <typeAlias type="com.ezen.bookstore.admin.inventorylog.dto.InventoryLogDTO" alias="inventoryLog"/>
 
    </typeAliases>
 

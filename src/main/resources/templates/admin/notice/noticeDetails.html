@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="/admin/myinfo/css/myinfo.css" />
+<div>
+	<div class="white-frame">
+		<h1 class="search-list-title">공지글 등록</h1>
+
+		<div class="info">
+			<span class="search-list-subject important">제목</span>
+			<div>
+				<input type="text" th:text="${notice.notice_title}" />
+			</div>
+			<input type="hidden"/>
+		</div>
+
+		<div class="info">
+			<span class="search-list-subject important">노출여부</span>
+			<div>
+				<input type="radio">
+				<input type="radio">
+			</div>
+		</div>
+
+		<div class="info">
+			<span class="search-list-subject important">노출기간</span>
+			<div class="date-picker">
+				<div class="input-date-box">
+					<input type="text" id="startDate" class="placeholder"
+						placeholder="YYYY-MM-DD" /> <i class="fa-solid fa-calendar-days"></i>
+				</div>
+				<div class="calendar-slash">-</div>
+				<div class="input-date-box">
+					<input type="text" id="endDate" class="placeholder"
+						placeholder="YYYY-MM-DD" /> <i class="fa-solid fa-calendar-days"></i>
+				</div>
+			</div>
+			<div class="date-options date-pick-btn">
+				<button class="date-option today today-btn date-btn"
+					onclick="setToday()">오늘</button>
+				<button class="date-option week-btn date-btn"
+					onclick="setDateRange(7)">1주일</button>
+				<button class="date-option month-btn date-btn"
+					onclick="setDateRange(30)">1개월</button>
+				<button class="date-option year-btn date-btn"
+					onclick="setDateRange(365)">1년</button>
+			</div>
+		</div>
+
+		<!-- 이메일 필드 -->
+		<div class="info">
+			<span class="search-list-subject important">내용</span>
+		</div>
+
+		<div class="btn-box">
+			<button type="submit" class="default-btn">수정</button>
+			<button type="button" class="default-btn cancel" onclick="location.href='/admin/index?path=admin/notice/notice'">취소</button>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</div>
+</html>

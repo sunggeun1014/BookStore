@@ -41,7 +41,7 @@ public class AdminController {
 	
 	@GetMapping("/index")
     public String index(HttpSession session, Model model, String path) {
-		        
+		
 		model.addAttribute("template", path);			
 		
         return "/admin/index";
@@ -54,14 +54,16 @@ public class AdminController {
 	    ManagersDTO sessionInfo = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
 	    String[] emailDomainList = { "naver.com", "gmail.com", "daum.net", "nate.com", 
 	    		"hanmail.net", "kakao.com", "outlook.com", "yahoo.co.kr", "icloud.com", "hotmail.com" };
+		ManagersDTO sessionDTO = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
+	    ManagersDTO managerDetails = mgrService.detailList(sessionDTO.getManager_id()); 
 
-	    String[] emailParts = sessionInfo.getManager_email().split("@");
+	    String[] emailParts = managerDetails.getManager_email().split("@");
 	    String emailUser = emailParts[0];
 	    String emailDomain = emailParts[1];
 		
 		
 	    
-	    String fullPhone = sessionInfo.getManager_phoneNo();
+	    String fullPhone = managerDetails.getManager_phoneNo();
 	    String countryNum = "";
 	    String userPart1 = "";
 	    String userPart2 = "";
@@ -75,8 +77,8 @@ public class AdminController {
 	        }
 	    }
 	    
-	    model.addAttribute("emailDomainList", emailDomainList);
-	    model.addAttribute("managers", sessionInfo);
+	    model.addAttribute("emailDomainList", emailDomainList);	    
+	    model.addAttribute("managers", managerDetails);
 	    model.addAttribute("emailUser", emailUser);
 	    model.addAttribute("emailDomain", emailDomain);
 	    model.addAttribute("countryNum", countryNum);

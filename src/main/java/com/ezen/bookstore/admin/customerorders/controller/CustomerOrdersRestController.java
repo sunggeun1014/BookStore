@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/customer_orders_rest")
+@RequestMapping("/admin/customerOrdersRest")
 public class CustomerOrdersRestController {
 	
 	private final CustomerOrdersService cos;

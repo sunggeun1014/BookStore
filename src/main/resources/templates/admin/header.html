@@ -10,7 +10,7 @@
 	<div class="user-wrap">
 		<div class="user-profile">
 			<div class="profile-img-wrap">
-				<img th:src="@{/admin/common/img/default_profile.png}" alt="프로필이미지" class="profile-img" >
+				<img th:src="@{/admin/common/img/profile/{profile}(profile=${session.manager.manager_profile_changed != null ? session.manager.manager_profile_changed : 'default_profile.png'})}" alt="프로필이미지" class="profile-img" >
 			</div>
 			<div class="text-wrap">
 				<th:block th:switch="${session.manager.manager_dept}">

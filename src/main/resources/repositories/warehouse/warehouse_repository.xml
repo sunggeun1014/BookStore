@@ -42,6 +42,13 @@
         WHERE inv_isbn = #{inv_isbn}
     </update>
 	
+	<update id="invQtyUpdate" parameterType="warehouse">
+		UPDATE inventory
+		SET
+			inv_qty = inv_qty - #{inv_qty}
+		WHERE
+			inv_isbn = #{inv_isbn}
+	</update>
 	
 	
 </mapper>

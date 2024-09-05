@@ -1,21 +1,20 @@
 package com.ezen.bookstore.admin.customerorders.controller;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.bookstore.admin.commons.SearchCondition;
+import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersListDTO;
 import com.ezen.bookstore.admin.customerorders.service.CustomerOrdersService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/customer_orders")
+@RequestMapping("/admin/customerOrders")
 public class CustomerOrdersController {
 	
 	private final CustomerOrdersService cos;
@@ -39,10 +38,11 @@ public class CustomerOrdersController {
 	}
     
     @GetMapping(value = "/orderStatusUpdate")
-    public String orderStatusUpdate(@RequestParam(value = "order_detail_num") List<Integer> list, String order_detail_status, int order_num) {
-    	cos.orderStatusUpdate(list, order_detail_status);
+    public String orderStatusUpdate(@ModelAttribute CustomerOrdersListDTO list, int order_num, String order_selected_status) {
+    	System.out.println("asdffasdfdsafsdafsdaasfafsd");
+    	cos.orderStatusUpdate(list, order_num, order_selected_status);
     	
-    	return "redirect:/admin/customer_orders/detail?order_num=" + order_num;
+    	return "redirect:/admin/customerOrders/detail?order_num=" + order_num;
     }
 
 }
