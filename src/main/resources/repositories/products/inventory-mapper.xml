@@ -13,4 +13,13 @@
         FROM
         inventory
     </select>
+
+    <select id="getInventoryByIsbn" resultType="inventory" parameterType="inventory">
+        SELECT
+        inv_isbn
+        FROM
+        inventory
+        WHERE
+        inv_isbn = #{inv_isbn}
+    </select>
 </mapper>

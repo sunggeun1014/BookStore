@@ -46,6 +46,10 @@ public class ProductsRepository {
         return sql.selectList("Inventory.getInvList");
     }
 
+    public InventoryDTO getInvISBN(String invISBN) {
+        return sql.selectOne("Inventory.getInventoryByIsbn", invISBN);
+    }
+
     public String deleteState (String bookISBN) {
         return sql.selectOne("Products.deleteState", bookISBN);
     }
