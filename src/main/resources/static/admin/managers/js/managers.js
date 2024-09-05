@@ -48,43 +48,43 @@ $(document).ready(function() {
                 data: 'manager_dept',
                 render: function(data){
                     if(data === '01') {
-                        return '물류팀';						
+                        return '물류팀';                  
                     } else {
                         return '운영팀';
                     }
-                }				
+                }            
             },
             { data: 'manager_phoneNo' },
             { 
-				data: 'manager_addr' ,
-				
-				render : function(data){
-						
-					 if (data.length > 10) {
-		                    return data.substring(0, 10) + '...';
-		             } else {
-						
-	                   return data;
-		             }
+            data: 'manager_addr' ,
+            
+            render : function(data){
+                  
+                if (data.length > 10) {
+                          return data.substring(0, 10) + '...';
+                   } else {
+                  
+                      return data;
+                   }
 
-				}
-			},
+            }
+         },
             {
                 data: 'manager_join_date',
                 render: function(data, type) {
                     // date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
                     if (type === 'display' || type === 'filter') {
-						var date = new Date(data);
-						var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
-						
-						return formattedDate;
-					} 		
-					return data;
-                }
+                    var date = new Date(data);
+                    var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+                   
+                    return formattedDate;
+               }       
+               return data;
+               }
             }
         ],
         
-		drawCallback: function(settings) {
+      drawCallback: function(settings) {
             // 페이지 내 항목의 순서 번호를 업데이트합니다.
             var api = this.api();
             api.column(1, { page: 'current' }).nodes().each(function(cell, i) {
@@ -125,8 +125,8 @@ $(document).ready(function() {
     $('#change-button').on('click', function() {
         var selectedIds = [];
         var selectedDept = $('#searchDept').val();  // 선택된 부서 값 가져오기 (문자열 그대로)
-		console.log("Selected Dept:", selectedDept);  // 선택된 부서의 값을 콘솔에 출력
-		
+      console.log("Selected Dept:", selectedDept);  // 선택된 부서의 값을 콘솔에 출력
+      
         $('#manager').DataTable().$('.row-checkbox:checked').each(function() {
             var rowData = $('#manager').DataTable().row($(this).closest('tr')).data();
             selectedIds.push(rowData.manager_id); // 변경할 매니저 id 수집
@@ -136,11 +136,11 @@ $(document).ready(function() {
         if (selectedIds.length > 0) {
             // 메시지를 기본 메시지로 리셋
             getConfirmModal(`${selectedIds.length}개의 항목을 변경하시겠습니까?`, deleteBtn);
-			
+         
             
         } else {
             // alert 대신 모달 메시지 변경
-           	getCheckModal(`변경할 항목을 선택해 주세요.`);
+              getCheckModal(`변경할 항목을 선택해 주세요.`);
 
          
             modal.style.display = "block";
@@ -166,7 +166,7 @@ $(document).ready(function() {
             console.log("Selected IDs:", selectedDept);
 
         });
-		
+      
         $.ajax({
             url: '/admin/managers/update/dept',  // 서버의 삭제 처리 URL
             type: 'POST',
@@ -176,11 +176,11 @@ $(document).ready(function() {
                 managerDept: selectedDept
             }),  // 선택된 id들을 JSON으로 전송
             success: function(response) {
-           		getCheckModal(`변경이 완료 되었습니다.`);
+                 getCheckModal(`변경이 완료 되었습니다.`);
                 $('#manager').DataTable().ajax.reload();  // 테이블 새로고침
             },
             error: function(error) {
-           		getCheckModal(`변경중 오류가 발생 했습니다.`);
+                 getCheckModal(`변경중 오류가 발생 했습니다.`);
              
             }
         });
@@ -224,9 +224,9 @@ $(document).ready(function() {
             var managerDate = data[8];
 
             // 날짜 형식을 Date 객체로 변환
-            var start = startDate ? new Date(startDate) : null;
-            var end = endDate ? new Date(endDate) : null;
-            var manager = new Date(managerDate);
+            var start = startDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(startDate)) : null;
+            var end = endDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(endDate)) : null;
+            var manager = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(managerDate));
 
             if ((start === null && end === null) ||
                 (start <= manager && (end === null || manager <= end))) {
@@ -252,7 +252,7 @@ $(document).ready(function() {
         });
     });
 
-	datepicker("startDate", "endDate");
+   datepicker("startDate", "endDate");
 });
 
 function setToday() {
