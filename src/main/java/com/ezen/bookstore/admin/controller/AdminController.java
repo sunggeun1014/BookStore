@@ -127,14 +127,14 @@ public class AdminController {
                 managersDTO.setManager_profile_changed(newFileName);
             } catch (IOException e) {
                 e.printStackTrace();
-                return "redirect:/admin/myinfo/myinfo"; // 에러 발생 시 다시 마이페이지로 이동
+                return "redirect:/admin/myinfo"; // 에러 발생 시 다시 마이페이지로 이동
             }
         }
 
         // 서비스 호출하여 데이터베이스 업데이트
         mgrService.updateManager(managersDTO);
 
-        return "redirect:/admin/myinfo/myinfo";  // 업데이트 후 마이페이지로 리다이렉트
+        return "redirect:/admin/myinfo";  // 업데이트 후 마이페이지로 리다이렉트
     }
     
 }

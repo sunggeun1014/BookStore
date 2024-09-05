@@ -46,20 +46,18 @@
 			    <span th:case="'01'">물류팀</span>
 			    <span th:case="'02'">운영팀</span>
 			</span>
-			
-		
-			
 		</div>
+		
 		
 		<div class="info">
 			<span class="search-list-subject">프로필</span>
-		
 			<div class="img-input-wrap">
+                <label for="input-file" class="input-file-label">
+                    <input type="file" name="profileImage" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png" onchange="previewImage(event)"/>
+					<img th:src="@{/admin/common/img/profile/{profile}(profile=${manager_details.manager_profile_changed != null ? manager_details.manager_profile_changed : 'default_profile.png'})}" alt="사진" id="preview" style="display: block;"/>
+            	</label>
+            </div>
 			
-				<label for="input-file" class="input-file-label"> <i
-					class="fa-solid fa-plus"></i> <img src="" alt="" id="preview" />
-				</label> <input type="file" name="" id="input-file" class="input-img-file" />
-			</div>
 			<label class="caution">형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
 		</div>
 		

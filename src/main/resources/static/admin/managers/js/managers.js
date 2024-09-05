@@ -350,3 +350,18 @@ function setActive(element) {
     element.classList.add('active');
 }
 
+ function previewImage(event) {
+       var input = event.target;
+
+       if (input.files && input.files[0]) {
+           var reader = new FileReader();
+
+           reader.onload = function(e) {
+               var preview = document.getElementById('preview');
+               preview.src = e.target.result; 
+           }
+
+           reader.readAsDataURL(input.files[0]); 
+       }
+   }
+
