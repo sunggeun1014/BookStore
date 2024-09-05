@@ -91,11 +91,19 @@
 		        CURRENT_TIMESTAMP,
 		        #{manager_id}
     		)
-		<!--  UPDATE 
-        inquiries
-    SET 
-        inquiry_answer_status = '02'
-    WHERE 
-        inquiry_num = #{inquiry_num} -->
+		<!--
+			DB 트리거 설정
+			CREATE OR REPLACE TRIGGER trg_update_inquiries_status
+			AFTER INSERT OR UPDATE ON inquiries_answer
+			FOR EACH ROW
+			BEGIN
+			    // inquiry_num가 존재하는지 확인한 후 업데이트 실행
+			    IF :NEW.inquiry_num IS NOT NULL THEN
+			        UPDATE inquiries
+			        SET inquiry_answer_status = '02'
+			        WHERE inquiries.inquiry_num = :NEW.inquiry_num;
+			    END IF;
+			END; 
+      	-->
 	</insert>
 </mapper>
