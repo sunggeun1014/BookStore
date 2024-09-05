@@ -181,3 +181,18 @@ input[type=text]:not(.placeholder, .search-input, .input-price) {
 .select-arrow-down {
     left: 130px;
 }
+
+/* 모달 미디어 쿼리 */
+
+/* 27인치 모니터용 스타일 */
+@media (min-width: 1630px) {
+    #search-book-modal .modal-content-box {
+        right: 140px;
+    }
+}
+
+@media (min-width: 1920px) {
+    #search-book-modal .modal-content-box {
+        right: 320px;
+    }
+}

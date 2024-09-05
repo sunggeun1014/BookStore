@@ -19,6 +19,7 @@
 	</select>
 	
 	<select id="getDetail" parameterType="String" resultType="manager">
+	
 		SELECT
 			manager_id,
 			manager_name,
@@ -44,32 +45,43 @@
     </update>
     
     <insert id="addManager" parameterType="manager">
-    	INSERT INTO managers (
-		    manager_id,
-		    manager_pw,
-		    manager_name,
-		    manager_phoneNo,
-		    manager_email,
-		    manager_profile_original,
-		    manager_profile_changed,
-		    manager_addr,
-		    manager_detail_addr,
-		    manager_dept,
-		    manager_join_date
-		) VALUES (
-		    #{manager_id},
-		    #{manager_pw},
-		    #{manager_name},
-		    #{manager_phoneNo},
-		    #{manager_email},
-		    #{manager_profile_original},
-		    #{manager_profile_changed},
-		    #{manager_addr},
-		    #{manager_detail_addr},
-		    #{manager_dept},
-		   	#{manager_join_date}		    
-		)
-    </insert>
+	    INSERT INTO managers (
+	        manager_id,
+	        manager_pw,
+	        manager_name,
+	        manager_phoneNo,
+	        manager_email,
+	        manager_profile_original,
+	        manager_profile_changed,
+	        manager_addr,
+	        manager_detail_addr,
+	        manager_dept,
+	        manager_join_date
+	    ) VALUES (
+	        #{manager_id},
+	        #{manager_pw},
+	        #{manager_name},
+	        #{manager_phoneNo},
+	        #{manager_email},
+	        <if test="manager_profile_original != null">
+	            #{manager_profile_original}
+	        </if>
+	        <if test="manager_profile_original == null">
+	            ''
+	        </if>,
+	        <if test="manager_profile_changed != null">
+	            #{manager_profile_changed}
+	        </if>
+	        <if test="manager_profile_changed == null">
+	            ''
+	        </if>,
+	        #{manager_addr},
+	        #{manager_detail_addr},
+	        #{manager_dept},
+	        #{manager_join_date}
+	    )
+	</insert>
+
 	
 	<!-- 동적 업데이트 쿼리 -->
     <update id="updateManager" parameterType="manager">

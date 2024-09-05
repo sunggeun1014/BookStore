@@ -3,7 +3,7 @@ let table = null;
 $(document).ready(function() {
 	table = $('#supplier-orders-table').DataTable({
 		ajax: {
-			url: '/admin/supplier_orders_rest/supplierOrders',
+			url: '/admin/supplierOrdersRest/supplierOrders',
 			dataSrc: function(json) {
 				$("#data-count").text(`총 ${json.recordsTotal}건`);
 				return json.data;
@@ -18,7 +18,7 @@ $(document).ready(function() {
 			{ 
 				data: 'order_num',
 				render: function(data, type, row) {
-					return `<a href="/admin/supplier_orders/detail?order_num=${data}" class="order-detail-link">${data}</a>`;
+					return `<a href="/admin/supplierOrders/detail?order_num=${data}" class="order-detail-link">${data}</a>`;
 				}
 			},
 			{ 
@@ -106,7 +106,7 @@ function filter() {
 	const input = Number($("#word").val());
 	
 	if(Number.isInteger(input)) {
-		table.ajax.url("/admin/supplier_orders_rest/dataFilter");
+		table.ajax.url("/admin/supplierOrdersRest/dataFilter");
 		
 		table.settings()[0].ajax.data = function(d) {
 			d.start_date = $("#startDate").val();
@@ -127,7 +127,7 @@ function delivery_request() {
 
 	if(checked_values.length > 0) { 
 		$.ajax({
-			url: "/admin/customer_orders_rest/deliveryRequest",
+			url: "/admin/customerOrdersRest/deliveryRequest",
 			method: "POST",
 			contentType: 'application/json',
 			data: JSON.stringify(checked_values),

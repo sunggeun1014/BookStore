@@ -23,11 +23,16 @@
       <typeAlias type="com.ezen.bookstore.admin.products.dto.ProductsDTO" alias="products"/>
       <typeAlias type="com.ezen.bookstore.admin.products.dto.CategoryDTO" alias="category"/>
       <typeAlias type="com.ezen.bookstore.admin.products.dto.InventoryDTO" alias="inventory"/>
-
+	  <typeAlias type="com.ezen.bookstore.admin.warehouse.dto.WarehouseDTO" alias="warehouse"/>
+		
       <typeAlias type="com.ezen.bookstore.admin.managers.dto.ManagersDTO" alias="manager"/>
       <typeAlias type="com.ezen.bookstore.admin.banners.dto.BannersDTO" alias="banners"/>      
       <typeAlias type="com.ezen.bookstore.admin.inquiries.dto.InquiriesDTO" alias="inquiries"/>
       <typeAlias type="com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO" alias="supplierOrders"/>      
+ 
+ 
+      <typeAlias type="com.ezen.bookstore.admin.notice.dto.NoticeDTO" alias="notice"/>      
+      <typeAlias type="com.ezen.bookstore.admin.inventorylog.dto.InventoryLogDTO" alias="inventoryLog"/>
 
    </typeAliases>
 

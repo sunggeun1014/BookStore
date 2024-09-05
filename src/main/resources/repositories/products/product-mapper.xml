@@ -53,7 +53,8 @@
         book_country_type,
         book_category,
         book_state,
-        book_thumbnail,
+        book_thumbnail_original,
+        book_thumbnail_changed,
         book_publish_date,
         book_register_date
         FROM
@@ -90,7 +91,8 @@
         book_country_type,
         book_category,
         book_state,
-        book_thumbnail,
+        book_thumbnail_original,
+        book_thumbnail_changed,
         book_publish_date
         ) VALUES (
         #{book_isbn, jdbcType=VARCHAR},
@@ -103,8 +105,9 @@
         #{book_country_type, jdbcType=VARCHAR},
         #{book_category, jdbcType=VARCHAR},
         #{book_state, jdbcType=VARCHAR},
-        #{book_thumbnail, jdbcType=VARCHAR},
-        #{book_publish_date, jdbcType=TIMESTAMP}
+        #{book_thumbnail_original, jdbcType=VARCHAR},
+        #{book_thumbnail_changed, jdbcType=VARCHAR},
+        #{book_publish_date, jdbcType=DATE}
         )
     </insert>
 
@@ -123,7 +126,9 @@
         book_category = #{book_category},
         book_state = #{book_state},
         book_publish_date = #{book_publish_date},
-        book_thumbnail = #{book_thumbnail}
+        book_thumbnail_original = #{book_thumbnail_original, jdbcType=VARCHAR},
+        book_thumbnail_changed = #{book_thumbnail_changed, jdbcType=VARCHAR},
+        book_deleted = #{book_deleted}
         WHERE
         book_isbn = #{book_isbn}
     </update>

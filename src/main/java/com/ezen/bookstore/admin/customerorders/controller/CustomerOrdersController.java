@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/customer_orders")
+@RequestMapping("/admin/customerOrders")
 public class CustomerOrdersController {
 	
 	private final CustomerOrdersService cos;
@@ -42,7 +42,7 @@ public class CustomerOrdersController {
     public String orderStatusUpdate(@RequestParam(value = "order_detail_num") List<Integer> list, String order_detail_status, int order_num) {
     	cos.orderStatusUpdate(list, order_detail_status);
     	
-    	return "redirect:/admin/customer_orders/detail?order_num=" + order_num;
+    	return "redirect:/admin/customerOrders/detail?order_num=" + order_num;
     }
 
 }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+	<link rel="stylesheet" href="/admin/reviews/css/reviews.css" />
+	<link rel="stylesheet" href="/admin/common/css/modal.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<div>
+	<div class="filter-container white-frame">
+		<div class="header">
+			<h1 class="search-list-title">공지글 조회</h1>
+		</div>
+	
+		<div class="content">
+			<div class="search-filter">
+				<div class="filter-group">
+					<span class="search-list-subject">등록일</span>
+					<div class="date-picker">
+						<div class="input-date-box">
+							<input type="text" id="startDate" class="placeholder" placeholder="YYYY-MM-DD" />
+								<i class="fa-solid fa-calendar-days"></i>
+						</div>
+						<div class="calendar-slash">-</div>
+						<div class="input-date-box">
+							<input type="text" id="endDate" class="placeholder" placeholder="YYYY-MM-DD" />
+							<i class="fa-solid fa-calendar-days"></i>
+						</div>
+					</div>
+					<div class="date-options date-pick-btn">
+						<button class="date-option today today-btn date-btn" onclick="setToday()">오늘</button>
+						<button class="date-option week-btn date-btn" onclick="setDateRange(7)">1주일</button>
+						<button class="date-option month-btn date-btn" onclick="setDateRange(30)">1개월</button>
+						<button class="date-option year-btn date-btn" onclick="setDateRange(365)">1년</button>
+					</div>
+				</div>
+			</div>
+			<div class="search-bar-group">
+				<div class="search-list-subject">검색어</div>
+				
+			    <div class="search-container">
+      				<input type="text" name="" id="searchKeyword" class="searchKeyword search-input" placeholder="검색할 내용 입력" />
+      				<button id="searchButton"><span class="material-symbols-outlined">search</span></button>	
+    			</div>
+
+				<button id="reset-button" onclick="resetFilters()">초기화</button>			
+			</div>
+		</div>
+	</div>
+
+	<div class="table-container white-frame">
+		<div class="table-total-row">
+			<span id="total-row" class="table-column-head-txt" style="margin-left: 10px;"></span>
+			<div style="float: right; margin-bottom: 16px;">
+				<button id="delete-button" class="delete-button">삭제</button>
+				<button class="default-btn" onclick="location.href='/admin/index?path=admin/notice/noticeReg'">등록</button>
+			</div>
+		</div>
+		<table id="notice" class="table" style="width: 100%">
+			<thead>
+				<tr>
+					<th>
+						<input type="checkbox" id="select-all">
+						<label for="select-all"></label>
+					</th>
+					<th>NO</th>
+					<th>공지제목</th>
+					<th>등록일</th>
+					<th>노출여부</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+	<script src="https://cdn.datatables.net/2.1.4/js/dataTables.bulma.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="/admin/notice/js/notice.js"></script>
+</div>
+</html>

@@ -111,9 +111,9 @@ public class ProductsController {
 
         productService.insertBook(productDTO);
 
-//        model.addAttribute("template", "/admin/products/product");
+        model.addAttribute("template", "/admin/products/product");
 
-        return "redirect:/admin/products/products";
+        return "admin/index";
     }
 
     @PostMapping("/checkISBN")

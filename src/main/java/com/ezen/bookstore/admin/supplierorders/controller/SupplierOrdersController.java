@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/supplier_orders")
+@RequestMapping("/admin/supplierOrders")
 public class SupplierOrdersController {
 	
 	private final SupplierOrdersService sos;

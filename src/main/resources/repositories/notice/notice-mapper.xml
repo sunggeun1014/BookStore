@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.bookstore.admin.notice.mapper.NoticeMapper">
+    <select id="getList" resultType="notice">
+	SELECT
+		notice_num,
+		notice_title,
+		notice_visible,
+		notice_write_date
+	FROM
+		notices		
+    </select>
+    
+    <select id="getDetailList" resultType="notice" parameterType="Integer">
+    SELECT
+    	n.notice_num,
+    	n.notice_title,
+    	n.notice_visible,
+    	n.notice_write_date,
+    	n.notice_content,
+    	n.manager_id,
+    	nd.notice_detail_original,
+    	nd.notice_detail_changed
+    FROM
+    	notices n
+    JOIN
+    	notices_detail nd
+    ON
+    	n.notice_num = nd.notice_num
+    WHERE
+    	n.notice_num = #{noticeNum}
+    
+    </select>
+    
+    <delete id="deleteNoticesByNums" parameterType="List">
+    DELETE FROM
+    	notices
+    WHERE
+    	notice_num
+    IN
+    	<foreach item="num" collection="list" open="(" separator="," close=")">
+    		#{num}
+    	</foreach>
+    
+    </delete>
+</mapper>
