@@ -47,7 +47,27 @@ $(document).ready(function() {
 			getConfirmModal('등록이 완료되었습니다.', function() {
 				$('form').off('submit').submit(); // 성공 시 폼 제출
 			});
+		} else {
+			getErrorModal();
 		}
 	});
 
 });
+
+function previewImage(event) {
+	var input = event.target;
+
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function(e) {
+			var preview = document.getElementById('preview');
+			var imgIn = document.getElementById('img-in');
+			preview.src = e.target.result;
+			imgIn.style.display = 'none';
+			preview.style.display = 'block';
+		}
+
+		reader.readAsDataURL(input.files[0]);
+	}
+}
