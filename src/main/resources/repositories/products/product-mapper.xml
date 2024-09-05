@@ -6,6 +6,18 @@
 
     <select id="findByCondition" resultType="products">
         SELECT
+        rownum,
+        b.book_isbn,
+        b.book_name,
+        b.book_price,
+        b.book_publisher,
+        b.book_author,
+        b.book_country_type,
+        b.book_category,
+        b.book_state,
+        b.book_register_date
+        FROM (
+        SELECT
         book_isbn,
         book_name,
         book_price,
@@ -38,6 +50,8 @@
                 </when>
             </choose>
         </if>
+        ORDER BY book_register_date DESC
+        ) b
     </select>
 
 

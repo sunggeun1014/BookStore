@@ -1,9 +1,53 @@
+// document.addEventListener("DOMContentLoaded", () => {
+//     const menuItems = document.querySelectorAll('.menu-item');
+//
+//     // 메뉴 클릭 시 하위메뉴 열고 닫기
+//     menuItems.forEach(item => {
+//         item.addEventListener('click', () => {
+//             const submenuID = item.getAttribute('data-submenu');
+//             const submenu = document.getElementById(submenuID);
+//
+//             // 모든 서브메뉴 닫기
+//             document.querySelectorAll('.sub-menu').forEach(sub => {
+//                 if (sub !== submenu) {
+//                     sub.style.display = "none";
+//                     sub.closest('.menu-item').querySelector('.menu-content').classList.remove('open');
+//                 }
+//             });
+//
+//             // 현재 클릭한 메뉴 토글
+//             if (submenu.style.display === "block") {
+//                 submenu.style.display = "none";
+//                 item.querySelector('.menu-content').classList.remove('open');
+//             } else {
+//                 submenu.style.display = "block";
+//                 item.querySelector('.menu-content').classList.add('open');
+//             }
+//         });
+//     });
+//
+//     // 페이지 로드 시 현재 페이지와 매칭되는 하위메뉴 열기 및 강조
+//     const currentPage = window.location.pathname.split("/").pop();
+//     const menuLinks = document.querySelectorAll('.submenu-link');
+//
+//     menuLinks.forEach(link => {
+//         const href = link.getAttribute('href').split("/").pop();
+//         if (currentPage === href) {
+//             link.classList.add('open');
+//             const submenu = link.closest('.sub-menu');
+//             submenu.style.display = "block";
+//             submenu.closest('.menu-item').querySelector('.menu-content').classList.add('open');
+//         }
+//     });
+// });
+
+
 document.addEventListener("DOMContentLoaded", function() {
-    const menuItems = document.querySelectorAll(".menu-items");
+    const menuItems = document.querySelectorAll(".menu-item");
 
     // 로컬 스토리지에서 메뉴 상태를 불러와 복원
     menuItems.forEach((item, index) => {
-        const subMenu = item.querySelector(".sub-menu-list");
+        const subMenu = item.querySelector(".sub-menu");
         const barImg = item.querySelector(".bar-img");
         const arrowRight = item.querySelector(".fa-chevron-right");
         const iconImg = item.querySelector(".icon-img");
@@ -22,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     menuItems.forEach((item, index) => {
         item.addEventListener("click", function(e) {
-            const subMenu = this.querySelector(".sub-menu-list");
+            const subMenu = this.querySelector(".sub-menu");
             const barImg = this.querySelector(".bar-img");
             const arrowRight = this.querySelector(".fa-chevron-right");
             const iconImg = this.querySelector(".icon-img");
@@ -33,9 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // 현재 상태를 로컬 스토리지에 저장
             if (!isCurrentlyOpen) {
                 localStorage.setItem(`menu-open-${index}`, true);
-            } //else {
-                //localStorage.removeItem(`menu-open-${index}`); // 메뉴가 닫히면 데이터 삭제
-            //}
+            }
 
             // 하위 메뉴와 이미지가 존재하는지 확인하고 토글
             if (subMenu) subMenu.classList.toggle("open");
@@ -47,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // 다른 메뉴 초기화
             menuItems.forEach((otherItem, otherIndex) => {
                 if (otherItem !== item) {
-                    const otherSubMenu = otherItem.querySelector(".sub-menu-list");
+                    const otherSubMenu = otherItem.querySelector(".sub-menu");
                     const otherBarImg = otherItem.querySelector(".bar-img");
                     const otherArrowRight = otherItem.querySelector(".fa-chevron-right");
                     const otherIconImg = otherItem.querySelector(".icon-img");
@@ -68,25 +110,24 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-
-
-
 const clock = document.querySelector(".clock")
 
-const now = new Date();
-const nowYear = now.getFullYear();
-const nowMonth = String(now.getMonth() + 1).padStart(2, "0");
-const nowDate = String(now.getDate()).padStart(2, "0");
-
-const days = `${nowYear}-${nowMonth}-${nowDate}`;
-
 function getClocks() {
-  const date = new Date();
-  const hours = String(date.getHours()).padStart(2, "0")
-  const minutes = String(date.getMinutes()).padStart(2, "0")
-  const seconds = String(date.getSeconds()).padStart(2, "0")
-  clock.innerText = `${days} ${hours}:${minutes}:${seconds}`
+    const date = new Date();
+    const nowYear = date.getFullYear();
+    const nowMonth = String(date.getMonth() + 1).padStart(2, "0");
+    const nowDate = String(date.getDate()).padStart(2, "0");
+
+    const days = `${nowYear}-${nowMonth}-${nowDate}`;
+
+    const hours = String(date.getHours()).padStart(2, "0")
+    const minutes = String(date.getMinutes()).padStart(2, "0")
+    const seconds = String(date.getSeconds()).padStart(2, "0")
+    clock.innerText = `${days} ${hours}:${minutes}:${seconds}`
 }
+
+getClocks();
+setInterval(getClocks, 1000)
 
 function datepicker(start, end) {
    const checkDates = () => {
@@ -113,9 +154,6 @@ function datepicker(start, end) {
     });
 
 }
-
-getClocks();
-setInterval(getClocks, 1000)
 
 // 날짜 옵션 기능
 function setDateOption(day, obj) {

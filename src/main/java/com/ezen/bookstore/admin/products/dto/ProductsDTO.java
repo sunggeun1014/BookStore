@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Data
 public class ProductsDTO {
+    private int rownum;
     private String book_isbn;
     private String book_name;
     private Integer book_price;

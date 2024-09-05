@@ -23,7 +23,6 @@
 .icon-img-wrap {
     width: 21px;
     height: 21px;
-
 }
 
 .menu-list .menu-content, .menu-text {
@@ -99,7 +98,7 @@
     justify-content: space-between;
 }
 
-.sub-menu-list {
+.sub-menu {
     background-color: #FAFAFA;
     color: #7E7E7E;
     font-weight: bold;
@@ -107,24 +106,24 @@
     display: none;
 }
 
-.sub-menu-list.open {
+.sub-menu.open {
     display: block;
 }
 
-.sub-menu-list li {
+.sub-menu li {
     height: 35px;
     padding-left: 50px;
     cursor: pointer;
 }
 
-.sub-menu-list li a {
+.sub-menu li a {
     display: block;
     font-size: 14px;
     font-weight: 400;
     color: #7E7E7E;
 }
 
-.sub-menu-list li.selected a {
+.sub-menu.open .submenu-link {
     font-weight: 700;
 }
 
