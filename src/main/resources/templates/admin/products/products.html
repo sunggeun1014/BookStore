@@ -1,8 +1,9 @@
 <!doctype html>
-<html lang="ko" xmlns="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>상품관리</title>
+
     <link rel="stylesheet" href="/admin/products/css/products.css"/>
 </head>
 <body>
@@ -25,10 +26,10 @@
             </div>
 
             <div class="date-pick-btn">
-                <button class="today-btn date-btn active">오늘</button>
-                <button class="week-btn date-btn">1주일</button>
-                <button class="month-btn date-btn">1개월</button>
-                <button class="year-btn date-btn">1년</button>
+                <button class="today-btn date-btn" onclick="setToday()">오늘</button>
+                <button class="week-btn date-btn" onclick="setDateRange(7)">1주일</button>
+                <button class="month-btn date-btn" onclick="setDateRange(30)">1개월</button>
+                <button class="year-btn date-btn" onclick="setDateRange(365)">1년</button>
             </div>
         </div>
     </div>
@@ -37,8 +38,8 @@
         <p class="search-list-subject">상품상태</p>
 
         <div class="filter-wrap radio-filter">
-            <input type="radio" name="book_state" id="whole" value="" checked/>
-            <label for="whole">전체</label>
+            <input type="radio" name="book_state" id="all" value="" checked/>
+            <label for="all">전체</label>
             <input type="radio" name="book_state" id="onsale" value="01"/>
             <label for="onsale">판매중</label>
             <input type="radio" name="book_state" id="stopsale" value="02"/>
@@ -101,10 +102,14 @@
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="/admin/common/js/main.js"></script>
 <!-- datatalbes -->
 <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.1.4/js/dataTables.bulma.js"></script>
+<!-- flatpickr -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- js연결 -->
+<!--<script src="/admin/common/js/main.js"></script>-->
 <script src="/admin/products/js/products.js"></script>
 </body>
 </html>

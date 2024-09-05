@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>상품정보</title>
     <link rel="stylesheet" href="/admin/products/css/edit-product.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 <div class="filter-container white-frame">
@@ -22,21 +23,21 @@
             <p class="search-list-subject">책제목
                 <span class="important">*</span>
             </p>
-            <input type="text" name="book_name" class="input-text-box"
+            <input type="text" name="book_name" id="book_name" class="input-text-box"
                    th:value="${product_detail != null ? product_detail.book_name : ''}">
         </div>
         <div class="product-info">
             <p class="search-list-subject">출판사
                 <span class="important">*</span>
             </p>
-            <input type="text" name="book_publisher" class="input-text-box"
+            <input type="text" name="book_publisher" id="book_publisher" class="input-text-box"
                    th:value="${product_detail != null ? product_detail.book_publisher : ''}">
         </div>
         <div class="product-info">
             <p class="search-list-subject">저자
                 <span class="important">*</span>
             </p>
-            <input type="text" name="book_author" class="input-text-box"
+            <input type="text" name="book_author" id="book_author" class="input-text-box"
                    th:value="${product_detail != null ? product_detail.book_author : ''}">
         </div>
         <div class="product-info">
@@ -45,7 +46,7 @@
             </p>
             <div class="date-picker">
                 <div class="input-date-box">
-                    <input type="text" name="book_publish_date" id="startDate" class="placeholder input-date"
+                    <input type="text" name="book_publish_date" id="singleDate" class="placeholder input-date"
                            placeholder="YYYY-MM-DD"
                            th:value="${product_detail != null ? #dates.format(product_detail.book_publish_date, 'yyyy-MM-dd') : ''}"/>
 
@@ -144,6 +145,9 @@
             <textarea name="book_intro" id="" cols="30" rows="10" class="custom-textarea"
                       th:text="${product_detail != null ? product_detail.book_intro : ''}"></textarea>
         </div>
+        <th:block th:if="${product_detail.book_deleted == '02'}">
+            <input type="hidden" name="book_deleted" th:value="01">
+        </th:block>
     </form>
 
     <div class="button-wrap">
@@ -154,7 +158,11 @@
     </div>
 </div>
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script src="/admin/products/js/edit-product.js"></script>
+
 </body>
 </html>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Inquiries">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.bookstore.admin.inquiries.mapper.InquiriesMapper">
 	
 	<select id="getList" resultType="inquiries">
 	SELECT 
@@ -62,7 +60,7 @@
         ON
             r.inquiry_num = c.inquiry_num
         WHERE
-            r.inquiry_num = #{inquiryNum}
+            r.inquiry_num = #{inquiry_num}
 	</select>
 	
 	<update id="updateInquiry" parameterType="inquiries">
@@ -88,12 +86,16 @@
 		        manager_id
 	    	) 
     	VALUES (
-		        #{inquiryNum}, 
-		        #{answerContent}, 
+		        #{inquiry_num}, 
+		        #{answer_content}, 
 		        CURRENT_TIMESTAMP,
-		        'dojin96541'
-		        #{managerId}
+		        #{manager_id}
     		)
-	
+		<!--  UPDATE 
+        inquiries
+    SET 
+        inquiry_answer_status = '02'
+    WHERE 
+        inquiry_num = #{inquiry_num} -->
 	</insert>
 </mapper>

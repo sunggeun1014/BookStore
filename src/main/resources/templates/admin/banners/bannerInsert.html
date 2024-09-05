@@ -18,15 +18,15 @@
 		</div>
 		<form action="/admin/banners/insert" method="POST" enctype="multipart/form-data" class="content">
 			<!-- 배너 정보 입력 폼 -->
-			<div class="filter-group">
-				<div class="search-list-subject insert-subject">
+			<div class="banner-info">
+				<div class="insert-subject">
 					제목 <label class="required">*</label>
 				</div>
 				<input type="text" name="banner_title"class="insert-input">
 			</div>
 
 			<div class="radio-group">
-				<div class="search-list-subject insert-subject">
+				<div class="insert-subject">
 					유형 <label class="required">*</label>
 				</div>
 				<div class="radio-wrap">
@@ -36,7 +36,7 @@
 			</div>
 
 			<div class="radio-group">
-				<div class="search-list-subject insert-subject">
+				<div class="insert-subject">
 					노출 여부 <label class="required">*</label>
 				</div>
 				<div class="radio-wrap">
@@ -45,8 +45,8 @@
 				</div>
 			</div>
 
-			<div class="filter-group">
-				<div class="search-list-subject insert-subject">
+			<div class="banner-info">
+				<div class="insert-subject">
 					노출 기간 <label class="required">*</label>
 				</div>
 				<div class="date-picker">
@@ -62,9 +62,9 @@
 				</div>
 			</div>	
 					
-			<div class="filter-group image-wrap">
-				<div class="search-list-subject insert-subject">
-					이미지<label class="required">*</label>
+			<div class="banner-info image-wrap">
+				<div class="insert-subject">
+					이미지 <label class="required">*</label>
 				</div>
 				<div class="img-input-wrap">
 					<label for="input-file" class="input-file-label"> <i class="fa-solid fa-plus"></i> 
@@ -73,22 +73,12 @@
 				</div>
 			</div>
 			
-			<div class="submit-btns">
+			<div class="button-wrap submit-btns">
 				<button type="submit" id="insert-button" class="default-btn">등록</button>
-				<button type="button" class="default-btn cancle" onclick="location.href='/admin/index?path=admin/banners/banners'">취소</button>
+				<button type="button" class="default-btn cancel" onclick="location.href='/admin/index?path=admin/banners/banners'">취소</button>
 			</div>
 		</form>
 	</div>
-
-	<!-- 모달 -->
-	 <div id="myModal" class="modal">
-        <div class="modal-content">
-            <p id="modal-message"></p>
-            <div class="modal-footer">
-                <button id="confirm-insert" class="modal-btn confirm">확인</button>
-            </div>
-        </div>
-    </div>
 
 	<script src="/admin/common/js/main.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>

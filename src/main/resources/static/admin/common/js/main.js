@@ -139,49 +139,49 @@ function setDateOption(day, obj) {
     $(obj).addClass("active");
 }
 
-function getConfirmModal(msg, func) {
-    let divArea = $("<div class='modal-area'></div>");
-    let contentArea = $("<div class='modal-content-area'></div>");
-    
-    let messageArea = $(`<div class='modal-message-area'><span class='modal-message'>${msg}</span></div>`);
-    let btnArea = $("<div class='modal-btn-area'><span class='modal-check-btn'>확인</span><span class='modal-close-btn'>취소</span></div>");
-    
-    contentArea.append(messageArea);
-    contentArea.append(btnArea);
-    divArea.append(contentArea);
-
-    $("body").append(divArea);
-    $(".modal-check-btn").on("click", function() {
-      func();
-        divArea.remove(); // 모달 제거
-    });
-    
-    // 취소 버튼 클릭 이벤트
-    $(".modal-close-btn").on("click", function() {
-        divArea.remove(); // 모달 제거
-    });
-}
-
-function getCheckModal(msg, focusElement) {
-    let divArea = $("<div class='modal-area'></div>");
-    let contentArea = $("<div class='modal-content-area'></div>");
-    
-    let messageArea = $(`<div class='modal-message-area'><span class='modal-message'>${msg}</span></div>`);
-    let btnArea = $("<div class='modal-btn-area'><span class='modal-check-btn'>확인</span></div>");
-    
-    contentArea.append(messageArea);
-    contentArea.append(btnArea);
-    divArea.append(contentArea);
-
-    $("body").append(divArea);
-    $(".modal-check-btn").on("click", function() {
-        divArea.remove(); // 모달 제거
-      if(focusElement) {
-         focusElement.focus();
-      }
-    });
-    
-}
+// function getConfirmModal(msg, func) {
+//     let divArea = $("<div class='modal-area'></div>");
+//     let contentArea = $("<div class='modal-content-area'></div>");
+//
+//     let messageArea = $(`<div class='modal-message-area'><span class='modal-message'>${msg}</span></div>`);
+//     let btnArea = $("<div class='modal-btn-area'><span class='modal-check-btn'>확인</span><span class='modal-close-btn'>취소</span></div>");
+//
+//     contentArea.append(messageArea);
+//     contentArea.append(btnArea);
+//     divArea.append(contentArea);
+//
+//     $("body").append(divArea);
+//     $(".modal-check-btn").on("click", function() {
+//       func();
+//         divArea.remove(); // 모달 제거
+//     });
+//
+//     // 취소 버튼 클릭 이벤트
+//     $(".modal-close-btn").on("click", function() {
+//         divArea.remove(); // 모달 제거
+//     });
+// }
+//
+// function getCheckModal(msg, focusElement) {
+//     let divArea = $("<div class='modal-area'></div>");
+//     let contentArea = $("<div class='modal-content-area'></div>");
+//
+//     let messageArea = $(`<div class='modal-message-area'><span class='modal-message'>${msg}</span></div>`);
+//     let btnArea = $("<div class='modal-btn-area'><span class='modal-check-btn'>확인</span></div>");
+//
+//     contentArea.append(messageArea);
+//     contentArea.append(btnArea);
+//     divArea.append(contentArea);
+//
+//     $("body").append(divArea);
+//     $(".modal-check-btn").on("click", function() {
+//         divArea.remove(); // 모달 제거
+//       if(focusElement) {
+//          focusElement.focus();
+//       }
+//     });
+//
+// }
 
 function getConfirmModal(msg, func) {
     let divArea = $("<div id='myModal' class='modal' style='display : block;'></div>");
@@ -234,5 +234,30 @@ function getCheckModal(msg, focusElement) {
       }
     });
 	
+    $("#confirm-delete").focus();
+}
+
+function getErrorModal(focusElement) {
+    let divArea = $("<div id='myModal' class='modal' style='display: block;'></div>"); // 잘못된 따옴표 수정
+    let contentArea = $("<div class='modal-content'></div>");
+
+    let messageArea = $(`<div class='modal-text error-text'><i class="fa-solid fa-triangle-exclamation"></i><p>오류가 발생했습니다.</p></div>`);
+    let modalFotter = $("<div class='modal-footer'></div>");
+    let btnArea = $("<button id='confirm-delete' class='modal-btn confirm error'>확인</button>");
+
+    contentArea.append(messageArea);
+    contentArea.append(modalFotter);
+
+    modalFotter.append(btnArea);
+    divArea.append(contentArea);
+
+    $("body").append(divArea);
+    $(".modal-btn.confirm").on("click", function() {
+        divArea.remove(); // 모달 제거
+        if(focusElement) {
+            focusElement.focus();
+        }
+    });
+
     $("#confirm-delete").focus();
 }

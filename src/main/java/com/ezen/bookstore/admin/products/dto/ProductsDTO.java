@@ -20,10 +20,10 @@ public class ProductsDTO {
     private String book_category;
     private String book_state;
     private String book_thumbnail;
-    private MultipartFile thumbnail_img;
+    private MultipartFile thumbnail_img_file;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Timestamp book_publish_date;
+    private Date book_publish_date;
     private Timestamp book_register_date;
     private String book_deleted;
 

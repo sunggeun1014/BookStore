@@ -35,16 +35,17 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
         	.authenticationProvider(authenticationProvider())
-	        	.sessionManagement(session -> session
-	            .sessionFixation().migrateSession()  // 세션 고정 보호 설정
-	            .maximumSessions(1)                 // 최대 동시 세션 수
-	            .expiredUrl("/login?expired=true")  // 세션 만료 시 리다이렉트할 URL
+    		.sessionManagement(session -> 
+        		session
+        			.invalidSessionUrl("/admin/login") // 세션이 없는 경우 로그인 페이지로 리다이렉트
+		            .maximumSessions(1)                 // 최대 동시 세션 수
+		            .expiredUrl("/login?expired=true")  // 세션 만료 시 리다이렉트할 URL
             )
         	.csrf(csrf -> csrf.disable())
         	.authorizeHttpRequests(auth -> auth
                 // 로그인 페이지와 리소스 경로는 누구나 접근 가능
         		// "/admin/**"
-                .requestMatchers("/admin/login/**", "/admin/resources/**", "/common/**", "/static/**", "/admin/common/**").permitAll()
+                .requestMatchers("/admin/login/**", "/admin/common/**").permitAll()
                 .anyRequest().hasAuthority("ROLE_USER") // ROLE_USER 권한이 있어야만 접근 가능
             )
             .formLogin(form -> form
@@ -61,9 +62,6 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .permitAll()
-            )
-            .sessionManagement(session -> session
-                .invalidSessionUrl("/admin/login") // 세션이 없는 경우 로그인 페이지로 리다이렉트
             )
             .userDetailsService(customUserDetailsService); // MyBatis를 사용한 UserDetailsService 설정
 

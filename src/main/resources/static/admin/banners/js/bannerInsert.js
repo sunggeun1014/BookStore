@@ -1,39 +1,6 @@
 $(document).ready(function() {
 	datepicker("startDate", "endDate");
 
-	$('#insert-button').on('click', function(e) {
-		e.preventDefault(); // 기본 폼 제출 동작 방지
-
-		if (validateForm()) {
-			showModal('등록이 완료되었습니다.', true);
-		}
-	});
-
-	// 모달 확인 버튼 클릭 시 폼 제출 또는 모달 닫기
-	$('#confirm-insert').on('click', function() {
-	    $('#myModal').hide();
-		// 성공 시 폼 제출
-	    if ($('#confirm-insert').data('isSuccess')) {
-	        $('form').off('submit').submit(); 
-	    }
-	});
-
-	function showModal(message, isSuccess) {
-	    $('#modal-message').html(message);
-	    $('#myModal').show();
-
-		if (isSuccess) {
-	        $('#confirm-insert').show(); 
-	        $('#confirm-insert').data('isSuccess', true); 
-	    } else {
-	        $('#confirm-insert').show();
-	        $('#confirm-insert').data('isSuccess', false); 
-	    }
-		
-	    // 모달 외부 클릭 이벤트 핸들러 제거
-	    $('#myModal').off('click');
-	}
-
 	function validateForm() {
 		let isValid = true;
 
@@ -42,22 +9,20 @@ $(document).ready(function() {
 			isValid = false;
 			return false;
 		}
-		if (!$('input[name="banner_position"]:checked').val()) {
-			showModal('유형을 선택해주세요.');
-			isValid = false;
-			return false;
-		}
-
-		if (!$('input[name="banner_visible"]:checked').val()) {
-			showModal('노출 여부를 선택해주세요.');
-			isValid = false;
-			return false;
-		}
 
 		let startDate = $('#startDate').val().trim();
 		let endDate = $('#endDate').val().trim();
-		if (startDate === '' || endDate === '') {
+
+		if (startDate === '' && endDate === '') {
 			showModal('노출 기간을 입력해주세요.');
+			isValid = false;
+			return false;
+		} else if (startDate === '') {
+			showModal('시작 날짜를 입력해주세요.');
+			isValid = false;
+			return false;
+		} else if (endDate === '') {
+			showModal('종료 날짜를 입력해주세요.');
 			isValid = false;
 			return false;
 		}
@@ -69,5 +34,20 @@ $(document).ready(function() {
 		}
 		return isValid;
 	}
+
+	function showModal(message, isSuccess) {
+		// 등록 및 유효성 검사 시 모두 확인 버튼만
+		getCheckModal(message, $('#insert-button'));
+	}
+
+	$('#insert-button').on('click', function(e) {
+		e.preventDefault(); // 기본 폼 제출 동작 방지
+
+		if (validateForm()) {
+			getConfirmModal('등록이 완료되었습니다.', function() {
+				$('form').off('submit').submit(); // 성공 시 폼 제출
+			});
+		}
+	});
 
 });

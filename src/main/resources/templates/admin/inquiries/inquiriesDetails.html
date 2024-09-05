@@ -67,9 +67,7 @@
 			</div>
 		</div>
 
-		<form
-			th:action="@{${status == '처리완료' ? '/admin/inquiries/update' : '/admin/inquiries/insert'}}"
-			th:object="${inquiries}" method="POST">
+		<form th:action="@{${status == '처리완료' ? '/admin/inquiries/update' : '/admin/inquiries/insert'}}" th:object="${inquiries}" method="POST">
 			<div class="white-frame" style="margin-top: 30px; min-height: 350px; height: auto">
 				<div class="text-group" style="border-bottom: none;">
 					<span class="search-list-subject">답변내용</span> 
