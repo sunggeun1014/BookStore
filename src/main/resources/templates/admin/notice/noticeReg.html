@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <link rel="stylesheet" href="/admin/myinfo/css/myinfo.css" />
+<link rel="stylesheet" href="/admin/myinfo/css/myinfo.css" />
     <style>
         .error-message {
         	margin-left: 50px;
@@ -11,9 +11,7 @@
     </style>
 <div>
     <div class="white-frame">
-        <!-- th:object를 사용하여 폼의 모든 필드가 manager 객체와 바인딩되도록 설정 -->
-        <form action="/admin/myinfo/update" th:object="${managers}" method="POST" enctype="multipart/form-data" onsubmit="return prepareSubmit()">
-            <h1 class="search-list-title">내 정보 수정</h1>
+            <h1 class="search-list-title">공지글 등록</h1>
 
             <div class="info">
                 <span class="search-list-subject">아이디</span>
@@ -133,12 +131,10 @@
             </div>
 			<div class="btn-box">
 				<button type="submit" class="default-btn">수정</button>
-				<button type="button" class="default-btn cancel" onclick="location.href='/admin/index?path=admin/index'">취소</button>
+				<button type="button" class="default-btn cancle" onclick="location.href='/admin/index?path=admin/index'">취소</button>
 			</div>
-		</form>
     </div>
     
     <script src="/admin/myinfo/js/myinfo.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </div>
 </html>

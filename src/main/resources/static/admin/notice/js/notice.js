@@ -1,14 +1,15 @@
 var table;
 $(document).ready(function() {
 	// 테이블이 이미 초기화되어 있는지 확인
-	if (!$.fn.DataTable.isDataTable('#reviews')) {
-		table = $('#reviews').DataTable({
+	if (!$.fn.DataTable.isDataTable('#notice')) {
+		table = $('#notice').removeAttr('width').DataTable({
+			autoWidth: false,
 			columnDefs: [
 				{ targets: 0, orderable: false } // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
 			],
-			order: [[6, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
+			order: [[3, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
 			ajax: {
-				url: '/admin/reviews/json',
+				url: '/admin/notice/json',
 				dataSrc: function(json) {
 					$('#total-row').text('총 ' + json.size + '건');
 					return json.data;
@@ -23,20 +24,17 @@ $(document).ready(function() {
 					orderable: false,
 				},
 				{
-					data: 'review_num', // 실제 데이터는 변경하지 않습니다.
+					data: 'notice_num', // 실제 데이터는 변경하지 않습니다.
 					orderable: true // 이 컬럼은 정렬 가능
 				},
-				{ data: 'review_content' },
 				{
-					data: 'book_name',
+					data: 'notice_title',
 					render: function(data, type, row) {
 						return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
 					}
 				},
-				{ data: 'book_isbn' },
-				{ data: 'member_id' },
 				{
-					data: 'review_write_date',
+					data: 'notice_write_date',
 					render: function(data, type, row) {
 						if (type === 'display' || type === 'filter') {
 							var date = new Date(data);
@@ -47,10 +45,17 @@ $(document).ready(function() {
 					}
 				},
 				{
-					data: 'review_rating',
+					data: 'notice_visible',
+					width: '300px',
 					render: function(data, type, row) {
 						if (type === 'display' || type === 'filter') {
-							return '<span class="fas fa-star stars"></span>'.repeat(data) + '<span class="far fa-star empty-stars"></span>'.repeat(5 - data);
+							// notice_visible 값에 따라 클래스 변경
+							var onClass = data === '01' ? 'on' : '';
+							var offClass = data === '02' ? 'off' : '';
+							return '<div class="status-btn-wrap">' +
+								'<button class="status-btn ' + onClass + '">노출</button>' +
+								'<button class="status-btn ' + offClass + '">비노출</button>' +
+								'</div>';
 						}
 						return data;
 					}
@@ -76,24 +81,18 @@ $(document).ready(function() {
 				var rowIndex = pageInfo.start + index + 1; // 현재 페이지 시작 인덱스 + 현재 행 인덱스 + 1
 				$('td:eq(1)', row).html(rowIndex); // 행 번호를 이어서 설정
 
-				$(row).attr('data-id', data.review_num); // 각 행에 고유 ID 설정
+				$(row).attr('data-id', data.notice_num); // 각 행에 고유 ID 설정
 
 				// 제목 컬럼의 링크 클릭 이벤트 추가
-				$(row).find('.book-title-link').on('click', function(event) {
-					event.preventDefault(); // 링크 기본 동작 방지
-					postToDetailPage(data); // 폼 생성 및 제	출 함수 호출
-				});
+				$(row).find('.book-title-link').off('click').on('click', function(event) {
+				         event.preventDefault(); // 링크 기본 동작 방지
+				         postToDetailPage(data); // 폼 생성 및 제출 함수 호출
+				     });
 			}
 		});
 	}
-
-	$('#select-all').on('click', function() {
-		var rows = $('#reviews').DataTable().rows({ 'search': 'applied' }).nodes();
-		$('input[type="checkbox"]', rows).prop('checked', this.checked);
-	});
-
 	// 개별 체크박스 선택 시 배경색 변경
-	$('#reviews tbody').on('change', '.row-checkbox', function() {
+	$('#notice tbody').on('change', '.row-checkbox', function() {
 		const $row = $(this).closest('tr');
 		if (this.checked) {
 			$row.addClass('selected-row'); // 체크된 경우 배경색을 추가
@@ -107,25 +106,25 @@ $(document).ready(function() {
 			$('#select-all').prop('checked', false);
 		}
 	});
-	
+
 	// '전체 선택' 체크박스의 상태 변경 시
 	$('#select-all').on('change', function() {
-	    const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
+		const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
 
-	    // 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
-	    $('.row-checkbox').prop('checked', isChecked);
+		// 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
+		$('.row-checkbox').prop('checked', isChecked);
 
-	    // 각 행에 대해 배경색을 업데이트
-	    if (isChecked) {
-	        $('#reviews tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
-	    } else {
-	        $('#reviews tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
-	    }
+		// 각 행에 대해 배경색을 업데이트
+		if (isChecked) {
+			$('#notice tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
+		} else {
+			$('#notice tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
+		}
 	});
 
 
 
-	$('#reviews tbody').on('change', '.row-checkbox', function() {
+	$('#notice tbody').on('change', '.row-checkbox', function() {
 		if (!this.checked) {
 			$('#select-all').prop('checked', false);
 		} else {
@@ -138,18 +137,22 @@ $(document).ready(function() {
 	// 삭제 버튼 클릭 이벤트 핸들러
 	$('#delete-button').on('click', function() {
 		var selectedIds = [];
-		$('#reviews .row-checkbox:checked').each(function() {
-			var rowData = table.row($(this).closest('tr')).data();
-			selectedIds.push(rowData.review_num);
+		$('#notice').DataTable().$('.row-checkbox:checked').each(function() {
+			var rowData = $('#notice').DataTable().row($(this).closest('tr')).data();
+			selectedIds.push(rowData.notice_num); // 삭제할 리뷰 번호 수집
 		});
-		// 선택된 항목이 있으면 삭제 확인 모달을 띄움
+
+
 		if (selectedIds.length > 0) {
+			// 메시지를 기본 메시지로 리셋
 			getConfirmModal(`${selectedIds.length}개의 항목을 삭제하시겠습니까?`, deleteBtn);
+
+			// Yes와 No 버튼을 보이게 설정
 		} else {
-			getCheckModal('삭제할 항목을 선택하세요.');
+			// alert 대신 모달 메시지 변경
+			getCheckModal('삭제할 항목을 선택하세요.')
 		}
 	});
-
 
 	// 모달 외부 클릭 시 닫기
 	window.onclick = function(event) {
@@ -161,19 +164,19 @@ $(document).ready(function() {
 	// 삭제 확인 버튼
 	const deleteBtn = function() {
 		var selectedIds = [];
-		$('#reviews').DataTable().$('.row-checkbox:checked').each(function() {
-			var rowData = $('#reviews').DataTable().row($(this).closest('tr')).data();
+		$('#notice').DataTable().$('.row-checkbox:checked').each(function() {
+			var rowData = $('#notice').DataTable().row($(this).closest('tr')).data();
 			selectedIds.push(rowData.review_num);
 		});
 
 		$.ajax({
-			url: '/admin/reviews/delete',  // 서버의 삭제 처리 URL
+			url: '/admin/notice/delete',  // 서버의 삭제 처리 URL
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(selectedIds),  // 선택된 리뷰 번호들을 JSON으로 전송
 			success: function(response) {
 				getCheckModal('삭제가 완료되었습니다.')
-				$('#reviews').DataTable().ajax.reload();  // 테이블 새로고침
+				$('#notice').DataTable().ajax.reload();  // 테이블 새로고침
 			},
 			error: function(error) {
 				getCheckModal('삭제 중 오류가 발생했습니다.')
@@ -212,7 +215,7 @@ $(document).ready(function() {
 		function(settings, data, dataIndex) {
 			var startDate = $('#startDate').val();
 			var endDate = $('#endDate').val();
-			var memberDate = data[6];
+			var memberDate = data[3];
 
 			// 날짜 형식을 Date 객체로 변환
 			var start = startDate ? new Date(startDate) : null;
@@ -246,26 +249,64 @@ $(document).ready(function() {
 	datepicker("startDate", "endDate");
 });
 
-function postToDetailPage(data) {
-	var existingForm = $('#postToDetailForm');
 
-	if (existingForm.length) {
-		existingForm.remove();
+// 체크박스
+$('#check-all').on('click', function() {
+	const rows = $('#product').DataTable().rows({ 'search': 'applied' }).nodes();
+	$('input[type="checkbox"]', rows).prop('checked', this.checked);
+});
+
+// 개별 체크박스 선택 시 배경색 변경
+$('#product tbody').on('change', '.row-checkbox', function() {
+	const $row = $(this).closest('tr'); // 체크박스가 있는 행을 선택
+
+	if (this.checked) {
+		$row.addClass('selected-row'); // 배경색을 변경할 클래스 추가
+	} else {
+		$row.removeClass('selected-row'); // 배경색을 변경할 클래스 제거
 	}
 
-	// 폼 생성
-	var form = $('<form>', {
-		id: 'postToDetailForm',
-		method: 'POST',
-		action: '/admin/reviews/details'  // 서버의 상세 페이지 URL로 설정
-	});
+	// 전체 체크박스와 개별 체크박스의 선택 상태를 비교하여 '전체 선택' 체크박스 상태를 업데이트
+	if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
+		$('#check-all').prop('checked', true);
+	} else {
+		$('#check-all').prop('checked', false);
+	}
+});
+
+// '전체 선택' 체크박스의 상태 변경 시
+$('#check-all').on('change', function() {
+	const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
+
+	// 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
+	$('.row-checkbox').prop('checked', isChecked);
+
+	// 각 행에 대해 배경색을 업데이트
+	if (isChecked) {
+		$('#product tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
+	} else {
+		$('#product tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
+	}
+});
 
 
-	// 데이터를 숨김 필드로 추가
-	form.append($('<input>', { type: 'hidden', name: 'review_num', value: data.review_num }));
 
-	// 폼을 body에 추가하고 제출
-	form.appendTo('body').submit();
+function postToDetailPage(data) {
+    // 폼이 중복 생성되는 것을 방지하기 위해 기존 폼을 제거합니다.
+    $('#postToDetailForm').remove();
+
+    // 폼을 새로 생성합니다.
+    var form = $('<form>', {
+        id: 'postToDetailForm',
+        method: 'POST',
+        action: '/admin/notice/details'  // 서버의 상세 페이지 URL로 설정
+    });
+
+    // 숨겨진 필드에 데이터를 추가합니다.
+    form.append($('<input>', { type: 'hidden', name: 'notice_num', value: data.notice_num }));
+
+    // 폼을 body에 추가하고 제출합니다.
+    form.appendTo('body').submit();
 }
 
 function setToday() {
@@ -284,7 +325,6 @@ function setDateRange(days) {
 function resetFilters() {
 	// 검색어 필터 초기화
 	$('#searchKeyword').val('');
-	$('#searchColumn').val('5');
 
 	// 날짜 필터 초기화
 	$('#startDate').val('');

@@ -444,7 +444,11 @@ input[type='number'] {
 	justify-content: center;
 	align-items: center;
 }
-
+#notice_wrapper>.dt-paging {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .essential::before {
     content: "*";
     color: red;
