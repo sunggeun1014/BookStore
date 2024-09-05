@@ -3,8 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <title>관리자페이지</title>
+
+    <link rel="stylesheet" href="/admin/home/css/home.css">
 </head>
 <body>
-    <h3>관리자페이지다</h3>
+<div class="dashboard-header">
+    <div class="info-wrap">
+        <div class="member-cnt txt-wrap">
+            <p>회원수</p>
+            <p>100</p>
+        </div>
+        <i class="fa-solid fa-users"></i>
+    </div>
+    <div class="info-wrap">
+        <div class="items-cnt txt-wrap">
+            <p>판매중인상품</p>
+            <p>100</p>
+        </div>
+        <i class="fa-solid fa-book"></i>
+    </div>
+    <div class="info-wrap">
+        <div class="orders-cnt txt-wrap">
+            <p>오늘 주문건</p>
+            <p>100</p>
+        </div>
+        <i class="fa-solid fa-clipboard-list"></i>
+    </div>
+    <div class="info-wrap">
+        <div class="sales-cnt txt-wrap">
+            <p>오늘 매출</p>
+            <p>500,000</p>
+        </div>
+        <i class="fa-solid fa-money-bill-trend-up"></i>
+    </div>
+</div>
+
+<div class="white-frame dashboard-status">
+    <p class="search-list-title">주문현황</p>
+    <div class="status-info-wrap">
+        <div class="status-info order">
+            <div class="img-wrap">
+                <img src="/admin/home/imgs/order-list-icon.svg" alt="주문건수" class="img-icon"/>
+            </div>
+            <p>주문</p>
+            <p>10</p>
+        </div>
+        <div class="arrow">
+            <img src="/admin/home/imgs/dashboard-status-arrow.svg" alt="화살표"/>
+        </div>
+        <div class="status-info deliver">
+            <div class="img-wrap">
+                <img src="/admin/home/imgs/deliver-icon.svg" alt="배송중건수" class="img-icon"/>
+            </div>
+            <p>배송중</p>
+            <p>10</p>
+        </div>
+        <div class="arrow">
+            <img src="/admin/home/imgs/dashboard-status-arrow.svg" alt="화살표"/>
+        </div>
+        <div class="status-info complete">
+            <div class="img-wrap">
+                <img src="/admin/home/imgs/complete-deliver.svg" alt="배송완료건수" class="img-icon"/>
+            </div>
+            <p>배송완료</p>
+            <p>10</p>
+        </div>
+    </div>
+</div>
+<div class="tables-wrap">
+    <div class="white-frame inquiries-table">
+        <p class="search-list-title">문의내역</p>
+        <table id="inquiries" class="table table-center">
+            <thead class="table-head">
+            <tr class="table-column-head">
+                <th class="table-column-head-txt">NO</th>
+                <th class="table-column-head-txt">제목</th>
+                <th class="table-column-head-txt">분류</th>
+                <th class="table-column-head-txt">답변여부</th>
+                <th class="table-column-head-txt">작성일</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="white-frame inven-status-table">
+        <p class="search-list-title">입출고내역</p>
+        <table id="stock" class="table table-center">
+            <thead class="table-head">
+            <tr class="table-column-head">
+                <th class="table-column-head-txt">NO</th>
+                <th class="table-column-head-txt">입출고번호</th>
+                <th class="table-column-head-txt">분류</th>
+                <th class="table-column-head-txt">답변여부</th>
+                <th class="table-column-head-txt">작성일</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<!-- datatalbes -->
+<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.4/js/dataTables.bulma.js"></script>
+
+<script src="/admin/home/js/home.js"></script>
 </body>
 </html>

@@ -63,7 +63,7 @@
         book_isbn = #{book_isbn}
     </select>
 
-    <select id="existsByIsbn" resultType="boolean" parameterType="string">
+    <select id="existsByIsbn" resultType="String" parameterType="products">
         SELECT
         book_isbn
         FROM books
@@ -75,7 +75,6 @@
         book_deleted
         FROM books
         WHERE book_isbn = #{book_isbn}
-
     </select>
 
     <insert id="insertBookInfo" parameterType="products">
@@ -120,7 +119,7 @@
         book_price = #{book_price},
         book_publisher = #{book_publisher},
         book_author = #{book_author},
-        book_qty = #{book_qty},
+        book_qty = #{book_qty, jdbcType=INTEGER},
         book_intro = #{book_intro},
         book_country_type = #{book_country_type, jdbcType=CHAR},
         book_category = #{book_category},
@@ -128,7 +127,7 @@
         book_publish_date = #{book_publish_date},
         book_thumbnail_original = #{book_thumbnail_original, jdbcType=VARCHAR},
         book_thumbnail_changed = #{book_thumbnail_changed, jdbcType=VARCHAR},
-        book_deleted = #{book_deleted}
+        book_deleted = #{book_deleted, jdbcType=CHAR}
         WHERE
         book_isbn = #{book_isbn}
     </update>

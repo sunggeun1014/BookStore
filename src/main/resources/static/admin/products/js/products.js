@@ -286,15 +286,22 @@ function confirmDelete() {
         console.log(bookISBN)
 
         if (bookISBN.length > 0) {
-            getConfirmModal("삭제하시겠습니까?", function() {
+            getConfirmModal("목록에서 숨김 처리 하시겠습니까?", function() {
                 $.ajax({
                     url: "/admin/products/delete",
                     method: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(bookISBN), // book_isbns 배열을 JSON으로 전송
                     success: function(response) {
-                        // 삭제 성공 시 테이블 다시 불러오기
-                        table.ajax.reload();
+
+                        if (response === 'success') {
+                            console.log("삭제요청 성공", response)
+                            location.reload(); // 삭제하고 새로고침
+                            // location.href = "/admin/products/products";
+
+                            // 삭제 성공 시 테이블 다시 불러오기 - 이거는 새로고침할 수 없는 방법
+                            // table.ajax.reload();
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error("삭제 요청 실패:", error);
@@ -302,7 +309,7 @@ function confirmDelete() {
                 });
             });
         } else {
-            alert("삭제할 항목을 선택해주세요.");
+            getCheckModal("숨길 항목을 선택해주세요.");
         }
     });
 }

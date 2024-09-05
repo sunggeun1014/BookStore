@@ -81,7 +81,11 @@ public class ProductsController {
 
         productDTO.setBook_isbn(bookISBN);
 
-        productService.updateBookInfo(productDTO);
+        try {
+            productService.updateBookInfo(productDTO);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return "redirect:/admin/products/editProduct?book_isbn=" + bookISBN;
     }
 
@@ -117,22 +121,27 @@ public class ProductsController {
     }
 
     @PostMapping("/checkISBN")
-    public ResponseEntity<Map<String, Boolean>> checkISBN(@RequestBody Map<String, String> request) {
+    public ResponseEntity<Map<String, Object>> checkISBN(@RequestBody Map<String, String> request) {
         String bookISBN = request.get("book_isbn");
-        boolean exists = productService.existsIsbn(bookISBN);
+        log.warn("Received ISBN: {}", bookISBN); // 디버깅용 로그
+        String exists = productService.existsIsbn(bookISBN);
+        String deleteState = productService.deleteState(bookISBN);
 
-        Map<String, Boolean> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("exists", exists);
+        response.put("deleteState", deleteState);
 
         return ResponseEntity.ok(response);
     }
 
+
+
     @PostMapping("/delete")
-    public String deleteBook(@RequestBody List<String> bookISBNs) {
+    public ResponseEntity<String> deleteBook(@RequestBody List<String> bookISBNs) {
         for (String bookISBN : bookISBNs) {
             productService.deleteBook(bookISBN);
         }
-        return "redirect:/admin/products/products";
+        return ResponseEntity.ok("success");
     }
 
 }

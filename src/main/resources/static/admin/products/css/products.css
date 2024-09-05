@@ -35,6 +35,10 @@
     gap: 10px;
 }
 
+#delete-button {
+    width: 110px;
+}
+
 .book-isbn-link  {
     display: block;
     text-decoration: underline;
@@ -49,26 +53,10 @@
     text-overflow: ellipsis;
 }
 
-.table-center td, .table-center th {
-    text-align: center;
-    vertical-align: middle;
-}
-
-.table thead {
-    height: 50px;
-    background-color: #FAFAFA;
-    color: #7E7E7E;
-}
-
-.table td, .table thead th {
-    border-width: 1px 0 1px 0;
-    border-style: solid;
-    border-color: #D8D8D8;
-}
-
-.dt-column-title {
-    color: #7E7E7E;
-}
+/*.table-center td, .table-center th {*/
+/*    text-align: center;*/
+/*    vertical-align: middle;*/
+/*}*/
 
 .pagination-link.is-current, .pagination-link.is-selected {
     background-color: #4777F6;
@@ -76,8 +64,4 @@
 
 .pagination-list {
     justify-content: center;
-}
-
-.selected-row {
-    background-color: #FAFAFA;
 }

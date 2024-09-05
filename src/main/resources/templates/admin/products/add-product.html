@@ -121,10 +121,11 @@
                 <p>형식 : JPG, JPEG, PNG</p>
                 <div class="img-input-wrap">
                     <label for="input-file" class="input-file-label">
-                        <i class="fa-solid fa-plus"></i>
-                        <img src="" alt="Book Thumbnail" id="preview"/>
+                        <img th:src="@{/admin/common/img/products/{products}(products=${book_thumbnail_changed != null ? book_thumbnail_changed : 'noimg.png'})}"
+                             alt="책썸네일" id="preview"/>
+<!--                        <i class="fa-solid fa-plus"></i>-->
                     </label>
-                    <input type="file" name="thumbnail_img_file" id="input-file" class="input-img-file" accept="image/jpeg, image/png, image/jpg"/>
+                    <input type="file" name="thumbnail_img_file" id="input-file" class="input-img-file" accept="image/jpeg, image/png, image/jpg" />
                 </div>
             </div>
         </div>
