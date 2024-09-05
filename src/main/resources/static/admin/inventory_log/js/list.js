@@ -1,48 +1,38 @@
 let table = null;
 
 $(document).ready(function() {
-	table = $('#supplier-orders-table').DataTable({
+	table = $('#inventoryLog-orders-table').DataTable({
 		ajax: {
-			url: '/admin/supplierOrdersRest/supplierOrders',
+			url: '/admin/inventoryLogRest/inventoryLog',
 			dataSrc: function(json) {
 				$("#data-count").text(`총 ${json.recordsTotal}건`);
 				return json.data;
 			}
 		},
-		order: [[1, 'desc']],
+		order: [[3, 'desc']],
 		columns: [
 			{ 
 				data: null,
 				orderable: false
 			},
 			{ 
-				data: 'order_num',
+				data: 'log_transaction_num',
 				render: function(data, type, row) {
-					return `<a href="/admin/supplierOrders/detail?order_num=${data}" class="order-detail-link">${data}</a>`;
+					return `<a href="/admin/inventoryLog/detail?log_transaction_num=${data}" class="order-detail-link">${data}</a>`;
 				}
 			},
 			{ 
-				data: 'order_status',
+				data: 'log_transaction_status',
 				createdCell: function(td, cellData) {
-				    if (cellData === "입고완료") {
+				    if (cellData === "반품입고" || cellData === "입고") {
 				        $(td).addClass('text-color-blue');
-				    }
+				    } else {
+						$(td).addClass('text-color-green');
+					}
 				}
 			},
 			{ 
-				data: 'order_total_qty',
-				render: function(data) {
-					return `${data}개`
-				}
-			},
-			{ 
-				data: 'order_total_price', 
-				render: function (data) {
-					return numberFormatter(data);
-				}
-			},
-			{ 
-				data: 'order_date', 
+				data: 'log_operation_date', 
 				render: function (data) {
 					const date = new Date(data);
 					return date.toISOString().split('T')[0];
@@ -106,7 +96,7 @@ function filter() {
 	const input = Number($("#word").val());
 	
 	if(Number.isInteger(input)) {
-		table.ajax.url("/admin/supplierOrdersRest/dataFilter");
+		table.ajax.url("/admin/inventoryLogRest/dataFilter");
 		
 		table.settings()[0].ajax.data = function(d) {
 			d.start_date = $("#startDate").val();
@@ -117,30 +107,6 @@ function filter() {
 		table.ajax.reload();
 	}
 	
-}
-
-function delivery_request() {
-	let checked_values = $("#table-form input[name='order_num']:checked")
-	    .map(function() {
-	        return $(this).val();
-	    }).get();
-
-	if(checked_values.length > 0) { 
-		$.ajax({
-			url: "/admin/customerOrdersRest/deliveryRequest",
-			method: "POST",
-			contentType: 'application/json',
-			data: JSON.stringify(checked_values),
-			success: function(data) {
-				getCheckModal(`${data}건 요청완료`);
-			},
-			error: function () {
-				getCheckModal("ERROR");
-			}
-		});
-	} else {
-		getCheckModal("1개 이상의 선택이 필요합니다.");
-	}
 }
 
 function resetBtn() {
@@ -159,10 +125,4 @@ function numberFormatter(number) {
     });
     
     return formatter.format(number) + "원";
-}
-
-function checkboxHandler() {
-    $("#select-all").on("change", function() {
-        $(".row-checkbox").prop("checked", $(this).prop("checked"));
-	});
 }

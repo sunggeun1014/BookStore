@@ -41,7 +41,7 @@ public class AdminController {
 	
 	@GetMapping("/index")
     public String index(HttpSession session, Model model, String path) {
-		        
+		
 		model.addAttribute("template", path);			
 		
         return "/admin/index";
