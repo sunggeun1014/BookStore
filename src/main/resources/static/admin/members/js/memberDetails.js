@@ -49,3 +49,5 @@ function toggleCustomDomain() {
         customDomainInput.name = "customEmailDomain";  // input 필드의 name을 customEmailDomain으로 복구
     }
 }
+
+
