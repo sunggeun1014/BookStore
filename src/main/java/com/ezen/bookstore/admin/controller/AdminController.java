@@ -52,11 +52,14 @@ public class AdminController {
 	public String getMyInfo(HttpSession session, Model model) {
 	    
 	    ManagersDTO sessionInfo = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
+	    String[] emailDomainList = { "naver.com", "gmail.com", "daum.net", "nate.com", 
+	    		"hanmail.net", "kakao.com", "outlook.com", "yahoo.co.kr", "icloud.com", "hotmail.com" };
 
 	    String[] emailParts = sessionInfo.getManager_email().split("@");
 	    String emailUser = emailParts[0];
 	    String emailDomain = emailParts[1];
-	    
+		
+		
 	    
 	    String fullPhone = sessionInfo.getManager_phoneNo();
 	    String countryNum = "";
@@ -72,7 +75,7 @@ public class AdminController {
 	        }
 	    }
 	    
-	    
+	    model.addAttribute("emailDomainList", emailDomainList);
 	    model.addAttribute("managers", sessionInfo);
 	    model.addAttribute("emailUser", emailUser);
 	    model.addAttribute("emailDomain", emailDomain);
