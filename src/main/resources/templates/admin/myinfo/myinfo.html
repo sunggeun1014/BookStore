@@ -48,14 +48,13 @@
                     <input type="text" id="emailUser" class="gray-text" th:value="${emailUser}"/>
                     <span class="search-list-subject-symbol">@</span>
                     <div class="select-box">
-                        <select id="emailDomain" th:value="${emailDomain}" onchange="toggleCustomDomain()">
-                            <option value="">선택하세요</option>
-                            <option value="naver.com" th:selected="${emailDomain == 'naver.com'}">naver.com</option>
-                            <option value="gmail.com" th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
-                            <option value="daum.net" th:selected="${emailDomain == 'daum.net'}">daum.net</option>
-                            <option value="yahoo.com" th:selected="${emailDomain == 'yahoo.com'}">yahoo.com</option>
-                            <option value="custom">직접 입력</option>
-                        </select>
+                        <select id="emailDomain" name="emailDomain" onchange="toggleCustomDomain()">
+						    <option th:each="domain : ${emailDomainList}"
+						            th:value="${domain}"
+						            th:text="${domain}"
+						            th:selected="${domain == emailDomain}">
+						    </option>         
+						</select>
                         <div class="select-arrow-down" id="email"></div>
                     </div>
                     <input type="text" id="customEmailDomain" style="display:none;"/>
