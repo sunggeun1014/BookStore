@@ -30,4 +30,13 @@ public class WarehouseRepository {
 	public List<ZoneNumDTO> getZoneNum() {
 		return sql.selectList("Warehouse.getZoneNum");
 	}
+	
+	public void invQtyUpdate(String book_isbn, Integer Order_detail_qty) {
+		WarehouseDTO dto = new WarehouseDTO();
+		
+		dto.setInv_isbn(book_isbn);
+		dto.setInv_qty(Order_detail_qty);
+		
+		sql.update("Warehouse.invQtyUpdate", dto);
+	}
 }
