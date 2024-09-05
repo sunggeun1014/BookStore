@@ -59,7 +59,7 @@ $(document).ready(function() {
 						processData: false,
 						contentType: false,
 						success: function() {
-							window.location.href = '/admin/index?path=admin/banners/banners';
+							window.location.href = '/admin/banners/banners';
 						}
 					});
 				});

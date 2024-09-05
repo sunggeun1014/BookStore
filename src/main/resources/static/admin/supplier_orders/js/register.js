@@ -158,7 +158,7 @@ function orderConfirmBtn() {
 		    },
 		    body: JSON.stringify(formList)
 		})
-		.then(() => location.href='/admin/supplierOrders/list')
+		.then(() => location.href='/admin/supplierOrders/supplierOrders')
 	});
 	
 }

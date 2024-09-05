@@ -13,6 +13,6 @@ public interface ReviewsMapper {
 
 	ReviewsDTO getDetailList(Integer reviewNum);
 	
-	void deleteAllByIdIn(List<Integer> reviewIds);
+	int deleteAllByIdIn(List<Integer> reviewIds);
 	
 }

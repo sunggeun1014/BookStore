@@ -28,6 +28,12 @@ public class MgntController {
 
 	private final MgntService mgntService;
 
+	
+	@GetMapping("/members")
+	public String members() {
+		return "admin/members/members";
+	}
+	
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, Object> tableData() {
@@ -60,10 +66,8 @@ public class MgntController {
 	    model.addAttribute("userPart1", userPart1);
 	    model.addAttribute("userPart2", userPart2);
 	    
-	    String templatePath = "/admin/members/memberDetails";
-        model.addAttribute("template", templatePath);  // 경로를 template로 전달
 
-	    return "/admin/index";
+	    return "admin/members/memberDetails";
 	}
 	
 	@PostMapping("/update")
@@ -88,6 +92,6 @@ public class MgntController {
 
 	    mgntService.updateMemberDetails(membersDTO);
 	    
-	    return "redirect:/admin/index?path=/admin/members/members";
+	    return "redirect:/admin/members/members";
 	}
 }

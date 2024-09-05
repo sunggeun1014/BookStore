@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="/admin/common/css/modal.css" />
@@ -75,7 +79,7 @@
 				</div>
 				<button id="change-button" class="default-btn cancel">변경</button>
 				<button id="commit-button" class="default-btn"
-					onclick="location.href='/admin/index?path=admin/managers/managerReg'">등록</button>
+					onclick="location.href='/admin/managers/register'">등록</button>
 			</div>	
 		</div>
 		

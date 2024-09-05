@@ -1,6 +1,8 @@
 package com.ezen.bookstore.admin.reviews.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +37,19 @@ public class ReviewsServiceImpl implements ReviewsService {
 
     @Override
     @Transactional
-    public void deleteReviewsById(List<Integer> reviewIds) {
-    	reviewsMapper.deleteAllByIdIn(reviewIds);
+    public Map<String, Object> deleteReviewsById(List<Integer> reviewIds) {
+    	Map<String, Object> resultMap = new HashMap<>();
+    	
+    	int deleteRows = reviewsMapper.deleteAllByIdIn(reviewIds);
+    	
+    	if(deleteRows > 0) {
+    		resultMap.put("resultCode", "S");
+    		resultMap.put("resultMsg", "삭제가 완료되었습니다.");
+    	} else {
+    		resultMap.put("resultCode", "F");
+    		resultMap.put("resultMsg", "삭제에 실패하였습니다.");
+    	}
+    	
+    	return resultMap;
     }
 }

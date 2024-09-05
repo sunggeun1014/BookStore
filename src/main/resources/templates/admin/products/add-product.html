@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 <head>
     <meta charset="UTF-8">
     <title>상품추가하기</title>
@@ -139,7 +143,7 @@
 
     <div class="button-wrap">
         <button class="default-btn" id="add-btn" form="add-form">등록</button>
-        <button class="default-btn cancel" onclick="location.href='/admin/index?path=admin/products/products'">취소</button>
+        <button class="default-btn cancel" onclick="location.href='/admin/products/products'">취소</button>
     </div>
 </div>
 

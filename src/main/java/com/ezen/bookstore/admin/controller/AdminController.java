@@ -40,21 +40,20 @@ public class AdminController {
     }
 	
 	@GetMapping("/index")
-    public String index(HttpSession session, Model model, String path) {
+    public String index() {
 		
-		model.addAttribute("template", path);			
 		
-        return "/admin/index";
+        return "admin/home/home";
        
     }
 	
 	@GetMapping("/myinfo")
 	public String getMyInfo(HttpSession session, Model model) {
 	    
-	    ManagersDTO sessionInfo = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
 	    String[] emailDomainList = { "naver.com", "gmail.com", "daum.net", "nate.com", 
 	    		"hanmail.net", "kakao.com", "outlook.com", "yahoo.co.kr", "icloud.com", "hotmail.com" };
-		ManagersDTO sessionDTO = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
+
+	    ManagersDTO sessionDTO = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
 	    ManagersDTO managerDetails = mgrService.detailList(sessionDTO.getManager_id()); 
 
 	    String[] emailParts = managerDetails.getManager_email().split("@");
@@ -85,11 +84,7 @@ public class AdminController {
 	    model.addAttribute("userPart1", userPart1);
 	    model.addAttribute("userPart2", userPart2);
 	    
-	    String templatePath = "/admin/myinfo/myinfo";
-	    
-	    model.addAttribute("template", templatePath);
-	    
-	    return "admin/index";
+	    return "admin/myinfo/myinfo";
 	}
 
 	
@@ -132,14 +127,14 @@ public class AdminController {
                 managersDTO.setManager_profile_changed(newFileName);
             } catch (IOException e) {
                 e.printStackTrace();
-                return "admin/myinfo"; // 에러 발생 시 다시 마이페이지로 이동
+                return "redirect:/admin/myinfo/myinfo"; // 에러 발생 시 다시 마이페이지로 이동
             }
         }
 
         // 서비스 호출하여 데이터베이스 업데이트
         mgrService.updateManager(managersDTO);
 
-        return "admin/index";  // 업데이트 후 마이페이지로 리다이렉트
+        return "redirect:/admin/myinfo/myinfo";  // 업데이트 후 마이페이지로 리다이렉트
     }
     
 }

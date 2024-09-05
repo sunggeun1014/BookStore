@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 <link rel="stylesheet" href="/admin/members/css/memberDetails.css" />
 <div>
 	<div class="white-frame">
@@ -91,7 +95,7 @@
 		</div>
 		<div class="btn">
 			<button type="submit" class="default-btn" style="margin-right: 20px;">수정</button>
-			<button class="default-btn cancle" onclick="location.href='/admin/index?path=admin/members/members'">
+			<button class="default-btn cancle" onclick="location.href='/admin/members/members'">
 			      <span>뒤로가기</span>
 			</button>
 		</div>

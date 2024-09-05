@@ -38,6 +38,11 @@ import lombok.extern.slf4j.Slf4j;
 public class MgrController {
 	private final MgrService mgrService;
 	
+	@GetMapping("/managers")
+	public String managers() {
+		return "admin/managers/managers";
+	}
+	
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, Object> tableData(){
@@ -71,10 +76,8 @@ public class MgrController {
 	    model.addAttribute("userPart1", userPart1);
 	    model.addAttribute("userPart2", userPart2);
 	    	    
-	    String templatePath = "/admin/managers/managerDetails";
-        model.addAttribute("template", templatePath);  // 경로를 template로 전달
 
-	    return "/admin/index";
+	    return "admin/managers/managerDetails";
 	}
 	
 	@PostMapping("/update/dept")
@@ -114,9 +117,8 @@ public class MgrController {
 				"hanmail.net", "kakao.com", "outlook.com", "yahoo.co.kr", "icloud.com", "hotmail.com" };
 		
 		model.addAttribute("emailDomainList", emailDomainList);
-		model.addAttribute("template", "/admin/managers/managerReg");
 		
-		return "/admin/index";
+		return "admin/managers/managerReg";
 	}
 	
 	@PostMapping("/join")
@@ -164,7 +166,7 @@ public class MgrController {
                 managersDTO.setManager_profile_changed(newFileName);
             } catch (IOException e) {
                 e.printStackTrace();
-                return "admin/myinfo"; // 에러 발생 시 다시 마이페이지로 이동
+                return "redirect:/admin/managers/managers"; // 에러 발생 시 다시 마이페이지로 이동
             }
         }
 	    
@@ -174,7 +176,7 @@ public class MgrController {
 		
 		mgrService.joinProcess(managersDTO);
 		
-		return "redirect:/admin/index?path=admin/managers/managers";
+		return "redirect:/admin/managers/managers";
 	}
 
 }

@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="SidebarFragment">
+
 <nav class="side-menu" th:fragment="sidebar">
   <div class="logo-wrap">
     <img src="/admin/common/img/admin-로고.svg" alt="로고" />
@@ -37,7 +42,7 @@
       </div>
       <ul class="sub-menu-list">
         <li class="sub-menu-item" data-sub-menu-id="submenu1">
-          <a href="/admin/index?path=admin/members/members">회원목록조회</a>
+          <a href="/admin/members/members">회원목록조회</a>
         </li>
       </ul>
     </li>
@@ -58,7 +63,7 @@
       </div>
       <ul class="sub-menu-list">
         <li class="sub-menu-item" data-sub-menu-id="submenu2">
-          <a href="/admin/index?path=admin/managers/managers">매니저목록조회</a>
+          <a href="/admin/managers/managers">매니저목록조회</a>
         </li>
         <li class="sub-menu-item" data-sub-menu-id="submenu3">
           <a href="/admin/managers/register">매니저등록</a>
@@ -82,7 +87,7 @@
       </div>
       <ul class="sub-menu-list">
         <li class="sub-menu-item" data-sub-menu-id="submenu4">
-          <a href="/admin/index?path=admin/products/products">상품목록조회</a>
+          <a href="/admin/products/products">상품목록조회</a>
         </li>
       </ul>
     </li>
@@ -103,7 +108,7 @@
       </div>
       <ul class="sub-menu-list">
         <li class="sub-menu-item" data-sub-menu-id="submenu5">
-          <a href="/admin/index?path=/admin/customer_orders/customerList">주문내역목록</a>
+          <a href="/admin/customerOrders/list">주문내역목록</a>
         </li>
       </ul>
     </li>
@@ -124,13 +129,13 @@
       </div>
       <ul class="sub-menu-list">
         <li class="sub-menu-item" data-sub-menu-id="submenu6">
-          <a href="/admin/index?path=/admin/supplier_orders/supplierList">발주내역</a>
+          <a href="/admin/supplierOrders/supplierOrders">발주내역</a>
         </li>
         <li class="sub-menu-item" data-sub-menu-id="submenu7">
-          <a href="/admin/index?path=/admin/inventory_log/inventoryLogList">입출고내역</a>
+          <a href="/admin/inventoryLog/inventoryLog">입출고내역</a>
         </li>
         <li class="sub-menu-item" data-sub-menu-id="submenu8">
-          <a href="/admin/index?path=/admin/warehouse/warehouse">창고재고조회</a>
+          <a href="/admin/warehouse/warehouse">창고재고조회</a>
         </li>
       </ul>
     </li>
@@ -151,16 +156,16 @@
       </div>
       <ul class="sub-menu-list">
         <li class="sub-menu-item" data-sub-menu-id="submenu9">
-          <a href="/admin/index?path=admin/banners/banners">배너관리</a>
+          <a href="/admin/banners/banners">배너관리</a>
         </li>
         <li class="sub-menu-item" data-sub-menu-id="submenu10">
-          <a href="/admin/index?path=admin/notice/notice">공지글관리</a>
+          <a href="/admin/notice/notice">공지글관리</a>
         </li>
         <li class="sub-menu-item" data-sub-menu-id="submenu11">
-          <a href="/admin/index?path=admin/reviews/reviews">리뷰조회</a>
+          <a href="/admin/reviews/list">리뷰조회</a>
         </li>
         <li class="sub-menu-item" data-sub-menu-id="submenu12">
-          <a href="/admin/index?path=admin/inquiries/inquiries">1:1 문의</a>
+          <a href="/admin/inquiries/inquiries">1:1 문의</a>
         </li>
       </ul>
     </li>
@@ -172,10 +177,12 @@
             <div class="icon-img-wrap">
               <i class="fa-solid fa-circle-user icon-img black"></i>
             </div>
-            <p><a href="/admin/myinfo?path=admin/myinfo/myinfo">내정보</a></p>	
+            <p><a href="/admin/myinfo">내정보</a></p>	
           </div>
         </div>
       </div>
     </li>
   </ul>
 </nav>
+
+</html>

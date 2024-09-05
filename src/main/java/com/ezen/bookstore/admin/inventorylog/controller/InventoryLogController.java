@@ -18,10 +18,15 @@ public class InventoryLogController {
 	
 	@GetMapping("/detail")
 	public String getInventoryLogDetail(Model model, Integer log_transaction_num) {
-		model.addAttribute("template", "/admin/inventory_log/inventoryLogDetail");
+
 		model.addAttribute("detail", ils.getInventoryLogDetail(log_transaction_num));
 		model.addAttribute("detailList", ils.getInventoryLogDetailList(log_transaction_num));
 		
-		return "/admin/index";
+		return "admin/inventory_log/inventoryLogDetail";
+	}
+	
+	@GetMapping("/inventoryLog")
+	public String inventoryLog() {
+		return "admin/inventory_log/inventoryLogList";
 	}
 }

@@ -28,6 +28,11 @@ public class NoticeController {
 	
 	private final NoticeService noticeService;
 	
+	@GetMapping("/notice")
+	public String notice() {
+		return "admin/notice/notice";
+	}
+	
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, Object> tableData() {
@@ -39,8 +44,10 @@ public class NoticeController {
 
 		return response;
 	}
-	
-	
+	@GetMapping("/noticeReg")
+	public String noticeReg() {
+		return "admin/notice/noticeReg";
+	}
 	
 	@PostMapping("/details")
 	public String showNoticeDetails(@RequestParam("notice_num") Integer noticeNum, Model model) {
@@ -52,9 +59,7 @@ public class NoticeController {
 		
 		
 		
-		String templatePath = "/admin/notice/noticeDetails";
-		model.addAttribute("template", templatePath);
-		return "admin/index";
+		return "admin/notice/noticeDetails";
 	}
 	
 	@PostMapping("/delete")
@@ -63,9 +68,6 @@ public class NoticeController {
 		noticeService.deleteNoticesByNums(noticeNums);
 		
 		
-		String templatePath = "/admin/notice/notice";
-		
-		model.addAttribute("template", templatePath);
-		return "admin/index";
+		return "redirect:/admin/notice/notice";
 	}
 }

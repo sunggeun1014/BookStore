@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 
+<head>
 	<!-- DataPicker -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<link rel="stylesheet" href="/admin/reviews/css/reviews.css" />
 	<link rel="stylesheet" href="/admin/common/css/modal.css">
+</head>
 
 <div>
 	<div class="filter-container white-frame">

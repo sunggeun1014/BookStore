@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 <link rel="stylesheet" href="/admin/myinfo/css/myinfo.css" />
     <style>
         .error-message {
@@ -131,7 +135,7 @@
             </div>
 			<div class="btn-box">
 				<button type="submit" class="default-btn">수정</button>
-				<button type="button" class="default-btn cancle" onclick="location.href='/admin/index?path=admin/index'">취소</button>
+				<button type="button" class="default-btn cancle" onclick="location.href='/admin/myinfo'">취소</button>
 			</div>
     </div>
     

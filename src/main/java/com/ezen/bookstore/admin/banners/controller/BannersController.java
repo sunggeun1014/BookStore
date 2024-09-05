@@ -31,6 +31,11 @@ import lombok.extern.slf4j.Slf4j;
 public class BannersController {
 	private final BannersService bannersService;
 	
+	@GetMapping("/banners")
+	public String list() {
+		return "admin/banners/banners";
+	}
+	
     @GetMapping(value= "/json", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> tableData() {
@@ -44,11 +49,9 @@ public class BannersController {
     }
 	
 	@GetMapping("/insert")
-	public String insertBannerPage(Model model) {
+	public String insertBannerPage() {
 		
-		String templatePath = "/admin/banners/bannerInsert";
-        model.addAttribute("template", templatePath); 
-		return "/admin/index";
+		return "admin/banners/bannerInsert";
 	}
 	
 	@PostMapping("/insert")
@@ -64,7 +67,7 @@ public class BannersController {
 	        model.addAttribute("error", "배너 등록 실패");
 	    }
 
-	    return "redirect:/admin/index?path=admin/banners/banners";
+	    return "redirect:/admin/banners/banners";
 	}
 
 
@@ -74,10 +77,8 @@ public class BannersController {
     	
     	model.addAttribute("banners", banners);
 
-		String templatePath = "/admin/banners/bannerDetail";
-        model.addAttribute("template", templatePath); 
         
-        return "/admin/index";
+        return "admin/banners/bannerDetail";
         
     }
     
@@ -94,7 +95,7 @@ public class BannersController {
             model.addAttribute("error", "배너 수정 실패: " + e.getMessage());
 		}
     	
-    	return "redirect:/admin/index?path=admin/banners/banners";
+    	return "redirect:/admin/banners/banners";
     }
     
 

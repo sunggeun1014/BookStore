@@ -29,6 +29,11 @@ public class WarehouseController {
 	
 	private final WarehouseService warehouseService;
 	
+	@GetMapping("/warehouse")
+	public String warehouse() {
+		return "admin/warehouse/warehouse";
+	}
+	
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, Object> tableData() {
@@ -49,10 +54,8 @@ public class WarehouseController {
 		model.addAttribute("stockDetails", stockDetails);
 		model.addAttribute("zoneNumList", zoneNumList);
 		
-		String templatePath = "/admin/warehouse/warehouseDetail";
-		model.addAttribute("template", templatePath);
 				
-		return "/admin/index";
+		return "admin/warehouse/warehouseDetail";
 	}
 	
 	@PostMapping("/update")
@@ -60,7 +63,7 @@ public class WarehouseController {
 		
 		warehouseService.updateStockDetails(warehouseDTO);
 		
-		return "redirect:/admin/index?path=/admin/warehouse/warehouse";
+		return "redirect:/admin/warehouse/warehouse";
 	}
 	
 }

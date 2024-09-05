@@ -20,10 +20,9 @@ public class CustomerOrdersController {
 	private final CustomerOrdersService cos;
 
 	@GetMapping("/list")
-	public String customerOrdersList(Model model) {
-		model.addAttribute("template", "/admin/customer_orders/customerList");
+	public String customerOrdersList() {
 		
-		return "/admin/index";
+		return "admin/customer_orders/customerList";
 	}
 	
 	@GetMapping("/detail")
@@ -32,9 +31,8 @@ public class CustomerOrdersController {
 		model.addAttribute("detailList", cos.getCustomerOrdersDetailList(order_num));
 		model.addAttribute("condition", condition);
 		
-		model.addAttribute("template", "/admin/customer_orders/customerDetail");
 		
-		return "/admin/index";
+		return "admin/customer_orders/customerDetail";
 	}
     
     @GetMapping(value = "/orderStatusUpdate")
