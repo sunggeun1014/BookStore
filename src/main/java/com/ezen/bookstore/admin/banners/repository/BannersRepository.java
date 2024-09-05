@@ -1,5 +1,6 @@
 package com.ezen.bookstore.admin.banners.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -34,5 +35,9 @@ public class BannersRepository {
 	public void deleteBanner(Integer bannerNum) {
 		sql.delete("Banners.deleteBanner", bannerNum);
 	}
+
+    public List<BannersDTO> findExpiredBanners(Date today) {
+        return sql.selectList("Banners.findExpiredBanners", today);
+    }
 
 }

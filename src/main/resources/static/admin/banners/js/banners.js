@@ -3,18 +3,10 @@ $(document).ready(function() {
 	if (!$.fn.DataTable.isDataTable('#banners')) {
 		table = $('#banners').removeAttr('width').DataTable({
 			autoWidth: false,
-			"paging": true,
+			paging: true,
 			columnDefs: [
-				{ targets: 0, orderable: false }, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
-				// 가운데정렬
-				{
-					className: 'table-center',
-					targets: '_all'
-				},
-				{
-					width: '40px',
-					targets: 0
-				},
+				// 가운데정렬 및 컬럼별 정렬 비활성화
+				{ targets: '_all', className: 'table-center', orderable: false },
 			],
 
 			order: [[1, 'asc']], // 번호 오름차순에 따라 정렬
@@ -29,19 +21,19 @@ $(document).ready(function() {
 			columns: [
 				{
 					data: null,
+					width: '40px',
 					render: function(data, type, row) {
 						return '<input type="checkbox" id="data-check" class="row-checkbox"><label for="data-check"></label>';
-					},
-					orderable: false,
+					}
 				},
 				{
 					data: 'banner_num',
 					width: '20px',
-					className: 'select-td',
+					className: 'select-td'
 				},
 				{
 					data: 'banner_title',
-					width: '250px',
+					width: '240px',
 					className: 'select-td',
 					render: function(data, type, row) {
 						return '<a href="#" class="banner-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
@@ -50,10 +42,7 @@ $(document).ready(function() {
 				{
 					data: 'banner_position',
 					width: '100px',
-					className: 'select-td',
-					render: function(data, type, row) {
-						return data === '01' ? '배너' : '팝업';
-					}
+					className: 'select-td'
 				},
 				{
 					data: null,
@@ -75,35 +64,27 @@ $(document).ready(function() {
 								String(endDate.getMonth() + 1).padStart(2, '0'),
 								String(endDate.getDate()).padStart(2, '0')
 							].join('-');
-
 							return startFormatted + ' ~ ' + endFormatted;
 						}
 						return '';
 					},
 					title: '노출 기간',
-					width: '250px',
-					className: 'select-td',
-					orderable: false
+					width: '240px',
+					className: 'select-td'
 				},
 
 				{
 					data: 'banner_visible',
-					width: '160px',
+					width: '100px',
 					className: 'select-td',
 					render: function(data, type, row) {
-						const onClass = data === '01' ? ' on' : '';
-						const offClass = data === '02' ? ' off' : '';
-						const html = '<div class="status-btn-wrap">' +
-							'<button class="status-btn' + onClass + '">노출</button>' +
-							'<button class="status-btn' + offClass + '">비노출</button>' +
-							'</div>';
-						return html;
-					},
-					orderable: false,
+						var color = data === '노출' ? '#4777F6' : '#7E7E7E';
+						return '<span style="color: ' + color + ';">' + data + '</span>';
+					}
 				},
 				{
 					data: 'banner_date',
-					width: '180px',
+					width: '200px',
 					className: 'select-td',
 					render: function(data, type, row) {
 						// date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
@@ -119,12 +100,22 @@ $(document).ready(function() {
 			],
 
 
-
 			"info": false, // 기본 적용 텍스쳐 숨기기
 			lengthChange: false, // 기본 적용 텍스쳐 숨기기
 			dom: 'lrtip', // 기본 검색 필드 숨기기 (f를 제거)
+			language: {
+				searchPanes: {
+					i18n: {
+						emptyMessage: "조회된 정보가 없습니다."
+					}
+				},
+				infoEmpty: "조회된 정보가 없습니다.",
+				zeroRecords: "조회된 정보가 없습니다.",
+				emptyTable: "조회된 정보가 없습니다.",
+			},
 
 			rowCallback: function(row, data) {
+				$(row).attr('data-id', data.banner_num); // 각 행에 고유 ID 설정
 
 				// 제목 컬럼의 링크 클릭 이벤트 추가
 				$(row).find('.banner-title-link').on('click', function(event) {
@@ -132,26 +123,61 @@ $(document).ready(function() {
 					postToDetailPage(data); // 폼 생성 및 제출 함수 호출
 				});
 			}
+
 		});
 
 	}
 
+	// 체크박스
 	$('#select-all').on('click', function() {
 		var rows = $('#banners').DataTable().rows({ 'search': 'applied' }).nodes();
 		$('input[type="checkbox"]', rows).prop('checked', this.checked);
 	});
 
 
+	// 개별 선택
 	$('#banners tbody').on('change', '.row-checkbox', function() {
-		if (!this.checked) {
-			$('#select-all').prop('checked', false);
+		const $row = $(this).closest('tr'); // 체크박스가 있는 행을 선택
+
+		if (this.checked) {
+			$row.addClass('selected-row'); // 배경색을 변경할 클래스 추가
 		} else {
-			if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
-				$('#select-all').prop('checked', true);
-			}
+			$row.removeClass('selected-row'); // 배경색을 변경할 클래스 제거
+		}
+
+		// 전체 체크박스와 개별 체크박스의 선택 상태를 비교하여 '전체 선택' 체크박스 상태를 업데이트
+		if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
+			$('#select-all').prop('checked', true);
+		} else {
+			$('#select-all').prop('checked', false);
+		}
+
+	});
+
+	// '전체 선택' 체크박스의 상태 변경 시
+	$('#select-all').on('change', function() {
+		const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
+
+		// 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
+		$('.row-checkbox').prop('checked', isChecked);
+
+		// 각 행에 대해 배경색을 업데이트
+		if (isChecked) {
+			$('#banners tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
+		} else {
+			$('#banners tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
 		}
 	});
 
+	// 페이지 변경 시 체크박스 초기화
+	table.on('draw', function() {
+		$('#select-all').prop('checked', false); // 전체 체크박스 초기화
+		$('.row-checkbox').prop('checked', false); // 개별 체크박스 초기화
+		$('#banners tbody tr').removeClass('selected-row'); // 선택된 행의 배경색 초기화
+	});
+
+
+	// 모달 변수
 	var modal = document.getElementById("myModal");
 
 	// 삭제 버튼 클릭 이벤트 핸들러
@@ -180,8 +206,6 @@ $(document).ready(function() {
 			getCheckModal('삭제할 항목을 선택하세요.');
 		}
 	});
-
-
 
 
 	// 삭제 확인 및 취소 버튼
@@ -231,8 +255,9 @@ $(document).ready(function() {
 		}
 	});
 
+	// 날짜 변경 시 테이블 다시 그리기
 	$('#startDate, #endDate').on('change', function() {
-		table.draw(); // 날짜 변경 시 테이블 다시 그리기
+		table.draw();
 	});
 
 	// 날짜 필터링 로직 추가
@@ -240,31 +265,35 @@ $(document).ready(function() {
 		function(settings, data, dataIndex) {
 			var startDate = $('#startDate').val();
 			var endDate = $('#endDate').val();
-			var bannerDate = data[6]; // 'banner_date' 컬럼의 인덱스
 
-			// 날짜 형식을 Date 객체로 변환
-			var start = startDate ? new Date(startDate + 'T00:00:00') : null;
-			var end = endDate ? new Date(endDate + 'T23:59:59') : null;
-			var banner = new Date(bannerDate);
+			// 배너 시작과 종료 날짜를 파싱
+			var bannerDateRange = data[4]; // 'banner_start ~ banner_end'
+			var [bannerStartStr, bannerEndStr] = bannerDateRange.split(' ~ ');
+			var bannerStart = new Date(bannerStartStr);
+			var bannerEnd = new Date(bannerEndStr);
 
-			if ((start === null && end === null) ||
-				(start <= banner && (end === null || banner <= end))) {
-				return true;
+			// 사용자가 선택한 날짜를 파싱
+			var start = startDate ? new Date(startDate + 'T00:00:00.0') : null;
+			var end = endDate ? new Date(endDate + 'T23:59:59.0') : null;
+
+			console.log('Filter Start Date:', start);
+			console.log('Filter End Date:', end);
+			console.log('Banner Start Date:', bannerStart);
+			console.log('Banner End Date:', bannerEnd);
+
+			// 필터링 조건: 배너의 날짜가 선택한 날짜 범위 내에 완전히 포함되어야 함
+			if (start && end) {
+				return bannerStart >= start && bannerEnd <= end;
 			}
-			return false;
+			// 날짜가 설정되지 않은 경우에는 필터링을 적용하지 않음
+			return true;
 		}
 	);
 
 	// 라디오 버튼 필터링 이벤트
 	$('input[name="banner-position"]').on('change', function() {
-		var selectedPosition = $('input[name="banner-position"]:checked').val();
-		if (selectedPosition === '') {
-			table.column(3).search('').draw(); // '전체' 선택 시
-		} else if (selectedPosition === '01') {
-			table.column(3).search('배너').draw(); // 필터링 적용
-		} else if (selectedPosition === '02') {
-			table.column(3).search('팝업').draw(); // 필터링 적용
-		}
+		var searchValue = { '': '', '01': '배너', '02': '팝업' }[$('input[name="banner-position"]:checked').val()] || '';
+		table.column(3).search(searchValue).draw(); // 3은 banner_position 컬럼의 인덱스입니다.
 	});
 
 
@@ -283,6 +312,8 @@ $(document).ready(function() {
 			setActive(this);  // 클릭된 버튼에 'active' 클래스 설정
 		});
 	});
+
+	datepicker("startDate", "endDate");
 
 });
 
@@ -329,6 +360,8 @@ function resetFilters() {
 	$('#startDate').val('');
 	$('#endDate').val('');
 	$('.date-option').removeClass('active');
+	flatpickr("#startDate").clear();
+	flatpickr("#endDate").clear();
 
 	// 라디오버튼 '전체' 상태로 초기화
 	$('#position-all').prop('checked', true);
@@ -358,5 +391,3 @@ function setActive(element) {
 	// 클릭된 요소에 'active' 클래스를 추가
 	element.classList.add('active');
 }
-
-datepicker("startDate", "endDate");
