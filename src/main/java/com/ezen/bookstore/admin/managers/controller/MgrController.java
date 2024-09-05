@@ -38,6 +38,11 @@ import lombok.extern.slf4j.Slf4j;
 public class MgrController {
 	private final MgrService mgrService;
 	
+	@GetMapping("/managers")
+	public String managers() {
+		return "admin/managers/managers";
+	}
+	
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, Object> tableData(){
@@ -63,7 +68,7 @@ public class MgrController {
 	    String countryNum = phoneNumber[0];
 	    String userPart1 = phoneNumber[1];
 	    String userPart2 = phoneNumber[2];
-
+	    
 	    model.addAttribute("manager_details", managerDetails);
 	    model.addAttribute("emailUser", emailUser);
 	    model.addAttribute("emailDomain", emailDomain);
@@ -71,10 +76,8 @@ public class MgrController {
 	    model.addAttribute("userPart1", userPart1);
 	    model.addAttribute("userPart2", userPart2);
 	    	    
-	    String templatePath = "/admin/managers/managerDetails";
-        model.addAttribute("template", templatePath);  // 경로를 template로 전달
 
-	    return "/admin/index";
+	    return "admin/managers/managerDetails";
 	}
 	
 	@PostMapping("/update/dept")
@@ -108,6 +111,16 @@ public class MgrController {
 	    return ResponseEntity.ok(response);
 	}
 	
+	@GetMapping("/register")
+	public String getRegisterForm(Model model) {
+		String[] emailDomainList = { "naver.com", "gmail.com", "daum.net", "nate.com", 
+				"hanmail.net", "kakao.com", "outlook.com", "yahoo.co.kr", "icloud.com", "hotmail.com" };
+		
+		model.addAttribute("emailDomainList", emailDomainList);
+		
+		return "admin/managers/managerReg";
+	}
+	
 	@PostMapping("/join")
 	public String joinProccess(@ModelAttribute ManagersDTO managersDTO, 
 					            @RequestParam("emailUser") String emailUser, 
@@ -118,24 +131,7 @@ public class MgrController {
 					            @RequestParam MultipartFile profileImage,
 					            Model model
 								) {
-		
-		if (!mgrService.isManagerIdAvailable(managersDTO.getManager_id())) {
-			
-	        model.addAttribute("errorCode", 1);
-	        
-	        model.addAttribute("managersDTO", managersDTO);
-	        model.addAttribute("emailUser", emailUser);
-	        model.addAttribute("emailDomain", emailDomain);
-	        model.addAttribute("countryNum", countryNum);
-	        model.addAttribute("userPart1", userPart1);
-	        model.addAttribute("userPart2", userPart2);
-	        
-	        String templatePath = "/admin/managers/managerReg";
-	        model.addAttribute("template", templatePath);  // 경로를 template로 전달
-	        
-	        return "/admin/index";
-	    }
-		
+
 		String manager_email = emailUser +"@" + emailDomain;
 		String manager_phoneNo = countryNum + "-" + userPart1 + "-" + userPart2;
 	    Timestamp now = Timestamp.valueOf(LocalDateTime.now());
@@ -170,7 +166,7 @@ public class MgrController {
                 managersDTO.setManager_profile_changed(newFileName);
             } catch (IOException e) {
                 e.printStackTrace();
-                return "admin/myinfo"; // 에러 발생 시 다시 마이페이지로 이동
+                return "redirect:/admin/managers/managers"; // 에러 발생 시 다시 마이페이지로 이동
             }
         }
 	    
@@ -178,14 +174,9 @@ public class MgrController {
 		managersDTO.setManager_phoneNo(manager_phoneNo);
 		managersDTO.setManager_join_date(now);
 		
-		
-		
 		mgrService.joinProcess(managersDTO);
 		
-		return "redirect:/admin/index?path=admin/managers/managers";
+		return "redirect:/admin/managers/managers";
 	}
-	
-	
-	
 
 }

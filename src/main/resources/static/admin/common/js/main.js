@@ -217,3 +217,26 @@ function getErrorModal(focusElement) {
 
     $("#confirm-delete").focus();
 }
+
+/**
+ * Ajax post 요청 공용함수
+ * @param {string} url ajax 요청 보낼 주소
+ * @param {object} params ajax에 담아보낼 파라미터
+ * @param {function} successFc 통신 성공 시 실행할 콜백함수
+ */
+function fnPostAjax(url, params, successFc) {
+	$.ajax({
+		url: url,  
+		type: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(params),  
+		success: function(jsonData) {
+			if(typeof successFc === 'function') {
+				successFc(jsonData);
+			}
+		},
+		error: function() {
+			getCheckModal('통신 중 오류가 발생했습니다.');
+		}
+	});
+}

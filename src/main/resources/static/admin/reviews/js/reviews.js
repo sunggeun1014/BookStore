@@ -17,7 +17,7 @@ $(document).ready(function() {
 			columns: [
 				{
 					data: null,
-					render: function(data, type, row) {
+					render: function() {
 						return '<input type="checkbox" class="data-check row-checkbox"><label class="data-check-label"></label>';
 					},
 					orderable: false,
@@ -29,7 +29,7 @@ $(document).ready(function() {
 				{ data: 'review_content' },
 				{
 					data: 'book_name',
-					render: function(data, type, row) {
+					render: function(data) {
 						return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
 					}
 				},
@@ -37,7 +37,7 @@ $(document).ready(function() {
 				{ data: 'member_id' },
 				{
 					data: 'review_write_date',
-					render: function(data, type, row) {
+					render: function(data, type) {
 						if (type === 'display' || type === 'filter') {
 							var date = new Date(data);
 							var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
@@ -48,7 +48,7 @@ $(document).ready(function() {
 				},
 				{
 					data: 'review_rating',
-					render: function(data, type, row) {
+					render: function(data, type) {
 						if (type === 'display' || type === 'filter') {
 							return '<span class="fas fa-star stars"></span>'.repeat(data) + '<span class="far fa-star empty-stars"></span>'.repeat(5 - data);
 						}
@@ -165,20 +165,14 @@ $(document).ready(function() {
 			var rowData = $('#reviews').DataTable().row($(this).closest('tr')).data();
 			selectedIds.push(rowData.review_num);
 		});
-
-		$.ajax({
-			url: '/admin/reviews/delete',  // 서버의 삭제 처리 URL
-			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify(selectedIds),  // 선택된 리뷰 번호들을 JSON으로 전송
-			success: function(response) {
-				getCheckModal('삭제가 완료되었습니다.')
+		
+		fnPostAjax('/admin/reviews/delete', selectedIds, function(jsonData) {
+			getCheckModal(jsonData.resultMsg);
+			if(jsonData.resultCode === 'S') {
 				$('#reviews').DataTable().ajax.reload();  // 테이블 새로고침
-			},
-			error: function(error) {
-				getCheckModal('삭제 중 오류가 발생했습니다.')
 			}
 		});
+		
 	};
 
 

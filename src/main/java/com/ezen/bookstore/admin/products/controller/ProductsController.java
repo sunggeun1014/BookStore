@@ -29,7 +29,12 @@ import java.util.Map;
 public class ProductsController {
 
     private final ProductsService productService;
-
+    
+    @GetMapping("/products")
+    public String products() {
+    	return "admin/products/products";
+    }
+    
     @GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> tableData(
@@ -71,9 +76,8 @@ public class ProductsController {
         model.addAttribute("product_detail", productDetail);
         model.addAttribute("book_category", bookCategory);
 
-        model.addAttribute("template", "/admin/products/edit-product");
 
-        return "admin/index";
+        return "admin/products/edit-product";
     }
 
     @PostMapping("/editProduct")
@@ -91,9 +95,8 @@ public class ProductsController {
 
         model.addAttribute("book_category", bookCategory);
 
-        model.addAttribute("template", "/admin/products/add-product");
 
-        return "admin/index";
+        return "admin/products/add-product";
     }
 
     @GetMapping(value = "/inventory/json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -111,9 +114,7 @@ public class ProductsController {
 
         productService.insertBook(productDTO);
 
-        model.addAttribute("template", "/admin/products/product");
-
-        return "admin/index";
+        return "redirect:/admin/products/products";
     }
 
     @PostMapping("/checkISBN")

@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,7 +73,7 @@
 			
 			<div class="button-wrap submit-btns">
 				<button type="submit" id="insert-button" class="default-btn">등록</button>
-				<button type="button" class="default-btn cancel" onclick="location.href='/admin/index?path=admin/banners/banners'">취소</button>
+				<button type="button" class="default-btn cancel" onclick="location.href='/admin/banners/banners'">취소</button>
 			</div>
 		</form>
 	</div>

@@ -37,6 +37,11 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class BannersController {
 	private final BannersService bannersService;
+	
+	@GetMapping("/banners")
+	public String list() {
+		return "admin/banners/banners";
+	}
 
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -52,10 +57,7 @@ public class BannersController {
 
 	@GetMapping("/insert")
 	public String insertBannerPage(Model model) {
-
-		String templatePath = "/admin/banners/bannerInsert";
-		model.addAttribute("template", templatePath);
-		return "/admin/index";
+		return "admin/banners/bannerInsert";
 	}
 
 	@PostMapping("/insert")
@@ -73,21 +75,18 @@ public class BannersController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "redirect:/admin/index?path=admin/banners/banners";
+	    return "redirect:/admin/banners/banners";
 	}
 
 	@PostMapping("/details")
 	public String showBannerDetail(@RequestParam("banner_num") Integer bannerNum, Model model) {
 		BannersDTO banners = bannersService.detailList(bannerNum);
-
+        
 		model.addAttribute("banners", banners);
 
-		String templatePath = "/admin/banners/bannerDetail";
-		model.addAttribute("template", templatePath);
-
-		return "/admin/index";
-
-	}
+        return "admin/banners/bannerDetail";
+        
+    }
 
 	@PostMapping("/update")
 	public String updateBanner(@ModelAttribute BannersDTO bannersDTO,
@@ -111,7 +110,7 @@ public class BannersController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/admin/index?path=admin/banners/banners";
+		return "redirect:/admin/banners/banners";
 	}
 
 	@PostMapping("/delete")
@@ -135,7 +134,6 @@ public class BannersController {
                 banner.setBanner_visible("비노출");
                 bannersService.updateBanner(banner);
             }
-
             return ResponseEntity.ok("만료된 배너 상태를 '비노출'로 업데이트했습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업데이트 중 오류가 발생했습니다.");

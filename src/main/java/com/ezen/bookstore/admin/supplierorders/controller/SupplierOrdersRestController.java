@@ -52,9 +52,8 @@ public class SupplierOrdersRestController {
     }
 
 	@PostMapping("/orderConfirm")
-	public void orderConfirm(Model model, @RequestBody List<SupplierOrdersDTO> list, HttpSession session) {
+	public void orderConfirm(@RequestBody List<SupplierOrdersDTO> list, HttpSession session) {
 		sos.orderConfirmInsert(list, ((ManagersDTO)session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
 		
-		model.addAttribute("template", "/admin/supplierOrders/supplierList");
 	}
 }

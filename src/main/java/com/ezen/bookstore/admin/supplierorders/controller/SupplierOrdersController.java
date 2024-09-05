@@ -16,27 +16,25 @@ public class SupplierOrdersController {
 	
 	private final SupplierOrdersService sos;
 	
-	@GetMapping("/list")
-	public String supplierOrdersList(Model model) {
-		model.addAttribute("template", "/admin/supplier_orders/supplierList");
+	@GetMapping("/supplierOrders")
+	public String supplierOrdersList() {
 		
-		return "/admin/index";
+		return "admin/supplier_orders/supplierList";
 	}
 	
 	@GetMapping("/register")
-	public String orderRegister(Model model) {
-		model.addAttribute("template", "/admin/supplier_orders/supplierRegister");
+	public String orderRegister() {
 		
-		return "/admin/index";
+		
+		return "admin/supplier_orders/supplierRegister";
 	}
 	
 	@GetMapping("/detail")
 	public String orderRegister(Model model, Integer order_num) {
 		model.addAttribute("detail", sos.getSupplierOrdersDetail(order_num));
 		model.addAttribute("detailList", sos.getSupplierOrdersDetailList(order_num));
-		model.addAttribute("template", "/admin/supplier_orders/supplierDetail");
 		
-		return "/admin/index";
+		return "admin/supplier_orders/supplierDetail";
 	}
 	
 }

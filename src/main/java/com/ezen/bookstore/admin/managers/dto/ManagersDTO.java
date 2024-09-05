@@ -1,25 +1,28 @@
 package com.ezen.bookstore.admin.managers.dto;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 @Data
-public class ManagersDTO {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ManagersDTO implements Serializable {
 	
-	private String manager_id;
-	private String manager_pw;
-	private String manager_name;
-	private String manager_phoneNo;
-	private String manager_email;
-	private String manager_profile_original;
-	private String manager_profile_changed;
-	private String manager_addr;
-	private String manager_detail_addr;
-	private String manager_dept;
-	private Timestamp manager_join_date;
+	private static final long serialVersionUID = 7548312854200448283L;
+	
+	String manager_id;
+	String manager_pw;
+	String manager_name;
+	String manager_phoneNo;
+	String manager_email;
+	String manager_profile_original;
+	String manager_profile_changed;
+	String manager_addr;
+	String manager_detail_addr;
+	String manager_dept;
+	Timestamp manager_join_date;
 	
 }
