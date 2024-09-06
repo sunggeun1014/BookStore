@@ -44,10 +44,8 @@ public class NoticeController {
 
 		return response;
 	}
-	@GetMapping("/noticeReg")
-	public String noticeReg() {
-		return "admin/notice/noticeReg";
-	}
+	
+	
 	
 	@PostMapping("/details")
 	public String showNoticeDetails(@RequestParam("notice_num") Integer noticeNum, Model model) {
@@ -70,4 +68,11 @@ public class NoticeController {
 		
 		return "redirect:/admin/notice/notice";
 	}
+
+	
+	@GetMapping("/noticeReg")
+	public String noticeReg() {
+		return "admin/notice/noticeReg";
+	}
+	
 }

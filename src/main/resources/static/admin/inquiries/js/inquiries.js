@@ -13,7 +13,10 @@ $(document).ready(function() {
 				}
 			},
 			columns: [
-				{ data: 'inquiry_num', orderable: true },
+				{
+					data: 'inquiry_num',
+					orderable: false
+				},
 				{
 					data: 'inquiry_title',
 					render: function(data, type, row) {
@@ -53,7 +56,11 @@ $(document).ready(function() {
 			lengthChange: false,
 			dom: 'lrtip',
 			language: {
-				searchPanes: { i18n: { emptyMessage: "조회된 정보가 없습니다." } },
+				searchPanes: {
+					i18n: {
+						emptyMessage: "조회된 정보가 없습니다."
+					}
+				},
 				infoEmpty: "조회된 정보가 없습니다.",
 				zeroRecords: "조회된 정보가 없습니다.",
 				emptyTable: "조회된 정보가 없습니다.",
@@ -71,68 +78,70 @@ $(document).ready(function() {
 					event.preventDefault();
 					postToDetailPage(data.inquiry_num);
 				});
-			}
+			},
 		});
 	}
 
-	$('#startDate, #endDate').on('change', function() {
-		table.draw(); // 날짜 변경 시 테이블 다시 그리기
-	});
 
 	const collator = new Intl.Collator('ko');
-	
+
 	// 날짜 필터링 로직 추가
-	$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-		var startDate = $('#startDate').val();
-		var endDate = $('#endDate').val();
-		var memberDate = data[4]; // 'inquiry_write_date' 컬럼의 인덱스
+	$.fn.dataTable.ext.search.push(
+		function(settings, data, dataIndex) {
+			var startDate = $('#startDate').val();
+			var endDate = $('#endDate').val();
+			var inquiryDate = data[4]; // 'inquiry_write_date' 컬럼의 인덱스
 
 
-		var selectedStatusLabel = $('input[name="order_status"]:checked').next('label').text().trim(); // 선택된 상태의 라벨 텍스트
-		var inquiryStatus = data[6].trim(); // 'inquiry_answer_status' 컬럼의 인덱스 (공백 제거)
+			var selectedStatusLabel = $('input[name="order_status"]:checked').next('label').text().trim(); // 선택된 상태의 라벨 텍스트
+			var inquiryStatus = data[6].trim();
 
 
-		// 날짜 형식을 Date 객체로 변환
-		var start = startDate ? new Date(startDate) : null;
-		var end = endDate ? new Date(endDate) : null;
-		var member = new Date(memberDate);
+			var selectedInquiryType = $('#searchColumn2').val();
+			var inquiryType = data[2];
 
-		// 날짜 필터링 로직
-		if (start !== null && member < start) {
-			return false; // 시작 날짜보다 이전의 데이터는 제외
+			// 날짜 필터링
+			if (startDate && new Date(inquiryDate) < new Date(startDate)) return false;
+			if (endDate && new Date(inquiryDate) > new Date(endDate)) return false;
+
+			if (selectedStatusLabel === '미답변' && collator.compare(inquiryStatus, '미완료') !== 0) {
+				return false; // "미답변" 상태가 아닌 경우 제외
+			} else if (selectedStatusLabel === '처리완료' && collator.compare(inquiryStatus, '처리완료') !== 0) {
+				return false; // "처리완료" 상태가 아닌 경우 제외
+			}
+
+			if (selectedInquiryType && collator.compare(selectedInquiryType, '문의분류') !== 0 && collator.compare(selectedInquiryType, inquiryType) !== 0) return false;
+
+			// 모든 조건이 맞는 경우 true 반환
+			return true;
 		}
-		if (end !== null && member > end) {
-			return false; // 종료 날짜보다 이후의 데이터는 제외
-		}
-			
-		if (selectedStatusLabel === '미답변' && collator.compare(inquiryStatus, '미완료') !== 0) {
-			return false; // "미답변" 상태가 아닌 경우 제외
-		} else if (selectedStatusLabel === '처리완료' && collator.compare(inquiryStatus, '처리완료') !== 0) {
-			return false; // "처리완료" 상태가 아닌 경우 제외
-		}
+	);
 
-		// 모든 조건이 맞는 경우 true 반환
-		return true;
+
+
+	// 검색 버튼 클릭 이벤트 핸들러
+	$('#searchButton').on('click', function() {
+		applySearchFilter(); // 검색 필터 적용 함수 호출
+	});
+	
+	// 검색 입력에서 Enter 키를 누를 때 검색 필터 적용
+	$('#searchKeyword').on('keypress', function(event) {
+		if (event.key === 'Enter') {
+			applySearchFilter();
+		}
 	});
 
-	// 상태 변경 시 테이블 다시 정렬 및 필터링
-	$('input[name="order_status"]').on('change', function() {
-		table.draw(); // 상태 변경 시 테이블 다시 그리기
-	});
-
-	// 검색 컬럼 변경 시 이벤트 핸들러 추가
-	$('#searchColumn').on('change', function() {
-		applySearchFilter(); // 검색 필터 적용
-	});
-
-	// 검색 필터 적용 함수
 	function applySearchFilter() {
 		var selectedColumn = parseInt($('#searchColumn').val()); // 선택한 열의 인덱스
-
-		// 선택한 열에 대해 검색 필터를 적용하고 테이블을 다시 그립니다.
-		table.order([selectedColumn, 'asc']).draw();
+		var selectedColumn2 = $('#searchColumn2').val();
+		 
+		var keyword = $('#searchKeyword').val();
+		
+		table
+			.column(selectedColumn).search(keyword)
+			.column(2).search(selectedColumn2)			
+			.draw(); // 검색 필터 적용
 	}
-
 
 	document.querySelector('[onclick="resetFilters()"]').addEventListener('click', resetFilters);
 
@@ -144,14 +153,16 @@ $(document).ready(function() {
 	});
 
 	datepicker("startDate", "endDate");
-	
+
 });
+
+
 
 function postToDetailPage(inquiry_num) {
 	let params = {
-		inquiry_num : inquiry_num
+		inquiry_num: inquiry_num
 	}
-	
+
 	fnPostMovePage('/admin/inquiries/details', params);
 }
 
@@ -163,13 +174,13 @@ function fnMovePage(method, url, params) {
 	});
 
 	// 데이터를 숨김 필드로 추가
-	for(key in params) {
+	for (key in params) {
 		form.append($('<input>', { type: 'hidden', name: key, value: params[key] }));
 	}
 
 	// 폼을 body에 추가하고 제출
 	form.appendTo('body').submit();
-	form.remove();	
+	form.remove();
 }
 
 function fnPostMovePage(url, params) {
@@ -179,7 +190,7 @@ function fnPostMovePage(url, params) {
 function fnGetMovePage(url, params) {
 	fnMovePage('GET', url, params);
 }
-  
+
 function setToday() {
 	var today = new Date().toISOString().split('T')[0];
 	$('#startDate').val(today);
@@ -193,17 +204,25 @@ function setDateRange(days) {
 	$('#endDate').val(new Date().toISOString().split('T')[0]).trigger('change');
 }
 
+
+
 function resetFilters() {
 	// 검색어 필터 초기화
-	$('#searchColumn').val('2');
+	$('#searchColumn').val('3');
+	$('#searchColumn2').val('상품문의'); // 문의 분류 필터 초기화
 
 	// 날짜 필터 초기화
 	$('#startDate').val('');
 	$('#endDate').val('');
+	$('#searchKeyword').val('');
 
 	$('input[name="order_status"]').prop('checked', false); // 모든 라디오 버튼 체크 해제
 	$('#order-status-all').prop('checked', true); // '전체' 상태로 체크
 
+
+	$('.date-option').prop('checked', false).removeClass('active');
+	$('.today').prop('checked', true).addClass('active');
+	
 	// DataTables 검색 및 필터링 초기화
 	table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화
 
