@@ -11,4 +11,5 @@ public class CustomerOrdersListDTO {
 	private List<String> book_isbn;
 	private List<Integer> order_detail_qty;
 	private List<String> order_detail_status;
+	private List<Integer> input_qty;
 }

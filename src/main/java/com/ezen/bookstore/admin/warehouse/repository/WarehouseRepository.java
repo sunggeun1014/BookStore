@@ -36,7 +36,6 @@ public class WarehouseRepository {
 		
 		dto.setInv_isbn(book_isbn);
 		dto.setInv_qty(Order_detail_qty);
-		
 		sql.update("Warehouse.invQtyUpdate", dto);
 	}
 }

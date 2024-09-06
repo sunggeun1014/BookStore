@@ -488,3 +488,7 @@ input[type='number'] {
 	height: 50px;
 	vertical-align: middle;
 }
+
+.dt-empty {
+    text-align: center !important;
+}

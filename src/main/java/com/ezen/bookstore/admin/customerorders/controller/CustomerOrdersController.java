@@ -37,7 +37,7 @@ public class CustomerOrdersController {
     
     @GetMapping(value = "/orderStatusUpdate")
     public String orderStatusUpdate(@ModelAttribute CustomerOrdersListDTO list, int order_num, String order_selected_status) {
-    	System.out.println("asdffasdfdsafsdafsdaasfafsd");
+    	
     	cos.orderStatusUpdate(list, order_num, order_selected_status);
     	
     	return "redirect:/admin/customerOrders/detail?order_num=" + order_num;

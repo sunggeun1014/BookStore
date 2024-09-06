@@ -1,6 +1,8 @@
 package com.ezen.bookstore.admin.customerorders.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,20 +88,17 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 	@Override
 	public void orderStatusUpdate(CustomerOrdersListDTO list, int order_num, String order_selected_status) {
 		try {
-
-			
 			for(int i = 0; i < list.getOrder_detail_num().size(); i++) {
-				System.out.println(list.getOrder_detail_status().get(i));
-				System.out.println(order_selected_status);
-				if(list.getOrder_detail_status().get(i).equals(order_selected_status)) {
+				if(list.getOrder_detail_status().get(i).equals(getStatus(order_selected_status))) {
 					continue;
 				} else if(order_selected_status.equals("06")) {
 					// 책 수량 마이너스
 					// 입출고 기록하기 (교환)
-					wr.invQtyUpdate(list.getBook_isbn().get(i), list.getOrder_detail_qty().get(i));
+					wr.invQtyUpdate(list.getBook_isbn().get(i), list.getInput_qty().get(i));
 				} else if(order_selected_status.equals("07")) {
 					// 책 수량 플러스
 					// 입출고 기록하기 (반품)
+					wr.invQtyUpdate(list.getBook_isbn().get(i), Math.negateExact(list.getInput_qty().get(i)));
 				}
 				
 				cor.orderStatusUpdate(list.getOrder_detail_num().get(i), order_selected_status);
@@ -110,5 +109,19 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 		
 	}
 
+	private String getStatus(String statusCd) {
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("01", "주문완료");
+		map.put("02", "취소요청");
+		map.put("03", "교환요청");
+		map.put("04", "반품요청");
+		map.put("05", "취소완료");
+		map.put("06", "교환완료");
+		map.put("07", "반품완료");
+		map.put("08", "처리불가");
+		
+		return map.get(statusCd);
+	}
 	
 }

@@ -13,3 +13,19 @@
 	align-items: center;
 	margin-bottom: 20px;
 }
+
+.order-detail-link {
+	text-decoration: underline;
+}
+
+.text-color-red {
+    color: red !important;
+}
+
+.text-color-green {
+    color: #10A142 !important;
+}
+
+.dt_data_text_center {
+	text-align: center !important;
+}
