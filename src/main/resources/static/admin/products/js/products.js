@@ -12,7 +12,7 @@ $(document).ready(function() {
                         targets: '_all'
                     }
                 ],
-            order: [[8, 'asc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
+            // order: [[8, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
             ajax: {
                 url: '/admin/products/json',
                 dataSrc: 'data',
@@ -29,12 +29,15 @@ $(document).ready(function() {
                     orderable: false,
                 },
                 {
-                    data: null,  // 이 컬럼은 데이터베이스에서 가져오는 데이터를 사용하지 않음
-                    render: function(data, type, row, meta) {
-                        return meta.row + 1;  // meta.row는 0부터 시작하는 행 인덱스이므로 +1 해줌
-                    },
-                    orderable: false,  // 이 컬럼에 대해 정렬을 비활성화
+                  data: 'rownum'
                 },
+                // {
+                //     data: null,  // 이 컬럼은 데이터베이스에서 가져오는 데이터를 사용하지 않음
+                //     render: function(data, type, row, meta) {
+                //         return meta.row + 1;  // meta.row는 0부터 시작하는 행 인덱스이므로 +1 해줌
+                //     },
+                //     orderable: false,  // 이 컬럼에 대해 정렬을 비활성화
+                // },
                 {
                     data: 'book_isbn',
                     render: function(data, type, row) {

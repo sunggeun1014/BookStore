@@ -24,12 +24,6 @@ public class HomeController {
     private final HomeService homeService;
     private final InquiriesService iqs;
 
-    @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-        model.addAttribute("template", "admin/home/home");
-        return "admin/index";
-    }
-
     @GetMapping(value = "/inquiries/json", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> getInquiriesData() {
