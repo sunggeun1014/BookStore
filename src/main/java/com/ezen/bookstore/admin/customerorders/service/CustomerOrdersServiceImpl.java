@@ -78,18 +78,21 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 	}
 
 	@Override
-	public int orderStatusUpdate(List<Integer> list, String order_detail_status) {
-		int result = 0;
-		
+	public void orderStatusUpdate(List<Integer> list, String order_detail_status) {
 		try {
 			for(int order_detail_num : list) {
-				result += cor.orderStatusUpdate(order_detail_num, order_detail_status);
+				if(order_detail_status.equals("06")) {
+					
+				} else if(order_detail_status.equals("07")) {
+					
+				}
+				
+				cor.orderStatusUpdate(order_detail_num, order_detail_status);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return result;
 	}
 
 	

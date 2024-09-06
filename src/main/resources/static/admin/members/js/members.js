@@ -39,16 +39,16 @@ $(document).ready(function() {
 			{ data: 'member_phoneNo' },
 			{
 				data: 'member_date',
-				render: function(data, type, row) {
+				render: function(data, type) {
 					// date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
 					if (type === 'display' || type === 'filter') {
-						var date = new Date(data);
-						var formattedDate = date.toISOString().split('T')[0];
-						var formattedTime = date.toTimeString().split(' ')[0].substring(0, 5); // Extract HH:MM
-						return formattedDate + ' ' + formattedTime;
-					}
-					return data;
-				}
+					var date = new Date(data);
+					var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+                  
+                  	return formattedDate;
+               }       
+               return data;
+			   }
 			}
 		],
 		
@@ -92,7 +92,6 @@ $(document).ready(function() {
     $('#searchButton').on('click', function() {
         var selectedColumn = $('#searchColumn').val();
         var keyword = $('#searchKeyword').val();
-        console.log(selectedColumn);
         // 선택된 컬럼과 입력된 키워드로 필터링
         table.column(selectedColumn).search(keyword).draw(); 
     });
@@ -110,23 +109,23 @@ $(document).ready(function() {
 
 	// 날짜 필터링 로직 추가
 	$.fn.dataTable.ext.search.push(
-		function(settings, data, dataIndex) {
-			var startDate = $('#startDate').val();
-			var endDate = $('#endDate').val();
-			var memberDate = data[4];
+        function(settings, data, dataIndex) {
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            var membersDate = data[5];
+			
+            // 날짜 형식을 Date 객체로 변환
+            var start = startDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(startDate)) : null;
+            var end = endDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(endDate)) : null;
+            var manager = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(membersDate));
 
-			// 날짜 형식을 Date 객체로 변환
-			var start = startDate ? new Date(startDate) : null;
-			var end = endDate ? new Date(endDate) : null;
-			var member = new Date(memberDate);
-
-			if ((start === null && end === null) ||
-				(start <= member && (end === null || member <= end))) {
-				return true;
-			}
-			return false;
-		}
-	);
+            if ((start === null && end === null) ||
+                (start <= manager && (end === null || manager <= end))) {
+                return true;
+            }
+            return false;
+        }
+    );
 	
 	document.querySelectorAll('.input-box input').forEach(function(input) {
 		input.addEventListener('focus', function() {
@@ -143,6 +142,8 @@ $(document).ready(function() {
 			setActive(this);  // 클릭된 버튼에 'active' 클래스 설정
 		});
 	});
+	
+	datepicker("startDate", "endDate");
 
 });
 
@@ -219,5 +220,4 @@ function setActive(element) {
     element.classList.add('active');
 }
 
-datepicker("startDate", "endDate");
 
