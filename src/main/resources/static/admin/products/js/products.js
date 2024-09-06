@@ -12,7 +12,7 @@ $(document).ready(function() {
                         targets: '_all'
                     }
                 ],
-            order: [[8, 'asc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
+            // order: [[8, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
             ajax: {
                 url: '/admin/products/json',
                 dataSrc: 'data',
@@ -29,15 +29,19 @@ $(document).ready(function() {
                     orderable: false,
                 },
                 {
-                    data: null,  // 이 컬럼은 데이터베이스에서 가져오는 데이터를 사용하지 않음
-                    render: function(data, type, row, meta) {
-                        return meta.row + 1;  // meta.row는 0부터 시작하는 행 인덱스이므로 +1 해줌
-                    },
-                    orderable: false,  // 이 컬럼에 대해 정렬을 비활성화
+                    data: 'rownum'
                 },
+                // {
+                //     data: null,  // 이 컬럼은 데이터베이스에서 가져오는 데이터를 사용하지 않음
+                //     render: function(data, type, row, meta) {
+                //         return meta.row + 1;  // meta.row는 0부터 시작하는 행 인덱스이므로 +1 해줌
+                //     },
+                //     orderable: false,  // 이 컬럼에 대해 정렬을 비활성화
+                // },
                 {
                     data: 'book_isbn',
                     render: function(data, type, row) {
+                        // const url = '/admin/index?path=/admin/products/editProduct&book_isbn=' + encodeURIComponent(data);
                         return '<a href="#" class="book-isbn-link" data-isbn="' + data + '">' + data + '</a>';
                     }
                 },
@@ -285,15 +289,22 @@ function confirmDelete() {
         console.log(bookISBN)
 
         if (bookISBN.length > 0) {
-            getConfirmModal("삭제하시겠습니까?", function() {
+            getConfirmModal("목록에서 숨김 처리 하시겠습니까?", function() {
                 $.ajax({
                     url: "/admin/products/delete",
                     method: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(bookISBN), // book_isbns 배열을 JSON으로 전송
                     success: function(response) {
-                        // 삭제 성공 시 테이블 다시 불러오기
-                        table.ajax.reload();
+
+                        if (response === 'success') {
+                            console.log("삭제요청 성공", response)
+                            location.reload(); // 삭제하고 새로고침
+                            // location.href = "/admin/products/products";
+
+                            // 삭제 성공 시 테이블 다시 불러오기 - 이거는 새로고침할 수 없는 방법
+                            // table.ajax.reload();
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error("삭제 요청 실패:", error);
@@ -301,7 +312,7 @@ function confirmDelete() {
                 });
             });
         } else {
-            alert("삭제할 항목을 선택해주세요.");
+            getCheckModal("숨길 항목을 선택해주세요.");
         }
     });
 }

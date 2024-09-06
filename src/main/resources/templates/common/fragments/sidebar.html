@@ -4,11 +4,11 @@
       th:fragment="SidebarFragment">
 
 <nav class="side-menu" th:fragment="sidebar">
-  <div class="logo-wrap">
+  <div class="logo-wrap" onclick="location.href='/admin/index'">
     <img src="/admin/common/img/admin-로고.svg" alt="로고" />
   </div>
   <ul class="menu-list">
-    <li class="menu-items">
+    <li class="menu-items" onclick="location.href='/admin/index'">
       <div class="menu-content">
         <img src="/admin/common/img/bar-active.png" alt="bar" class="bar-img" />
         <div class="menu-right">
