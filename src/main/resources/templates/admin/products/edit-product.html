@@ -14,12 +14,13 @@
 <div class="filter-container white-frame">
     <h3 class="search-list-title" th:text="'상품상세 ' + '[' + ${product_detail.book_isbn} + ']'"></h3>
 
-    <form action="/admin/products/editProduct" id="edit-form" method="post">
+    <form action="/admin/products/editProduct" id="edit-form" method="post" enctype="multipart/form-data">
         <div class="product-info">
             <p class="search-list-subject">ISBN
                 <span class="important">*</span>
             </p>
             <input type="text" name="book_isbn"
+                   id="book_isbn"
                    th:value="${product_detail != null ? product_detail.getBook_isbn() : ''}" readonly
                    style="border: none">
         </div>
@@ -103,7 +104,7 @@
                     <span class="important">*</span>
                 </p>
                 <div class="input-qty-container">
-                    <input type="number" name="book-qty" id="book-qty" class="input-qty" placeholder="수량"
+                    <input type="number" name="book_qty" id="book-qty" class="input-qty" placeholder="수량"
                            th:value="${product_detail != null ? product_detail.book_qty : ''}"/>
                 </div>
             </div>
@@ -132,13 +133,13 @@
                 <div class="img-input-wrap">
                     <label for="input-file" class="input-file-label">
                         <i class="fa-solid fa-plus"
-                           th:if="${product_detail.book_thumbnail == null or product_detail.book_thumbnail.isEmpty()}"></i>
-                        <img th:if="${product_detail.book_thumbnail != null and !product_detail.book_thumbnail.isEmpty()}"
-                             th:src="@{${product_detail.book_thumbnail}}"
-                             alt="Book Thumbnail"
+                           th:if="${product_detail.book_thumbnail_changed == null or product_detail.book_thumbnail_changed.isEmpty()}"></i>
+                        <img th:if="${product_detail.book_thumbnail_changed != null and !product_detail.book_thumbnail_changed.isEmpty()}"
+                             th:src="@{/admin/common/img/products/{products}(products=${product_detail.book_thumbnail_changed != null ? product_detail.book_thumbnail_changed : 'noimg.png'})}"
+                             alt="책썸네일"
                              id="preview"/>
                     </label>
-                    <input type="file" name="book_thumbnail" id="input-file" class="input-img-file" accept="image/jpeg, image/png, image/jpg"/>
+                    <input type="file" name="thumbnail_img_file" id="input-file" class="input-img-file" accept="image/jpeg, image/png, image/jpg" />
                 </div>
             </div>
         </div>
@@ -150,8 +151,8 @@
             <textarea name="book_intro" id="book_intro" cols="30" rows="10" class="custom-textarea"
                       th:text="${product_detail != null ? product_detail.book_intro : ''}"></textarea>
         </div>
-        <th:block th:if="${product_detail.book_deleted == '02'}">
-            <input type="hidden" name="book_deleted" th:value="01">
+        <th:block th:unless="${product_detail.book_deleted == '01'}">
+            <input type="hidden" name="book_deleted" th:value="'01'">
         </th:block>
     </form>
 

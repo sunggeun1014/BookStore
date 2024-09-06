@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Data
 public class ProductsDTO {
+    private int rownum;
     private String book_isbn;
     private String book_name;
     private Integer book_price;
@@ -19,7 +20,6 @@ public class ProductsDTO {
     private String book_country_type;
     private String book_category;
     private String book_state;
-    private String book_thumbnail;
     private String book_thumbnail_original;
     private String book_thumbnail_changed;
     private MultipartFile thumbnail_img_file;

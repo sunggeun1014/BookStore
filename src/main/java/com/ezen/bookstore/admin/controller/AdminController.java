@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.ezen.bookstore.admin.home.service.HomeService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminController {
 	
 	private final MgrService mgrService;
+	private final HomeService homeService;
 	
 	@GetMapping("/login")
     public String login(Authentication authentication) {
@@ -40,9 +42,22 @@ public class AdminController {
     }
 	
 	@GetMapping("/index")
-    public String index() {
-		
-		
+    public String index(Model model) {
+		int productCnt = homeService.getProductsCnt();
+		int memberCnt = homeService.getMembersCnt();
+		int orderCnt = homeService.getTodayOrder();
+
+		int allOrderCnt = homeService.getAllOrders();
+		int allDelivering = homeService.getAllDelivering();
+		int allCompleted = homeService.getAllCompleted();
+
+		model.addAttribute("productCnt", productCnt);
+		model.addAttribute("memberCnt", memberCnt);
+		model.addAttribute("orderCnt", orderCnt);
+		model.addAttribute("allOrderCnt", allOrderCnt);
+		model.addAttribute("allDelivering", allDelivering);
+		model.addAttribute("allCompleted", allCompleted);
+
         return "admin/home/home";
        
     }

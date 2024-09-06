@@ -71,15 +71,18 @@ $(document).ready(function() {
 
     // 책 검색 입력 필드에 입력 시 실시간으로 테이블 검색 필터링 적용
     searchWord();
-    
+
     // 날짜선택
     datepicker("singleDate");
-    
+
     // 재고리스트 출력
     showInvenList();
-    
+
     // 폼전송
     checkForm();
+
+    // 이미지 보이도록
+    previewImg();
 });
 
 function searchWord() {
@@ -97,6 +100,7 @@ function searchWord() {
 }
 
 let selectedISBN = null;
+let invQty = null;
 function getBookInfo() {
     $('#inventory tbody').on('click', 'tr', function() {
         var data = table.row(this).data(); // 클릭한 행의 데이터 가져오기
@@ -104,40 +108,15 @@ function getBookInfo() {
         // inv_isbn과 inv_title을 각각 input에 채워 넣음
         $('input[name="book_isbn"]').val(data.inv_isbn);
         $('input[name="book_name"]').val(data.inv_title);
+        $('input[name="book_qty"]').val(data.inv_qty);
 
         selectedISBN = data.inv_isbn;
+        invQty = data.inv_qty;
 
         $('#search-book-modal').removeClass('on');
         enableScroll();
     });
 }
-
-// const inputFile = document.querySelector("#input-file");
-//
-// // 파일 업로드 시 selectedISBN을 파일 이름으로 설정
-// inputFile.addEventListener("change", function() {
-//     if (selectedISBN) {
-//         const files = inputFile.files;
-//         if (files.length > 0) {
-//             const file = files[0];
-//
-//             // 새로운 파일 이름 (예: inv_isbn.jpg)
-//             const newFileName = selectedISBN + '.' + file.name.split('.').pop();
-//
-//             // 서버에 보내는 FormData에 새로운 이름을 추가 (이 부분은 서버로 넘길 때 조작)
-//             // const formData = new FormData();
-//             // formData.append("file", file, newFileName);
-//             //
-//             // // 여기에서 서버로 formData를 전송하는 로직을 추가하면 됨
-//             // uploadFileToServer(formData);
-//         } else {
-//             alert('파일을 선택해주세요.');
-//         }
-//     } else {
-//         alert('ISBN을 먼저 선택해주세요.');
-//     }
-// });
-
 
 function getCountryValue() {
     const countryRadio = document.querySelector('input[name="book_country_type"]:checked');
@@ -175,7 +154,6 @@ function checkForm() {
             inputISBN.focus();
             return;
         }
-
         // ISBN 중복 체크를 위한 AJAX 요청
         $.ajax({
             url: '/admin/products/checkISBN',  // 서버의 ISBN 중복 체크 엔드포인트
@@ -184,9 +162,16 @@ function checkForm() {
             data: JSON.stringify({ book_isbn: inputISBN.value }),
             success: function(response) {
                 if (response.exists) {
-                    // 중복된 ISBN인 경우
-                    getCheckModal("이미 존재하는 ISBN입니다.");
-                    inputISBN.focus();
+                    if (response.deleteState === '02') {
+                        getConfirmModal("숨김 처리된 ISBN입니다. 수정 페이지로 돌아가시겠습니까?", function () {
+                            // 페이지 이동
+                            location.href = `/admin/products/editProduct?book_isbn=${inputISBN.value}`;
+                        });
+                    } else {
+                        // 중복된 ISBN인 경우
+                        getCheckModal("이미 존재하는 ISBN입니다.");
+                        inputISBN.focus();
+                    }
                 } else {
                     // 중복되지 않은 경우 나머지 검사를 진행
                     if (inputName.value === "") {
@@ -237,6 +222,12 @@ function checkForm() {
                         return;
                     }
 
+                    if (inputQty.value > invQty) {
+                        getCheckModal("재고의 수량보다 많습니다")
+                        inputQty.focus();
+                        return;
+                    }
+
                     const stateValue = getStateValue();
                     if (!stateValue) {
                         getCheckModal("상품 상태를 선택해주세요");
@@ -259,8 +250,9 @@ function checkForm() {
                     });
                 }
             },
-            error: function() {
-                getCheckModal("ISBN 중복입니다.");
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("AJAX Error: ", textStatus, errorThrown);
+                getErrorModal()
             }
         });
     });
@@ -342,4 +334,24 @@ function validateDateInput(inputElement, value) {
     } else {
         inputElement.setCustomValidity('');
     }
+}
+
+
+function previewImg() {
+    const inputFile = document.getElementById('input-file');
+    const preview = document.getElementById('preview');
+
+    inputFile.addEventListener('change', function (event) {
+        var input = event.target;
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
 }

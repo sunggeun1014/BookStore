@@ -380,6 +380,8 @@ input[type='number'] {
 }
 
 .input-file-label img {
+	width: 100%;
+	height: 100%;
 	object-fit: cover;
 }
 
@@ -457,4 +459,36 @@ input[type='number'] {
 /* 테이블 체크 했을 때 배경색 바뀜 */
 .selected-row {
 	background-color: #FAFAFA;
+}
+
+.dt-column-title {
+	color: #7E7E7E;
+}
+
+/* 불마 테이블 변경 */
+.table thead {
+	height: 50px;
+	background-color: #FAFAFA;
+	color: #7E7E7E;
+}
+
+.table td, .table thead th {
+	border-width: 1px 0 1px 0;
+	border-style: solid;
+	border-color: #D8D8D8;
+}
+/* 가운데 정렬 */
+.table-center td, .table-center th {
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* 테이블 로우 사이즈, 글자 정렬 */
+.table td {
+	height: 50px;
+	vertical-align: middle;
+}
+
+.dt-empty {
+    text-align: center !important;
 }

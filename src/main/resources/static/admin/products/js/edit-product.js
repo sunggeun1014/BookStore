@@ -3,6 +3,8 @@ datepicker("singleDate");
 
 checkEditForm();
 
+previewImg();
+
 function getCountryValue() {
     const countryRadio = document.querySelector('input[name="book_country_type"]:checked');
     return countryRadio ? countryRadio.value : null;
@@ -19,7 +21,8 @@ function getCategoryValue() {
 }
 
 function checkEditForm() {
-    const editForm = document.querySelector("#edit-form")
+    const editForm = document.querySelector("#edit-form");
+    const bookISBN = document.querySelector("#book_isbn");
     const inputName = document.querySelector("#book_name");
     const inputPublisher = document.querySelector("#book_publisher");
     const inputAuthor = document.querySelector("#book_author");
@@ -27,6 +30,7 @@ function checkEditForm() {
     const inputPrice = document.querySelector("#book-price");
     const inputQty = document.querySelector("#book-qty");
     const inputFile = document.querySelector("#input-file");
+    const thumbnailChanged = document.querySelector("#preview").src;
     const inputIntro = document.querySelector("#book_intro");
 
     editForm.addEventListener("submit", function(event) {
@@ -84,7 +88,7 @@ function checkEditForm() {
             return;
         }
 
-        if (!inputFile.value) {
+        if (!thumbnailChanged && !inputFile.value) {
             getCheckModal("파일을 첨부해주세요");
             return;
         }
@@ -95,12 +99,13 @@ function checkEditForm() {
         }
 
         // 모든 유효성 검사를 통과한 경우
-        if (bookISBN.length > 0) {
+        if (bookISBN && bookISBN.value.length > 0) {
             getConfirmModal("수정하시겠습니까?", function() {
                 editForm.submit(); // 폼 제출
             });
         } else {
             getErrorModal();
+            console.log("뭔 오류여")
         }
     });
 }
@@ -111,5 +116,24 @@ function datepicker(elementId) {
         enableTime: false,
         defaultDate: null,
         allowInput: true
+    });
+}
+
+function previewImg() {
+    const inputFile = document.getElementById('input-file');
+    const preview = document.getElementById('preview');
+
+    inputFile.addEventListener('change', function (event) {
+        var input = event.target;
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
     });
 }

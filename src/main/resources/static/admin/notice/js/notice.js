@@ -46,16 +46,15 @@ $(document).ready(function() {
 				},
 				{
 					data: 'notice_visible',
-					width: '300px',
 					render: function(data, type, row) {
-						if (type === 'display' || type === 'filter') {
-							// notice_visible 값에 따라 클래스 변경
-							var onClass = data === '01' ? 'on' : '';
-							var offClass = data === '02' ? 'off' : '';
-							return '<div class="status-btn-wrap">' +
-								'<button class="status-btn ' + onClass + '">노출</button>' +
-								'<button class="status-btn ' + offClass + '">비노출</button>' +
-								'</div>';
+	
+						if (type === 'display') {
+							if (data == '01') {
+								return "<span style='color: #E54F53;'>노출<span>"
+							} else {
+								return "<span style='color: #10A142;'>비노출<span>"
+							}
+																				
 						}
 						return data;
 					}
@@ -174,11 +173,11 @@ $(document).ready(function() {
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(selectedIds),  // 선택된 리뷰 번호들을 JSON으로 전송
-			success: function(response) {
+			success: function() {
 				getCheckModal('삭제가 완료되었습니다.')
 				$('#notice').DataTable().ajax.reload();  // 테이블 새로고침
 			},
-			error: function(error) {
+			error: function() {
 				getCheckModal('삭제 중 오류가 발생했습니다.')
 			}
 		});
@@ -205,10 +204,6 @@ $(document).ready(function() {
 		table.column(selectedColumn).search(keyword).draw();
 	}
 
-
-	$('#startDate, #endDate').on('change', function() {
-		table.draw(); // 날짜 변경 시 테이블 다시 그리기
-	});
 
 	// 날짜 필터링 로직 추가
 	$.fn.dataTable.ext.search.push(

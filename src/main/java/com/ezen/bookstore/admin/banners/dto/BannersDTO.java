@@ -13,7 +13,6 @@ public class BannersDTO {
 	private String banner_title;
 	private String banner_original;
 	private String banner_changed;
-	private MultipartFile banner_image;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date banner_start;

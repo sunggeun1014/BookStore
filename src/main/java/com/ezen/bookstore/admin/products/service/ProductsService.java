@@ -74,7 +74,7 @@ public class ProductsService {
         return productRepository.deleteState(bookISBN);
     }
 
-    public boolean existsIsbn (String bookISBN) {
+    public String existsIsbn (String bookISBN) {
         return productRepository.existsByIsbn(bookISBN);
     }
 
@@ -95,81 +95,67 @@ public class ProductsService {
 
         String selectedISBN = inventoryDTO.getInv_isbn();
 
-
         if (!thumbnailImg.isEmpty()) {
-            try {
-                // 원본 파일 이름과 확장자 추출
-                String originalFilename = thumbnailImg.getOriginalFilename();
-                String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-
-                // isbn 으로 파일 이름 설정 (등록할 때 재고 목록에서 가져오는 데이터로 등록해서 인벤토리 isbn이용)
-                String newFileName = selectedISBN + "." + fileExtension;
-
-                // 프로젝트의 정적 리소스 디렉토리에 이미지 저장 경로 설정
-                String projectDir = System.getProperty("user.dir");  // 프로젝트의 현재 작업 디렉토리 경로
-                String uploadDir = projectDir + "/src/main/resources/static/admin/common/img/products/"; // 파일 저장 폴더 경로
-                Path uploadPath = Paths.get(uploadDir, newFileName);
-
-                // 폴더가 없으면 생성
-                File uploadDirFile = new File(uploadDir);
-                if (!uploadDirFile.exists()) {
-                    uploadDirFile.mkdirs();
-                }
-
-                // 파일을 지정된 경로에 저장
-                thumbnailImg.transferTo(uploadPath.toFile());
-
-                // DTO에 파일 정보 설정
-                productsDTO.setBook_thumbnail_original(originalFilename);
-                productsDTO.setBook_thumbnail_changed(newFileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            saveFile(productsDTO, selectedISBN, thumbnailImg);
         }
+
 
         // 기본값이 설정된 후 데이터베이스에 삽입
         productRepository.insertBook(productsDTO);
 
     }
 
-    public void updateBookInfo(ProductsDTO productsDTO) {
+    public void updateBookInfo(ProductsDTO productsDTO) throws IOException {
         MultipartFile thumbnailImg = productsDTO.getThumbnail_img_file();
+        String selectedISBN = productsDTO.getBook_isbn();
 
         if (thumbnailImg != null && !thumbnailImg.isEmpty()) {
-            try {
-                String fileName = thumbnailImg.getOriginalFilename();
-                Path tempPath = Files.createTempDirectory("book_thumbnails");
-                Path filePath = tempPath.resolve(fileName);
-                Files.copy(thumbnailImg.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-                productsDTO.setBook_thumbnail(filePath.toString());
-            } catch (IOException e) {
-                // 로그 출력 또는 예외 처리
-                e.printStackTrace();
-            }
+            saveFile(productsDTO, selectedISBN, thumbnailImg);
 
         } else {
             ProductsDTO existingProduct = productRepository.getBookDetail(productsDTO.getBook_isbn());
-            productsDTO.setBook_thumbnail(existingProduct.getBook_thumbnail());
+            productsDTO.setBook_thumbnail_original(existingProduct.getBook_thumbnail_original());
+            productsDTO.setBook_thumbnail_changed(existingProduct.getBook_thumbnail_changed());
         }
 
         productRepository.updateBookInfo(productsDTO);
     }
 
     // 이미지 저장하기
-    String rootPath = "D:/spring_upload_files/";
-    private void saveFile(ProductsDTO productsDTO, MultipartFile thumbnailImageFile) throws IllegalStateException, IOException {
-        if (thumbnailImageFile == null || thumbnailImageFile.isEmpty()) {
+    private void saveFile(ProductsDTO productsDTO, String selectedISBN, MultipartFile thumbnailImg) throws IllegalStateException, IOException {
+
+        if (thumbnailImg == null || thumbnailImg.isEmpty()) {
             return;
         }
 
-        InventoryDTO inventoryDTO = new InventoryDTO();
-        String storedFileName = inventoryDTO.getInv_isbn();
-        String savePath = rootPath + storedFileName;
+        try {
+            // 원본 파일 이름과 확장자 추출
+            String originalFilename = thumbnailImg.getOriginalFilename();
+            String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
 
-        thumbnailImageFile.transferTo(new File(savePath));
+            // isbn 으로 파일 이름 설정 (등록할 때 재고 목록에서 가져오는 데이터로 등록해서 인벤토리 isbn이용)
+            String newFileName = selectedISBN + fileExtension;
 
-        // 2. 서버 컴퓨터에 파일 쓰기를 성공했다면 DB에 경로들을 보관
-        productsDTO.setBook_thumbnail(storedFileName);
+            // 프로젝트의 정적 리소스 디렉토리에 이미지 저장 경로 설정
+            String projectDir = System.getProperty("user.dir");  // 프로젝트의 현재 작업 디렉토리 경로
+            String uploadDir = projectDir + "/src/main/resources/static/admin/common/img/products/"; // 파일 저장 폴더 경로
+            Path uploadPath = Paths.get(uploadDir, newFileName);
+
+            // 폴더가 없으면 생성
+            File uploadDirFile = new File(uploadDir);
+            if (!uploadDirFile.exists()) {
+                uploadDirFile.mkdirs();
+            }
+
+            // 파일을 지정된 경로에 저장
+            thumbnailImg.transferTo(uploadPath.toFile());
+
+            // DTO에 파일 정보 설정
+            productsDTO.setBook_thumbnail_original(originalFilename);
+            productsDTO.setBook_thumbnail_changed(newFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -1,38 +1,6 @@
-
-
-.header h1 {
-   margin-bottom: 20px;
-}
-
-.content {
-   display: flex;
-   flex-direction: column;
-   gap: 12px;
-}
-
-.filter-group, .search-bar-group {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   gap: 10px;
-   border-bottom: 1px solid #D8D8D8;
-   padding-bottom: 8px;
-}
-
-.date-picker {
-   display: flex;
-   flex-direction: row;
-   gap: 10px;
-}
-
-.calendar-slash {
-   margin-top: 8px;
-}
-
-#member th {
-    text-align: center;
-}
-
-#member td {
-    text-align: center;
+.member-list-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
 }

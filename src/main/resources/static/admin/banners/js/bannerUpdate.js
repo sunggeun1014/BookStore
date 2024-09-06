@@ -9,12 +9,8 @@ $(document).ready(function() {
 		bannerVisible: $('input[name="banner_visible"]:checked').val(),
 		bannerStart: $('#startDate').val(),
 		bannerEnd: $('#endDate').val(),
-		bannerImg: $('#original-file-name').val(),
-		bannerChange: $('#changed-file-name').val()
 	};
 
-	console.log(initialValues);
-	
 	$("#update-button").on("click", function(event) {
 		event.preventDefault();
 
@@ -26,16 +22,11 @@ $(document).ready(function() {
 			bannerVisible: $('input[name="banner_visible"]:checked').val(),
 			bannerStart: $('#startDate').val(),
 			bannerEnd: $('#endDate').val(),
-			bannerChange: $('#changed-file-name').val(),
-			bannerImg:
-				$('#input-file')[0].files.length > 0 ? $('#input-file')[0].files[0].name : $('#original-file-name').val()
 		};
 
-		console.log(currentValues);
 		// 초기값, 입력값의 비교
-		const hasChanges
-			= Object.keys(initialValues).some(key =>
-				initialValues[key] !== currentValues[key]);
+		const hasChanges = Object.keys(initialValues).some(key =>
+			initialValues[key] !== currentValues[key]);
 
 		let form = $('#bannerForm')[0];
 		let updatedFormData = new FormData(form);
@@ -69,7 +60,22 @@ $(document).ready(function() {
 		} else {
 			getCheckModal('수정사항이 없습니다.', $('#update-button'));
 		}
-		console.log('hasChanges: ' + hasChanges);
-		console.log('hasValidData: ' + hasValidData);
 	});
 });
+
+
+
+function previewImage(event) {
+	var input = event.target;
+
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function(e) {
+			var preview = document.getElementById('preview');
+			preview.src = e.target.result;
+		}
+
+		reader.readAsDataURL(input.files[0]);
+	}
+}
