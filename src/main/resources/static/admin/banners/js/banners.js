@@ -6,7 +6,7 @@ $(document).ready(function() {
 			paging: true,
 			columnDefs: [
 				// 가운데정렬 및 컬럼별 정렬 비활성화
-				{ targets: '_all', className: 'table-center', orderable: false },
+				{ targets: '_all', orderable: false },
 			],
 
 			order: [[1, 'asc']], // 번호 오름차순에 따라 정렬
@@ -28,13 +28,12 @@ $(document).ready(function() {
 				},
 				{
 					data: 'banner_num',
+					orderable: true,
 					width: '20px',
-					className: 'select-td'
 				},
 				{
 					data: 'banner_title',
 					width: '240px',
-					className: 'select-td',
 					render: function(data, type, row) {
 						return '<a href="#" class="banner-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
 					}
@@ -42,7 +41,6 @@ $(document).ready(function() {
 				{
 					data: 'banner_position',
 					width: '100px',
-					className: 'select-td'
 				},
 				{
 					data: null,
@@ -70,13 +68,11 @@ $(document).ready(function() {
 					},
 					title: '노출 기간',
 					width: '240px',
-					className: 'select-td'
 				},
 
 				{
 					data: 'banner_visible',
 					width: '100px',
-					className: 'select-td',
 					render: function(data, type, row) {
 						var color = data === '노출' ? '#4777F6' : '#7E7E7E';
 						return '<span style="color: ' + color + ';">' + data + '</span>';
@@ -85,7 +81,6 @@ $(document).ready(function() {
 				{
 					data: 'banner_date',
 					width: '200px',
-					className: 'select-td',
 					render: function(data, type, row) {
 						// date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
 						if (type === 'display' || type === 'filter') {
