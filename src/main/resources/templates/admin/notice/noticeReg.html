@@ -1,144 +1,68 @@
 <!DOCTYPE html>
-<html lang="ko" 
-	xmlns:th="http://www.thymeleaf.org"
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{common/layout/defaultlayout}"
-    layout:fragment="Content">
-<link rel="stylesheet" href="/admin/myinfo/css/myinfo.css" />
-    <style>
-        .error-message {
-        	margin-left: 50px;
-            color: red;
-            font-size: 0.9em;
-            display: none;
-        }
-    </style>
+	layout:decorate="~{common/layout/defaultlayout}"
+	layout:fragment="Content">
+
+	<link rel="stylesheet" href="/admin/notice/css/noticeReg.css" />
+	<link rel="stylesheet" href="/admin/products/css/products.css">
+
 <div>
-    <div class="white-frame">
-            <h1 class="search-list-title">공지글 등록</h1>
-
-            <div class="info">
-                <span class="search-list-subject">아이디</span>
-                <div class="text-readonly">
-                    <span th:text="${managers.manager_id}"></span>
-                </div>
-                <input type="hidden" th:field="*{manager_id}"/>
-            </div>
-
-            <!-- 비밀번호 필드 -->
-            <div class="info">
-                <span class="search-list-subject important">비밀번호</span>
-                <div>
-                    <input type="password" id="input-pw" class="input-pw" placeholder="새 비밀번호 입력">
-                </div>
-            </div>
-
-            <div class="info">
-                <span class="search-list-subject important">비밀번호 확인</span>
-                <div>
-                    <input type="password" id="input-pw-check" class="input-pw" th:field="*{manager_pw}" placeholder="새 비밀번호 확인">
-                </div>
-                <div>
-                </div>
-	                <span class="error-message" id="pwError" style="display: block;">※ 특수문자, 영문자, 숫자 포함, 최소 8자</span>
-            </div>
-
-            <!-- 이메일 필드 -->
-            <div class="select-wrap info">
-                <span class="search-list-subject">이메일</span>
-                <div class="info-items">
-                    <input type="text" id="emailUser" class="gray-text" th:value="${emailUser}"/>
-                    <span class="search-list-subject-symbol">@</span>
-                    <div class="select-box">
-                        <select id="emailDomain" th:value="${emailDomain}" onchange="toggleCustomDomain()">
-                            <option value="">선택하세요</option>
-                            <option value="naver.com" th:selected="${emailDomain == 'naver.com'}">naver.com</option>
-                            <option value="gmail.com" th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
-                            <option value="daum.net" th:selected="${emailDomain == 'daum.net'}">daum.net</option>
-                            <option value="yahoo.com" th:selected="${emailDomain == 'yahoo.com'}">yahoo.com</option>
-                            <option value="custom">직접 입력</option>
-                        </select>
-                        <div class="select-arrow-down" id="email"></div>
-                    </div>
-                    <input type="text" id="customEmailDomain" style="display:none;"/>
-                </div>
-                <div>
-	                <input type="hidden" id="fullEmail" th:field="*{manager_email}" />
-                </div>
-                <div>
-	                <span class="error-message" id="emailError"></span>
-                </div>
-            </div>
-
-            <!-- 전화번호 필드 -->
-            <div class="select-wrap info">
-                <span class="search-list-subject">전화번호</span>
-                <div class="info-items">
-                    <div class="select-box">
-                        <select id="countryNum" name="countryNum">
-			                <option value="010" th:selected="${countryNum == '010'}">010</option>
-			                <option value="011" th:selected="${countryNum == '011'}">011</option>
-			                <option value="016" th:selected="${countryNum == '016'}">016</option>
-			                <option value="017" th:selected="${countryNum == '017'}">017</option>
-			                <option value="018" th:selected="${countryNum == '018'}">018</option>
-			                <option value="019" th:selected="${countryNum == '019'}">019</option>
-			            </select>
-                        <div class="select-arrow-down" id="phoneNum"></div>
-                    </div>
-                    <span class="search-list-subject-symbol">-</span>
-                    <input type="number" id="userPart1" class="gray-num" max="9999" step="1" th:value="${userPart1}" />
-                    <span class="search-list-subject-symbol">-</span>
-                    <input type="number" id="userPart2" class="gray-num" max="9999" step="1" th:value="${userPart2}" />
-                </div>
-                <div>
-	                <input type="hidden" id="fullPhone" th:field="*{manager_phoneNo}" />
-                </div>
-                <div>
-	                <span class="error-message" id="phoneError"></span>
-                </div>
-            </div>
-
-            <!-- 주소 필드 -->
-            <div class="info">
-                <span class="search-list-subject">주소</span>
-                <div>
-                    <input type="text" id="address_kakao" th:field="*{manager_addr}" class="gray-text"/>
-                </div>
-            </div>
-
-            <div class="info">
-                <span class="search-list-subject">상세주소</span>
-                <div>
-                    <input type="text" th:field="*{manager_detail_addr}" class="gray-text"/>
-                </div>
-            </div>
-
-            <!-- 부서명 필드 -->
-            <div class="select-wrap info">
-                <span class="search-list-subject">부서명</span>
-                <div class="text-readonly">
-                    <span th:text="${managers.manager_dept} == '01' ? '물류팀' : '운영팀'"></span>
-                </div>
-            </div>
-            <!-- 프로필 사진 -->
-            <div class="info" style="border-bottom: none;">
-                <span class="search-list-subject">프로필</span>
-                <div class="info-items">
-                    <div class="img-input-wrap">
-                        <label for="input-file" class="input-file-label">
-                            <input type="file" name="profileImage" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png" onchange="previewImage(event)"/>
-							<img th:src="@{/admin/common/img/profile/{profile}(profile=${managers.manager_profile_changed != null ? managers.manager_profile_changed : 'default_profile.png'})}" alt="사진" id="preview" style="display: block;"/>
-                        </label>
-                    </div>
-                    <label>형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
-                </div>
-            </div>
-			<div class="btn-box">
-				<button type="submit" class="default-btn">수정</button>
-				<button type="button" class="default-btn cancle" onclick="location.href='/admin/myinfo'">취소</button>
+	<div class="white-frame">
+		
+		<h1 class="search-list-title">공지글 등록</h1>
+		
+			<div class="info">
+				<span class="search-list-subject">제목</span>
+				<div>
+					<input id="notice-title" type="text" placeholder="제목을 입력하세요">
+				</div>
 			</div>
-    </div>
-    
-    <script src="/admin/myinfo/js/myinfo.js"></script>
+
+			<div class="info">
+				<span class="search-list-subject important">노출 여부</span>
+				<div class="radio-filter">
+					<input type="radio" id="exposed-status" name="order_status" value="exposed" checked="checked" />
+						<label for="exposed-status">노출</label>
+					<input type="radio" id="nonexposed-status" name="order_status" value="nonexposed" />
+						<label for="nonexposed-status">비노출</label>
+				</div>
+			</div>
+
+			<div class="info">
+				<span class="search-list-subject important">노출 기간</span>
+				<div class="filter-wrap date-filter">
+
+					<div class="date-picker">
+						<div class="input-date-box">
+							<input type="text" id="startDate" class="placeholder" placeholder="YYYY-MM-DD" />
+							<i class="fa-solid fa-calendar-days"></i>
+						</div>
+						<div class="calendar-slash">-</div>
+						<div class="input-date-box">
+							<input type="text" id="endDate" class="placeholder" placeholder="YYYY-MM-DD" />
+							<i class="fa-solid fa-calendar-days"></i>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+
+			<div class="info">
+				<span class="search-list-subject important">내용</span>
+				<div contenteditable="true" class="editor" id="editor">
+					여기에 텍스트를 입력하거나 이미지를 드래그 앤 드롭하세요...
+				</div>
+			</div>
+
+			<div class="btn-box">
+				<button id="save-button" class="default-btn">등록</button>
+				<button type="button" class="default-btn cancel" onclick="location.href='/admin/notice/notice'">취소</button>
+			</div>
+
+	</div>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="/admin/notice/js/noticeReg.js"></script>
 </div>
 </html>

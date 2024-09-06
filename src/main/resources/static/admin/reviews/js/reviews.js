@@ -49,8 +49,10 @@ $(document).ready(function() {
 				{
 					data: 'review_rating',
 					render: function(data, type) {
-						if (type === 'display' || type === 'filter') {
+						if (type === 'display') {
 							return '<span class="fas fa-star stars"></span>'.repeat(data) + '<span class="far fa-star empty-stars"></span>'.repeat(5 - data);
+						} else if (type === 'filter') {
+							return data;
 						}
 						return data;
 					}
@@ -107,20 +109,20 @@ $(document).ready(function() {
 			$('#select-all').prop('checked', false);
 		}
 	});
-	
+
 	// '전체 선택' 체크박스의 상태 변경 시
 	$('#select-all').on('change', function() {
-	    const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
+		const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
 
-	    // 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
-	    $('.row-checkbox').prop('checked', isChecked);
+		// 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
+		$('.row-checkbox').prop('checked', isChecked);
 
-	    // 각 행에 대해 배경색을 업데이트
-	    if (isChecked) {
-	        $('#reviews tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
-	    } else {
-	        $('#reviews tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
-	    }
+		// 각 행에 대해 배경색을 업데이트
+		if (isChecked) {
+			$('#reviews tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
+		} else {
+			$('#reviews tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
+		}
 	});
 
 
@@ -165,14 +167,14 @@ $(document).ready(function() {
 			var rowData = $('#reviews').DataTable().row($(this).closest('tr')).data();
 			selectedIds.push(rowData.review_num);
 		});
-		
+
 		fnPostAjax('/admin/reviews/delete', selectedIds, function(jsonData) {
 			getCheckModal(jsonData.resultMsg);
-			if(jsonData.resultCode === 'S') {
+			if (jsonData.resultCode === 'S') {
 				$('#reviews').DataTable().ajax.reload();  // 테이블 새로고침
 			}
 		});
-		
+
 	};
 
 
@@ -196,25 +198,43 @@ $(document).ready(function() {
 		table.column(selectedColumn).search(keyword).draw();
 	}
 
+	const collator = new Intl.Collator('ko');
 
-	$('#startDate, #endDate').on('change', function() {
-		table.draw(); // 날짜 변경 시 테이블 다시 그리기
-	});
-
-	// 날짜 필터링 로직 추가
 	$.fn.dataTable.ext.search.push(
 		function(settings, data, dataIndex) {
 			var startDate = $('#startDate').val();
 			var endDate = $('#endDate').val();
-			var memberDate = data[6];
+
+			var searchColumn = $('#searchColumn').val();
+			var keyword = $('#searchKeyword').val();
+			var reviewDate = data[6];  
+			var memberId = data[5]; 
+			var bookTitle = data[3]; 
+			var bookIsbn = data[4];
+			var rating = data[7];
+			console.log(typeof rating)
+			console.log(rating)
+
+			if (searchColumn == '5' && collator.compare(memberId, keyword) !== 0) {
+				return true;  // 회원ID 컬럼에서 검색어가 일치하지 않으면 제외
+			}
+			if (searchColumn == '3' && collator.compare(bookTitle, keyword) !== 0) {
+				return true;  // 책 제목 컬럼에서 검색어가 일치하지 않으면 제외
+			}
+			if (searchColumn == '4' && collator.compare(bookIsbn, keyword) !== 0) {
+				return true;  // ISBN 컬럼에서 검색어가 일치하지 않으면 제외
+			}
+			if (searchColumn == '7' && collator.compare(rating, keyword) !== 0) {
+				return true;  // 별점 컬럼에서 입력된 별점이 일치하지 않으면 제외
+			}
 
 			// 날짜 형식을 Date 객체로 변환
 			var start = startDate ? new Date(startDate) : null;
 			var end = endDate ? new Date(endDate) : null;
-			var member = new Date(memberDate);
+			var review = new Date(reviewDate);
 
 			if ((start === null && end === null) ||
-				(start <= member && (end === null || member <= end))) {
+				(start <= review && (end === null || review <= end))) {
 				return true;
 			}
 			return false;
@@ -283,6 +303,9 @@ function resetFilters() {
 	// 날짜 필터 초기화
 	$('#startDate').val('');
 	$('#endDate').val('');
+
+	$('.date-option').prop('checked', false).removeClass('active');
+	$('.today').prop('checked', true).addClass('active');
 
 	// DataTables 검색 및 필터링 초기화
 	table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화

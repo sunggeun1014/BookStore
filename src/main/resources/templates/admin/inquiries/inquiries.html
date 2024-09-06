@@ -37,13 +37,25 @@
 		
 		<div class="filter-info">
 			<p class="search-list-subject">처리 상태</p>
-			<div class="filter-wrap radio-filter">
-				<input type="radio" id="order-status-all" name="order_status" value="" checked="checked"/>
-				<label for="order-status-all">전체</label>
-				<input type="radio" id="order-status-change" name="order_status" value="request"/>
-				<label for="order-status-change">미답변</label>
-				<input type="radio" id="order-status-completion" name="order_status" value="completion"/>
-				<label for="order-status-completion">처리완료</label>			
+			<div class="filter-wrap">
+				<div class="select-wrap">
+					<select id="searchColumn2" class="select">
+						<option value="상품문의">상품문의</option>
+						<option value="배송문의">배송문의</option>
+						<option value="결제문의">결제문의</option>
+						<option value="반품문의">반품문의</option>
+						<option value="기타">기타</option>
+					</select>
+					<div class="select-arrow-down"></div>
+				</div>
+				<div class="radio-filter">
+					<input type="radio" id="order-status-all" name="order_status" value="" checked="checked"/>
+					<label for="order-status-all">전체</label>
+					<input type="radio" id="order-status-change" name="order_status" value="request"/>
+					<label for="order-status-change">미답변</label>
+					<input type="radio" id="order-status-completion" name="order_status" value="completion"/>
+					<label for="order-status-completion">처리완료</label>			
+				</div>
 			</div>
 		</div>
 			
@@ -52,15 +64,13 @@
 	        <div class="filter-wrap search-bar">
 		            
 				<div class="select-wrap">
-					<select id="searchColumn" class="select">
-						<option value="2">문의유형</option>
+					<select id="searchColumn" class="select disabled">
 						<option value="3">회원ID</option>
 					</select>
 					<div class="select-arrow-down"></div>
 				</div>
 				<div class="search-container">
-                <input type="text" id="search-keyword" class="search-input"
-                       placeholder="검색할 내용 입력"/>
+                <input type="text" id="searchKeyword" class="search-input" placeholder="검색할 내용 입력"/>
                 <button id="searchButton">
                     <span class="material-symbols-outlined">search</span>
                 </button>

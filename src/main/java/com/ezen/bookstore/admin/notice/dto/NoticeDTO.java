@@ -2,20 +2,25 @@ package com.ezen.bookstore.admin.notice.dto;
 
 import java.sql.Timestamp;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 public class NoticeDTO {
 	
-	private Integer notice_num;
-	private String notice_title;
-	private String notice_content;
-	private String manager_id;
-	private String notice_visible;
-	private Timestamp notice_write_date;
+	Integer notice_num;
+	String notice_title;
+	String notice_content;
+	String manager_id;
+	String notice_visible;
+	Timestamp notice_write_date;
+	Timestamp notice_end_date;
+	Timestamp notice_start_date;
 	
 	
-	private Integer notice_detail_num;
-	private String notice_detail_original;
-	private String notice_detail_changed;
+	Integer notice_detail_num;
+	String notice_detail_original;
+	String notice_detail_changed;
 }
