@@ -56,7 +56,6 @@
 }
 
 .modal-footer .modal-btn.confirm {
-   border-right: .5px solid #C0C0C0;
    color: #4777F6;
    font-size: 16px;
    font-weight: 700;
@@ -67,5 +66,6 @@
 }
 
 .modal-footer .modal-btn.cancel {
+   border-left: .5px solid #C0C0C0;
    color: #666;
 }
