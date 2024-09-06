@@ -54,8 +54,8 @@ public class ProductsRepository {
         return sql.selectOne("Products.deleteState", bookISBN);
     }
 
-    public boolean existsByIsbn(String bookISBN) {
-        return sql.selectOne("Products.existsByIsbn", bookISBN) != null;
+    public String existsByIsbn(String bookISBN) {
+        return sql.selectOne("Products.existsByIsbn", bookISBN);
     }
 
     public void insertBook(ProductsDTO productsDTO) {

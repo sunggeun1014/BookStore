@@ -68,6 +68,10 @@ input[type=text]:not(.placeholder, .search-input, .input-price) {
     height: 150px;
 }
 
+#input-file {
+    display: none;
+}
+
 .book-info {
     height: 320px;
 }
