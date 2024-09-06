@@ -1,6 +1,6 @@
 package com.ezen.bookstore.admin.commons;
 
-public class File {
+public class FileManagement {
 	
 	public final static String BANNER_PATH = "C:/images/banners";
 	public final static String BOOK_PATH = "C:/images/books";
