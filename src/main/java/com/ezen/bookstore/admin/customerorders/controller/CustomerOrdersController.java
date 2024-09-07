@@ -6,10 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ezen.bookstore.admin.commons.AccountManagement;
 import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersListDTO;
 import com.ezen.bookstore.admin.customerorders.service.CustomerOrdersService;
+import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -35,12 +38,4 @@ public class CustomerOrdersController {
 		return "admin/customer_orders/customerDetail";
 	}
     
-    @GetMapping(value = "/orderStatusUpdate")
-    public String orderStatusUpdate(@ModelAttribute CustomerOrdersListDTO list, int order_num, String order_selected_status) {
-    	
-    	cos.orderStatusUpdate(list, order_num, order_selected_status);
-    	
-    	return "redirect:/admin/customerOrders/detail?order_num=" + order_num;
-    }
-
 }

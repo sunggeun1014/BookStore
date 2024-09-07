@@ -1,0 +1,43 @@
+.table-column-area {
+	display: flex;
+	text-align: center;
+	padding: 8px 8px;
+	border-top: solid 1px #D8D8D8;
+	border-bottom: solid 1px #D8D8D8;
+	background-color: #FAFAFA;
+	line-height: 30px;
+}
+
+.table-data-area {
+	display: flex;
+	text-align: center;
+	padding: 8px 8px;
+	border-bottom: solid 1px #D8D8D8;
+	line-height: 30px;
+}
+
+.date-font {
+	font-weight: 700;
+	font-size: 16px;
+}
+
+.total-cnt-area {
+    text-align: right;
+    padding: 32px 16px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.table-data-info-area {
+	display: flex;
+	margin-top:68px;
+    justify-content: space-between;
+    padding: 20px 0 15px 0;
+}
+
+.no-column, .no-data { width: 6%; }
+.isbn-column, .isbn-data { width: 20%; }
+.book-title-column, .book-title-data { width: 40%; }
+.qty-column, .qty-data { width: 14%; }
+.zone-num-column, .zone-num-data { width: 20%; }
