@@ -100,11 +100,16 @@
 }
 .checkbox-column, .checkbox-data { width: 3%; }
 .no-column, .no-data { width: 7%; }
-.book-title-column, .book-title-data { width: 30%; }
-.isbn-column, .isbn-data { width: 15%; }
-.price-column, .price-data { width: 14%; }
+.book-title-column, .book-title-data { width: 22%; }
+.isbn-column, .isbn-data { width: 12%; }
+.price-column, .price-data { width: 10%; }
 .qty-column, .qty-data { width: 9%; }
-.purchase-column, .purchase-data { width: 14%; }
+
+.request-qty-column, .request-qty-data { width: 10%; }
+.input-qty-column, .input-qty-data { width: 6%; }
+.input-qty-data > span, .input-qty-data > span > input { width: 100%; text-align: center; padding: 0; }
+
+.purchase-column, .purchase-data { width: 12%; }
 .order-status-column, .order-status-data { width: 8%; }
 
 .total-price-area {
@@ -116,3 +121,5 @@
 }
 
 .request-text-red { color: red; }
+
+#submit-form { display: none; }

@@ -31,12 +31,16 @@ public class WarehouseRepository {
 		return sql.selectList("Warehouse.getZoneNum");
 	}
 	
+	public String getZoneNum(String isbn) {
+		return sql.selectOne("Warehouse.getOneZoneNum", isbn);
+	}
+	
 	public void invQtyUpdate(String book_isbn, Integer Order_detail_qty) {
 		WarehouseDTO dto = new WarehouseDTO();
 		
 		dto.setInv_isbn(book_isbn);
 		dto.setInv_qty(Order_detail_qty);
-		
 		sql.update("Warehouse.invQtyUpdate", dto);
 	}
+	
 }

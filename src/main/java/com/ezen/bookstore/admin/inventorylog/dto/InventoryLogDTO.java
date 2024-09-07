@@ -11,4 +11,11 @@ public class InventoryLogDTO {
 	private String log_transaction_status;
 	private Timestamp log_operation_date;
 	private Integer order_num;
+	
+	private String manager_name;
+	private Integer log_detail_qty;
+	
+    private String log_detail_isbn;
+    private String log_detail_title;
+    private String zone_num;
 }

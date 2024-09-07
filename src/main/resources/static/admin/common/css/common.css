@@ -499,3 +499,7 @@ table td:not([align]), table th:not([align]) {
 	color: #7E7E7E;
 	cursor: pointer;
 }
+
+.dt-empty {
+    text-align: center !important;
+}

@@ -25,6 +25,7 @@ public class CustomerOrdersDTO {
 	private Integer order_detail_price;
 	private Integer total_order_price;
 	private String order_status;
+	private Integer order_request_qty;
 	
 	private String member_name;
 	private String member_pw;

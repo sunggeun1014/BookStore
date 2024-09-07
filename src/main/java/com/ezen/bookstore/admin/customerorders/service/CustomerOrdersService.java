@@ -13,5 +13,5 @@ public interface CustomerOrdersService {
 	public int deliveryRequestSave(List<Integer> order_nums, String manager_id);
 	public CustomerOrdersDTO getCustomerOrdersDetail(int order_num);
 	public List<CustomerOrdersDTO> getCustomerOrdersDetailList(int order_num);
-	public void orderStatusUpdate(CustomerOrdersListDTO list, int order_num, String order_selected_status);
+	public void orderStatusUpdate(CustomerOrdersListDTO list, int order_num, String order_selected_status, String manager_id);
 }
