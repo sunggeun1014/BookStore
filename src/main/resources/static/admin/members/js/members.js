@@ -1,196 +1,205 @@
 var table;
 $(document).ready(function() {
 
-	table = $('#member').DataTable({
-		ajax: {
-			// 값을 받아오는 url, data타입 작성
-			url: '/admin/members/json',
-			dataSrc: function(json) {
-				$('#total-row').text('총 ' + json.size + '건');
-				return json.data;
-			}
-		},
-		
-		// 모든 컬럼을 가운데 정렬
-		columnDefs: [
+    table = $('#member').DataTable({
+        ajax: {
+            // 데이터를 받아오는 URL과 데이터 타입을 지정합니다.
+            url: '/admin/members/json',
+            dataSrc: function(json) {
+                $('#total-row').text('총 ' + json.size + '건');
+                return json.data;
+            }
+        },
+        
+        // 모든 컬럼을 가운데 정렬합니다.
+        columnDefs: [
             { targets: '_all', className: 'dt-center' }
         ],
         
-        order: [[8, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
+        order: [[5, 'desc']], // 가입 날짜 컬럼을 최신순으로 정렬합니다.
         
-        // html에서 컬럼 순서대로 db에 저장되어있는 컬럼 이름으로 매핑
-		columns: [
-			{
+        // 각 컬럼을 데이터와 매핑합니다.
+        columns: [
+            {
                 data: null,
                 render: function() {
                     return '';
                 },
-                orderable: true,  // 이 컬럼에 대해 정렬을 비활성화
-                searchable: false  // 이 컬럼에 대해 검색을 비활성화
+                orderable: true,
+                searchable: false
             },
-			{ data: 'member_name' },
-			{ 
-				data: 'member_id',
-				render: function(data, type, row) {
+            { data: 'member_name' },
+            { 
+                data: 'member_id',
+                render: function(data, type, row) {
                     return '<a href="#" class="member-id-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
                 }
-			},
-			{ data: 'member_email' },
-			{ data: 'member_phoneNo' },
-			{
-				data: 'member_date',
-				render: function(data, type) {
-					// date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
-					if (type === 'display' || type === 'filter') {
-					var date = new Date(data);
-					var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
-                  
-                  	return formattedDate;
-               }       
-               return data;
-			   }
-			}
-		],
-		
-		drawCallback: function(settings) {
-	        var api = this.api();
-	        var startIndex = api.page.info().start; // 현재 페이지 시작 인덱스 가져오기
-	
-	        // 번호 열을 다시 설정
-	        api.column(0, { search: 'applied', order: 'applied' }).nodes().each(function(cell, i) {
-	            cell.innerHTML = startIndex + i + 1;  // 각 행에 번호 설정
-	        });
+            },
+            { data: 'member_email' },
+            { data: 'member_phoneNo' },
+            {
+                data: 'member_date',
+                render: function(data, type) {
+                    if (type === 'display' || type === 'filter') {
+                        var date = new Date(data);
+                        var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+                        return formattedDate;
+                    }       
+                    return data;
+                }
+            }
+        ],
+        
+        drawCallback: function(settings) {
+            var api = this.api();
+            var startIndex = api.page.info().start; // 현재 페이지의 시작 인덱스를 가져옵니다.
+    
+            // 번호 열을 다시 설정합니다.
+            api.column(0, { search: 'applied', order: 'applied' }).nodes().each(function(cell, i) {
+                cell.innerHTML = startIndex + i + 1;  // 각 행에 번호를 설정합니다.
+            });
         },
         
-		"info": false, // 기본 적용 텍스쳐 숨기기
-		lengthChange: false, // 기본 적용 텍스쳐 숨기기
-		dom: 'lrtip', // 기본 검색 필드 숨기기 (f를 제거)
-		language: {
-			searchPanes: {
-				i18n: {
-					emptyMessage: "조회된 정보가 없습니다."
-				}
-			},
-			infoEmpty: "조회된 정보가 없습니다.",
-			zeroRecords: "조회된 정보가 없습니다.",
-			emptyTable: "조회된 정보가 없습니다.",
-		}
-		
-	});
-	
-	$('#member tbody').on('click', '.member-id-link', function(e) {
-        e.preventDefault(); // 기본 링크 동작 방지
+        "info": false, // 기본 정보 텍스트를 숨깁니다.
+        lengthChange: false, // 페이지 길이 변경 옵션을 숨깁니다.
+        dom: 'lrtip', // 기본 검색 필드를 숨깁니다.
+        language: {
+            searchPanes: {
+                i18n: {
+                    emptyMessage: "조회된 정보가 없습니다."
+                }
+            },
+            infoEmpty: "조회된 정보가 없습니다.",
+            zeroRecords: "조회된 정보가 없습니다.",
+            emptyTable: "조회된 정보가 없습니다.",
+        }
+    });
+    
+    $('#member tbody').on('click', '.member-id-link', function(e) {
+        e.preventDefault(); 
 
-        // 클릭된 링크의 행 데이터 가져오기
         var data = table.row($(this).parents('tr')).data();
 
-        // 데이터를 POST 방식으로 전송
         postToDetailPage(data);
     });
-	
-	// 검색 버튼 클릭 이벤트 핸들러
+    
+    // 검색 버튼 클릭 이벤트 핸들러
     $('#searchButton').on('click', function() {
         var selectedColumn = $('#searchColumn').val();
         var keyword = $('#searchKeyword').val();
-        // 선택된 컬럼과 입력된 키워드로 필터링
-        table.column(selectedColumn).search(keyword).draw(); 
+
+        // 이전 검색어를 초기화합니다.
+        table.columns().search('');
+
+        // 선택된 컬럼과 검색어로 필터링합니다.
+        table.column(selectedColumn).search(keyword);
+
+        // 테이블을 다시 그려 필터를 적용합니다 (날짜 필터와 검색어 필터 모두 적용)
+        table.draw();
     });
 
-    // searchKeyword에서 Enter 키를 누를 때 searchButton 클릭 이벤트 실행
+    // 검색어 입력란에서 Enter 키를 누를 때 검색 버튼 클릭 이벤트를 실행합니다.
     $('#searchKeyword').on('keypress', function(event) {
         if (event.key === 'Enter') {
             $('#searchButton').click();
         }
     });
-
-	$('#startDate, #endDate').on('change', function() {
-		table.draw(); // 날짜 변경 시 테이블 다시 그리기
-	});
-
-	// 날짜 필터링 로직 추가
-	$.fn.dataTable.ext.search.push(
+    
+    // 날짜 필터링 로직을 추가합니다.
+    $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex) {
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
-            var membersDate = data[5];
-			
-            // 날짜 형식을 Date 객체로 변환
-            var start = startDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(startDate)) : null;
-            var end = endDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(endDate)) : null;
-            var manager = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(membersDate));
+            var membersDate = data[5]; // 가입 날짜 컬럼 인덱스
+            
+            // 날짜를 Date 객체로 변환합니다.
+            var start = startDate ? new Date(startDate) : null;
+            var end = endDate ? new Date(endDate) : null;
+            var memberDate = new Date(membersDate);
+
+            // memberDate가 유효한 날짜인지 확인합니다.
+            if (isNaN(memberDate)) {
+                return false;
+            }
+
+            // 시간 부분을 제거합니다.
+            memberDate.setHours(0,0,0,0);
 
             if ((start === null && end === null) ||
-                (start <= manager && (end === null || manager <= end))) {
+                (start === null && memberDate <= end) ||
+                (start <= memberDate && end === null) ||
+                (start <= memberDate && memberDate <= end)) {
                 return true;
             }
             return false;
         }
     );
-	
-	document.querySelectorAll('.input-box input').forEach(function(input) {
-		input.addEventListener('focus', function() {
-			// Input 박스를 클릭하면 기존 값을 제거
-			this.value = '';
-		});
-	});
+    
+    // 입력 필드 클릭 시 기존 값을 제거합니다.
+    document.querySelectorAll('.input-box input').forEach(function(input) {
+        input.addEventListener('focus', function() {
+            this.value = '';
+        });
+    });
 
-	document.querySelector('[onclick="resetFilters()"]').addEventListener('click', resetFilters);
-	
-	// 모든 date-option 버튼에 클릭 이벤트 리스너 추가
-	document.querySelectorAll('.date-option').forEach(function(button) {
-		button.addEventListener('click', function() {
-			setActive(this);  // 클릭된 버튼에 'active' 클래스 설정
-		});
-	});
-	
-	datepicker("startDate", "endDate");
+    // 초기화 버튼 클릭 시 필터를 초기화합니다.
+    document.querySelector('[onclick="resetFilters()"]').addEventListener('click', resetFilters);
+    
+    // 모든 date-option 버튼에 클릭 이벤트 리스너를 추가합니다.
+    document.querySelectorAll('.date-option').forEach(function(button) {
+        button.addEventListener('click', function() {
+            setActive(this);  // 클릭된 버튼에 'active' 클래스를 설정합니다.
+        });
+    });
+    
+    datepicker("startDate", "endDate");
 
 });
 
+// 오늘 날짜를 설정하는 함수에서 테이블을 다시 그리지 않습니다.
 function setToday() {
-	var today = new Date().toISOString().split('T')[0];
-	$('#startDate').val(today);
-	$('#endDate').val(today).trigger('change');
+    var today = new Date().toISOString().split('T')[0];
+    $('#startDate').val(today);
+    $('#endDate').val(today);
 }
 
+// 날짜 범위를 설정하는 함수에서 테이블을 다시 그리지 않습니다.
 function setDateRange(days) {
-	var startDate = new Date();
-	startDate.setDate(startDate.getDate() - days);
-	$('#startDate').val(startDate.toISOString().split('T')[0]);
-	$('#endDate').val(new Date().toISOString().split('T')[0]).trigger('change');
+    var startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
+    $('#startDate').val(startDate.toISOString().split('T')[0]);
+    $('#endDate').val(new Date().toISOString().split('T')[0]);
 }
 
+// 필터를 초기화하는 함수입니다.
 function resetFilters() {
-	// 검색어 필터 초기화
-	$('#searchKeyword').val('');
-	// 기본 첫 번째 옵션으로 설정 html쪽 select 첫번째로 초기화 시켜준다
-	$('#searchColumn').val('2');
+    // 검색어 필터를 초기화합니다.
+    $('#searchKeyword').val('');
+    // 기본 첫 번째 옵션으로 설정합니다.
+    $('#searchColumn').val('2');
 
-	// 날짜 필터 초기화
-	$('#startDate').val('');
-	$('#endDate').val('');
+    // 날짜 필터를 초기화합니다.
+    $('#startDate').val('');
+    $('#endDate').val('');
 
-	// DataTables 검색 및 필터링 초기화
-	table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화
+    // DataTables 검색 및 필터링을 초기화합니다.
+    table.search('').columns().search('').draw();
 
-	table.draw();
+    table.draw();
 }
 
-
+// 클릭된 date-option 버튼에 'active' 클래스를 설정합니다.
 function setActive(element) {
-    // 모든 date-option 버튼에서 'active' 클래스를 제거
     var options = document.querySelectorAll('.date-option');
     options.forEach(function(option) {
         option.classList.remove('active');
     });
 
-    // 클릭된 요소에 'active' 클래스를 추가
     element.classList.add('active');
 }
 
-//값 전달하는 곳
+// 상세 페이지로 데이터를 전달하는 함수입니다.
 function postToDetailPage(data) {
-    // 폼 생성
     var existingForm = $('#postToDetailForm');
 
     if (existingForm.length) {
@@ -199,25 +208,10 @@ function postToDetailPage(data) {
     
     var form = $('<form>', {
         method: 'POST',
-        action: '/admin/members/details'  // 서버의 상세 페이지 URL로 설정
+        action: '/admin/members/details'
     });
 
-    // 데이터를 숨김 필드로 추가
     form.append($('<input>', { type: 'hidden', name: 'member_id', value: data.member_id }));
 
-    // 폼을 body에 추가하고 제출
     form.appendTo('body').submit();
-} 
-
-function setActive(element) {
-    // 모든 date-option 버튼에서 'active' 클래스를 제거
-    var options = document.querySelectorAll('.date-option');
-    options.forEach(function(option) {
-        option.classList.remove('active');
-    });
-
-    // 클릭된 요소에 'active' 클래스를 추가
-    element.classList.add('active');
 }
-
-
