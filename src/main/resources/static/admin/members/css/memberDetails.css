@@ -129,3 +129,7 @@ input#customEmailDomain{
 	justify-content: center;
 	align-items: center;
 }
+
+.pointer-cursor {
+    cursor: pointer;
+}

@@ -102,3 +102,7 @@ select#deptName{
     font-size: 12px; /* 글자 크기 조정 */
     color: #666666; /* 글자 색상 조정 */
 }
+
+.pointer-cursor {
+    cursor: pointer;
+}
