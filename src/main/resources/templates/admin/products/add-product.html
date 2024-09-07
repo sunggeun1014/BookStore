@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" 
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{common/layout/defaultlayout}"
-    layout:fragment="Content">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultlayout}"
+      layout:fragment="Content" xmlns:display="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>상품추가하기</title>
@@ -117,6 +117,7 @@
             </div>
         </div>
 
+<!--        @{/admin/common/img/products/{products}(products=${book_thumbnail_changed})}-->
         <div class="product-info thumbnail-wrap">
             <p class="search-list-subject">이미지
                 <span class="important">*</span>
@@ -125,8 +126,10 @@
                 <p>형식 : JPG, JPEG, PNG</p>
                 <div class="img-input-wrap">
                     <label for="input-file" class="input-file-label">
-                        <img th:src="@{/admin/common/img/products/{products}(products=${book_thumbnail_changed != null ? book_thumbnail_changed : 'noimg.png'})}"
-                             alt="책썸네일" id="preview"/>
+                        <img src=""
+                             alt="책썸네일"
+                             id="preview"
+                            style="display: none;"/>
                         <i class="fa-solid fa-plus"></i>
                     </label>
                     <input type="file" name="thumbnail_img_file" id="input-file" class="input-img-file" accept="image/jpeg, image/png, image/jpg" />

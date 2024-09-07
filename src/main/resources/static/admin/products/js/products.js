@@ -130,15 +130,23 @@ $(document).ready(function() {
                     }
                 },
 
+                // {
+                //     data: 'book_state',
+                //     render: function(data, type, row) {
+                //         const onClass = data === '01' ? ' on' : '';
+                //         const offClass = data === '02' ? ' off' : '';
+                //         return '<div class="status-btn-wrap">' +
+                //             '<button class="status-btn' + onClass + '">판매중</button>' +
+                //             '<button class="status-btn' + offClass + '">판매중지</button>' +
+                //             '</div>';
+                //     }
+                // }
                 {
                     data: 'book_state',
                     render: function(data, type, row) {
-                        const onClass = data === '01' ? ' on' : '';
-                        const offClass = data === '02' ? ' off' : '';
-                        return '<div class="status-btn-wrap">' +
-                            '<button class="status-btn' + onClass + '">판매중</button>' +
-                            '<button class="status-btn' + offClass + '">판매중지</button>' +
-                            '</div>';
+                        const productState = data === '01' ? '#4777f6' : '#666666';
+                        const isSale = data === '01' ? '판매중' : '판매중지';
+                        return '<p style="color: ' + productState + '">' + isSale + '</p>';
                     }
                 }
 
@@ -155,6 +163,20 @@ $(document).ready(function() {
                 infoEmpty: "조회된 정보가 없습니다.",
                 zeroRecords: "조회된 정보가 없습니다.",
                 emptyTable: "조회된 정보가 없습니다.",
+            },
+            drawCallback: function (settings) {
+                if(table) {
+                    // const totalRecords = settings._isRecordTotal;
+                    const filteredrecored = table.rows({filter: 'applied'}).data().length;
+
+                    // id가 totalcount인 엘리먼트에 텍스트 삽입
+                    $('#totalCount').text(`총 ${filteredrecored}건`)
+                } else {
+                    console.log("테이블 초기화 안됨")
+                }
+            },
+            initComplete: function () {
+                console.log("테이블 초기화 완료")
             },
             rowCallback: function(row, data) {
                 $(row).attr('data-id', data.book_isbn); // 각 행에 고유 ID 설정
@@ -213,6 +235,13 @@ $(document).ready(function() {
         }
     });
 
+    // 페이지 변경 시 체크박스 초기화
+    table.on('draw', function() {
+        $('#select-all').prop('checked', false); // 전체 체크박스 초기화
+        $('.row-checkbox').prop('checked', false); // 개별 체크박스 초기화
+        $('#banners tbody tr').removeClass('selected-row'); // 선택된 행의 배경색 초기화
+    });
+
 
 
     // 검색 버튼 클릭 이벤트 핸들러
@@ -231,6 +260,7 @@ $(document).ready(function() {
         table.column(column).search(keyword).draw();
     });
 
+
     // search-keyword에서 Enter 키를 누를 때 searchButton 클릭 이벤트 실행
     $('#search-keyword').on('keypress', function(event) {
         if (event.key === 'Enter') {
@@ -238,17 +268,32 @@ $(document).ready(function() {
         }
     });
 
+    // 날짜 필터링 로직 추가
+    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+
+        var productRegidate = data[8]; // 등록 날짜 데이터 (index 8)
+
+        if (startDate && endDate) {
+            var start = new Date(startDate);
+            var end = new Date(endDate);
+            var regDate = new Date(productRegidate);
+
+            // 등록 날짜가 시작일과 종료일 사이에 있는지 확인
+            if (regDate >= start && regDate <= end) {
+                return true;
+            }
+            return false;
+        }
+        return true; // 날짜 필터가 없으면 모든 항목 표시
+    });
+
+    // 날짜 변경 시 테이블 다시 그리기
     $('#startDate, #endDate').on('change', function() {
-        table.draw(); // 날짜 변경 시 테이블 다시 그리기
+        table.draw();
     });
 
-
-    document.querySelectorAll('.input-box input').forEach(function(input) {
-        input.addEventListener('focus', function() {
-            // Input 박스를 클릭하면 기존 값을 제거
-            this.value = '';
-        });
-    });
 
     document.addEventListener("DOMContentLoaded", function() {
         const resetButton = document.getElementById('reset-button');
@@ -262,16 +307,6 @@ $(document).ready(function() {
     datepicker("startDate", "endDate");
     confirmDelete();
 });
-
-function checkAll(tableID) {
-    const checkAll = document.querySelector("#check-all")
-
-    checkAll.addEventListener("click", function () {
-        const rows = $(tableID).DataTable().rows({'search': 'applied' }).nodes();
-        $('input[type="checkbox"]', rows).prop('checked', this.checked)
-    })
-}
-
 
 function confirmDelete() {
     const delBtn = document.querySelector("#delete-button");
@@ -335,7 +370,6 @@ function setDateRange(days) {
 function resetFilters() {
     // 검색어 필터 초기화
     $('#search-keyword').val('');
-    // 기본 첫 번째 옵션으로 설정 html쪽 select 4번째로 초기화 시켜준다
     $('#select-lists').prop('selectedIndex', 0)
 
     // 날짜 필터 초기화
