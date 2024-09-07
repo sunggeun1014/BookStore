@@ -477,15 +477,25 @@ input[type='number'] {
 	border-width: 1px 0 1px 0;
 	border-style: solid;
 	border-color: #D8D8D8;
-}
-/* 가운데 정렬 */
-.table-center td, .table-center th {
-	text-align: center;
 	vertical-align: middle;
+	color: #7E7E7E;
+}
+
+table td:not([align]), table th:not([align]) {
+	text-align: center;
+}
+
+.table th:not([align]) {
+	text-align: center;
 }
 
 /* 테이블 로우 사이즈, 글자 정렬 */
 .table td {
 	height: 50px;
 	vertical-align: middle;
+}
+
+.table td > a {
+	color: #7E7E7E;
+	cursor: pointer;
 }

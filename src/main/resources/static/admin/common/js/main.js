@@ -1,53 +1,23 @@
-// document.addEventListener("DOMContentLoaded", () => {
-//     const menuItems = document.querySelectorAll('.menu-item');
-//
-//     // 메뉴 클릭 시 하위메뉴 열고 닫기
-//     menuItems.forEach(item => {
-//         item.addEventListener('click', () => {
-//             const submenuID = item.getAttribute('data-submenu');
-//             const submenu = document.getElementById(submenuID);
-//
-//             // 모든 서브메뉴 닫기
-//             document.querySelectorAll('.sub-menu').forEach(sub => {
-//                 if (sub !== submenu) {
-//                     sub.style.display = "none";
-//                     sub.closest('.menu-item').querySelector('.menu-content').classList.remove('open');
-//                 }
-//             });
-//
-//             // 현재 클릭한 메뉴 토글
-//             if (submenu.style.display === "block") {
-//                 submenu.style.display = "none";
-//                 item.querySelector('.menu-content').classList.remove('open');
-//             } else {
-//                 submenu.style.display = "block";
-//                 item.querySelector('.menu-content').classList.add('open');
-//             }
-//         });
-//     });
-//
-//     // 페이지 로드 시 현재 페이지와 매칭되는 하위메뉴 열기 및 강조
-//     const currentPage = window.location.pathname.split("/").pop();
-//     const menuLinks = document.querySelectorAll('.submenu-link');
-//
-//     menuLinks.forEach(link => {
-//         const href = link.getAttribute('href').split("/").pop();
-//         if (currentPage === href) {
-//             link.classList.add('open');
-//             const submenu = link.closest('.sub-menu');
-//             submenu.style.display = "block";
-//             submenu.closest('.menu-item').querySelector('.menu-content').classList.add('open');
-//         }
-//     });
-// });
-
-
 document.addEventListener("DOMContentLoaded", function() {
-    const menuItems = document.querySelectorAll(".menu-item");
+    const menuItems = document.querySelectorAll(".menu-items");
+    let currentPath = window.location.pathname;
+
+    // 경로의 끝에 슬래시('/')가 있으면 제거 (정규화)
+    if (currentPath.endsWith('/')) {
+        currentPath = currentPath.slice(0, -1);
+    }
+
+    // 페이지가 admin/index로 이동하면 모든 메뉴 초기화
+    if (currentPath === '/admin/index') {
+        // 로컬 스토리지 초기화
+        menuItems.forEach((_, index) => {
+            localStorage.removeItem(`menu-open-${index}`);
+        });
+    }
 
     // 로컬 스토리지에서 메뉴 상태를 불러와 복원
     menuItems.forEach((item, index) => {
-        const subMenu = item.querySelector(".sub-menu");
+        const subMenu = item.querySelector(".sub-menu-list");
         const barImg = item.querySelector(".bar-img");
         const arrowRight = item.querySelector(".fa-chevron-right");
         const iconImg = item.querySelector(".icon-img");
@@ -62,11 +32,35 @@ document.addEventListener("DOMContentLoaded", function() {
             if (iconImg) iconImg.classList.add("open");
             if (listText) listText.classList.add("open");
         }
+
+        // 하위 메뉴에서 현재 페이지 경로와 일치하는 링크만 굵어지게 설정
+        const subMenuLinks = item.querySelectorAll(".sub-menu-list li a");
+        subMenuLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add("current-page");  // 현재 페이지에만 적용될 클래스 추가
+            }
+        });
+
+        // onclick에서 경로 추출하여 현재 경로와 비교
+        const hrefValue = item.getAttribute('onclick') ? item.getAttribute('onclick').match(/'([^']+)'/)[1] : null;
+
+        // 현재 경로와 메뉴 경로가 일치하면 자동으로 열림
+        if (hrefValue && hrefValue === currentPath) {
+            if (subMenu) subMenu.classList.add("open");
+            if (barImg) barImg.classList.add("open");
+            if (arrowRight) arrowRight.classList.add("open");
+            if (iconImg) iconImg.classList.add("open");
+            if (listText) listText.classList.add("open");
+
+            // 현재 메뉴를 로컬스토리지에 저장
+            localStorage.setItem(`menu-open-${index}`, true);
+        }
     });
 
+    // 메뉴 클릭 시 동작
     menuItems.forEach((item, index) => {
         item.addEventListener("click", function(e) {
-            const subMenu = this.querySelector(".sub-menu");
+            const subMenu = this.querySelector(".sub-menu-list");
             const barImg = this.querySelector(".bar-img");
             const arrowRight = this.querySelector(".fa-chevron-right");
             const iconImg = this.querySelector(".icon-img");
@@ -89,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // 다른 메뉴 초기화
             menuItems.forEach((otherItem, otherIndex) => {
                 if (otherItem !== item) {
-                    const otherSubMenu = otherItem.querySelector(".sub-menu");
+                    const otherSubMenu = otherItem.querySelector(".sub-menu-list");
                     const otherBarImg = otherItem.querySelector(".bar-img");
                     const otherArrowRight = otherItem.querySelector(".fa-chevron-right");
                     const otherIconImg = otherItem.querySelector(".icon-img");
@@ -107,6 +101,19 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
     });
+
+    // 로고 클릭 시 모든 메뉴 상태 초기화
+    const logoWrap = document.querySelector(".logo-wrap");
+    if (logoWrap) {
+        logoWrap.addEventListener("click", function() {
+            // 로컬 스토리지 초기화
+            menuItems.forEach((_, index) => {
+                localStorage.removeItem(`menu-open-${index}`);
+            });
+            // 홈으로 이동
+            location.href = '/admin/index';
+        });
+    }
 });
 
 

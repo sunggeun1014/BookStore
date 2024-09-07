@@ -1,5 +1,6 @@
 package com.ezen.bookstore.admin.products.service;
 
+import com.ezen.bookstore.admin.commons.FileManagement;
 import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.products.dto.CategoryDTO;
 import com.ezen.bookstore.admin.products.dto.InventoryDTO;
@@ -139,6 +140,7 @@ public class ProductsService {
             // 프로젝트의 정적 리소스 디렉토리에 이미지 저장 경로 설정
             String projectDir = System.getProperty("user.dir");  // 프로젝트의 현재 작업 디렉토리 경로
             String uploadDir = projectDir + "/src/main/resources/static/admin/common/img/products/"; // 파일 저장 폴더 경로
+//            String uploadDir = FileManagement.BOOK_PATH;
             Path uploadPath = Paths.get(uploadDir, newFileName);
 
             // 폴더가 없으면 생성
