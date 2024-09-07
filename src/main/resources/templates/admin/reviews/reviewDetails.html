@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 
-	<link rel="stylesheet" href="/admin/reviews/css/reviews.css" />
-
+<link rel="stylesheet" href="/admin/reviews/css/reviews.css" />
 <div>
 	<div class="container">
 		<!-- 뒤로가기 버튼 -->
-	    <button class="back-btn" onclick="location.href='/admin/index?path=admin/reviews/reviews'">
+	    <button class="back-btn" onclick="location.href='/admin/reviews/list'">
 	      <i class="fa-solid fa-chevron-left"></i>
 	      <span>뒤로가기</span>
 	    </button>

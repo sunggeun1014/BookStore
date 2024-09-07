@@ -17,16 +17,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ezen.bookstore.admin.reviews.dto.ReviewsDTO;
 import com.ezen.bookstore.admin.reviews.service.ReviewsService;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/admin/reviews")
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Controller
 public class ReviewsController {
 
-	private final ReviewsService reviewService;
+	ReviewsService reviewService;
 
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -49,22 +52,18 @@ public class ReviewsController {
 		model.addAttribute("reviews", reviewsDTO);
 		
 		
-		String templatePath = "/admin/reviews/reviewDetails";
-		model.addAttribute("template", templatePath); // 경로를 template로 전달
-
-		return "admin/index";
+		return "admin/reviews/reviewDetails";
 	}
 
 	@PostMapping("/delete")
-	public String deleteReviews(@RequestBody List<Integer> reviewIds, Model model) {
-		
-		reviewService.deleteReviewsById(reviewIds);
-		
-		String templatePath = "/admin/reviews/reviews";
-		
-		model.addAttribute("template", templatePath);
-		
-		return "admin/index";
+	@ResponseBody
+	public Map<String, Object> deleteReviews(@RequestBody List<Integer> reviewIds) {
+		return reviewService.deleteReviewsById(reviewIds);
 	}
 
+	@GetMapping("/list")
+	public String reviewsView() {
+		return "admin/reviews/reviews";
+	}
+	
 }

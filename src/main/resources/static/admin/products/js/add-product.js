@@ -71,13 +71,13 @@ $(document).ready(function() {
 
     // 책 검색 입력 필드에 입력 시 실시간으로 테이블 검색 필터링 적용
     searchWord();
-    
+
     // 날짜선택
     datepicker("singleDate");
-    
+
     // 재고리스트 출력
     showInvenList();
-    
+
     // 폼전송
     checkForm();
 

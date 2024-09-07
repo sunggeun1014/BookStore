@@ -66,7 +66,7 @@ $(document).ready(function() {
             },
         });
     }
-    
+
     // 입출고내역 테이블
     if (!$.fn.DataTable.isDataTable('#stock')) {
         table = $('#stock').removeAttr('width').DataTable({
@@ -132,6 +132,6 @@ $(document).ready(function() {
             },
         });
     }
-    
-    
+
+
 });

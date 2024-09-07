@@ -3,10 +3,14 @@ package com.ezen.bookstore.admin.customerorders.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
+import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersListDTO;
 import com.ezen.bookstore.admin.customerorders.repository.CustomerOrdersRepository;
+import com.ezen.bookstore.admin.warehouse.dto.WarehouseDTO;
+import com.ezen.bookstore.admin.warehouse.repository.WarehouseRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 	
 	private final CustomerOrdersRepository cor;
+	private final WarehouseRepository wr;
 	
 	@Override
 	public List<CustomerOrdersDTO> getCustomerOrdersList() {
@@ -77,19 +82,32 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 		return null;
 	}
 
+	@Transactional
 	@Override
-	public int orderStatusUpdate(List<Integer> list, String order_detail_status) {
-		int result = 0;
-		
+	public void orderStatusUpdate(CustomerOrdersListDTO list, int order_num, String order_selected_status) {
 		try {
-			for(int order_detail_num : list) {
-				result += cor.orderStatusUpdate(order_detail_num, order_detail_status);
+
+			
+			for(int i = 0; i < list.getOrder_detail_num().size(); i++) {
+				System.out.println(list.getOrder_detail_status().get(i));
+				System.out.println(order_selected_status);
+				if(list.getOrder_detail_status().get(i).equals(order_selected_status)) {
+					continue;
+				} else if(order_selected_status.equals("06")) {
+					// 책 수량 마이너스
+					// 입출고 기록하기 (교환)
+					wr.invQtyUpdate(list.getBook_isbn().get(i), list.getOrder_detail_qty().get(i));
+				} else if(order_selected_status.equals("07")) {
+					// 책 수량 플러스
+					// 입출고 기록하기 (반품)
+				}
+				
+				cor.orderStatusUpdate(list.getOrder_detail_num().get(i), order_selected_status);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return result;
 	}
 
 	

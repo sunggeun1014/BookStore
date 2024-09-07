@@ -28,6 +28,12 @@ import lombok.RequiredArgsConstructor;
 public class InquiriesController {
 	private final InquiriesService iqs;
 	
+	@GetMapping("/inquiries")
+	public String inquiries() {
+		return "admin/inquiries/inquiries";
+	}
+	
+	
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, Object> tableData() {
@@ -47,10 +53,8 @@ public class InquiriesController {
 
 		model.addAttribute("inquiries", tables);
 		
-		String templatePath = "/admin/inquiries/inquiriesDetails";
-		model.addAttribute("template", templatePath); // 경로를 template로 전달
 		
-		return "admin/index";
+		return "admin/inquiries/inquiriesDetails";
 	}
 	
 	
@@ -60,10 +64,8 @@ public class InquiriesController {
 		
 		iqs.updateInquiry(inquiriesDTO);
 		
-		String templatePath = "/admin/inquiries/inquiries";
-		model.addAttribute("template", templatePath);
 		
-		return "admin/index";
+		return "redirect:/admin/inquiries/inquiries";
 	}
 	
 	@PostMapping("/insert")
@@ -75,11 +77,9 @@ public class InquiriesController {
         
 		iqs.insertInquiry(inquiriesDTO);
 		
-		String templatePath = "/admin/inquiries/inquiries";
-		model.addAttribute("template", templatePath);
 		
 		
-		return "admin/index";
+		return "redirect:/admin/inquiries/inquiries";
 	}
 
 }

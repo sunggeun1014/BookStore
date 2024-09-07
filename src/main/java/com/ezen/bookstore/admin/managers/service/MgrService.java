@@ -22,7 +22,7 @@ public class MgrService {
 
     @Transactional(readOnly = true)
     public List<ManagersDTO> list() {
-        // DB에서 모든 주문 목록을 꺼내와야 한다
+    	
         return mgrRepository.getMembers();
     }
 

@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
     <link rel="stylesheet" href="/admin/myinfo/css/myinfo.css" />
     <style>
         .error-message {
@@ -48,14 +52,13 @@
                     <input type="text" id="emailUser" class="gray-text" th:value="${emailUser}"/>
                     <span class="search-list-subject-symbol">@</span>
                     <div class="select-box">
-                        <select id="emailDomain" th:value="${emailDomain}" onchange="toggleCustomDomain()">
-                            <option value="">선택하세요</option>
-                            <option value="naver.com" th:selected="${emailDomain == 'naver.com'}">naver.com</option>
-                            <option value="gmail.com" th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
-                            <option value="daum.net" th:selected="${emailDomain == 'daum.net'}">daum.net</option>
-                            <option value="yahoo.com" th:selected="${emailDomain == 'yahoo.com'}">yahoo.com</option>
-                            <option value="custom">직접 입력</option>
-                        </select>
+                        <select id="emailDomain" name="emailDomain" onchange="toggleCustomDomain()">
+						    <option th:each="domain : ${emailDomainList}"
+						            th:value="${domain}"
+						            th:text="${domain}"
+						            th:selected="${domain == emailDomain}">
+						    </option>         
+						</select>
                         <div class="select-arrow-down" id="email"></div>
                     </div>
                     <input type="text" id="customEmailDomain" style="display:none;"/>
@@ -133,7 +136,7 @@
             </div>
 			<div class="btn-box">
 				<button type="submit" class="default-btn">수정</button>
-				<button type="button" class="default-btn cancle" onclick="location.href='/admin/index?path=admin/index'">취소</button>
+				<button type="button" class="default-btn cancel" onclick="location.href='/admin/myinfo'">취소</button>
 			</div>
 		</form>
     </div>

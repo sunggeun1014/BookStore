@@ -1,47 +1,44 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 
-<!-- DataPicker -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<link rel="stylesheet" href="/admin/reviews/css/reviews.css" />
 	<link rel="stylesheet" href="/admin/common/css/modal.css">
-	<!-- DataPicker -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<link rel="stylesheet" href="/admin/products/css/products.css"/>	
 
 <div>
 	<div class="filter-container white-frame">
-		<div class="header">
-			<h1 class="search-list-title">리뷰글 조회</h1>
-		</div>
-	
-		<div class="content">
-			<div class="search-filter">
-				<div class="filter-group">
-					<span class="search-list-subject">작성일</span>
-					<div class="date-picker">
-						<div class="input-date-box">
-							<input type="text" id="startDate" class="placeholder"
-								placeholder="YYYY-MM-DD" />
-								<i class="fa-solid fa-calendar-days"></i>
-						</div>
-						<div class="calendar-slash">-</div>
-						<div class="input-date-box">
-							<input type="text" id="endDate" class="placeholder"
-								placeholder="YYYY-MM-DD" />
+		<h3 class="search-list-title">리뷰글 조회</h3>	
+		<div class="filter-info">
+			<p class="search-list-subject">작성일</p>
+			<div class="filter-wrap date-filter">
+				<div class="date-picker">
+					<div class="input-date-box">
+						<input type="text" id="startDate" class="placeholder" placeholder="YYYY-MM-DD" />
 							<i class="fa-solid fa-calendar-days"></i>
-						</div>
 					</div>
-					<div class="date-options date-pick-btn">
-						<button class="date-option today today-btn date-btn" onclick="setToday()">오늘</button>
-						<button class="date-option week-btn date-btn" onclick="setDateRange(7)">1주일</button>
-						<button class="date-option month-btn date-btn" onclick="setDateRange(30)">1개월</button>
-						<button class="date-option year-btn date-btn" onclick="setDateRange(365)">1년</button>
+					<div class="calendar-slash">-</div>
+					<div class="input-date-box">
+						<input type="text" id="endDate" class="placeholder" placeholder="YYYY-MM-DD" />
+						<i class="fa-solid fa-calendar-days"></i>
 					</div>
 				</div>
-			</div>
-			<div class="search-bar-group">
-				<div class="search-list-subject">검색어</div>
-				<div class="select-wrap">
+				<div class="date-options date-pick-btn">
+					<button class="date-option today today-btn date-btn" onclick="setToday()">오늘</button>
+					<button class="date-option week-btn date-btn" onclick="setDateRange(7)">1주일</button>
+					<button class="date-option month-btn date-btn" onclick="setDateRange(30)">1개월</button>
+					<button class="date-option year-btn date-btn" onclick="setDateRange(365)">1년</button>
+				</div>
+			</div>		
+		</div>
+		
+		<div class="filter-info">		
+			<p class="search-list-subject">검색어</p>
+			<div class="filter-wrap search-bar">
+				<div class="select-wrap">			
 					<select id="searchColumn" class="select">
 						<option value="5">회원ID</option>
 						<option value="3">책 제목</option>
@@ -50,36 +47,37 @@
 					</select>
 					<div class="select-arrow-down"></div>
 				</div>
-				
+			
 			    <div class="search-container">
-      				<input type="text" name="" id="searchKeyword" class="searchKeyword search-input" placeholder="검색할 내용 입력" />
-      				<button id="searchButton"><span class="material-symbols-outlined">search</span></button>	
-    			</div>
-
+     				<input type="text" name="" id="searchKeyword" class="searchKeyword search-input" placeholder="검색할 내용 입력" />
+     				<button id="searchButton"><span class="material-symbols-outlined">search</span></button>	
+	   			</div>	
 				<button id="reset-button" onclick="resetFilters()">초기화</button>			
-			</div>
+			</div>	
 		</div>
 	</div>
 
 	<div class="table-container white-frame">
-		<div class="table-total-row">
-			<span id="total-row" class="table-column-head-txt" style="margin-left: 10px;"></span>
-			<button id="delete-button" class="button is-danger" style="float: right; margin-bottom: 16px;">삭제</button>
+		<div class="review-list-wrap">	
+			<h3 id="total-row" class="table-data-cnt-txt"></h3>
+			<div class="button-wrap-review">
+				<button id="delete-button" class="button is-danger">삭제</button>
+			</div>
 		</div>
-		<table id="reviews" class="table is-striped" style="width: 100%">
-			<thead>
-				<tr>
+		<table id="reviews" class="table table-center" style="width: 100%">
+			<thead class="table-head">
+				<tr class="table-column-head">
 					<th>
 						<input type="checkbox" id="select-all">
 						<label for="select-all"></label>
 					</th>
-					<th>NO</th>
-					<th>내용</th>
-					<th>책 제목</th>
-					<th>ISBN</th>
-					<th>작성자</th>
-					<th>작성일</th>
-					<th>별점</th>
+					<th class="table-column-head-txt">NO</th>
+					<th class="table-column-head-txt">내용</th>
+					<th class="table-column-head-txt">책 제목</th>
+					<th class="table-column-head-txt">ISBN</th>
+					<th class="table-column-head-txt">작성자</th>
+					<th class="table-column-head-txt">작성일</th>
+					<th class="table-column-head-txt">별점</th>
 				</tr>
 			</thead>
 			<tbody></tbody>

@@ -123,14 +123,18 @@ function orderDeleteBtn() {
 		return parseInt($(this).val());
 	});
 	
-	let temp = addOrderInfoList.filter((element, index) => {
-		if(!Array.from(checkedValues).includes(index)) {
-			return element;
-		}
-	});
-	console.log(temp);
-	addOrderInfoList = temp; 
-	orderListDraw();
+	if(checkedValues.length != 0) {
+		let temp = addOrderInfoList.filter((element, index) => {
+			if(!Array.from(checkedValues).includes(index)) {
+				return element;
+			}
+		});
+		
+		addOrderInfoList = temp; 
+		orderListDraw();
+	} else{
+		getCheckModal("삭제할 항목을 선택해 주세요");
+	}
 }
 
 function orderConfirmBtn() {
@@ -147,14 +151,14 @@ function orderConfirmBtn() {
 			})
 		});
 		
-		fetch('/admin/supplier_orders_rest/orderConfirm', {
+		fetch('/admin/supplierOrdersRest/orderConfirm', {
 		    method: 'POST',
 		    headers: {
 		        'Content-Type': 'application/json'
 		    },
 		    body: JSON.stringify(formList)
 		})
-		.then(() => location.href='/admin/supplier_orders/list')
+		.then(() => location.href='/admin/supplierOrders/supplierOrders')
 	});
 	
 }

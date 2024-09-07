@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="InventoryLog">
+	
+	<select id="getList" resultType="inventoryLog" parameterType="condition">
+		SELECT
+		    log_transaction_num,
+		    manager_id,
+		    CASE
+		        WHEN log_transaction_status = '01' THEN '입고'
+		        WHEN log_transaction_status = '02' THEN '출고'
+		        WHEN log_transaction_status = '03' THEN '반품입고'
+		    END AS log_transaction_status,
+		    log_operation_date
+		FROM
+		    inventory_log	
+		WHERE 1 = 1
+			<if test="start_date != null and !start_date.equals('')">
+				AND to_char(log_operation_date, 'YYYY-MM-DD') >= #{start_date}
+			</if>
+			<if test="end_date != null and !end_date.equals('')">
+				AND to_char(log_operation_date, 'YYYY-MM-DD') <![CDATA[<=]]> #{end_date}
+			</if>
+			<if test="search_conditions != null and !search_conditions.equals('')">
+				<if test="word != null and !word.equals('')">
+					AND log_transaction_num = #{word}
+				</if>
+			</if>
+	</select>
+	
+	<select id="getDetail" resultType="inventoryLog" parameterType="Integer">
+		
+	</select>
+
+</mapper>

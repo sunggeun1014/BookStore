@@ -17,8 +17,8 @@ $(document).ready(function() {
 			columns: [
 				{
 					data: null,
-					render: function(data, type, row) {
-						return '<input type="checkbox" id="data-check" class="row-checkbox"><label for="data-check"></label>';
+					render: function() {
+						return '<input type="checkbox" class="data-check row-checkbox"><label class="data-check-label"></label>';
 					},
 					orderable: false,
 				},
@@ -29,7 +29,7 @@ $(document).ready(function() {
 				{ data: 'review_content' },
 				{
 					data: 'book_name',
-					render: function(data, type, row) {
+					render: function(data) {
 						return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
 					}
 				},
@@ -37,7 +37,7 @@ $(document).ready(function() {
 				{ data: 'member_id' },
 				{
 					data: 'review_write_date',
-					render: function(data, type, row) {
+					render: function(data, type) {
 						if (type === 'display' || type === 'filter') {
 							var date = new Date(data);
 							var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
@@ -48,7 +48,7 @@ $(document).ready(function() {
 				},
 				{
 					data: 'review_rating',
-					render: function(data, type, row) {
+					render: function(data, type) {
 						if (type === 'display' || type === 'filter') {
 							return '<span class="fas fa-star stars"></span>'.repeat(data) + '<span class="far fa-star empty-stars"></span>'.repeat(5 - data);
 						}
@@ -92,6 +92,39 @@ $(document).ready(function() {
 		$('input[type="checkbox"]', rows).prop('checked', this.checked);
 	});
 
+	// 개별 체크박스 선택 시 배경색 변경
+	$('#reviews tbody').on('change', '.row-checkbox', function() {
+		const $row = $(this).closest('tr');
+		if (this.checked) {
+			$row.addClass('selected-row'); // 체크된 경우 배경색을 추가
+		} else {
+			$row.removeClass('selected-row'); // 체크 해제된 경우 배경색을 제거
+		}
+		// 전체 선택 체크박스 상태 업데이트
+		if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
+			$('#select-all').prop('checked', true);
+		} else {
+			$('#select-all').prop('checked', false);
+		}
+	});
+	
+	// '전체 선택' 체크박스의 상태 변경 시
+	$('#select-all').on('change', function() {
+	    const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
+
+	    // 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
+	    $('.row-checkbox').prop('checked', isChecked);
+
+	    // 각 행에 대해 배경색을 업데이트
+	    if (isChecked) {
+	        $('#reviews tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
+	    } else {
+	        $('#reviews tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
+	    }
+	});
+
+
+
 	$('#reviews tbody').on('change', '.row-checkbox', function() {
 		if (!this.checked) {
 			$('#select-all').prop('checked', false);
@@ -102,37 +135,28 @@ $(document).ready(function() {
 		}
 	});
 
-	// 모달 관련 변수
-	var modal = document.getElementById("myModal");
-	var confirmDeleteButton = document.getElementById("confirm-delete");
-	var cancelDeleteButton = document.getElementById("cancel-delete");
-
 	// 삭제 버튼 클릭 이벤트 핸들러
 	$('#delete-button').on('click', function() {
 		var selectedIds = [];
-		$('#reviews').DataTable().$('.row-checkbox:checked').each(function() {
-			var rowData = $('#reviews').DataTable().row($(this).closest('tr')).data();
-			selectedIds.push(rowData.review_num); // 삭제할 리뷰 번호 수집
+		$('#reviews .row-checkbox:checked').each(function() {
+			var rowData = table.row($(this).closest('tr')).data();
+			selectedIds.push(rowData.review_num);
 		});
-
-
+		// 선택된 항목이 있으면 삭제 확인 모달을 띄움
 		if (selectedIds.length > 0) {
-			// 메시지를 기본 메시지로 리셋
 			getConfirmModal(`${selectedIds.length}개의 항목을 삭제하시겠습니까?`, deleteBtn);
-
-			// Yes와 No 버튼을 보이게 설정
 		} else {
-			// alert 대신 모달 메시지 변경
-			getCheckModal('삭제할 항목을 선택하세요.')
+			getCheckModal('삭제할 항목을 선택하세요.');
 		}
 	});
 
+
 	// 모달 외부 클릭 시 닫기
 	window.onclick = function(event) {
-	        if (event.target == $('#myModal')[0]) {
-	            $('#myModal').hide();
-	        }
-	    };
+		if (event.target == $('#myModal')[0]) {
+			$('#myModal').hide();
+		}
+	};
 
 	// 삭제 확인 버튼
 	const deleteBtn = function() {
@@ -142,19 +166,13 @@ $(document).ready(function() {
 			selectedIds.push(rowData.review_num);
 		});
 		
-		$.ajax({
-			url: '/admin/reviews/delete',  // 서버의 삭제 처리 URL
-			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify(selectedIds),  // 선택된 리뷰 번호들을 JSON으로 전송
-			success: function(response) {
-				getCheckModal('삭제가 완료되었습니다.')
+		fnPostAjax('/admin/reviews/delete', selectedIds, function(jsonData) {
+			getCheckModal(jsonData.resultMsg);
+			if(jsonData.resultCode === 'S') {
 				$('#reviews').DataTable().ajax.reload();  // 테이블 새로고침
-			},
-			error: function(error) {
-				getCheckModal('삭제 중 오류가 발생했습니다.')
 			}
 		});
+		
 	};
 
 

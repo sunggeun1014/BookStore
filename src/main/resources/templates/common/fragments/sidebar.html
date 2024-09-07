@@ -1,9 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="SidebarFragment">
+
 <nav class="side-menu" th:fragment="sidebar">
   <div class="logo-wrap" onclick="location.href='/admin/index'">
     <img src="/admin/common/img/admin-로고.svg" alt="로고" />
   </div>
   <ul class="menu-list">
-    <li class="menu-item menu-link" onclick="location.href='/admin/index'">
+    <li class="menu-items" onclick="location.href='/admin/index'">
       <div class="menu-content">
         <img src="/admin/common/img/bar-active.png" alt="bar" class="bar-img" />
         <div class="menu-right">
@@ -16,7 +21,7 @@
         </div>
       </div>
     </li>
-    <li class="menu-item menu-link" data-submenu="submenu1">
+    <li class="menu-items">
       <div class="menu-content">
         <img src="/admin/common/img/bar-active.png" alt="bar" class="bar-img" />
         <div class="menu-right">
@@ -35,13 +40,13 @@
           </div>
         </div>
       </div>
-      <ul class="sub-menu" id="submenu1">
-        <li>
-          <a href="/admin/index?path=admin/members/members" class="submenu-link">회원목록조회</a>
+      <ul class="sub-menu-list">
+        <li class="sub-menu-item" data-sub-menu-id="submenu1">
+          <a href="/admin/members/members">회원목록조회</a>
         </li>
       </ul>
     </li>
-    <li class="menu-item menu-link" data-submenu="submenu2">
+    <li class="menu-items">
       <div class="menu-content">
         <img src="/admin/common/img/bar-active.png" alt="bar" class="bar-img" />
         <div class="menu-right">
@@ -56,16 +61,16 @@
           </div>
         </div>
       </div>
-      <ul class="sub-menu" id="submenu2">
-        <li>
-          <a href="/admin/index?path=admin/managers/managers" class="submenu-link">매니저목록조회</a>
+      <ul class="sub-menu-list">
+        <li class="sub-menu-item" data-sub-menu-id="submenu2">
+          <a href="/admin/managers/managers">매니저목록조회</a>
         </li>
-        <li>
-          <a href="/admin/index?path=admin/managers/managerReg" class="submenu-link">매니저등록</a>
+        <li class="sub-menu-item" data-sub-menu-id="submenu3">
+          <a href="/admin/managers/register">매니저등록</a>
         </li>
       </ul>
     </li>
-    <li class="menu-item menu-link" data-submenu="submenu3">
+    <li class="menu-items">
       <div class="menu-content">
         <img src="/admin/common/img/bar-active.png" alt="bar" class="bar-img" />
         <div class="menu-right">
@@ -80,13 +85,13 @@
           </div>
         </div>
       </div>
-      <ul class="sub-menu" id="submenu3">
-        <li>
-          <a href="/admin/index?path=admin/products/products" class="submenu-link">상품목록조회</a>
+      <ul class="sub-menu-list">
+        <li class="sub-menu-item" data-sub-menu-id="submenu4">
+          <a href="/admin/products/products">상품목록조회</a>
         </li>
       </ul>
     </li>
-    <li class="menu-item menu-link" data-submenu="submenu4">
+    <li class="menu-items">
       <div class="menu-content">
         <img src="/admin/common/img/bar-active.png" alt="bar" class="bar-img" />
         <div class="menu-right">
@@ -101,13 +106,13 @@
           </div>
         </div>
       </div>
-      <ul class="sub-menu" id="submenu4">
-        <li>
-          <a href="/admin/index?path=/admin/customer_orders/customerList" class="submenu-link">주문내역목록</a>
+      <ul class="sub-menu-list">
+        <li class="sub-menu-item" data-sub-menu-id="submenu5">
+          <a href="/admin/customerOrders/list">주문내역목록</a>
         </li>
       </ul>
     </li>
-    <li class="menu-item menu-link" data-submenu="submenu5">
+    <li class="menu-items">
       <div class="menu-content">
         <img src="/admin/common/img/bar-active.png" alt="bar" class="bar-img" />
         <div class="menu-right">
@@ -122,19 +127,19 @@
           </div>
         </div>
       </div>
-      <ul class="sub-menu" id="submenu5">
-        <li>
-          <a href="/admin/index?path=/admin/supplier_orders/supplierList" class="submenu-link">발주내역</a>
+      <ul class="sub-menu-list">
+        <li class="sub-menu-item" data-sub-menu-id="submenu6">
+          <a href="/admin/supplierOrders/supplierOrders">발주내역</a>
         </li>
-        <li>
-          <a href="" class="submenu-link">입출고내역</a>
+        <li class="sub-menu-item" data-sub-menu-id="submenu7">
+          <a href="/admin/inventoryLog/inventoryLog">입출고내역</a>
         </li>
-        <li>
-          <a href="" class="submenu-link">창고재고조회</a>
+        <li class="sub-menu-item" data-sub-menu-id="submenu8">
+          <a href="/admin/warehouse/warehouse">창고재고조회</a>
         </li>
       </ul>
     </li>
-    <li class="menu-item menu-link" data-submenu="submenu6">
+    <li class="menu-items">
       <div class="menu-content">
         <img src="/admin/common/img/bar-active.png" alt="bar" class="bar-img" />
         <div class="menu-right">
@@ -149,22 +154,22 @@
           </div>
         </div>
       </div>
-      <ul class="sub-menu" id="submenu6">
-        <li>
-          <a href="/admin/index?path=admin/banners/banners" class="submenu-link">배너관리</a>
+      <ul class="sub-menu-list">
+        <li class="sub-menu-item" data-sub-menu-id="submenu9">
+          <a href="/admin/banners/banners">배너관리</a>
         </li>
-        <li>
-          <a href="" class="submenu-link">공지글관리</a>
+        <li class="sub-menu-item" data-sub-menu-id="submenu10">
+          <a href="/admin/notice/notice">공지글관리</a>
         </li>
-        <li>
-          <a href="/admin/index?path=admin/reviews/reviews" class="submenu-link">리뷰조회</a>
+        <li class="sub-menu-item" data-sub-menu-id="submenu11">
+          <a href="/admin/reviews/list">리뷰조회</a>
         </li>
-        <li>
-          <a href="/admin/index?path=admin/inquiries/inquiries" class="submenu-link">1:1 문의</a>
+        <li class="sub-menu-item" data-sub-menu-id="submenu12">
+          <a href="/admin/inquiries/inquiries">1:1 문의</a>
         </li>
       </ul>
     </li>
-    <li class="menu-items" onclick="location.href='/admin/myinfo?path=admin/myinfo/myinfo'">
+    <li class="menu-items">
       <div class="menu-content">
         <img src="/admin/common/img/bar-active-black.png" alt="bar" class="bar-img" />
         <div class="menu-right">
@@ -172,10 +177,12 @@
             <div class="icon-img-wrap">
               <i class="fa-solid fa-circle-user icon-img black"></i>
             </div>
-            <p class="menu-link">내정보</p>
+            <p><a href="/admin/myinfo">내정보</a></p>	
           </div>
         </div>
       </div>
     </li>
   </ul>
 </nav>
+
+</html>

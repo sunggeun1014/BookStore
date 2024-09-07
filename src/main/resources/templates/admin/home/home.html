@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultlayout}"
+      layout:fragment="Content">
 <head>
     <meta charset="UTF-8">
     <title>관리자페이지</title>
@@ -8,28 +12,28 @@
 </head>
 <body>
 <div class="dashboard-header">
-    <div class="info-wrap" onclick="location.href='/admin/index?path=admin/members/members'">
+    <div class="info-wrap" onclick="location.href='/admin/members/members'">
         <div class="member-cnt txt-wrap">
             <p>회원수</p>
             <p>[[${memberCnt}]]</p>
         </div>
         <i class="fa-solid fa-users"></i>
     </div>
-    <div class="info-wrap" onclick="location.href='/admin/index?path=admin/products/products'">
+    <div class="info-wrap" onclick="location.href='/admin/products/products'">
         <div class="items-cnt txt-wrap">
             <p>판매중인상품</p>
             <p>[[${productCnt}]]</p>
         </div>
         <i class="fa-solid fa-book"></i>
     </div>
-    <div class="info-wrap" onclick="location.href='/admin/index?path=admin/customer_orders/customerList'">
+    <div class="info-wrap" onclick="location.href='/admin/customerOrders/list'">
         <div class="orders-cnt txt-wrap">
             <p>오늘 주문건</p>
             <p>[[${orderCnt}]]</p>
         </div>
         <i class="fa-solid fa-clipboard-list"></i>
     </div>
-    <div class="info-wrap" onclick="location.href='/admin/index?path=admin/customer_orders/customerList'">
+    <div class="info-wrap" onclick="location.href='/admin/customerOrders/list'">
         <div class="sales-cnt txt-wrap">
             <p>오늘 매출</p>
             <p>500,000</p>

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 	<link rel="stylesheet" href="/admin/reviews/css/reviews.css" />
 	<style>
 		textarea {
@@ -25,7 +28,7 @@
 	<div class="container" style="padding-bottom: 30px;" th:with="status = ${inquiries.inquiry_answer_status}">
 		<!-- 뒤로가기 버튼 -->
 		<button class="back-btn"
-			onclick="location.href='/admin/index?path=admin/inquiries/inquiries'">
+			onclick="location.href='/admin/inquiries/inquiries'">
 			<i class="fa-solid fa-chevron-left"></i> <span>뒤로가기</span>
 		</button>
 
@@ -83,7 +86,7 @@
 				<div class="btn-box">
 					<button type="submit" class="default-btn"
 						th:text="${inquiries.inquiry_answer_status == '처리완료' ? '수정' : '등록'}"></button>
-					<button type="button" class="default-btn cancle" onclick="location.href='/admin/index?path=admin/inquiries/inquiries'">취소</button>
+					<button type="button" class="default-btn cancel" onclick="location.href='/admin/inquiries/inquiries'">취소</button>
 				</div>
 			</div>
 		</form>

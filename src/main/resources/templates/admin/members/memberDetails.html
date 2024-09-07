@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Member Details</title>
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 <link rel="stylesheet" href="/admin/members/css/memberDetails.css" />
-</head>
-<body>
+<div>
 	<div class="white-frame">
 	<h1 class="search-list-title">회원정보수정</h1>
 	<hr>
@@ -95,7 +95,7 @@
 		</div>
 		<div class="btn">
 			<button type="submit" class="default-btn" style="margin-right: 20px;">수정</button>
-			<button class="default-btn cancle" onclick="location.href='/admin/index?path=admin/members/members'">
+			<button class="default-btn cancle" onclick="location.href='/admin/members/members'">
 			      <span>뒤로가기</span>
 			</button>
 		</div>
@@ -118,5 +118,5 @@
 	    });
 	}
 	</script>
-</body>
+</div>
 </html>

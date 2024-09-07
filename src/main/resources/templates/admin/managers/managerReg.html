@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{common/layout/defaultlayout}"
+    layout:fragment="Content">
 <link rel="stylesheet" href="/admin/managers/css/managerReg.css" />
 <link rel="stylesheet" href="/admin/common/css/modal.css" />
 
@@ -12,8 +15,7 @@
 			<div class="info ">
 				    <span class="search-list-subject important">아이디</span>
 				<div class="id-area">
-					<input type="text" id="manager_id" name="manager_id" 
-		       			th:value="${managersDTO != null} ? ${managersDTO.manager_id} : ''" placeholder="아이디를 입력해주세요">			    
+					<input type="text" id="manager_id" name="manager_id" placeholder="아이디를 입력해주세요">			    
 		       		<div class="id-reference">※ 영문자와 숫자, 최소 5자</div>
 	       		</div>
 			    <span id="idCheckForm" class="check-comment" style="color: red; display: none;">아이디 양식과 일치하지 않습니다.</span>			    
@@ -40,23 +42,21 @@
 			
 			<div class="info">
 				<span class="search-list-subject important">이름</span> 
-					<input type="text" id="manager_name" name="manager_name" 
-						th:value="${managersDTO != null} ? ${managersDTO.manager_name} : ''" placeholder="이름을 입력해주세요">			
+					<input type="text" id="manager_name" name="manager_name" placeholder="이름을 입력해주세요">			
 			</div>
 			
 			<div class="select-wrap info">	
 				<span class="search-list-subject important">이메일</span>
-				<input type="text" id="emailUser" name="emailUser" 
-    				th:value="${emailUser != null ? emailUser : ''}" placeholder="이메일을 입력해주세요">
+				<input type="text" id="emailUser" name="emailUser" placeholder="이메일을 입력해주세요">
 			
 				<span class="search-list-subject-symbol">@</span>			 				
 				<div class="select-box">
 					<select id="emailDomain" name="emailDomain" onchange="toggleCustomDomain()">
-						<option value="naver.com" >naver.com</option>
-						<option value="gmail.com" >gmail.com</option>
-						<option value="daum.net" >daum.net</option>
-						<option value="yahoo.com" >yahoo.com</option>
-						<option value="custom">직접 입력</option>			
+					    <option value="" disabled selected>도메인 선택</option>
+					    <option th:each="emailDomain : ${emailDomainList}"
+					            th:value="${emailDomain}"
+					            th:text="${emailDomain}">
+					    </option>         
 					</select>
 					<div class="select-arrow-down" id="email"></div>						
 				</div>
@@ -89,13 +89,11 @@
 			
 			<div class="info">
 				<span class="search-list-subject important">주소</span>
-				<input type="text" id="address_kakao" name="manager_addr" class="gray-text"
-					th:value="${managersDTO} ? ${managersDTO.manager_addr} : ''" />
+				<input type="text" id="address_kakao" name="manager_addr" class="gray-text" />
 			</div>
 			<div class="info">
 				<span class="search-list-subject important">상세주소</span>
-				<input type="text" id="manager_detail_addr" name="manager_detail_addr" onclick="this.value='';" class="gray-text" 
-					th:value="${managersDTO} ? ${managersDTO.manager_detail_addr} : ''"/>
+				<input type="text" id="manager_detail_addr" name="manager_detail_addr" onclick="this.value='';" class="gray-text" />
 			</div>
 			
 			<div class="select-wrap info">
@@ -127,7 +125,7 @@
 			
 			<div class="btn">
 				<button type="submit" id="reg-button" class="default-btn" style="margin-right: 20px;" >등록</button>
-				<button class="default-btn cancle" onclick="location.href='/admin/index?path=admin/managers/managers'">
+				<button class="default-btn cancel" onclick="location.href='/admin/managers/managers'">
 				      <span>뒤로가기</span>
 				</button>
 			</div>

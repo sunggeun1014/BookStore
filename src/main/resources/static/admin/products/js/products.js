@@ -29,7 +29,7 @@ $(document).ready(function() {
                     orderable: false,
                 },
                 {
-                  data: 'rownum'
+                    data: 'rownum'
                 },
                 // {
                 //     data: null,  // 이 컬럼은 데이터베이스에서 가져오는 데이터를 사용하지 않음

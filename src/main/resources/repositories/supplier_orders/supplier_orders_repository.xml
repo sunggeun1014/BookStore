@@ -50,7 +50,7 @@
 		WHERE
 		    so.order_num = #{order_num}
 		ORDER BY
-		    order_detail_num DESC
+		    order_detail_num ASC
 	</select>
 	
 	<select id="getDetail" resultType="supplierOrders" parameterType="Integer">

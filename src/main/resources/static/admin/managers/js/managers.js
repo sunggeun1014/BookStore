@@ -24,8 +24,7 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function() {
-                    return '<input type="checkbox" id="data-check" class="row-checkbox"><label for="data-check"></label>';
-                },
+                   return '<input type="checkbox" class="data-check row-checkbox"><label class="data-check-label"></label>';                },
                 orderable: false,
             },
             {
@@ -48,43 +47,43 @@ $(document).ready(function() {
                 data: 'manager_dept',
                 render: function(data){
                     if(data === '01') {
-                        return '물류팀';						
+                        return '물류팀';                  
                     } else {
                         return '운영팀';
                     }
-                }				
+                }            
             },
             { data: 'manager_phoneNo' },
             { 
-				data: 'manager_addr' ,
-				
-				render : function(data){
-						
-					 if (data.length > 10) {
-		                    return data.substring(0, 10) + '...';
-		             } else {
-						
-	                   return data;
-		             }
+            data: 'manager_addr' ,
+            
+            render : function(data){
+                  
+                if (data.length > 10) {
+                          return data.substring(0, 10) + '...';
+                   } else {
+                  
+                      return data;
+                   }
 
-				}
-			},
+            }
+         },
             {
                 data: 'manager_join_date',
                 render: function(data, type) {
                     // date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
                     if (type === 'display' || type === 'filter') {
-						var date = new Date(data);
-						var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
-						
-						return formattedDate;
-					} 		
-					return data;
-                }
+                    var date = new Date(data);
+                    var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+                   
+                    return formattedDate;
+               }       
+               return data;
+               }
             }
         ],
         
-		drawCallback: function(settings) {
+      drawCallback: function(settings) {
             // 페이지 내 항목의 순서 번호를 업데이트합니다.
             var api = this.api();
             api.column(1, { page: 'current' }).nodes().each(function(cell, i) {
@@ -112,21 +111,52 @@ $(document).ready(function() {
     
     });
     
+     // 체크박스
     $('#select-all').on('click', function() {
-        var rows = $('#manager').DataTable().rows({ 'search': 'applied' }).nodes();
+        const rows = $('#manager').DataTable().rows({ 'search': 'applied' }).nodes();
         $('input[type="checkbox"]', rows).prop('checked', this.checked);
     });
-    
-    var modal = document.getElementById("myModal");
-    var confirmDeleteButton = document.getElementById("confirm-delete");
-    var cancelDeleteButton = document.getElementById("cancel-delete");
+
+    // 개별 체크박스 선택 시 배경색 변경
+    $('#manager tbody').on('change', '.row-checkbox', function() {
+        const $row = $(this).closest('tr'); // 체크박스가 있는 행을 선택
+
+        if (this.checked) {
+            $row.addClass('selected-row'); // 배경색을 변경할 클래스 추가
+        } else {
+            $row.removeClass('selected-row'); // 배경색을 변경할 클래스 제거
+        }
+
+        // 전체 체크박스와 개별 체크박스의 선택 상태를 비교하여 '전체 선택' 체크박스 상태를 업데이트
+        if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
+            $('#select-all').prop('checked', true);
+        } else {
+            $('#select-all').prop('checked', false);
+        }
+    });
+
+    // '전체 선택' 체크박스의 상태 변경 시
+    $('#select-all').on('change', function() {
+        const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
+
+        // 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
+        $('.row-checkbox').prop('checked', isChecked);
+
+        // 각 행에 대해 배경색을 업데이트
+        if (isChecked) {
+            $('#manager tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
+        } else {
+            $('#manager tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
+        }
+    });
+
     
     // 삭제 버튼 클릭 이벤트 핸들러
     $('#change-button').on('click', function() {
         var selectedIds = [];
         var selectedDept = $('#searchDept').val();  // 선택된 부서 값 가져오기 (문자열 그대로)
-		console.log("Selected Dept:", selectedDept);  // 선택된 부서의 값을 콘솔에 출력
-		
+      console.log("Selected Dept:", selectedDept);  // 선택된 부서의 값을 콘솔에 출력
+      
         $('#manager').DataTable().$('.row-checkbox:checked').each(function() {
             var rowData = $('#manager').DataTable().row($(this).closest('tr')).data();
             selectedIds.push(rowData.manager_id); // 변경할 매니저 id 수집
@@ -136,23 +166,16 @@ $(document).ready(function() {
         if (selectedIds.length > 0) {
             // 메시지를 기본 메시지로 리셋
             getConfirmModal(`${selectedIds.length}개의 항목을 변경하시겠습니까?`, deleteBtn);
-			
+         
             
         } else {
             // alert 대신 모달 메시지 변경
-           	getCheckModal(`변경할 항목을 선택해 주세요.`);
+              getCheckModal(`변경할 항목을 선택해 주세요.`);
 
          
             modal.style.display = "block";
         }
     });
-    
-    // 모달 외부 클릭 시 닫기
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
     
     // 삭제 확인 버튼
     const deleteBtn = function() {
@@ -166,7 +189,7 @@ $(document).ready(function() {
             console.log("Selected IDs:", selectedDept);
 
         });
-		
+      
         $.ajax({
             url: '/admin/managers/update/dept',  // 서버의 삭제 처리 URL
             type: 'POST',
@@ -176,11 +199,11 @@ $(document).ready(function() {
                 managerDept: selectedDept
             }),  // 선택된 id들을 JSON으로 전송
             success: function(response) {
-           		getCheckModal(`변경이 완료 되었습니다.`);
+                 getCheckModal(`변경이 완료 되었습니다.`);
                 $('#manager').DataTable().ajax.reload();  // 테이블 새로고침
             },
             error: function(error) {
-           		getCheckModal(`변경중 오류가 발생 했습니다.`);
+                 getCheckModal(`변경중 오류가 발생 했습니다.`);
              
             }
         });
@@ -224,9 +247,9 @@ $(document).ready(function() {
             var managerDate = data[8];
 
             // 날짜 형식을 Date 객체로 변환
-            var start = startDate ? new Date(startDate) : null;
-            var end = endDate ? new Date(endDate) : null;
-            var manager = new Date(managerDate);
+            var start = startDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(startDate)) : null;
+            var end = endDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(endDate)) : null;
+            var manager = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(managerDate));
 
             if ((start === null && end === null) ||
                 (start <= manager && (end === null || manager <= end))) {
@@ -252,7 +275,7 @@ $(document).ready(function() {
         });
     });
 
-	datepicker("startDate", "endDate");
+   datepicker("startDate", "endDate");
 });
 
 function setToday() {
@@ -326,4 +349,19 @@ function setActive(element) {
     // 클릭된 요소에 'active' 클래스를 추가
     element.classList.add('active');
 }
+
+ function previewImage(event) {
+       var input = event.target;
+
+       if (input.files && input.files[0]) {
+           var reader = new FileReader();
+
+           reader.onload = function(e) {
+               var preview = document.getElementById('preview');
+               preview.src = e.target.result; 
+           }
+
+           reader.readAsDataURL(input.files[0]); 
+       }
+   }
 
