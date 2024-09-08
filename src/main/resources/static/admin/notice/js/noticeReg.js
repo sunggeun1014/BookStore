@@ -1,11 +1,10 @@
 $(document).ready(function() {
-
 	datepicker("startDate", "endDate");
 
 	const editor = document.getElementById('editor');
-	let images = []; // 업로드된 이미지들을 저장할 배열
+	let tempImages = [];
+	let imageFiles = []; 
 
-	// 이미지 드래그 앤 드롭 기능
 	editor.addEventListener('dragover', (event) => {
 		event.preventDefault();
 		editor.classList.add('dragover');
@@ -21,73 +20,174 @@ $(document).ready(function() {
 
 		const files = event.dataTransfer.files;
 		if (files.length > 0) {
-			const file = files[0];
-			if (file.type.startsWith('image/')) {
-				const reader = new FileReader();
-				reader.onload = function(e) {
-					const img = document.createElement('img');
-					img.src = e.target.result;
-					img.style.maxWidth = '100%';
-					img.style.height = 'auto';
-					editor.appendChild(img);
+			for (let i = 0; i < files.length; i++) {
+				const file = files[i];
+				if (file.type.startsWith('image/')) {
+					
+					const reader = new FileReader();
+					reader.onload = function(e) {
+						const img = document.createElement('img');
+						img.src = e.target.result;
+						img.style.maxWidth = '100%';
+						img.style.height = 'auto';
+						editor.appendChild(img);
 
-					images.push(file); // 이미지를 배열에 추가
-				};
-				reader.readAsDataURL(file);
-			} else {
-				alert('이미지 파일만 지원됩니다.');
+						tempImages.push(img);
+						imageFiles.push(file); 
+					};
+					reader.readAsDataURL(file);
+				} else {
+					getCheckModal('이미지 파일만 지원됩니다.');
+					return;
+				}
 			}
 		}
 	});
 
+	
 	document.getElementById('save-button').addEventListener('click', () => {
 		const formData = new FormData();
-
-		const noticeTitle = $('#notice-title').value();
-		const noticeStartDate = $('#startDate').value();
-		const noticeEndDate = $('#endDate').value();
-
+		const noticeNum = $('#notice_num').val();
+		const noticeTitle = $('#notice-title').val();
+		const noticeStartDate = $('#startDate').val() || new Date().toLocaleDateString('en-cA');
+		const noticeEndDate = $('#endDate').val() || '2099-12-31';
+		const startDateTimestamp = convertToTimestamp(noticeStartDate);
+		const endDateTimestamp = convertToTimestamp(noticeEndDate);
 		const noticeVisible = document.querySelector('input[name="order_status"]:checked').value;
+		const noticeStatus = noticeVisible === 'exposed' ? '01' : '02';
+		let noticeContent = editor.innerHTML; 
 
-		if (noticeStatus === 'exposed') {
-			noticeStatus = '01';
-		} else if (noticeStatus === 'nonexposed') {
-			noticeStatus = '02';
-		}
 		
-		// 텍스트 내용을 가져오기
-		const noticeContent = editor.innerText;
+		if (imageFiles.length > 0) {
+			const formDataForImages = new FormData();
+			imageFiles.forEach((file) => {
+				formDataForImages.append('images', file); // 이미지 리스트로 추가
+			});
 
-		formData.append('notice_title', noticeTitle)
+			
+			fetch('/admin/notice/imageUrl', {
+				method: 'POST',
+				body: formDataForImages
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success && data.imageUrls) {
+					data.imageUrls.forEach((imageUrl, index) => {
+						const oldSrc = tempImages[index].src;
+						if (!oldSrc.startsWith('/images/notice/')) {
+							tempImages[index].src = imageUrl;
+							noticeContent = noticeContent.replace(oldSrc, imageUrl); // DB에 저장될 HTML의 <img src> 수정
+						}
+					});
+
+					// 공지사항 수정 / 저장 처리
+					handleNoticeSaveOrUpdate(noticeNum, formData, noticeTitle, noticeContent, startDateTimestamp, endDateTimestamp, noticeStatus);
+				} else {
+					getCheckModal('이미지 저장 실패');
+					return;
+				}
+			})
+			.catch(error => {
+				console.error('이미지 업로드 중 에러 발생:', error);
+			});
+		} else {
+			// 이미지 파일이 없을 때도 저장 또는 수정 호출
+			handleNoticeSaveOrUpdate(noticeNum, formData, noticeTitle, noticeContent, startDateTimestamp, endDateTimestamp, noticeStatus);
+		}
+	});
+
+	// 공지사항 저장 또는 수정 처리
+	function handleNoticeSaveOrUpdate(noticeNum, formData, noticeTitle, noticeContent, startDate, endDate, noticeStatus) {
+		if (noticeNum) {
+			// 공지사항 수정 (update)
+			updateNotice(formData, noticeNum, noticeTitle, noticeContent, startDate, endDate, noticeStatus);
+		} else {
+			// 공지사항 저장 (insert)
+			saveNotice(formData, noticeTitle, noticeContent, startDate, endDate, noticeStatus);
+		}
+	}
+
+	function saveNotice(formData, noticeTitle, noticeContent, startDate, endDate, noticeStatus) {
+		formData.append('notice_title', noticeTitle);
 		formData.append('notice_content', noticeContent);
-		formData.append('notice_end_date', noticeEndDate);
-		formData.append('notice_start_date', noticeStartDate);
-		formData.append('notice_visible', noticeVisible);
+		formData.append('notice_end_date', endDate);
+		formData.append('notice_start_date', startDate);
+		formData.append('notice_visible', noticeStatus);
 
-		// 이미지 파일들을 formData에 추가
-		images.forEach((image, index) => {
-			formData.append('image' + index, image);
-		});
+		if (imageFiles.length > 0) {
+			imageFiles.forEach((image) => {
+				formData.append('images', image);
+			});
+		} 
 
-		// 서버로 데이터 전송
-		fetch('/save', {
+		
+		fetch('/admin/notice/save', {
 			method: 'POST',
 			body: formData
 		})
-			.then(response => response.json())
-			.then(data => {
-				alert('저장되었습니다.');
-			})
-			.catch(error => {
-				console.error('에러 발생:', error);
-			});
-	});
+		.then(response => {
+			if (response.ok) {
+				showSuccessModal('공지사항 저장되었습니다.');
+				return;
+			} else {
+				getCheckModal('공지사항 저장 중 오류가 발생했습니다.');
+				return;
+			}
+		});
+	}
 
-	// 초기 텍스트 지우기 (사용자가 편집을 시작하면 기본 텍스트 제거)
+	function updateNotice(formData, noticeNum, noticeTitle, noticeContent, startDate, endDate, noticeStatus) {
+		formData.append('notice_num', noticeNum);  
+		formData.append('notice_title', noticeTitle);
+		formData.append('notice_content', noticeContent);
+		formData.append('notice_end_date', endDate);
+		formData.append('notice_start_date', startDate);
+		formData.append('notice_visible', noticeStatus);
+
+		if (imageFiles.length > 0) {
+			imageFiles.forEach((image) => {
+				formData.append('images', image);
+			});
+		}
+
+		
+		fetch('/admin/notice/update', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => {
+			if (response.ok) {
+				showSuccessModal('공지사항이 수정되었습니다.');
+			} else {
+				getCheckModal('공지사항 수정 중 오류가 발생했습니다.');
+			}
+		});
+	}
+
+	
 	editor.addEventListener('focus', () => {
-		if (editor.innerText.trim() === '여기에 텍스트를 입력하거나 이미지를 드래그 앤 드롭하세요...') {
+		if (editor.innerText === '여기에 텍스트를 입력하거나 이미지를 드래그 앤 드롭하세요...') {
 			editor.innerText = '';
 		}
 	});
 
+	function convertToTimestamp(dateString) {
+		const date = new Date(dateString);
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0'); 
+		const day = String(date.getDate()).padStart(2, '0');
+		const hours = '00'; 
+		const minutes = '00';
+		const seconds = '00';
+
+		return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+	}
+
+	function showSuccessModal(msg) {
+		getCheckModal(msg);
+
+		$(document).on('click', '#confirm-delete', function() {
+			window.location.href = '/admin/notice/notice';
+		});
+	}
 });

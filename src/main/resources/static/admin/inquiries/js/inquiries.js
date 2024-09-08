@@ -103,14 +103,19 @@ $(document).ready(function() {
 			// 날짜 필터링
 			if (startDate && new Date(inquiryDate) < new Date(startDate)) return false;
 			if (endDate && new Date(inquiryDate) > new Date(endDate)) return false;
-
-			if (selectedStatusLabel === '미답변' && collator.compare(inquiryStatus, '미완료') !== 0) {
-				return false; // "미답변" 상태가 아닌 경우 제외
-			} else if (selectedStatusLabel === '처리완료' && collator.compare(inquiryStatus, '처리완료') !== 0) {
-				return false; // "처리완료" 상태가 아닌 경우 제외
+			
+			if (collator.compare(selectedStatusLabel, '전체') !== 0) {
+				if (selectedStatusLabel === '미답변' && collator.compare(inquiryStatus, '미완료') !== 0) {
+					return false; // "미답변" 상태가 아닌 경우 제외
+				} else if (selectedStatusLabel === '처리완료' && collator.compare(inquiryStatus, '처리완료') !== 0) {
+					return false; // "처리완료" 상태가 아닌 경우 제외
+				}
 			}
-
-			if (selectedInquiryType && collator.compare(selectedInquiryType, '문의분류') !== 0 && collator.compare(selectedInquiryType, inquiryType) !== 0) return false;
+			if (collator.compare(selectedInquiryType, '전체문의') !== 0) {
+				if (collator.compare(selectedInquiryType, inquiryType) !== 0) {
+					return false;
+				}
+			}
 
 			// 모든 조건이 맞는 경우 true 반환
 			return true;
@@ -132,15 +137,21 @@ $(document).ready(function() {
 	});
 
 	function applySearchFilter() {
-		var selectedColumn = parseInt($('#searchColumn').val()); // 선택한 열의 인덱스
+		var selectedColumn = parseInt($('#searchColumn').val());
 		var selectedColumn2 = $('#searchColumn2').val();
-		 
 		var keyword = $('#searchKeyword').val();
 		
-		table
-			.column(selectedColumn).search(keyword)
-			.column(2).search(selectedColumn2)			
-			.draw(); // 검색 필터 적용
+		if (collator.compare(selectedColumn2, '전체문의') === 0) {
+			table
+				.column(selectedColumn).search(keyword)
+				.column(2).search('')			
+				.draw(); // 검색 필터 적용
+		} else {
+			table
+				.column(selectedColumn).search(keyword)
+				.column(2).search(selectedColumn2)			
+				.draw(); // 검색 필터 적용
+		}
 	}
 
 	document.querySelector('[onclick="resetFilters()"]').addEventListener('click', resetFilters);
@@ -209,7 +220,7 @@ function setDateRange(days) {
 function resetFilters() {
 	// 검색어 필터 초기화
 	$('#searchColumn').val('3');
-	$('#searchColumn2').val('상품문의'); // 문의 분류 필터 초기화
+	$('#searchColumn2').val('전체문의'); // 문의 분류 필터 초기화
 
 	// 날짜 필터 초기화
 	$('#startDate').val('');

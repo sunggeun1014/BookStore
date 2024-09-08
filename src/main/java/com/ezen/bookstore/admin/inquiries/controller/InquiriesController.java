@@ -50,7 +50,7 @@ public class InquiriesController {
 	@PostMapping("/details")
 	public String showInquiriesDetails(@RequestParam("inquiry_num") Integer inquiryNum, Model model) {
 		InquiriesDTO tables = iqs.getDetailList(inquiryNum);
-
+		
 		model.addAttribute("inquiries", tables);
 		
 		

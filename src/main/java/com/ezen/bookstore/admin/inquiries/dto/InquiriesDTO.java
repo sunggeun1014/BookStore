@@ -2,22 +2,28 @@ package com.ezen.bookstore.admin.inquiries.dto;
 
 import java.sql.Timestamp;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 public class InquiriesDTO {
-	private Integer inquiry_num; 
-	private String inquiry_title;
-	private String inquiry_content;
-	private String member_id;
-	private Timestamp inquiry_write_date;
-	private String inquiry_answer_status;
-	private String inquiry_type;
-	private Integer order_num;
-	private String inquiries_original;
-	private String inquiries_changed;
+	Integer inquiry_num; 
+	String inquiry_title;
+	String inquiry_content;
+	String member_id;
+	Timestamp inquiry_write_date;
+	String inquiry_answer_status;
+	String inquiry_type;
+	Integer order_num;
+	String inquiries_original;
+	String inquiries_changed;
 	
-	private String answer_content;
-	private Timestamp answer_write_date;
-	private String manager_id;
+	String answer_content;
+	Timestamp answer_write_date;
+	String manager_id;
+	
+	Integer order_detail_num;
+	Integer order_request_qty;
 }

@@ -6,29 +6,27 @@
 		notice_num,
 		notice_title,
 		notice_visible,
-		notice_write_date
+		notice_write_date,
+		notice_start_date,
+		notice_end_date
 	FROM
 		notices		
     </select>
     
-    <select id="getDetailList" resultType="notice" parameterType="Integer">
+    <select id="getDetailList" resultType="notice" parameterType="Long">
     SELECT
-    	n.notice_num,
-    	n.notice_title,
-    	n.notice_visible,
-    	n.notice_write_date,
-    	n.notice_content,
-    	n.manager_id,
-    	nd.notice_detail_original,
-    	nd.notice_detail_changed
+    	notice_num,
+    	notice_title,
+    	notice_visible,
+    	notice_write_date,
+    	notice_content,
+    	notice_start_date,
+    	notice_end_date,
+    	manager_id
     FROM
-    	notices n
-    JOIN
-    	notices_detail nd
-    ON
-    	n.notice_num = nd.notice_num
+    	notices 
     WHERE
-    	n.notice_num = #{noticeNum}
+    	notice_num = #{noticeNum}
     
     </select>
     
@@ -39,8 +37,84 @@
     	notice_num
     IN
     	<foreach item="num" collection="list" open="(" separator="," close=")">
-    		#{num}
+    		#{num, jdbcType=BIGINT}
     	</foreach>
     
     </delete>
+    
+    <insert id="insertNotice" useGeneratedKeys="true" keyProperty="notice_num" keyColumn="notice_num">
+        INSERT INTO 
+        	Notices 
+        (
+        	notice_num, 
+        	notice_title, 
+        	notice_content, 
+        	manager_id, 
+        	notice_visible, 
+        	notice_write_date, 
+        	notice_start_date, 
+        	notice_end_date
+        )
+        VALUES 
+        (
+        	NOTICES_SEQ.NEXTVAL,
+        	#{notice_title},
+        	#{notice_content},
+        	#{manager_id},
+        	#{notice_visible},
+        	CURRENT_TIMESTAMP, 
+        	#{notice_start_date}, 
+        	#{notice_end_date}
+        )
+    </insert>
+    
+    <insert id="insertNoticeDetail">
+        INSERT INTO 
+        	Notices_detail 
+        (
+        	notice_detail_num,
+        	notice_detail_original,
+        	notice_detail_changed,
+        	notice_num
+        )
+        VALUES 
+        (
+        	NOTICES_DETAIL_SEQ.NEXTVAL,
+        	#{notice_detail_original},
+        	#{notice_detail_changed},
+        	#{notice_num}
+        )
+    </insert>
+    
+    <update id="updateNotice" parameterType="notice">
+        UPDATE 
+        	notices
+        SET
+            notice_title = #{notice_title},
+            notice_content = #{notice_content},
+            notice_start_date = #{notice_start_date},
+            notice_end_date = #{notice_end_date},
+            notice_visible = #{notice_visible},
+            manager_id = #{manager_id}
+        WHERE
+        	notice_num = #{notice_num}
+    </update>
+    
+    <insert id="updateNoticeDetail" parameterType="notice">
+    INSERT INTO 
+    	notices_detail 
+    (
+    	notice_detail_num,
+        notice_detail_original,
+        notice_detail_changed,
+        notice_num
+    ) 
+    VALUES 
+    (
+    	NOTICES_DETAIL_SEQ.NEXTVAL,
+        #{notice_detail_original},
+        #{notice_detail_changed},
+        #{notice_num}
+    )
+	</insert>
 </mapper>

@@ -45,16 +45,29 @@ $(document).ready(function() {
 					}
 				},
 				{
+					data: null,
+					render: function(data, type, row) {
+						var startDate = new Date(row.notice_start_date);
+						var endDate = new Date(row.notice_end_date);
+
+						// ko-KR 형식으로 날짜 포맷팅
+						var formattedStartDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(startDate);
+						var formattedEndDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(endDate);
+
+						return formattedStartDate + ' ~ ' + formattedEndDate;
+					}
+				},
+				{
 					data: 'notice_visible',
 					render: function(data, type, row) {
-	
+
 						if (type === 'display') {
 							if (data == '01') {
 								return "<span style='color: #E54F53;'>노출<span>"
 							} else {
 								return "<span style='color: #10A142;'>비노출<span>"
 							}
-																				
+
 						}
 						return data;
 					}
@@ -84,9 +97,9 @@ $(document).ready(function() {
 
 				// 제목 컬럼의 링크 클릭 이벤트 추가
 				$(row).find('.book-title-link').off('click').on('click', function(event) {
-				         event.preventDefault(); // 링크 기본 동작 방지
-				         postToDetailPage(data); // 폼 생성 및 제출 함수 호출
-				     });
+					event.preventDefault(); // 링크 기본 동작 방지
+					postToDetailPage(data); // 폼 생성 및 제출 함수 호출
+				});
 			}
 		});
 	}
@@ -165,14 +178,19 @@ $(document).ready(function() {
 		var selectedIds = [];
 		$('#notice').DataTable().$('.row-checkbox:checked').each(function() {
 			var rowData = $('#notice').DataTable().row($(this).closest('tr')).data();
-			selectedIds.push(rowData.review_num);
+			selectedIds.push(rowData.notice_num);
 		});
 
+		if (selectedIds.length === 0) {
+			alert("삭제할 항목을 선택하세요.");
+			return;
+		}
+		console.log(selectedIds);
 		$.ajax({
-			url: '/admin/notice/delete',  // 서버의 삭제 처리 URL
+			url: '/admin/notice/delete',
 			type: 'POST',
 			contentType: 'application/json',
-			data: JSON.stringify(selectedIds),  // 선택된 리뷰 번호들을 JSON으로 전송
+			data: JSON.stringify(selectedIds),
 			success: function() {
 				getCheckModal('삭제가 완료되었습니다.')
 				$('#notice').DataTable().ajax.reload();  // 테이블 새로고침
@@ -287,21 +305,21 @@ $('#check-all').on('change', function() {
 
 
 function postToDetailPage(data) {
-    // 폼이 중복 생성되는 것을 방지하기 위해 기존 폼을 제거합니다.
-    $('#postToDetailForm').remove();
+	// 폼이 중복 생성되는 것을 방지하기 위해 기존 폼을 제거합니다.
+	$('#postToDetailForm').remove();
 
-    // 폼을 새로 생성합니다.
-    var form = $('<form>', {
-        id: 'postToDetailForm',
-        method: 'POST',
-        action: '/admin/notice/details'  // 서버의 상세 페이지 URL로 설정
-    });
+	// 폼을 새로 생성합니다.
+	var form = $('<form>', {
+		id: 'postToDetailForm',
+		method: 'POST',
+		action: '/admin/notice/details'  // 서버의 상세 페이지 URL로 설정
+	});
 
-    // 숨겨진 필드에 데이터를 추가합니다.
-    form.append($('<input>', { type: 'hidden', name: 'notice_num', value: data.notice_num }));
+	// 숨겨진 필드에 데이터를 추가합니다.
+	form.append($('<input>', { type: 'hidden', name: 'notice_num', value: data.notice_num }));
 
-    // 폼을 body에 추가하고 제출합니다.
-    form.appendTo('body').submit();
+	// 폼을 body에 추가하고 제출합니다.
+	form.appendTo('body').submit();
 }
 
 function setToday() {

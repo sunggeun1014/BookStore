@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 public class NoticeDTO {
 	
-	Integer notice_num;
+	Long notice_num;
 	String notice_title;
 	String notice_content;
 	String manager_id;
@@ -20,7 +20,7 @@ public class NoticeDTO {
 	Timestamp notice_start_date;
 	
 	
-	Integer notice_detail_num;
+	Long notice_detail_num;
 	String notice_detail_original;
 	String notice_detail_changed;
 }

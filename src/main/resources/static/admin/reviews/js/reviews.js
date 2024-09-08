@@ -212,31 +212,27 @@ $(document).ready(function() {
 			var bookTitle = data[3]; 
 			var bookIsbn = data[4];
 			var rating = data[7];
-			console.log(typeof rating)
-			console.log(rating)
 
-			if (searchColumn == '5' && collator.compare(memberId, keyword) !== 0) {
+			if (searchColumn === '5' && collator.compare(memberId, keyword) !== 0) {
 				return true;  // 회원ID 컬럼에서 검색어가 일치하지 않으면 제외
 			}
-			if (searchColumn == '3' && collator.compare(bookTitle, keyword) !== 0) {
+			
+			if (searchColumn === '3' && collator.compare(bookTitle, keyword) !== 0) {
 				return true;  // 책 제목 컬럼에서 검색어가 일치하지 않으면 제외
 			}
-			if (searchColumn == '4' && collator.compare(bookIsbn, keyword) !== 0) {
+			
+			if (searchColumn === '4' && collator.compare(bookIsbn, keyword) !== 0) {
 				return true;  // ISBN 컬럼에서 검색어가 일치하지 않으면 제외
 			}
-			if (searchColumn == '7' && collator.compare(rating, keyword) !== 0) {
+			
+			if (searchColumn === '7' && collator.compare(rating, keyword) !== 0) {
 				return true;  // 별점 컬럼에서 입력된 별점이 일치하지 않으면 제외
 			}
 
-			// 날짜 형식을 Date 객체로 변환
-			var start = startDate ? new Date(startDate) : null;
-			var end = endDate ? new Date(endDate) : null;
-			var review = new Date(reviewDate);
-
-			if ((start === null && end === null) ||
-				(start <= review && (end === null || review <= end))) {
-				return true;
-			}
+			
+			if (startDate && new Date(reviewDate) < new Date(startDate)) return true;
+			if (endDate && new Date(reviewDate) > new Date(endDate)) return true;
+			
 			return false;
 		}
 	);

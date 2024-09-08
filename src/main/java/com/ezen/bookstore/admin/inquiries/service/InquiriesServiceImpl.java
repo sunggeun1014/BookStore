@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @RequiredArgsConstructor
+@Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
 public class InquiriesServiceImpl implements InquiriesService {
@@ -32,13 +33,11 @@ public class InquiriesServiceImpl implements InquiriesService {
     }
 
     @Override
-    @Transactional
     public void updateInquiry(InquiriesDTO inquiriesDTO) {
     	inquiriesMapper.updateInquiry(inquiriesDTO);
     }
 
     @Override
-    @Transactional
     public void insertInquiry(InquiriesDTO inquiriesDTO) {
     	inquiriesMapper.insertInquiry(inquiriesDTO);
     }

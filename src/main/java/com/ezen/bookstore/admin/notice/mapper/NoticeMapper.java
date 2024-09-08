@@ -9,6 +9,10 @@ import com.ezen.bookstore.admin.notice.dto.NoticeDTO;
 @Mapper
 public interface NoticeMapper {
 	List<NoticeDTO> getList();
-	NoticeDTO getDetailList(Integer noticeNum);
-	void deleteNoticesByNums(List<Integer> noticeNums);
+	NoticeDTO getDetailList(Long noticeNum);
+	void deleteNoticesByNums(List<Long> noticeNums);
+	void insertNotice(NoticeDTO noticeDTO);
+	void insertNoticeDetail(NoticeDTO noticeDTO);
+	void updateNotice(NoticeDTO noticeDTO);
+	void updateNoticeDetail(NoticeDTO noticeDTO);
 }
