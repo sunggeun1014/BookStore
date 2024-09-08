@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-	
+
     var usernameError = false;
     if (usernameError) {
         document.getElementById('usernameContainer').classList.add('error-border');
