@@ -1,5 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
     const menuItems = document.querySelectorAll(".menu-items");
+    let currentPath = window.location.pathname;
+
+    // 경로의 끝에 슬래시('/')가 있으면 제거 (정규화)
+    if (currentPath.endsWith('/')) {
+        currentPath = currentPath.slice(0, -1);
+    }
+
+    // 페이지가 admin/index로 이동하면 모든 메뉴 초기화
+    if (currentPath === '/admin/index') {
+        // 로컬 스토리지 초기화
+        menuItems.forEach((_, index) => {
+            localStorage.removeItem(`menu-open-${index}`);
+        });
+    }
 
     // 로컬 스토리지에서 메뉴 상태를 불러와 복원
     menuItems.forEach((item, index) => {
@@ -18,8 +32,32 @@ document.addEventListener("DOMContentLoaded", function() {
             if (iconImg) iconImg.classList.add("open");
             if (listText) listText.classList.add("open");
         }
+
+        // 하위 메뉴에서 현재 페이지 경로와 일치하는 링크만 굵어지게 설정
+        const subMenuLinks = item.querySelectorAll(".sub-menu-list li a");
+        subMenuLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add("current-page");  // 현재 페이지에만 적용될 클래스 추가
+            }
+        });
+
+        // onclick에서 경로 추출하여 현재 경로와 비교
+        const hrefValue = item.getAttribute('onclick') ? item.getAttribute('onclick').match(/'([^']+)'/)[1] : null;
+
+        // 현재 경로와 메뉴 경로가 일치하면 자동으로 열림
+        if (hrefValue && hrefValue === currentPath) {
+            if (subMenu) subMenu.classList.add("open");
+            if (barImg) barImg.classList.add("open");
+            if (arrowRight) arrowRight.classList.add("open");
+            if (iconImg) iconImg.classList.add("open");
+            if (listText) listText.classList.add("open");
+
+            // 현재 메뉴를 로컬스토리지에 저장
+            localStorage.setItem(`menu-open-${index}`, true);
+        }
     });
 
+    // 메뉴 클릭 시 동작
     menuItems.forEach((item, index) => {
         item.addEventListener("click", function(e) {
             const subMenu = this.querySelector(".sub-menu-list");
@@ -33,9 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // 현재 상태를 로컬 스토리지에 저장
             if (!isCurrentlyOpen) {
                 localStorage.setItem(`menu-open-${index}`, true);
-            } //else {
-                //localStorage.removeItem(`menu-open-${index}`); // 메뉴가 닫히면 데이터 삭제
-            //}
+            }
 
             // 하위 메뉴와 이미지가 존재하는지 확인하고 토글
             if (subMenu) subMenu.classList.toggle("open");
@@ -65,28 +101,40 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
     });
+
+    // 로고 클릭 시 모든 메뉴 상태 초기화
+    const logoWrap = document.querySelector(".logo-wrap");
+    if (logoWrap) {
+        logoWrap.addEventListener("click", function() {
+            // 로컬 스토리지 초기화
+            menuItems.forEach((_, index) => {
+                localStorage.removeItem(`menu-open-${index}`);
+            });
+            // 홈으로 이동
+            location.href = '/admin/index';
+        });
+    }
 });
-
-
-
 
 
 const clock = document.querySelector(".clock")
 
-const now = new Date();
-const nowYear = now.getFullYear();
-const nowMonth = String(now.getMonth() + 1).padStart(2, "0");
-const nowDate = String(now.getDate()).padStart(2, "0");
-
-const days = `${nowYear}-${nowMonth}-${nowDate}`;
-
 function getClocks() {
-  const date = new Date();
-  const hours = String(date.getHours()).padStart(2, "0")
-  const minutes = String(date.getMinutes()).padStart(2, "0")
-  const seconds = String(date.getSeconds()).padStart(2, "0")
-  clock.innerText = `${days} ${hours}:${minutes}:${seconds}`
+    const date = new Date();
+    const nowYear = date.getFullYear();
+    const nowMonth = String(date.getMonth() + 1).padStart(2, "0");
+    const nowDate = String(date.getDate()).padStart(2, "0");
+
+    const days = `${nowYear}-${nowMonth}-${nowDate}`;
+
+    const hours = String(date.getHours()).padStart(2, "0")
+    const minutes = String(date.getMinutes()).padStart(2, "0")
+    const seconds = String(date.getSeconds()).padStart(2, "0")
+    clock.innerText = `${days} ${hours}:${minutes}:${seconds}`
 }
+
+getClocks();
+setInterval(getClocks, 1000)
 
 function datepicker(start, end) {
    const checkDates = () => {
@@ -113,9 +161,6 @@ function datepicker(start, end) {
     });
 
 }
-
-getClocks();
-setInterval(getClocks, 1000)
 
 // 날짜 옵션 기능
 function setDateOption(day, obj) {

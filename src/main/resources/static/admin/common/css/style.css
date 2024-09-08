@@ -124,7 +124,7 @@
     color: #7E7E7E;
 }
 
-.sub-menu-list li.selected a {
+.sub-menu-list li a.current-page {
     font-weight: 700;
 }
 

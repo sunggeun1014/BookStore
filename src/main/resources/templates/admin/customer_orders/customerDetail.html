@@ -106,7 +106,7 @@
 						<label for="select-all"></label>
 					</span>				
 				</div>
-				<div class="no-column"><span>NO</span></div>
+				<div class="no-column"><span>상세번호</span></div>
 				<div class="book-title-column"><span>책제목</span></div>
 				<div class="isbn-column"><span>ISBN</span></div>
 				<div class="price-column"><span>가격</span></div>
@@ -126,7 +126,7 @@
 						</span>
 					</div>
 					<div class="no-data">
-						<span th:text="${status.count}"></span>
+						<span th:text="${info.order_detail_num}"></span>
 					</div>
 					<div class="book-title-data">
 						<span th:text="${info.book_name}"></span>
@@ -173,7 +173,7 @@
 		</div>
 	</div>
 	
-	<form id="submit-form" action="/admin/customerOrders/orderStatusUpdate" method="GET">
+	<form id="submit-form">
 		<input type="hidden" name="order_selected_status"/>
 		<input type="hidden" name="order_num" th:value="${detail.order_num}"/>
 	</form>

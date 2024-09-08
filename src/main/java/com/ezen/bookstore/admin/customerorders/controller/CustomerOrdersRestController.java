@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezen.bookstore.admin.commons.AccountManagement;
 import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
+import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersListDTO;
 import com.ezen.bookstore.admin.customerorders.service.CustomerOrdersService;
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 
@@ -53,6 +55,12 @@ public class CustomerOrdersRestController {
     public int deliveryRequest(@RequestBody List<Integer> order_nums, HttpSession session) {
     	return cos.deliveryRequestSave(order_nums, ((ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
     }
-    
+
+    @PostMapping(value = "/orderStatusUpdate")
+    public String orderStatusUpdate(@ModelAttribute CustomerOrdersListDTO list, int order_num, String order_selected_status, HttpSession session) {
+    	cos.orderStatusUpdate(list, order_num, order_selected_status, ((ManagersDTO)session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
+    	
+    	return "/admin/customerOrders/detail?order_num=" + order_num;
+    }
     
 }

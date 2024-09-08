@@ -1,3 +1,4 @@
+// 카카오 주소 api
 window.onload = function() {
     var addressInput = document.getElementById("address_kakao");
 

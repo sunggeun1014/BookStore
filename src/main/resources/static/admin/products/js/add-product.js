@@ -340,16 +340,21 @@ function validateDateInput(inputElement, value) {
 function previewImg() {
     const inputFile = document.getElementById('input-file');
     const preview = document.getElementById('preview');
+    const icon = document.querySelector('.fa-plus');
 
     inputFile.addEventListener('change', function (event) {
         var input = event.target;
 
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
+            const reader = new FileReader();
 
-            reader.onload = function (e) {
+            reader.onload = function(e) {
+                // 미리보기 이미지 설정
                 preview.src = e.target.result;
-            }
+                console.log(preview.src)
+                preview.style.display = 'block'; // 이미지 미리보기를 표시
+                icon.style.display = 'none'; // 아이콘 숨기기
+            };
 
             reader.readAsDataURL(input.files[0]);
         }

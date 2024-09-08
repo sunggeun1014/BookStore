@@ -11,6 +11,7 @@ import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersListDTO;
 import com.ezen.bookstore.admin.customerorders.repository.CustomerOrdersRepository;
+import com.ezen.bookstore.admin.inventorylog.repository.InventoryLogRepository;
 import com.ezen.bookstore.admin.warehouse.dto.WarehouseDTO;
 import com.ezen.bookstore.admin.warehouse.repository.WarehouseRepository;
 
@@ -22,6 +23,7 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 	
 	private final CustomerOrdersRepository cor;
 	private final WarehouseRepository wr;
+	private final InventoryLogRepository ilr;
 	
 	@Override
 	public List<CustomerOrdersDTO> getCustomerOrdersList() {
@@ -86,25 +88,35 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 
 	@Transactional
 	@Override
-	public void orderStatusUpdate(CustomerOrdersListDTO list, int order_num, String order_selected_status) {
+	public void orderStatusUpdate(CustomerOrdersListDTO list, int order_num, String order_selected_status, String manager_id) {
 		try {
 			for(int i = 0; i < list.getOrder_detail_num().size(); i++) {
+				String isbn = list.getBook_isbn().get(i);
+				String bookTitle = list.getBook_name().get(i);
+				String zoenNum = getZone_num(isbn);
+				Integer inputQty = list.getInput_qty().get(i);
+				
 				if(list.getOrder_detail_status().get(i).equals(getStatus(order_selected_status))) {
 					continue;
 				} else if(order_selected_status.equals("06")) {
-					// 책 수량 마이너스
-					// 입출고 기록하기 (교환)
-					wr.invQtyUpdate(list.getBook_isbn().get(i), list.getInput_qty().get(i));
+					// 입출고 기록 (교환)
+					wr.invQtyUpdate(isbn, inputQty);
+					
+					ilr.invLogRequestInsert("04", manager_id);
+					ilr.invLogRequestDetailInsert(isbn, bookTitle, zoenNum, inputQty);
 				} else if(order_selected_status.equals("07")) {
-					// 책 수량 플러스
-					// 입출고 기록하기 (반품)
-					wr.invQtyUpdate(list.getBook_isbn().get(i), Math.negateExact(list.getInput_qty().get(i)));
+					// 입출고 기록 (반품)
+					wr.invQtyUpdate(isbn, Math.negateExact(inputQty));
+					
+					ilr.invLogRequestInsert("03", manager_id);
+					ilr.invLogRequestDetailInsert(isbn, bookTitle, zoenNum, inputQty);
 				}
 				
 				cor.orderStatusUpdate(list.getOrder_detail_num().get(i), order_selected_status);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+	        throw e;
 		}
 		
 	}
@@ -122,6 +134,16 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 		map.put("08", "처리불가");
 		
 		return map.get(statusCd);
+	}
+	
+	private String getZone_num(String isbn) {
+		try {
+			return wr.getZoneNum(isbn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 }
