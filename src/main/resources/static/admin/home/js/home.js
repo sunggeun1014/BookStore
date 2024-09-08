@@ -91,8 +91,12 @@ $(document).ready(function() {
                 ],
             order: [[0, 'asc']],
             ajax: {
-                url: '/admin/products/inventory/json',
-                dataSrc: 'data',
+                url: '/admin/home/stocks/json',
+                // dataSrc: 'data',
+                dataSrc: function (response) {
+                    console.log(response);
+                    return response.data || [];
+                }
             },
             columns: [
                 {
@@ -103,22 +107,28 @@ $(document).ready(function() {
                     orderable: false,  // 이 컬럼에 대해 정렬을 비활성화
                 },
                 {
-                    data: 'inv_isbn',
-                    width: '200px',
-                    className: 'select-td'
+                    data: 'log_transaction_num',
                 },
                 {
-                    data: 'inv_title',
-                    className: 'text-ellipsis',
+                    data: 'log_transaction_status',
+                    createdCell: function(td, cellData) {
+                        if (cellData === "반품입고" || cellData === "입고") {
+                            $(td).addClass('text-color-blue');
+                        } else {
+                            $(td).addClass('text-color-green');
+                        }
+                    }
                 },
                 {
-                    data: 'inv_qty',
-                },
-                {
-                    data: 'zone_num',
+                    data: 'log_operation_date',
+                    render: function (data) {
+                        const date = new Date(data);
+                        return date.toISOString().split('T')[0];
+                    }
                 },
 
             ],
+            info: false,
             dom: 't',
             language: {
                 searchPanes: {
@@ -132,6 +142,4 @@ $(document).ready(function() {
             },
         });
     }
-
-
 });

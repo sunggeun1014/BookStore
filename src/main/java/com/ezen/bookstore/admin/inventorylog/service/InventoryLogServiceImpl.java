@@ -51,7 +51,7 @@ public class InventoryLogServiceImpl implements InventoryLogService {
 	@Override
 	public List<InventoryLogDTO> getInventoryLogDetailList(Integer log_transaction_num) {
 		try {
-//			return ilr.getInventoryLogDetailList(log_transaction_num);
+			return ilr.getInventoryLogDetailList(log_transaction_num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

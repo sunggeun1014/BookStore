@@ -3,6 +3,8 @@ package com.ezen.bookstore.admin.home.controller;
 import com.ezen.bookstore.admin.home.service.HomeService;
 import com.ezen.bookstore.admin.inquiries.dto.InquiriesDTO;
 import com.ezen.bookstore.admin.inquiries.service.InquiriesService;
+import com.ezen.bookstore.admin.inventorylog.dto.InventoryLogDTO;
+import com.ezen.bookstore.admin.inventorylog.service.InventoryLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -21,32 +23,31 @@ import java.util.Map;
 @RequestMapping("/admin/home")
 @Controller
 public class HomeController {
-    private final HomeService homeService;
     private final InquiriesService iqs;
+    private final InventoryLogService ils;
 
     @GetMapping(value = "/inquiries/json", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> getInquiriesData() {
         List<InquiriesDTO> tables = iqs.getList();
 
-        // DataTables가 요구하는 형식으로 JSON 데이터 구성
         Map<String, Object> response = new HashMap<>();
         response.put("data", tables);
-        response.put("size", tables.size());
 
         return response;
     }
 
+
     @GetMapping(value = "/stocks/json", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> getStocksData() {
-        List<InquiriesDTO> tables = iqs.getList();
+        Map<String, Object> responseMap = new HashMap<>();
+        List<InventoryLogDTO> list = ils.getInventoryLogList();
 
-        // DataTables가 요구하는 형식으로 JSON 데이터 구성
-        Map<String, Object> response = new HashMap<>();
-        response.put("data", tables);
-        response.put("size", tables.size());
+        responseMap.put("data", list);
 
-        return response;
+        log.info("Inventory logs: {}", list);
+
+        return responseMap;
     }
 }

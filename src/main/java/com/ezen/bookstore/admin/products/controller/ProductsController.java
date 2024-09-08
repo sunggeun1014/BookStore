@@ -70,11 +70,7 @@ public class ProductsController {
             log.warn("isbn 못받아왔다");
         }
         ProductsDTO productDetail = productService.detailList(bookISBN);
-        List<CategoryDTO> bookCategory = productService.categoryList();
-
         model.addAttribute("product_detail", productDetail);
-        model.addAttribute("book_category", bookCategory);
-
 
         return "admin/products/edit-product";
     }
@@ -105,6 +101,7 @@ public class ProductsController {
     @GetMapping(value = "/inventory/json", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> getInventoryData() {
+
         List<InventoryDTO> inventory = productService.inventoryList();
 
         Map<String, Object> response = new HashMap<>();
@@ -115,6 +112,9 @@ public class ProductsController {
     @PostMapping("/addProduct")
     public String insertBook(@ModelAttribute ProductsDTO productDTO, Model model) throws IOException {
 
+//        if (productDTO.getBook_thumbnail_changed() == null || productDTO.getBook_thumbnail_changed().isEmpty()) {
+//            productDTO.setBook_thumbnail_changed("noimg.png");
+//        }
         productService.insertBook(productDTO);
 
         model.addAttribute("template", "/admin/products/product");

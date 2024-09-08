@@ -128,6 +128,7 @@
             <p class="search-list-subject">이미지
                 <span class="important">*</span>
             </p>
+            <!-- /admin/common/img/products/{products} -->
             <div class="file-container">
                 <p>형식 : JPG, JPEG, PNG</p>
                 <div class="img-input-wrap">
@@ -135,7 +136,7 @@
                         <i class="fa-solid fa-plus"
                            th:if="${product_detail.book_thumbnail_changed == null or product_detail.book_thumbnail_changed.isEmpty()}"></i>
                         <img th:if="${product_detail.book_thumbnail_changed != null and !product_detail.book_thumbnail_changed.isEmpty()}"
-                             th:src="@{/admin/common/img/products/{products}(products=${product_detail.book_thumbnail_changed != null ? product_detail.book_thumbnail_changed : 'noimg.png'})}"
+                             th:src="@{/admin/common/img/products/{products}/(products=${product_detail.book_thumbnail_changed != null ? product_detail.book_thumbnail_changed : 'noimg.png'})}"
                              alt="책썸네일"
                              id="preview"/>
                     </label>

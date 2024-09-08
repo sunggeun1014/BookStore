@@ -38,10 +38,20 @@ function requestCompletionBtn() {
 		return;
 	} else if(selectedRows.length > 0) {
 		getConfirmModal('주문 상태를 변경하시겠습니까?', function() {
-			form[0].submit();
-		})
+			$.ajax({
+				url: "/admin/customerOrdersRest/orderStatusUpdate",
+				type: "POST",
+				data: $('#submit-form').serialize(),
+				success: function(response) {
+					location.href = response;
+			  	},
+			  	error: function() {
+					getCheckModal("재고를 확인해 주세요.");
+			  	}
+			});
+		});
 	} else {
-		getCheckModal('1개 이상의 선택이 필요합니다.');
+		getCheckModal("1개 이상의 선택이 필요합니다.");
 	}
 }
 
@@ -53,3 +63,6 @@ function qtyHandler(obj) {
 	}
 	
 }
+
+
+

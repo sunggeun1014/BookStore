@@ -32,8 +32,8 @@ $(document).ready(function() {
                 render: function() {
                     return '';
                 },
-                orderable: false,  // 이 컬럼에 대해 정렬을 비활성화
-                searchable: false  // 이 컬럼에 대해 검색을 비활성화
+                orderable: false,  
+                searchable: false 
             },
             { data: 'manager_name' },
             { 
@@ -235,10 +235,6 @@ $(document).ready(function() {
         }
     });
 
-    $('#startDate, #endDate').on('change', function() {
-        table.draw(); // 날짜 변경 시 테이블 다시 그리기
-    });
-
     // 날짜 필터링 로직 추가
     $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex) {
@@ -305,17 +301,6 @@ function resetFilters() {
     table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화
 
     table.draw();
-}
-
-function setActive(element) {
-    // 모든 date-option 버튼에서 'active' 클래스를 제거
-    var options = document.querySelectorAll('.date-option');
-    options.forEach(function(option) {
-        option.classList.remove('active');
-    });
-
-    // 클릭된 요소에 'active' 클래스를 추가
-    element.classList.add('active');
 }
 
 //값 전달하는 곳

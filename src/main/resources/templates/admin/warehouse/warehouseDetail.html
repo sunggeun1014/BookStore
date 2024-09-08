@@ -4,8 +4,9 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{common/layout/defaultlayout}"
     layout:fragment="Content">
-
-<link rel="stylesheet" href="/admin/managers/css/managerReg.css" />
+    
+<link rel="stylesheet" href="/admin/products/css/products.css"/>
+<link rel="stylesheet" href="/admin/warehouse/css/warehouseDetails.css" />
 <link rel="stylesheet" href="/admin/common/css/modal.css" />
 
 <div>
@@ -25,8 +26,6 @@
 					<input type="text" id="inv_title" name="inv_title" th:value="${stockDetails.inv_title}">			
 			</div>
 			
-			
-			
 			<div class="select-wrap info">
 			    <span class="search-list-subject important">구역번호</span>
 			    <div class="select-box">            
@@ -38,17 +37,21 @@
 			                    th:text="${zoneDTO.zone_num}">
 			            </option>
 			        </select>
-			        <div class="select-arrow-down" id="phoneNum"></div>
+			        <div class="select-arrow-down"></div>
 			    </div>
 			</div>
+			
 			<div class="info">
-				<span class="search-list-subject important">수량</span> 
-					<input type="number" id="inv_qty" name="inv_qty" class="input-qty" th:value="${stockDetails.inv_qty}">			
+			    <span class="search-list-subject important">수량</span>
+			    <div class="input-with-unit">
+			        <input type="number" id="inv_qty" name="inv_qty" class="input-qty" th:value="${stockDetails.inv_qty}">
+			        <span class="unit">개</span>
+			    </div>
 			</div>
 			
-			<div class="btn">
-				<button type="submit" id="reg-button" class="default-btn" style="margin-right: 20px;" >수정</button>
-				<button type="button" class="default-btn cancel" onclick="location.href='/admin/warehouse/warehouse'">
+			<div class="button-wrap-warehouseDetails">
+				<button type="submit" id="reg-button" class="default-btn" >수정</button>
+				<button type="button" class="default-btn cancel" onclick="location.href='/admin/warehouse/warehouse'" >
 				      <span>뒤로가기</span>
 				</button>
 			</div>

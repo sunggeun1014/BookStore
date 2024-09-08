@@ -50,5 +50,12 @@
 			inv_isbn = #{inv_isbn}
 	</update>
 	
+	<select id="getOneZoneNum" parameterType="String" resultType="String">
+		SELECT 
+			zone_num 
+		FROM 
+			inventory 
+		WHERE inv_isbn = #{isbn}
+	</select>
 	
 </mapper>

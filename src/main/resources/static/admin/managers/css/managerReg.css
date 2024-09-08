@@ -14,7 +14,7 @@ label {
 
 .info {
     display: flex;
-    border-bottom: 2px solid #D8D8D8;
+    border-bottom: 1px solid #D8D8D8;
     margin-bottom: 15px;
     padding-bottom: 10px;
     align-items: center; /* 자식 요소들을 수직 중앙 정렬 */
@@ -101,4 +101,8 @@ select#deptName{
     margin-top: 5px; /* input 요소와 간격을 줄 수 있습니다 */
     font-size: 12px; /* 글자 크기 조정 */
     color: #666666; /* 글자 색상 조정 */
+}
+
+.pointer-cursor {
+    cursor: pointer;
 }
