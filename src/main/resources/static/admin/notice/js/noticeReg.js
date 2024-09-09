@@ -56,7 +56,16 @@ $(document).ready(function() {
 		const noticeVisible = document.querySelector('input[name="order_status"]:checked').value;
 		const noticeStatus = noticeVisible === 'exposed' ? '01' : '02';
 		let noticeContent = editor.innerHTML; 
+		
+		const collator = new Intl.Collator('ko');
 
+		if (collator.compare(noticeContent, '여기에 텍스트를 입력하거나 이미지를 드래그 앤 드롭하세요...') || !noticeContent) {
+			getCheckModal('내용을 입력해주세요.');
+			return;
+		} else if (!noticeTitle){
+			getCheckModal('공지글 제목을 입력해주세요.')
+			return;
+		}
 		
 		if (imageFiles.length > 0) {
 			const formDataForImages = new FormData();
@@ -113,7 +122,7 @@ $(document).ready(function() {
 		formData.append('notice_end_date', endDate);
 		formData.append('notice_start_date', startDate);
 		formData.append('notice_visible', noticeStatus);
-
+		
 		if (imageFiles.length > 0) {
 			imageFiles.forEach((image) => {
 				formData.append('images', image);
