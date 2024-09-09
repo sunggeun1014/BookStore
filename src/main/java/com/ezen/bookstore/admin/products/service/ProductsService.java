@@ -19,6 +19,7 @@ import com.ezen.bookstore.admin.products.dto.CategoryDTO;
 import com.ezen.bookstore.admin.products.dto.InventoryDTO;
 import com.ezen.bookstore.admin.products.dto.ProductsDTO;
 import com.ezen.bookstore.admin.products.repository.ProductsRepository;
+import com.ezen.bookstore.commons.FileManagement;
 
 import lombok.RequiredArgsConstructor;
 
@@ -135,24 +136,14 @@ public class ProductsService {
             String newFileName = selectedISBN + fileExtension;
 
             // 프로젝트의 정적 리소스 디렉토리에 이미지 저장 경로 설정
-            String projectDir = System.getProperty("user.dir");  // 프로젝트의 현재 작업 디렉토리 경로
-            String uploadDir = projectDir + "/src/main/resources/static/admin/common/img/products/"; // 파일 저장 폴더 경로
-//            String uploadDir = FileManagement.BOOK_PATH;
-            Path uploadPath = Paths.get(uploadDir, newFileName);
+            String uploadDir = FileManagement.BOOK_PATH; // 파일 저장 폴더 경로
 
-            // 폴더가 없으면 생성
-            File uploadDirFile = new File(uploadDir);
-            if (!uploadDirFile.exists()) {
-                uploadDirFile.mkdirs();
-            }
-
-            // 파일을 지정된 경로에 저장
-            thumbnailImg.transferTo(uploadPath.toFile());
-
+            FileManagement.saveImage(thumbnailImg, newFileName, uploadDir);
+            
             // DTO에 파일 정보 설정
             productsDTO.setBook_thumbnail_original(originalFilename);
             productsDTO.setBook_thumbnail_changed(newFileName);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

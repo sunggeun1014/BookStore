@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ezen.bookstore.admin.banners.dto.BannersDTO;
 import com.ezen.bookstore.admin.banners.service.BannersService;
+import com.ezen.bookstore.commons.FileManagement;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,11 +69,16 @@ public class BannersController {
 			@RequestParam("banner_image") MultipartFile bannerImage, Model model) {
 		try {
 			// 이미지 업로드 처리
-			Map<String, String> fileInfo = imageUpload(bannerImage);
-			if (fileInfo != null) {
-				bannersDTO.setBanner_original(fileInfo.get("original"));
-				bannersDTO.setBanner_changed(fileInfo.get("changed"));
-			} 
+			if (!bannerImage.isEmpty()) {
+				String originalFileName = bannerImage.getOriginalFilename();
+				String newFileName = FileManagement.generateNewFilename(originalFileName, FileManagement.BANNER_UPLOAD_NAME);
+            	
+            	FileManagement.saveImage(bannerImage, newFileName, FileManagement.BANNER_PATH);
+            	
+            	bannersDTO.setBanner_original(originalFileName);
+				bannersDTO.setBanner_changed(newFileName);
+			}
+				
 			bannersService.insertBanner(bannersDTO);
 			model.addAttribute("success", "배너 등록 성공");
 		} catch (IOException e) {
@@ -97,10 +103,14 @@ public class BannersController {
 		
 		try {
 			// 업로드한 이미지가 있는 경우
-			if (bannerImage != null && !bannerImage.isEmpty()) {
-				Map<String, String> fileInfo = imageUpload(bannerImage);
-				bannersDTO.setBanner_original(fileInfo.get("original"));
-				bannersDTO.setBanner_changed(fileInfo.get("changed"));
+			if (!bannerImage.isEmpty()) {
+				String originalFileName = bannerImage.getOriginalFilename();
+				String newFileName = FileManagement.generateNewFilename(originalFileName, FileManagement.BANNER_UPLOAD_NAME);
+				
+            	FileManagement.saveImage(bannerImage, newFileName, FileManagement.BANNER_PATH);
+            	
+				bannersDTO.setBanner_original(originalFileName);
+				bannersDTO.setBanner_changed(newFileName);
 			} else {
 				// 이미지가 업로드되지 않은 경우
 	            BannersDTO existBanner = bannersService.detailList(bannersDTO.getBanner_num());
@@ -109,7 +119,7 @@ public class BannersController {
 			}
 			bannersService.updateBanner(bannersDTO);
 			model.addAttribute("success", "배너 업데이트 성공");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -124,41 +134,6 @@ public class BannersController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
 		}
-	}
-
-	private Map<String, String> imageUpload(MultipartFile bannerImage) throws IOException {
-		if (bannerImage == null || bannerImage.isEmpty()) {
-			return null;
-		}
-
-		// 원본 파일 이름과 확장자 추출
-		String originalFilename = bannerImage.getOriginalFilename();
-		String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-
-		// 현재 시간으로 새로운 파일 이름 생성
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-		String formattedTime = LocalDateTime.now().format(formatter);
-		String newFileName = "banner_img_" + formattedTime + fileExtension;
-
-		// 프로젝트의 정적 리소스 디렉토리에 이미지 저장 경로 설정
-		String projectDir = System.getProperty("user.dir"); // 프로젝트의 현재 작업 디렉토리 경로
-		String uploadDir = projectDir + "/src/main/resources/static/admin/common/img/banners/"; // 파일 저장 폴더 경로
-		Path uploadPath = Paths.get(uploadDir, newFileName);
-
-		// 폴더가 없으면 생성
-		File uploadDirFile = new File(uploadDir);
-		if (!uploadDirFile.exists()) {
-			uploadDirFile.mkdirs();
-		}
-
-		// 파일을 지정된 경로에 저장
-		bannerImage.transferTo(uploadPath.toFile());
-
-		// 새로운 파일 이름과 원본 파일 이름 반환
-		Map<String, String> fileInfo = new HashMap<>();
-		fileInfo.put("original", originalFilename);
-		fileInfo.put("changed", newFileName);
-		return fileInfo;
 	}
 
 }

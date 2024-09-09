@@ -42,7 +42,22 @@ public class MgrService {
         mgrRepository.changeAllByDept(managerId, dept);
     }
 
-    public void joinProcess(ManagersDTO managersDTO) {
+    public void joinProcess(ManagersDTO managersDTO, MultipartFile profileImage) {
+	    if (!profileImage.isEmpty()) {
+            try {
+            	String originalFileName = profileImage.getOriginalFilename();
+            	String newFileName = FileManagement.generateNewFilename(originalFileName, FileManagement.PROFILE_UPLOAD_NAME);
+            	
+            	FileManagement.saveImage(profileImage, newFileName, FileManagement.PROFILE_PATH);
+            	
+                // DTO에 파일 정보 설정
+                managersDTO.setManager_profile_original(originalFileName);
+                managersDTO.setManager_profile_changed(newFileName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+	    
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(managersDTO.getManager_pw());
         managersDTO.setManager_pw(encodedPassword);
