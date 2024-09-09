@@ -28,7 +28,7 @@ public class FileManagement {
 	// 이미지 파일 이름 변경 메서드
 	public static String generateNewFilename(String originalFilename, String nameToSave) {
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-
+        
 		return nameToSave + UUID.randomUUID().toString() + extension;
 	}
 
