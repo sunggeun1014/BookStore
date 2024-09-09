@@ -193,8 +193,8 @@ $(document).ready(function() {
 	// 검색 필터 적용 함수
 	function applySearchFilter() {
 		var selectedColumn = $('#searchColumn').val(); // 선택한 열의 인덱스
-		var keyword = $('#searchKeyword').val(); // 입력된 검색어
-		// 선택한 열로 검색 필터를 적용
+		var keyword = $('#searchKeyword').val().trim(); // 입력된 검색어
+
 		table.column(selectedColumn).search(keyword).draw();
 	}
 
@@ -206,34 +206,36 @@ $(document).ready(function() {
 			var endDate = $('#endDate').val();
 
 			var searchColumn = $('#searchColumn').val();
-			var keyword = $('#searchKeyword').val();
-			var reviewDate = data[6];  
+			var keyword = $('#searchKeyword').val().trim();
 			var memberId = data[5]; 
-			var bookTitle = data[3]; 
+			var reviewDate = data[6];  
+			var bookTitle = data[3].trim(); 
 			var bookIsbn = data[4];
 			var rating = data[7];
+			
+		
+			
+			if (searchColumn === '5' && !memberId.includes(keyword)) {
+				return false;
+			}
+			
+			if (searchColumn === '3' && collator.compare(bookTitle, keyword) == 0) {
+				return false;  
+			}
+			
+			if (searchColumn === '4' && !bookIsbn.includes(keyword)) {
+				return false;  
+			}
+			
+			if (searchColumn === '7' && !rating.includes(keyword)) {
+				return false;  
+			}
 
-			if (searchColumn === '5' && collator.compare(memberId, keyword) !== 0) {
-				return true;  // 회원ID 컬럼에서 검색어가 일치하지 않으면 제외
-			}
 			
-			if (searchColumn === '3' && collator.compare(bookTitle, keyword) !== 0) {
-				return true;  // 책 제목 컬럼에서 검색어가 일치하지 않으면 제외
-			}
+			if (startDate && new Date(reviewDate) < new Date(startDate)) return false;
+			if (endDate && new Date(reviewDate) > new Date(endDate)) return false;
 			
-			if (searchColumn === '4' && collator.compare(bookIsbn, keyword) !== 0) {
-				return true;  // ISBN 컬럼에서 검색어가 일치하지 않으면 제외
-			}
-			
-			if (searchColumn === '7' && collator.compare(rating, keyword) !== 0) {
-				return true;  // 별점 컬럼에서 입력된 별점이 일치하지 않으면 제외
-			}
-
-			
-			if (startDate && new Date(reviewDate) < new Date(startDate)) return true;
-			if (endDate && new Date(reviewDate) > new Date(endDate)) return true;
-			
-			return false;
+			return true;
 		}
 	);
 
