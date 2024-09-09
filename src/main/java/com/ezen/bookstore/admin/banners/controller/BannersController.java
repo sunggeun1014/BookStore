@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +40,9 @@ import lombok.extern.slf4j.Slf4j;
 public class BannersController {
 	private final BannersService bannersService;
 	
+	
 	@GetMapping("/banners")
-	public String list() {
+	public String bannersList() {
 		return "admin/banners/banners";
 	}
 
@@ -122,23 +125,6 @@ public class BannersController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
 		}
 	}
-	
-
-    @PostMapping("/updateExpiredBanners")
-    public ResponseEntity<?> updateExpiredBanners() {
-        try {
-            Date today = new Date();
-            List<BannersDTO> expiredBanners = bannersService.findExpiredBanners(today);
-
-            for (BannersDTO banner : expiredBanners) {
-                banner.setBanner_visible("비노출");
-                bannersService.updateBanner(banner);
-            }
-            return ResponseEntity.ok("만료된 배너 상태를 '비노출'로 업데이트했습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업데이트 중 오류가 발생했습니다.");
-        }
-    }
 
 	private Map<String, String> imageUpload(MultipartFile bannerImage) throws IOException {
 		if (bannerImage == null || bannerImage.isEmpty()) {

@@ -42,8 +42,5 @@ public class BannersService {
 			bannersRepository.deleteBanner(bannerNum);
 		}
 	}
-	@Transactional
-    public List<BannersDTO> findExpiredBanners(Date today) {
-        return bannersRepository.findExpiredBanners(today);
-    }
+
 }

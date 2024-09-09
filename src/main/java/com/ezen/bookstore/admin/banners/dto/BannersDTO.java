@@ -3,7 +3,6 @@ package com.ezen.bookstore.admin.banners.dto;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
