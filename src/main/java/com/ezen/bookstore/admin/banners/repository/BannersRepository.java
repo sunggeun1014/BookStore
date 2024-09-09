@@ -36,8 +36,4 @@ public class BannersRepository {
 		sql.delete("Banners.deleteBanner", bannerNum);
 	}
 
-    public List<BannersDTO> findExpiredBanners(Date today) {
-        return sql.selectList("Banners.findExpiredBanners", today);
-    }
-
 }

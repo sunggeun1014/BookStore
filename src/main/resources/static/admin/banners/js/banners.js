@@ -261,21 +261,15 @@ $(document).ready(function() {
 			var startDate = $('#startDate').val();
 			var endDate = $('#endDate').val();
 
-			// 배너 시작과 종료 날짜를 파싱
 			var bannerDateRange = data[4]; // 'banner_start ~ banner_end'
 			var [bannerStartStr, bannerEndStr] = bannerDateRange.split(' ~ ');
 			var bannerStart = new Date(bannerStartStr);
 			var bannerEnd = new Date(bannerEndStr);
 
-			// 사용자가 선택한 날짜를 파싱
 			var start = startDate ? new Date(startDate + 'T00:00:00.0') : null;
 			var end = endDate ? new Date(endDate + 'T23:59:59.0') : null;
 
-			console.log('Filter Start Date:', start);
-			console.log('Filter End Date:', end);
-			console.log('Banner Start Date:', bannerStart);
-			console.log('Banner End Date:', bannerEnd);
-
+			
 			// 필터링 조건: 배너의 날짜가 선택한 날짜 범위 내에 완전히 포함되어야 함
 			if (start && end) {
 				return bannerStart >= start && bannerEnd <= end;

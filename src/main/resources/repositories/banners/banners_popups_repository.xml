@@ -83,19 +83,5 @@
 		WHERE 
 			banner_num = #{banner_num}
 	</delete>
-	
-    <!-- 종료일이 현재 날짜보다 이전이고 '노출' 상태인 배너들 찾기 -->
-    <select id="findExpiredBanners" parameterType="java.util.Date" resultType="banners">
-        <![CDATA[
-        SELECT 
-        	* 
-        FROM 
-        	banners
-        WHERE 
-        	banner_end < #{today}
-        AND 
-        	banner_visible = '노출'
-        ]]>
-    </select>
 
 </mapper>
