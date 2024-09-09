@@ -76,8 +76,8 @@
 				<span th:text="${inquiries.inquiry_content}"></span>
 			</div>
 			<div class="text-group">
-				<span class="search-list-subject">파일첨부</span> 
-				<span th:text="${inquiries.inquiries_changed}"></span>
+				<span class="search-list-subject">파일첨부</span>
+				<img alt="사진" th:src="@{/images/books/{book}(book=${inquiries.inquiries_changed})}">
 			</div>
 			<div class="text-group">
 				<span class="search-list-subject">답변여부</span> 
