@@ -1,4 +1,4 @@
-package com.ezen.bookstore.admin.security.service;
+package com.ezen.bookstore.security.service;
 
 
 import java.util.Collection;
@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
-import com.ezen.bookstore.admin.security.mapper.UserMapper;
+import com.ezen.bookstore.security.mapper.UserMapper;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

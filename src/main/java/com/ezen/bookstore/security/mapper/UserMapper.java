@@ -1,4 +1,4 @@
-package com.ezen.bookstore.admin.security.mapper;
+package com.ezen.bookstore.security.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

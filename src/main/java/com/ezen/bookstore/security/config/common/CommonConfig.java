@@ -1,4 +1,4 @@
-package com.ezen.bookstore.admin.security.config.common;
+package com.ezen.bookstore.security.config.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

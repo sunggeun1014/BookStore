@@ -1,4 +1,4 @@
-package com.ezen.bookstore.admin.security.config;
+package com.ezen.bookstore.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,9 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.ezen.bookstore.admin.security.service.CustomAuthenticationFailureHandler;
-import com.ezen.bookstore.admin.security.service.CustomAuthenticationSuccessHandler;
-import com.ezen.bookstore.admin.security.service.CustomUserDetailsService;
+import com.ezen.bookstore.security.service.CustomAuthenticationFailureHandler;
+import com.ezen.bookstore.security.service.CustomAuthenticationSuccessHandler;
+import com.ezen.bookstore.security.service.CustomUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
 

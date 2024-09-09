@@ -12,7 +12,6 @@ import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersListDTO;
 import com.ezen.bookstore.admin.customerorders.repository.CustomerOrdersRepository;
 import com.ezen.bookstore.admin.inventorylog.repository.InventoryLogRepository;
-import com.ezen.bookstore.admin.warehouse.dto.WarehouseDTO;
 import com.ezen.bookstore.admin.warehouse.repository.WarehouseRepository;
 
 import lombok.RequiredArgsConstructor;

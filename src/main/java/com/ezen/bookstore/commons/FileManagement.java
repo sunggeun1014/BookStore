@@ -1,4 +1,4 @@
-package com.ezen.bookstore.admin.commons;
+package com.ezen.bookstore.commons;
 
 import java.io.IOException;
 import java.nio.file.Files;

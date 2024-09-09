@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ezen.bookstore.admin.commons.FileManagement;
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 import com.ezen.bookstore.admin.managers.repository.MgrRepository;
+import com.ezen.bookstore.commons.FileManagement;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

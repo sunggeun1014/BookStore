@@ -1,12 +1,12 @@
-package com.ezen.bookstore.admin.security.service;
+package com.ezen.bookstore.security.service;
 
 import java.io.IOException;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.ezen.bookstore.admin.commons.AccountManagement;
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
+import com.ezen.bookstore.commons.AccountManagement;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

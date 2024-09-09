@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ezen.bookstore.admin.commons.FileManagement;
 import com.ezen.bookstore.admin.notice.dto.NoticeDTO;
 import com.ezen.bookstore.admin.notice.service.NoticeService;
+import com.ezen.bookstore.commons.FileManagement;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;

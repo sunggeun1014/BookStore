@@ -3,16 +3,11 @@ package com.ezen.bookstore.admin.customerorders.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ezen.bookstore.admin.commons.AccountManagement;
 import com.ezen.bookstore.admin.commons.SearchCondition;
-import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersListDTO;
 import com.ezen.bookstore.admin.customerorders.service.CustomerOrdersService;
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller

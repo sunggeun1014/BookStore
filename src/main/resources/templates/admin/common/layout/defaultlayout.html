@@ -3,16 +3,16 @@
 	 xmlns:th="http://www.thymeleaf.org"
 	 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-	<head th:replace="~{common/fragments/config :: ConfigFragment}"></head>
+	<head th:replace="~{/admin/common/fragments/config :: ConfigFragment}"></head>
 
 <body>
 
 	<div class="inner">
 		
-		<div th:insert="~{common/fragments/sidebar :: SidebarFragment}"></div>
+		<div th:insert="~{/admin/common/fragments/sidebar :: SidebarFragment}"></div>
 
 		<div class="content-wrap">
-			<div th:insert="~{common/fragments/header :: HeaderFragment}"></div>
+			<div th:insert="~{/admin/common/fragments/header :: HeaderFragment}"></div>
 			
 			<div>
 				<div layout:fragment="Content"></div>

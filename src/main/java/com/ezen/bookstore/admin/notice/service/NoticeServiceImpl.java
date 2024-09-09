@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ezen.bookstore.admin.commons.AccountManagement;
-import com.ezen.bookstore.admin.commons.FileManagement;
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 import com.ezen.bookstore.admin.notice.dto.NoticeDTO;
 import com.ezen.bookstore.admin.notice.mapper.NoticeMapper;
+import com.ezen.bookstore.commons.AccountManagement;
+import com.ezen.bookstore.commons.FileManagement;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package com.ezen.bookstore.admin.security.service;
+package com.ezen.bookstore.security.service;
 
 
 import java.io.IOException;
