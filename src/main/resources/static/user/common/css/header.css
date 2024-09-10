@@ -52,6 +52,7 @@ header .header-center {
     position: relative;
 
 }
+
 .searchbar-right {
     display: flex;
     align-items: center;
@@ -61,7 +62,6 @@ header .header-center {
 .cart-icon-wrap {
     position: relative;
     height: 44px;
-
 }
 
 .cart-qty {
@@ -76,7 +76,7 @@ header .header-center {
     font-weight: 900;
     color: #fff;
     text-align: center;
-    line-height: 22px;
+    line-height: 20px;
 }
 
 .user-icon {
@@ -113,7 +113,7 @@ nav {
     flex-direction: row;
     width: 100%;
     gap: 30px;
-    margin-bottom: 22px;
+	margin-bottom: 15px;
 }
 
 .nav-all-categories {
@@ -137,22 +137,17 @@ nav {
 
 
 /* 전체 카테고리 모달 창*/
-.modal {
-    z-index: 5;
-    max-width: 1280px;
-    border-radius: 20px;
-    /*opacity: 0;*/
-    /*visibility: hidden;*/
-    padding: 0px 55px;
-    /*transition: opacity 0.3s ease, visibility 0.3s ease;*/
+.all-category-modal {
+    z-index: 100; /* 모달을 다른 요소들 위에 배치 */
     display: none;
+    max-width: 1280px;
 }
 
-.modal.visible {
+.all-category-modal.visible {
     display: block;
 }
 
-.modal-content {
+.category-modal-content {
     display: flex;
     background-color: #fff;
     border: 1px solid #666;
@@ -295,8 +290,8 @@ nav {
 
 .fixed-modal {
     position: fixed;
-    top: 82px;
-    z-index: 20; /* 모달이 다른 요소들 위에 있도록 설정 */
+    top: 80px;
+    z-index: 10; /* 모달이 다른 요소들 위에 있도록 설정 */
 }
 
 .header-fixed-right > a {

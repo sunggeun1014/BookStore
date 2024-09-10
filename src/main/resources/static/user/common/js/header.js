@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // 요소 선택
     const allCategoriesButtons = document.querySelectorAll(".nav-all-categories");
-    const modal = document.getElementById('myModal');
+    const modal = document.getElementById('categoryModal');
     const modalCategoryItems = document.querySelectorAll('.modal-category-item');
     const modalSelectedIcons = document.querySelectorAll('.modal-category-icon');
     const korCategories = document.getElementById('modal-categories-kor');
