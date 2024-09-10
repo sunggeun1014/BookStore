@@ -45,7 +45,7 @@ public class SecurityConfig {
         authProvider.setHideUserNotFoundExceptions(false);
         return authProvider;
     }
-
+    
     // Admin 경로용 SecurityFilterChain
     @Bean
     @Order(1)
@@ -63,7 +63,7 @@ public class SecurityConfig {
             )
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/admin/login/**", "/admin/common/**").permitAll()
+                .requestMatchers("/admin/login/**", "/admin/common/**","/images/**").permitAll()
                 .anyRequest().hasAuthority("ROLE_ADMIN")
             )
             .formLogin(form -> form
@@ -102,6 +102,7 @@ public class SecurityConfig {
             )
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+            	.requestMatchers("/images/**").permitAll()
                 .requestMatchers("/user/mypage").hasAuthority("ROLE_USER")
                 .anyRequest().permitAll()
             )

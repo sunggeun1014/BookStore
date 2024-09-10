@@ -11,15 +11,15 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
     	registry.addResourceHandler("/images/banners/**")
-                .addResourceLocations("file:///C:/images/banners/"); 
+                .addResourceLocations("file:/C:/images/banners/"); 
         
         registry.addResourceHandler("/images/books/**")
-                .addResourceLocations("file:///C:/images/books/");   
+                .addResourceLocations("file:/C:/images/books/");   
 
         registry.addResourceHandler("/images/profiles/**")
-                .addResourceLocations("file:///C:/images/profiles/");
+                .addResourceLocations("file:/C:/images/profiles/");
 
         registry.addResourceHandler("/images/notice/**")
-                .addResourceLocations("file:///C:/images/notice/");  
+                .addResourceLocations("file:/C:/images/notice/");  
     }
 }

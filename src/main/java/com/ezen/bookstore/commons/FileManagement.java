@@ -12,11 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileManagement {
-
-	public final static String BANNER_PATH = "C:/images/banners/";
-	public final static String BOOK_PATH = "C:/images/books/";
-	public final static String PROFILE_PATH = "C:/images/profiles/";
-	public final static String NOTICE_PATH = "C:/images/notice/";
+	public final static String BANNER_PATH = "//218.51.83.158/images/banners/";
+	public final static String BOOK_PATH = "//218.51.83.158/images/books/";
+	public final static String PROFILE_PATH = "//218.51.83.158/images/profiles/";
+	public final static String NOTICE_PATH = "//218.51.83.158/images/notice/";
 	
 	public final static String BANNER_UPLOAD_NAME = "banner_img_";
 	public final static String BOOK_UPLOAD_NAME = "book_img_";
