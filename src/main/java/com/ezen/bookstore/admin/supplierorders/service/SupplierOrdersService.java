@@ -2,8 +2,8 @@ package com.ezen.bookstore.admin.supplierorders.service;
 
 import java.util.List;
 
-import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO;
+import com.ezen.bookstore.commons.SearchCondition;
 
 public interface SupplierOrdersService {
 	public List<SupplierOrdersDTO> getSupplierOrdersList();

@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO;
 import com.ezen.bookstore.admin.supplierorders.repository.SupplierOrdersRepository;
+import com.ezen.bookstore.commons.SearchCondition;
 
 import lombok.RequiredArgsConstructor;
 

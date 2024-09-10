@@ -2,9 +2,9 @@ package com.ezen.bookstore.admin.customerorders.service;
 
 import java.util.List;
 
-import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersListDTO;
+import com.ezen.bookstore.commons.SearchCondition;
 
 public interface CustomerOrdersService {
 

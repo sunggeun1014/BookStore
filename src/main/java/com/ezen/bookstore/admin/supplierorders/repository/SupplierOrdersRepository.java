@@ -7,8 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO;
+import com.ezen.bookstore.commons.SearchCondition;
 
 import lombok.RequiredArgsConstructor;
 
