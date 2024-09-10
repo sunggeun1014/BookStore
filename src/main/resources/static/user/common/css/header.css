@@ -139,15 +139,15 @@ nav {
     z-index: 5;
     max-width: 1280px;
     border-radius: 20px;
-    opacity: 0;
-    visibility: hidden;
+    /*opacity: 0;*/
+    /*visibility: hidden;*/
     padding: 0px 55px;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    /*transition: opacity 0.3s ease, visibility 0.3s ease;*/
+    display: none;
 }
 
 .modal.visible {
-    opacity: 1;
-    visibility: visible;
+    display: block;
 }
 
 .modal-content {
