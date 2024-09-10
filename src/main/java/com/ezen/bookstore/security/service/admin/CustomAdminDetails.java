@@ -1,4 +1,4 @@
-package com.ezen.bookstore.security.service;
+package com.ezen.bookstore.security.service.admin;
 
 
 import java.util.Collection;
@@ -8,14 +8,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomAdminDetails implements UserDetails {
 
 	private static final long serialVersionUID = -1573691849618309598L;
 	
 	private final ManagersDTO managersDTO;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(ManagersDTO managersDTO, Collection<? extends GrantedAuthority> authorities) {
+    public CustomAdminDetails(ManagersDTO managersDTO, Collection<? extends GrantedAuthority> authorities) {
         this.managersDTO = managersDTO;
         this.authorities = authorities;
     }

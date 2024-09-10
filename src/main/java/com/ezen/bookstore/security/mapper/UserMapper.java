@@ -4,14 +4,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
-
+import com.ezen.bookstore.admin.members.dto.MembersDTO;
 @Mapper
 public interface UserMapper {
-
-    @Select("SELECT manager_id, manager_pw, manager_name, manager_dept, manager_profile_original, manager_profile_changed,"
-    		+ "	manager_email, manager_phoneNo, manager_addr, manager_detail_addr FROM managers WHERE manager_id = #{username}")
-    ManagersDTO loadUserByUsername(@Param("username") String username);
-    // username = id
-    
+	@Select("SELECT member_id, member_pw, member_name, member_email, member_phoneNo, member_addr, member_detail_addr, member_date,"
+    		+ "naver_login_cd, kakao_login_cd FROM members WHERE member_id = #{username}")
+    MembersDTO loadUserByUsername(@Param("username") String username);
 }

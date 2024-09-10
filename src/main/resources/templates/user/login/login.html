@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form th:action="@{/user/loginProc}" method="POST" class="login-form">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> <!-- CSRF 토큰 추가 -->
+
+              
+        <div class="frame">
+            <div class="input-container" id="usernameContainer" 
+                 th:classappend="${param.usernameError} ? 'error-border' : ''">
+                <input id="id" class="id" type="text" th:name="username" 
+                       placeholder="아이디" required />
+            </div>
+            
+            <div th:if="${param.usernameError}" class="error-message">
+                <p th:text="${param.usernameError}"></p>
+            </div>
+        </div>
+        
+        <br>
+        
+        <div class="frame">
+            <div class="input-container" id="passwordContainer" 
+                 th:classappend="${param.passwordError} ? 'error-border' : ''">
+                <input id="password" class="password" type="password" th:name="password" 
+                       placeholder="비밀번호" required />
+            </div>
+            
+            <div th:if="${param.passwordError}" class="error-message">
+                <p th:text="${param.passwordError}"></p>
+            </div>
+        </div>
+        
+        <br>
+        
+        <button type="submit" class="default-btn">로그인</button>
+    </form>
+    
+    <button type="button" onclick="location.href='/admin/members/join'">회원가입</button>
+</body>
+</html>

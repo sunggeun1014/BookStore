@@ -1,11 +1,11 @@
-package com.ezen.bookstore.security.service;
+package com.ezen.bookstore.security.service.user;
 
 import java.io.IOException;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
+import com.ezen.bookstore.admin.members.dto.MembersDTO;
 import com.ezen.bookstore.commons.AccountManagement;
 
 import jakarta.servlet.ServletException;
@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class CustomUserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -23,16 +23,15 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 		
-        ManagersDTO managersDTO = userDetails.getManagersDTO();
-        managersDTO.setManager_pw(null);
+		MembersDTO membersDTO = userDetails.getMembersDTO();
+		membersDTO.setMember_pw(null);
+		
+		session.setMaxInactiveInterval(60*60);
+        session.setAttribute(AccountManagement.MEMBER_INFO, membersDTO);
         
-        System.out.println(managersDTO);
-        
-        session.setMaxInactiveInterval(60*60);
-        session.setAttribute(AccountManagement.MANAGER_INFO, managersDTO);
-        
-        response.sendRedirect("/admin/index");
+        response.sendRedirect("/user/index");
 
 	}
+	
 
 }

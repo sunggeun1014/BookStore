@@ -1,4 +1,4 @@
-package com.ezen.bookstore.security.service;
+package com.ezen.bookstore.security.service.admin;
 
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class CustomAdminAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
