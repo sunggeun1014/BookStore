@@ -7,8 +7,8 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
+import com.ezen.bookstore.commons.SearchCondition;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.ezen.bookstore.admin.commons;
+package com.ezen.bookstore.commons;
 
 import lombok.Data;
 
