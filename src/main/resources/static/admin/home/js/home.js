@@ -4,13 +4,12 @@ $(document).ready(function() {
     // 테이블이 이미 초기화되어 있는지 확인
     // 문의내역 테이블
     if (!$.fn.DataTable.isDataTable('#inquiries')) {
-        table = $('#inquiries').removeAttr('width').DataTable({
+        table = $('#inquiries').DataTable({
             "pageLength": 5,
             "paging": true,
             "lengthChange": false,
             "searching": false,
             "ordering": true,
-            "autoWidth": false,
             columnDefs:
                 [
                     { targets: 0, orderable: false }, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
@@ -68,13 +67,12 @@ $(document).ready(function() {
 
     // 입출고내역 테이블
     if (!$.fn.DataTable.isDataTable('#stock')) {
-        table = $('#stock').removeAttr('width').DataTable({
+        table = $('#stock').DataTable({
             "pageLength": 5,
             "paging": true,
             "lengthChange": false,
             "searching": false,
             "ordering": true,
-            "autoWidth": false,
             columnDefs:
                 [
                     { targets: 0, orderable: false }, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화

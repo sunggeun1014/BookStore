@@ -137,27 +137,27 @@ getClocks();
 setInterval(getClocks, 1000)
 
 function datepicker(start, end) {
-   const checkDates = () => {
-      const startDate = startDatePicker.selectedDates[0];
-      const endDate = endDatePicker.selectedDates[0];
+    const checkDates = () => {
+        const startDate = startDatePicker.selectedDates[0];
+        const endDate = endDatePicker.selectedDates[0];
 
-      if (startDate && endDate && startDate > endDate) {
-          startDatePicker.clear();
-      }
-   }
-   
-   const startDatePicker = flatpickr(`#${start}`, {
+        if (startDate && endDate && startDate > endDate) {
+            startDatePicker.clear();
+        }
+    }
+
+    const startDatePicker = flatpickr(`#${start}`, {
         dateFormat: "Y-m-d",
         enableTime: false,
         defaultDate: null,
-         onChange: checkDates
+        onChange: checkDates
     });
-   
-   const endDatePicker = flatpickr(`#${end}`, {
+
+    const endDatePicker = flatpickr(`#${end}`, {
         dateFormat: "Y-m-d",
         enableTime: false,
-          defaultDate: null,
-         onChange: checkDates
+        defaultDate: null,
+        onChange: checkDates
     });
 
 }
@@ -165,21 +165,21 @@ function datepicker(start, end) {
 // 날짜 옵션 기능
 function setDateOption(day, obj) {
     const now_date = new Date();
-    const new_date = new Date(); 
-    
+    const new_date = new Date();
+
     new_date.setDate(now_date.getDate() - day);
 
     const start_year = new_date.getFullYear();
     const start_month = (new_date.getMonth() + 1).toString().padStart(2, '0');
     const start_day    = new_date.getDate().toString().padStart(2, '0');
-    
+
     const end_year = now_date.getFullYear();
     const end_month = (now_date.getMonth() + 1).toString().padStart(2, '0');
     const end_day    = now_date.getDate().toString().padStart(2, '0');
-    
+
     $(".startDate").val(`${start_year}-${start_month}-${start_day}`);
     $(".endDate").val(`${end_year}-${end_month}-${end_day}`);
-    
+
     $(".date-btn").removeClass("active");
     $(obj).addClass("active");
 }
@@ -187,13 +187,13 @@ function setDateOption(day, obj) {
 function getConfirmModal(msg, func) {
     let divArea = $("<div id='myModal' class='modal' style='display : block;'></div>");
     let contentArea = $("<div class='modal-content'></div>");
-    
+
     let messageArea = $(`<div class='modal-text'><p>${msg}</p></div>`);
     let modalFotter = $(`<div class='modal-footer'></div>`)
     let btnArea = $("<button id='confirm-delete' class='modal-btn confirm'>확인</button><button id='cancel-delete' class='modal-btn cancel'>취소</button>");
-    
+
     contentArea.append(messageArea);
-    
+
     contentArea.append(modalFotter);
     modalFotter.append(btnArea);
     divArea.append(contentArea);
@@ -201,40 +201,40 @@ function getConfirmModal(msg, func) {
 
     $("body").append(divArea);
     $("#confirm-delete").on("click", function() {
-     	func();
+        func();
         divArea.remove(); // 모달 제거
     });
-    
+
     // 취소 버튼 클릭 이벤트
     $("#cancel-delete").on("click", function() {
         divArea.remove(); // 모달 제거
     });
-	
-	$("#confirm-delete").focus();
+
+    $("#confirm-delete").focus();
 }
 
 function getCheckModal(msg, focusElement) {
     let divArea = $("<div id='myModal' class='modal' style='display: block;'></div>"); // 잘못된 따옴표 수정
     let contentArea = $("<div class='modal-content'></div>");
-    
+
     let messageArea = $(`<div class='modal-text'><p>${msg}</p></div>`);
     let modalFotter = $("<div class='modal-footer'></div>");  // 문자열 수정
     let btnArea = $("<button id='confirm-delete' class='modal-btn confirm'>확인</button>");
-    
-    contentArea.append(messageArea); 
+
+    contentArea.append(messageArea);
     contentArea.append(modalFotter);
-    
+
     modalFotter.append(btnArea);
     divArea.append(contentArea);
 
     $("body").append(divArea);
     $(".modal-btn.confirm").on("click", function() {
         divArea.remove(); // 모달 제거
-      if(focusElement) {
-         focusElement.focus();
-      }
+        if(focusElement) {
+            focusElement.focus();
+        }
     });
-	
+
     $("#confirm-delete").focus();
 }
 
@@ -270,18 +270,18 @@ function getErrorModal(focusElement) {
  * @param {function} successFc 통신 성공 시 실행할 콜백함수
  */
 function fnPostAjax(url, params, successFc) {
-	$.ajax({
-		url: url,  
-		type: 'POST',
-		contentType: 'application/json',
-		data: JSON.stringify(params),  
-		success: function(jsonData) {
-			if(typeof successFc === 'function') {
-				successFc(jsonData);
-			}
-		},
-		error: function() {
-			getCheckModal('통신 중 오류가 발생했습니다.');
-		}
-	});
+    $.ajax({
+        url: url,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(params),
+        success: function(jsonData) {
+            if(typeof successFc === 'function') {
+                successFc(jsonData);
+            }
+        },
+        error: function() {
+            getCheckModal('통신 중 오류가 발생했습니다.');
+        }
+    });
 }
