@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ezen.bookstore.admin.members.dto.MembersDTO;
+import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 import com.ezen.bookstore.user.members.service.UserMgntService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,4 +79,15 @@ public class UserMgntController {
 	    return ResponseEntity.ok(response);
 	}
 	
+	@GetMapping(value = "/getBasketCount")
+    @ResponseBody
+    public int getBasketCount(HttpSession session) {
+		UserMembersDTO member = (UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO);
+        
+        if(member != null) {
+            return userMgntService.getBasketCount(member.getMember_id());
+        }
+        
+        return 0;
+    }
 }

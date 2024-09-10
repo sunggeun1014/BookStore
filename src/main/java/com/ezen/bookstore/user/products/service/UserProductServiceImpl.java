@@ -19,7 +19,7 @@ public class UserProductServiceImpl implements UserProductService {
 	@Override
 	public List<UserProductDTO> getProductList(UserSearchCondition condition) {
 		try {
-			return productRepository.getProductList();
+			return productRepository.getProductList(condition);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

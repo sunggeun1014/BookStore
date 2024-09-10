@@ -20,4 +20,8 @@ public class UserMgntRepository {
 		return sql.selectList("Members.findById", member_id).size() == 0;
 	}
 	
+	public int getBasketCount(String member_id) {
+        return sql.selectOne("Members.getBasketCount", member_id);
+    }
+	
 }

@@ -127,4 +127,15 @@ document.addEventListener('DOMContentLoaded', function () {
     modalCategoryItems.forEach(item => {
         item.addEventListener('click', handleCategoryClick);
     });
+	
+	$.ajax({
+		url: "/user/members/getBasketCount",
+		method: "GET",
+		success: function(response) {
+			$(".cart-qty p").text(response);
+		},
+		error: function () {
+			getErrorModal();
+		}
+	});
 });

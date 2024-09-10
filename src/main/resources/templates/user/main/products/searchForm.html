@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/common/layout/mainLayout}"
+      layout:fragment="Content">
 
-<div>
+	<link rel="stylesheet" href="/user/products/css/list.css" />
+
+<div class="content-container">
 	<div>
-		<span>'[[${condition.word}]]'에 대한 검색결과 내용</span>
+		<span>''에 대한 검색결과 내용</span>
 	</div>
 	<div>
 		<span>
@@ -40,28 +46,28 @@
 		</div>
 	</div>
 	<div>
-		<div>
-			<div>
-				<input type="checkbox"/>
-			</div>
-			<div>
-				<img src="" alt="책 이미지">
-			</div>
-			<div>
-				<div>[국내도서] 이중 하나는 거짓말</div>
-				<div>김예란</div>
-				<div>문학동네 · 2024년 8월 20일</div>
-				<div>16,000원</div>
-				<div>★5 (10)</div>
-			</div>
-			<div>
-				<div>
-					<button>바로구매</button>
-				</div>
-				<div>
-					<button>장바구니</button>
-				</div>
-			</div>
+		<div class="product-list-area" th:each="product : ${productList}">
+		    <div>
+		        <input type="checkbox" th:value="${product.book_isbn}"/>
+		    </div>
+		    <div>
+		        <img class="product-image" th:src="@{/images/books/{image}(image=${product.book_thumbnail_changed})}" alt="책 이미지">
+		    </div>
+		    <div>
+		        <div th:text="'[국내도서] ' + ${product.book_name}"></div>
+		        <div th:text="${product.book_author}"></div>
+		        <div th:text="${product.book_publisher} + ' · ' + ${product.book_publish_date}"></div>
+		        <div th:text="${#numbers.formatInteger(product.book_price, 0, 'COMMA')}"></div>
+		        <div th:text="'★' + ${product.reviews_rating_avg} + ' (' + ${product.review_rating_cnt} + ')'"></div>
+		    </div>
+		    <div>
+		        <div>
+		            <button>바로구매</button>
+		        </div>
+		        <div>
+		            <button>장바구니</button>
+		        </div>
+		    </div>
 		</div>
 	</div>
 </div>

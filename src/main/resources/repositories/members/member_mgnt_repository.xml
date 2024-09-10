@@ -86,4 +86,13 @@
     	SELECT * FROM members WHERE member_id = #{member_id}
 	</select>
 	
+	<select id="getBasketCount" resultType="Integer" parameterType="String">
+        SELECT
+            COUNT(*)
+        FROM
+            orders_cart
+        WHERE
+            member_id = #{member_id}
+    </select>
+	
 </mapper>
