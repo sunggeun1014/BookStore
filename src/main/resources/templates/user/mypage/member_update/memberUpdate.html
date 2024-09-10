@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<span>회원정보수정</span>
+		<div>
+			<form action="/user/mypage/checkPw" method="POST">
+				<div style="border: 1px solid #C0C0C0; border-radius: 7px; padding: 20px;">
+					<h1>비밀번호 확인</h1>
+					<span>안전한 개인정보보호를 위해 비밀번호를 입력해주세요</span>
+					<div>
+						<span>비밀번호</span>
+						<input type="password" th:name="member_pw">
+						<button type="submit">확인</button>				
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

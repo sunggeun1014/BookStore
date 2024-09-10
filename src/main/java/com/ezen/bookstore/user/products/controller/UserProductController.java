@@ -24,7 +24,7 @@ public class UserProductController {
 		model.addAttribute("condition", condition);
 		
 	
-		return "/user/products/searchForm";
+		return "/user/main/products/searchForm";
 	}
 
 	@GetMapping("/detail")
