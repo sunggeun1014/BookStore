@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +22,16 @@ import lombok.RequiredArgsConstructor;
 public class UserMainController {
 	
 	private final UserMainService userMainService;
+
 	
+    
+    @GetMapping("/user/main")
+    public String mainPage(Model model) {
+        List<ProductsDTO> books = userMainService.getNewBooks(); // 책 데이터 가져오기
+        model.addAttribute("books", books);
+        return "main"; // Thymeleaf 템플릿 이름
+    }
+    
     @GetMapping(value = "/new-books/json", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> getNewBooks() {
@@ -30,4 +40,5 @@ public class UserMainController {
         response.put("data", books);
         return response;
     }
+
 }
