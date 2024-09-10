@@ -34,11 +34,6 @@ public class MgntController {
 		return "admin/members/members";
 	}
 	
-	@GetMapping("/join")
-	public String mgntJoin() {
-		return "user/members/memberReg";
-	}
-	
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, Object> tableData() {
