@@ -1,16 +1,14 @@
 package com.ezen.bookstore.security.service.user;
 
-import java.util.Collection;
 import java.util.Collections;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ezen.bookstore.admin.members.dto.MembersDTO;
+import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 import com.ezen.bookstore.security.mapper.UserMapper;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -23,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MembersDTO member = userMapper.loadUserByUsername(username);
+    	UserMembersDTO member = userMapper.loadUserByUsername(username);
 
         if (member == null) {
             throw new UsernameNotFoundException("아이디를 찾을 수 없습니다.");

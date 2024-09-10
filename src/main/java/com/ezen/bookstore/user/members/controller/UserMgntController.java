@@ -38,7 +38,7 @@ public class UserMgntController {
 		
 		model.addAttribute("emailDomainList", emailDomainList);
 			
-		return "user/members/memberReg";
+		return "user/login/members/memberReg";
 	}
 	
 	@PostMapping("/join")
@@ -61,7 +61,7 @@ public class UserMgntController {
 		
 	    userMgntService.joinProcess(userMembersDTO);
 		
-		return "redirect:/user/main";
+		return "redirect:/user/login";
 	}
 	
 	@PostMapping("/checkId")

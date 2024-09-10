@@ -5,17 +5,17 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ezen.bookstore.admin.members.dto.MembersDTO;
+import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 
 public class CustomUserDetails implements UserDetails {
 
     private static final long serialVersionUID = 3779630099302073986L;
 
-    private final MembersDTO membersDTO;
+    private final UserMembersDTO membersDTO;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(MembersDTO membersDTO, Collection<? extends GrantedAuthority> authorities) {
-        this.membersDTO = membersDTO;
+    public CustomUserDetails(UserMembersDTO userMembersDTO, Collection<? extends GrantedAuthority> authorities) {
+        this.membersDTO = userMembersDTO;
         this.authorities = authorities;
     }
 
@@ -24,7 +24,7 @@ public class CustomUserDetails implements UserDetails {
         return authorities;
     }
 
-    public MembersDTO getMembersDTO() {
+    public UserMembersDTO getMembersDTO() {
         return membersDTO;
     }
 
