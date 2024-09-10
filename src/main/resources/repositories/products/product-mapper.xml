@@ -38,7 +38,7 @@
             AND book_register_date >= #{start_date}
         </if>
         <if test="end_date != null">
-            AND book_register_date &lt;= #{end_date}
+            AND book_register_date <![CDATA[<=]]> #{end_date}
         </if>
         <if test="search_conditions != null and search_conditions != '' and word != null and word != ''">
             <choose>
@@ -164,5 +164,32 @@
         WHERE
         book_isbn = #{book_isbn}
     </update>
+    
+    <select id="getProductList" resultType="userProducts" parameterType="userCondition">
+    	SELECT 
+		    b.book_isbn,
+		    b.book_name, 
+		    b.book_price, 
+		    b.book_publisher, 
+		    b.book_author,
+		    b.book_publish_date,
+		    count(r.review_rating) AS review_rating_cnt,
+		    NVL(TRUNC(SUM(r.review_rating) / count(r.review_rating), 2), 0) AS reviews_rating_avg,
+    		b.book_thumbnail_changed
+		FROM 
+		    books b
+		LEFT JOIN 
+		    customer_order_details cod ON b.book_isbn = cod.book_isbn
+		LEFT JOIN 
+		    reviews r ON cod.order_detail_num = r.order_detail_num
+		GROUP BY 
+		    b.book_isbn,
+		    b.book_name,
+		    b.book_price,
+		    b.book_publisher,
+		    b.book_author,
+		    b.book_thumbnail_changed,
+		    b.book_publish_date
+    </select>
 
 </mapper>

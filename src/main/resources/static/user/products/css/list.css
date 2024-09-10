@@ -1,0 +1,13 @@
+.product-image {
+	width: 140px;
+	height: 210px;
+}
+
+.product-list-area {
+	display: flex;
+	border-top: solid 1px #C0C0C0; 
+}
+
+.product-list-area > div {
+	padding: 30px;
+}

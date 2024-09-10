@@ -33,4 +33,16 @@ public class UserMgntService {
     public boolean isMemberIdAvailable(String memberId) {
         return userMgntRepository.findById(memberId);
     }
+    
+    public int getBasketCount(String member_id) {
+    	int result = 0;
+    	
+    	try {
+			result = userMgntRepository.getBasketCount(member_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	return result;
+    }
 }
