@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.ezen.bookstore.admin.members.dto.MembersDTO;
 import com.ezen.bookstore.commons.AccountManagement;
+import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,13 +23,13 @@ public class CustomUserAuthenticationSuccessHandler implements AuthenticationSuc
 		
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 		
-		MembersDTO membersDTO = userDetails.getMembersDTO();
+		UserMembersDTO membersDTO = userDetails.getMembersDTO();
 		membersDTO.setMember_pw(null);
 		
 		session.setMaxInactiveInterval(60*60);
         session.setAttribute(AccountManagement.MEMBER_INFO, membersDTO);
         
-        response.sendRedirect("/user/index");
+        response.sendRedirect("/user/main");
 
 	}
 	

@@ -19,4 +19,5 @@ public class UserMgntRepository {
 	public boolean findById(String member_id) {
 		return sql.selectList("Members.findById", member_id).size() == 0;
 	}
+	
 }

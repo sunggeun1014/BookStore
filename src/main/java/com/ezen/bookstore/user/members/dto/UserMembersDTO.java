@@ -4,11 +4,14 @@ import java.sql.Timestamp;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 public class UserMembersDTO {
-	private String member_id;
+	String member_id;
 	private String member_pw;
 	private String member_name;
 	private String member_email;
@@ -17,8 +20,8 @@ public class UserMembersDTO {
 	private String member_detail_addr;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Timestamp member_date;
-	private String naver_login_cd;
-	private String kakao_login_cd;	
+	Timestamp member_date;
+	String naver_login_cd;
+	String kakao_login_cd;	
 
 }

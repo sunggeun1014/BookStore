@@ -102,7 +102,7 @@ public class SecurityConfig {
             )
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-//                .requestMatchers("/user/mypage").hasAuthority("ROLE_USER")
+                .requestMatchers("/user/mypage").hasAuthority("ROLE_USER")
                 .anyRequest().permitAll()
             )
             .formLogin(form -> form

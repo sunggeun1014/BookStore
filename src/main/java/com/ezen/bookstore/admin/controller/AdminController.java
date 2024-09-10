@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -37,7 +36,7 @@ public class AdminController {
 	private final HomeService homeService;
 	
 	@GetMapping("/login")
-    public String login(Authentication authentication) {
+    public String login() {
 
         return "/admin/login/login";
     }
