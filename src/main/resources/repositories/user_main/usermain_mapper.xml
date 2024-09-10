@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Products">
+
+	<select id="getNewBooks"
+		resultType="com.ezen.bookstore.admin.products.dto.ProductsDTO">
+        
+        <![CDATA[
+        
+		SELECT * 
+        FROM (
+            SELECT * 
+            FROM books
+            ORDER BY book_publish_date DESC
+        ) 
+        WHERE ROWNUM <= 5
+
+		]]>
+
+	</select>
+
+</mapper>
