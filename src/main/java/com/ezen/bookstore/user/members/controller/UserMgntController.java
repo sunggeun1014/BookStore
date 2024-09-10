@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @Controller
-@RequestMapping("user/members")
+@RequestMapping("/user/members")
 public class UserMgntController {
 	
 	private final UserMgntService userMgntService;
@@ -61,7 +61,7 @@ public class UserMgntController {
 		
 	    userMgntService.joinProcess(userMembersDTO);
 		
-		return "redirect:/user/index";
+		return "redirect:/user/main";
 	}
 	
 	@PostMapping("/checkId")
