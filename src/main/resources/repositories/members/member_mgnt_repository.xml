@@ -45,6 +45,46 @@
         member_detail_addr = #{member_detail_addr}
         WHERE member_id = #{member_id}
     </update>
+    
+    <insert id="addMember" parameterType="member">
+	    INSERT INTO members (
+	        member_id,
+	        member_pw,
+	        member_name,
+	        member_email,	        	        
+	        member_phoneNo,
+	        member_addr,
+	        member_detail_addr,	        
+	        member_date,
+	        naver_login_cd,
+	        kakao_login_cd
+	    ) VALUES (
+	        #{member_id},
+	        #{member_pw},
+	        #{member_name},
+	        #{member_email},
+	        #{member_phoneNo},
+	        #{member_addr},
+	        #{member_detail_addr},
+	        #{member_date},
+	        <if test="naver_login_cd != null">
+	            #{naver_login_cd}
+	        </if>
+	        <if test="naver_login_cd == null">
+	            ''
+	        </if>,
+	        <if test="kakao_login_cd != null">
+	            #{kakao_login_cd}
+	        </if>
+	        <if test="kakao_login_cd == null">
+	            ''
+	        </if>
+	    )
+	</insert>
+	
+	<select id="findById" parameterType="String" resultType="member">
+    	SELECT * FROM members WHERE member_id = #{member_id}
+	</select>
 	
 	
 </mapper>

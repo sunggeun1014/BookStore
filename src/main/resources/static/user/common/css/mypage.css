@@ -1,4 +1,4 @@
-#myprofile-warp {
+#myprofile-wrap {
     display: grid;
     grid-template-columns: 170px 1fr;
     gap: 80px;
@@ -6,7 +6,7 @@
 }
 
 /* 내정보 사이드 메뉴 */
-#myprofile-warp .user-profile-wrap {
+#myprofile-wrap .user-profile-wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,7 +21,7 @@
     font-weight: 700;
 }
 
-#myprofile-warp .fa-circle-user {
+#myprofile-wrap .fa-circle-user {
     font-size: 48px;
     background-color: #fff;
     border-radius: 100%;
