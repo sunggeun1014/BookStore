@@ -18,4 +18,9 @@ public class UserController {
 	public String login(Authentication authentication) {
 		return "/user/login/login";
 	}
+	
+	@GetMapping("/main")
+	public String mainPage() {
+		return "/user/main/main";
+	}
 }

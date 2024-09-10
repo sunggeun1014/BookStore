@@ -1,4 +1,3 @@
-console.log('하이')
 
 var table;
 $(document).ready(function() {
