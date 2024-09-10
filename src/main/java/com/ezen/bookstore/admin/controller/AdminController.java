@@ -1,8 +1,15 @@
 package com.ezen.bookstore.admin.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.file.Files;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +22,7 @@ import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 import com.ezen.bookstore.admin.managers.service.MgrService;
 import com.ezen.bookstore.commons.AccountManagement;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -109,4 +117,34 @@ public class AdminController {
         return "redirect:/admin/index";  // 업데이트 후 마이페이지로 리다이렉트
     }
     
+   @GetMapping("/download")
+   public void download(String img, HttpServletResponse response) throws IOException {
+	   response.setContentType("text/plain; charset=UTF-8");
+	  
+	   response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(img, "UTF-8") + "\"");
+	
+	   File file = new File("C:/images/inquiries/" + img);
+       
+	   
+       if (!file.exists()) {
+           response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+           response.setCharacterEncoding("UTF-8");
+           response.getWriter().write("File not found");
+           return;
+       }
+       
+       String mimeType = Files.probeContentType(file.toPath());
+       if (mimeType == null) {
+           mimeType = "application/octet-stream";
+       }
+       response.setContentType(mimeType);
+       
+       response.addHeader("Content-Disposition", "attachment; filename=\"" + img + "\"");
+       
+       try (FileInputStream in = new FileInputStream(file)) {
+           FileCopyUtils.copy(in, response.getOutputStream());
+       } catch (IOException e) {
+          e.printStackTrace();
+       }
+   }
 }

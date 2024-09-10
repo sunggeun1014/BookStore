@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.inventorylog.dto.InventoryLogDTO;
 import com.ezen.bookstore.admin.inventorylog.service.InventoryLogService;
+import com.ezen.bookstore.commons.SearchCondition;
 
 import lombok.RequiredArgsConstructor;
 

@@ -77,7 +77,13 @@
 			</div>
 			<div class="text-group">
 				<span class="search-list-subject">파일첨부</span>
-				<img alt="사진" th:src="@{/images/books/{book}(book=${inquiries.inquiries_changed})}">
+				<div class="img-input-wrap">
+					<label for="input-file" class="input-file-label">
+						<a th:href="@{/admin/download?(img=${inquiries.inquiries_changed})}">
+							<img alt="사진" th:src="@{/images/books/{book}(book=${inquiries.inquiries_changed})}">
+						</a>
+					</label>
+				</div>
 			</div>
 			<div class="text-group">
 				<span class="search-list-subject">답변여부</span> 

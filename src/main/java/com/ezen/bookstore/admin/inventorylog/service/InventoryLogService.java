@@ -2,8 +2,8 @@ package com.ezen.bookstore.admin.inventorylog.service;
 
 import java.util.List;
 
-import com.ezen.bookstore.admin.commons.SearchCondition;
 import com.ezen.bookstore.admin.inventorylog.dto.InventoryLogDTO;
+import com.ezen.bookstore.commons.SearchCondition;
 
 public interface InventoryLogService {
 
