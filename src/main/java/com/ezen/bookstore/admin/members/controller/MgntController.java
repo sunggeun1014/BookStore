@@ -34,7 +34,7 @@ public class MgntController {
 		return "admin/members/members";
 	}
 	
-	h@GetMapping("/join")
+	@GetMapping("/join")
 	public String mgntJoin() {
 		return "user/members/memberReg";
 	}
