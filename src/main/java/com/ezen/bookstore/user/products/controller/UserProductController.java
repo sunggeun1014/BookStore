@@ -26,5 +26,10 @@ public class UserProductController {
 	
 		return "/user/products/searchForm";
 	}
+
+	@GetMapping("/detail")
+	public String productDetail() {
+		return "/user/products/detail";
+	}
 	
 }

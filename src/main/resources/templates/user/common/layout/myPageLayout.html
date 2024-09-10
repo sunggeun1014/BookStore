@@ -9,7 +9,46 @@
 	<div class="inner">
 		<header th:insert="~{/user/common/fragments/header :: HeaderFragment}"></header>
 
-			<div layout:fragment="Content"></div>
+		<div id="myprofile-warp">
+			<nav class="side-menu">
+				<div class="user-profile-wrap">
+					<div class="img-wrap">
+						<img src="" alt="" class="user-img" />
+						<i class="fa-solid fa-circle-user"></i>
+					</div>
+					<p class="user-name">길동이</p>
+				</div>
+				<ul class="menu-list">
+					<li class="menu-item">
+						쇼핑내역
+						<ul class="sub-menu">
+							<li class="sub-menu-list"><a href="#">주문/배송목록</a></li>
+						</ul>
+					</li>
+					<li class="menu-item">
+						내정보
+						<ul class="sub-menu">
+							<li class="sub-menu-list"><a href="#">회원정보수정</a></li>
+							<li class="sub-menu-list"><a href="#">회원탈퇴</a></li>
+						</ul>
+					</li>
+					<li class="menu-item">
+						내리뷰
+						<ul class="sub-menu">
+							<li class="sub-menu-list"><a href="#">리뷰목록</a></li>
+						</ul>
+					</li>
+					<li class="menu-item">
+						고객센터
+						<ul class="sub-menu">
+							<li class="sub-menu-list"><a href="#">공지사항</a></li>
+							<li class="sub-menu-list"><a href="#">1:1문의</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<div id="myinfo-content" layout:fragment="Content"></div>
+		</div>
 
 		<footer th:insert="~{/user/common/fragments/footer :: FooterFragment}"></footer>
 	</div>
