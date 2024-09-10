@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<link rel="stylesheet" href="/admin/members/css/memberDetails.css" />
+
+<body>
+	<h1 class="search-list-title">회원정보수정</h1>
+
+            <div class="info">
+                <span class="search-list-subject">아이디</span>
+                <div class="text-readonly">
+                    <span>absdfsd</span>
+                </div>
+            </div>
+
+            <div class="info">
+                <span class="search-list-subject important">새 비밀번호</span>
+                <div>
+                    <input type="password" id="input-pw" class="input-pw" placeholder="새 비밀번호 입력">
+                </div>
+            </div>
+
+            <div class="info">
+                <span class="search-list-subject important">새 비밀번호 확인</span>
+                <div>
+                    <input type="password" id="input-pw-check" class="input-pw" placeholder="새 비밀번호 확인">
+                </div>
+                <div>
+                </div>
+	                <span class="error-message" id="pwError" style="display: block;">※ 특수문자, 영문자, 숫자 포함, 최소 8자</span>
+            </div>
+			
+			<div class="info">
+				<span>이름</span>
+				<div>
+					<span>홍길동</span>
+				</div>
+			</div>
+            <!-- 이메일 필드 -->
+            <div class="select-wrap info">
+                <span class="search-list-subject">이메일</span>
+                <div class="info-items">
+                    <input type="text" id="emailUser" class="gray-text"/>
+                    <span class="search-list-subject-symbol">@</span>
+                    <div class="select-box">
+                        <select id="emailDomain" name="emailDomain">
+						    <option>naver.com</option>
+						</select>
+                        <div class="select-arrow-down" id="email"></div>
+                    </div>
+                    <input type="text" id="customEmailDomain" style="display:none;"/>
+                </div>
+                <div>
+	                <span class="error-message" id="emailError"></span>
+                </div>
+            </div>
+
+            <!-- 전화번호 필드 -->
+            <div class="select-wrap info">
+                <span class="search-list-subject">전화번호</span>
+                <div class="info-items">
+                    <div class="select-box">
+                        <select id="countryNum" name="countryNum">
+			                <option value="010">010</option>
+			                <option value="011">011</option>
+			                <option value="016">016</option>
+			                <option value="017">017</option>
+			                <option value="018">018</option>
+			                <option value="019">019</option>
+			            </select>
+                        <div class="select-arrow-down" id="phoneNum"></div>
+                    </div>
+                    <span class="search-list-subject-symbol">-</span>
+                    <input type="number" id="userPart1" class="gray-num" max="9999" step="1"/>
+                    <span class="search-list-subject-symbol">-</span>
+                    <input type="number" id="userPart2" class="gray-num" max="9999" step="1"/>
+                </div>
+               
+                <div>
+	                <span class="error-message" id="phoneError"></span>
+                </div>
+            </div>
+
+            <!-- 주소 필드 -->
+            <div class="info">
+                <span class="search-list-subject">주소</span>
+                <div>
+                    <input type="text" id="address_kakao" class="gray-text"/>
+                </div>
+            </div>
+
+            <div class="info">
+                <span class="search-list-subject">상세주소</span>
+                <div>
+                    <input type="text" class="gray-text"/>
+                </div>
+            </div>
+            
+            <div class="info">
+				<span class="search-list-subject">간편로그인 연동</span>
+				<span class="search-list-subject-naver">네이버</span>
+				<label class="switch"> 
+					<input id="toggle-btn" type="checkbox"disabled /> 
+					<span class="slider naver"></span>
+				</label>
+			
+				<span class="search-list-subject-kakao">카카오</span>
+				<label class="switch"> 
+					<input type="checkbox" disabled /> <span class="slider kakao"></span>
+				</label>
+			</div>
+</body>
+</html>
