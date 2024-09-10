@@ -6,15 +6,19 @@
 	<head th:replace="~{/user/common/fragments/config :: ConfigFragment}"></head>	 
 	 
 <body>
-	<div th:insert="~{/user/common/fragments/header :: HeaderFragment}"></div>
-	
-	<div>
-	
-		<div>
-			<div layout:fragment="Content"></div>
+	<div class="inner">
+		<header th:insert="~{/user/common/fragments/header :: HeaderFragment}"></header>
+
+		<div layout:fragment="Content"></div>
+
+		<!-- 탑버튼 -->
+		<div id="top-btn">
+			<i class="fa-solid fa-arrow-up"></i>
 		</div>
+		<footer th:insert="~{/user/common/fragments/footer :: FooterFragment}"></footer>
 	</div>
-	
-	<div th:insert="~{/user/common/fragments/footer :: FooterFragment}"></div>
+
+	<script src="/user/common/js/main.js"></script>
+	<script src="/user/common/js/btn-event.js"></script>
 </body>
 </html>
