@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/common/layout/myPageLayout}"
+      layout:fragment="Content">
+      
 <link rel="stylesheet" href="/admin/members/css/memberDetails.css" />
 
-<body>
+<div>
 	<h1 class="search-list-title">회원정보수정</h1>
 
             <div class="info">
@@ -112,5 +113,5 @@
 					<input type="checkbox" disabled /> <span class="slider kakao"></span>
 				</label>
 			</div>
-</body>
+</div>
 </html>
