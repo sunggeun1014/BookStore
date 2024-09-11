@@ -4,7 +4,6 @@ const topBtn = document.querySelector("#top-btn");
 window.addEventListener("scroll", function () {
     let i = this.document.documentElement.scrollTop;
 
-    console.log(i);
     if (i > 600) {
         BODY.classList.add("scrolling");
     } else {
@@ -21,11 +20,11 @@ topBtn.addEventListener("click", function () {
 });
 
 // 함수실행
-activeButton();
+/*activeButton();
 filterTextActive();
 dateFilterActive();
 calcQty();
-tabBarActive();
+tabBarActive();*/
 
 // 인풋에 밸류 들어가면 버튼 활성화 (로그인, 회원가입때)
 function activeButton() {

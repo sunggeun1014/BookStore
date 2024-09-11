@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BookCategorys">
+
+	<select id="getCategoryList" resultType="userCategory" parameterType="userCondition">
+		SELECT
+			bc.category_num,
+		    bc.category_name,
+		    COUNT(*) AS category_cnt
+		FROM
+		         book_categorys bc
+		    INNER JOIN books b ON bc.category_name = b.book_category
+		WHERE 1 = 1
+			<if test="word != null and !word.equals('')">
+				<if test="search_conditions.equals('book_title')">
+					and REPLACE(LOWER(b.book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+				</if>
+				<if test="search_conditions.equals('book_author')">
+					and REPLACE(LOWER(b.book_author), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+				</if>
+				<if test="search_conditions.equals('book_publisher')">
+					and REPLACE(LOWER(b.book_publisher), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+				</if>
+			</if>
+		GROUP BY
+		    bc.category_num,
+		    bc.category_name
+		ORDER BY
+    		bc.category_name ASC
+	</select>
+
+</mapper>

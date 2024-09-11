@@ -17,4 +17,7 @@ public class UserProductDTO {
     private Double reviews_rating_avg;
     private String book_thumbnail_changed;
     private Timestamp book_publish_date;
+    
+    private String book_state;
+    private Integer book_qty;
 }
