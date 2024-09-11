@@ -1,53 +1,75 @@
-const swiper = new Swiper('.swiper', {
-	loop: true, // 무한 루프 설정
-	slidesPerView: 'auto',
-	centeredSlides: true,
-	pagination: {
-		el: '.swiper-pagination',
-		clickable: true, // 페이지네이션 클릭 가능
-	},
-	/* 
-	autoplay: {
-		delay: 3000, // 자동 재생 지연 시간 (밀리초 단위)
-	},
-	*/
-	effect: 'slide', // 효과를 슬라이드로 설정 (기본값)
-});
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
-	fetchNewBooks();
+
+	// 배너 슬라이드 swiper
+	new Swiper('.swiper', {
+		loop: true, // 무한 루프 설정
+		slidesPerView: 'auto',
+		centeredSlides: true,
+		pagination: {
+			el: '.swiper-pagination',
+			clickable: true, // 페이지네이션 클릭 가능
+		},
+		/* 
+		autoplay: {
+			delay: 3000, // 자동 재생 지연 시간 (밀리초 단위)
+		},
+		*/
+		effect: 'slide', // 효과를 슬라이드로 설정 (기본값)
+	});
+
+
+
+
+	fetchBooks('/user/main/best-books/json', 'best-books-wrapper');
+	fetchBooks('/user/main/new-books/json', 'new-books-wrapper');
+	fetchBooks('/user/main/top-rated-books/json', 'top-rated-books-wrapper');
+	fetchBooks('/user/main/recommend-books/json', 'recommend-books-wrapper');
 });
 
-function fetchNewBooks() {
-	fetch('/user/main/new-books/json')
+// 책 데이터 가져오기 및 표시
+function fetchBooks(url, wrapperId) {
+	fetch(url)
 		.then(response => response.json())
 		.then(data => {
 			const books = data.data; // 서버에서 반환한 책 데이터
-			const booksWrapper = document.getElementById('new-books-wrapper');
+			const booksWrapper = document.getElementById(wrapperId);
 
-			booksWrapper.innerHTML = ''; // 기존 내용을 지우기
+			booksWrapper.innerHTML = ''; // 기존 내용 지우기
 
 			books.forEach(book => {
+				console.log(`Book data:`, book);
 				// 책 정보를 HTML로 생성
-				/* <img src="${book.book_thumbnail_changed}" alt="${book.book_name}" class="book-thumbnail" /> */
-				const bookElement = document.createElement('div');
-				bookElement.classList.add('section-content-book');
-				bookElement.innerHTML = `
-					<div class="thumbnail-wrapper">
-				                <img alt="썸네일" src="/user/main/img/01.jpg" class="book-thumbnail">
-				                        <div class="thumbnail-shadow"></div>
-				                    </div>
-                    <div class="book-info">
-                        <h3 class="book-title">${book.book_name}</h3>
-                        <p class="book-author">${book.book_author}</p>
-                    </div>
-                `;
+				const bookElement = createBookElement(book);
 				// 생성된 책 요소를 페이지에 추가
 				booksWrapper.appendChild(bookElement);
 			});
 		})
-		.catch(error => console.error('Error fetching new books:', error));
+		.catch(error => console.error(`Error fetching books from ${url}:`, error));
 }
 
+// 책 요소 생성
+function createBookElement(book) {
+	console.log(`Creating book element for:`, book);
+	const bookElement = document.createElement('div');
+	bookElement.classList.add('section-content-books-wrapper');
+	bookElement.innerHTML = `
+	    <div class="section-content-book">
+	        <div class="thumbnail-wrapper">
+	            <img alt="썸네일" src="/user/main/img/books/${book.book_isbn}.jpg" class="book-thumbnail">
+	            <div class="book-interactive">
+	                <div class="book-interactive-info" onclick="location.href=''">
+	                    ${book.book_intro}
+	                </div>
+	                <div class="book-interactive-cart">
+	                    <button onclick="location.href=''" class="add-cart-button">장바구니</a>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="book-info" onclick="location.href=''">
+	            <h3 class="book-title">${book.book_name}</h3>
+	            <p class="book-author">${book.book_author}</p>
+	        </div>
+	    </div>
+    `;
+	return bookElement;
+}
