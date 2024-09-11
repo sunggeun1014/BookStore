@@ -21,11 +21,11 @@ topBtn.addEventListener("click", function () {
 });
 
 // 함수실행
-// activeButton();
-// filterTextActive();
-// dateFilterActive();
-// calcQty();
-// tabBarActive();
+activeButton();
+filterTextActive();
+dateFilterActive();
+calcQty();
+tabBarActive();
 
 // 인풋에 밸류 들어가면 버튼 활성화 (로그인, 회원가입때)
 function activeButton() {
@@ -69,11 +69,11 @@ function calcQty() {
 
     // 마이너스 버튼 클릭 시
     minus.addEventListener("click", () => {
-        if (i > 0) {
+        if (i > 1) {
             i--;
             inputQty.value = i;
         } else {
-            alert("0보다 작을 수 없습니다."); // 모달로 알림 넣으면 됨
+            alert("1보다 작을 수 없습니다."); // 모달로 알림 넣으면 됨
         }
     });
 

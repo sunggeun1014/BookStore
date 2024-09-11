@@ -1,9 +1,9 @@
 .inner {
     width: 1280px;
-    height: auto;
+    margin: 20px auto 50px;
+    height: 100vh;
     min-height: 100%;
-    margin: 0 auto;
-    padding: 0 55px 270px;
+    padding: 0 55px;
 }
 /* 버튼들 */
 /* 탑버튼 */
@@ -81,12 +81,13 @@ button {
 }
 
 .small-btn {
-    width: 65px;
     height: 25px;
+    padding: 0 3px;
     border: 1px solid #845EC2;
     border-radius: 5px;
     background-color: #fff;
     color: #845EC2;
+    font-size: 12px;
 }
 
 .small-btn.detail {

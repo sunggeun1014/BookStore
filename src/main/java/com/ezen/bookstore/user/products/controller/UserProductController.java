@@ -29,7 +29,7 @@ public class UserProductController {
 
 	@GetMapping("/detail")
 	public String productDetail() {
-		return "/user/products/detail";
+		return "/user/main/products/detail";
 	}
 	
 }
