@@ -2,17 +2,51 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Products">
+<mapper namespace="userMain">
 
-	<select id="getNewBooks"
-		resultType="com.ezen.bookstore.admin.products.dto.ProductsDTO">
+	<select id="getBestBooks" resultType="userMain">
+        
+        <![CDATA[
+	    SELECT 
+	    	* 
+	    FROM (
+ 			SELECT 
+		    	b.book_isbn, 
+		    	b.book_name, 
+		    	b.book_author, 
+		    	b.book_intro,
+		    	SUM(c.order_detail_qty) AS total_order_qty
+			FROM 
+			    books b
+			JOIN 
+			    customer_order_details c ON b.book_isbn = c.book_isbn
+		    GROUP BY 
+		        b.book_isbn, 
+		        b.book_name, 
+		        b.book_author,
+		        b.book_intro
+			ORDER BY 
+			    total_order_qty DESC
+			)
+   		WHERE 
+   			ROWNUM <= 5
+   		]]>
+	</select>
+	
+	<select id="getNewBooks" parameterType="String" resultType="userMain">
         
         <![CDATA[
         
-		SELECT * 
+		SELECT 
+			*	
         FROM (
-            SELECT * 
-            FROM books
+            SELECT 
+	            book_isbn, 
+			    book_name, 
+			    book_author,
+			    book_intro
+            FROM 
+            	books
             ORDER BY book_publish_date DESC
         ) 
         WHERE ROWNUM <= 5
@@ -20,5 +54,57 @@
 		]]>
 
 	</select>
+	
+	<select id="getTopRatedBooks" parameterType="String" resultType="userMain">
+		<![CDATA[
+		
+		SELECT *
+		FROM (
+		    SELECT 
+		        b.book_isbn, 
+		        b.book_name, 
+		        b.book_author, 
+		        b.book_intro,
+		        AVG(r.review_rating) AS avg_review_rating
+		    FROM 
+		        books b
+		    JOIN 
+		        customer_order_details c ON b.book_isbn = c.book_isbn
+		    JOIN 
+		        reviews r ON c.order_detail_num = r.order_detail_num
+		    GROUP BY 
+		        b.book_isbn, 
+		        b.book_name, 
+		        b.book_author, 
+		        b.book_intro
+		    ORDER BY 
+		        avg_review_rating DESC
+		)
+		WHERE ROWNUM <= 5
+		]]>
+	</select>
 
+	
+	
+	<select id="getRecommendBooks" parameterType="String" resultType="userMain">
+	    
+	    <![CDATA[
+	    
+	    SELECT
+			* 
+	    FROM (
+	        SELECT 
+	        	book_isbn, 
+			    book_name, 
+			    book_author,
+			    book_intro
+	        FROM 
+	        	books
+	        ORDER BY 
+	        	DBMS_RANDOM.VALUE
+	    ) 
+	    WHERE 
+	    	ROWNUM <= 5
+	    ]]>
+	</select>
 </mapper>

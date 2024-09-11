@@ -24,7 +24,12 @@
 			</div>
 			<div class="swiper-slide">
 				<img src="/user/main/img/배너4.png" alt="배너4" />
-			</div>
+			</div>			
+		<!-- 			
+			<div class="swiper-slide" th:each="banner : ${bannersDTO}">
+				<img th:src="@{${banner.banner_changed}}" alt="배너" />
+			</div> 
+		-->
 		</div>
 
 		<div class="swiper-pagination pagination-btns">
@@ -34,45 +39,41 @@
 	</div>
 </section>
 
-<section class="section section-best-seller section-wrapper">
-	<div class="section-header">
-		<h2 class="section-title">9월의 베스트셀러</h2>
-		<p class="section-title-emoji">🏆</p>
-	</div>
-	<div id="best-seller-wrapper" class="section-content-books-wrapper"></div>
-</section>
+<div class="inner">
+	<section class="section section-best-books section-wrapper">
+		<div class="section-header">
+			<h2 class="section-title">9월의 베스트셀러</h2>
+			<p class="section-title-emoji">🏆</p>
+		</div>
+		<div id="best-books-wrapper" class="section-content-books-wrapper"></div>
+	</section>
 
 
-<section class="section section-new-book section-wrapper">
-	<div class="section-header">
-		<h2 class="section-title">화제의 신간</h2>
-		<p class="section-title-emoji">🔥</p>
-	</div>
-	<div id="new-books-wrapper" class="section-content-books-wrapper">
-		<div class="section-content-book"></div>
-		<div class="section-content-book"></div>
-		<div class="section-content-book"></div>
-		<div class="section-content-book"></div>
-		<div class="section-content-book"></div>
-	</div>
-</section>
+	<section class="section section-new-book section-wrapper">
+		<div class="section-header">
+			<h2 class="section-title">화제의 신간</h2>
+			<p class="section-title-emoji">🔥</p>
+		</div>
+		<div id="new-books-wrapper" class="section-content-books-wrapper">
+		</div>
+	</section>
 
-<section class="section section-high-rated section-wrapper">
-	<div class="section-header">
-		<h2 class="section-title">평점이 높은 책</h2>
-		<p class="section-title-emoji">🌟</p>
-	</div>
-	<div id="high-rated-wrapper" class="section-content-books-wrapper"></div>
-</section>
+	<section class="section section-top-rated section-wrapper">
+		<div class="section-header">
+			<h2 class="section-title">평점이 높은 책</h2>
+			<p class="section-title-emoji">🌟</p>
+		</div>
+		<div id="top-rated-books-wrapper" class="section-content-books-wrapper"></div>
+	</section>
 
-<section class="section section-recommend-books section-wrapper">
-	<div class="section-header">
-		<h2 class="section-title">이런 책은 어떠세요?</h2>
-		<p class="section-title-emoji">👀</p>
-	</div>
-	<div id="recommend-books-wrapper" class="section-content-books-wrapper"></div>
-</section>
-
+	<section class="section section-recommend-books section-wrapper">
+		<div class="section-header">
+			<h2 class="section-title">이런 책은 어떠세요?</h2>
+			<p class="section-title-emoji">👀</p>
+		</div>
+		<div id="recommend-books-wrapper" class="section-content-books-wrapper"></div>
+	</section>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

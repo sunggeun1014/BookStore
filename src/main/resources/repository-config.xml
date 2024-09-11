@@ -36,6 +36,7 @@
       
       <typeAlias type="com.ezen.bookstore.user.products.dto.UserProductDTO" alias="userProducts"/>
       <typeAlias type="com.ezen.bookstore.user.commons.UserSearchCondition" alias="userCondition"/>
+      <typeAlias type="com.ezen.bookstore.user.main.dto.UserMainDTO" alias="userMain"/>
 
    </typeAliases>
 
