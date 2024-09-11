@@ -24,6 +24,7 @@
 	height: 100%;
 	object-fit: cover;
 	border-radius: 30px;
+	box-shadow: 4px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
 .swiper .swiper-slide-active {
@@ -56,7 +57,7 @@
 
 /* section */
 .section-wrapper {
-	margin-bottom: 30px;
+	margin-bottom: 100px;
 }
 
 .section-header {
@@ -88,29 +89,83 @@
 
 .thumbnail-wrapper {
 	text-align: center;
+	position: relative;
 }
+
 
 .book-thumbnail {
 	border-radius: 0 10px 10px 0;
 	overflow: hidden;
-	width: 180px;
+	width: 190px;
+	height: 270px;
 	text-align: center;
+	position: relative;
+	cursor: pointer;
 }
 
-.thumbnail-shadow {
-	background-color: #cccccc;
+/* 썸네일 호버 부분 */
+.book-interactive {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 30px 25px;
+    border-radius: 0px 10px 10px 0px;
+    background-color: #3d3c3f;
+    opacity: 0;
+    -webkit-transition: .5s;
+    transition: .5s;
+    width: 100%;
+    height: 270px;
+}
+
+.section-content-book:hover .book-interactive {
+	opacity: .8 !important;
+}
+
+.book-interactive-info {
+	margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 200;
+    line-height: 20px;
+    color: #fff;
+    text-align: justify;
+    height: 140px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+	display: -webkit-box;
+	-webkit-line-clamp: 7;
+	-webkit-box-orient: vertical;
+}
+
+.add-cart-button {
+	background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100px;
+    font-size: 16px;
+}	
+
+.thumbnail-wrapper::after {
 	position: absolute;
-	display: block;
-	z-index: -1;
-	width: 180px;
-	height: 245px;
-	transform: translate(5px, -248px);
-	border-radius: 15px;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    z-index: -1;
+    background-color: #cccccc;
+    border-radius: 15px;
+    content: "";
+    width: 100%;
 }
-
 
 .book-info {
-	max-width: 180px;
+	max-width: 190px;
+	cursor: pointer;
 }
 
 .book-title {
@@ -118,6 +173,9 @@
 	color: #666666;
 	font-weight: 500;
 	margin-bottom: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .book-author {

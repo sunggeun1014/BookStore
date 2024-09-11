@@ -5,7 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.ezen.bookstore.admin.products.dto.ProductsDTO;
+import com.ezen.bookstore.user.main.dto.UserMainDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,10 +14,21 @@ import lombok.RequiredArgsConstructor;
 public class UserMainRepository {
 
 	private final SqlSessionTemplate sql;
-	
 
-    public List<ProductsDTO> getNewBooks() {
-        return sql.selectList("Products.getNewBooks");
+	public List<UserMainDTO> getBestBooks() {
+		return sql.selectList("userMain.getBestBooks");
+	}
+	
+    public List<UserMainDTO> getNewBooks() {
+        return sql.selectList("userMain.getNewBooks");
+    }
+    
+    public List<UserMainDTO> getTopRatedBooks() {
+    	return sql.selectList("userMain.getTopRatedBooks");
+    }
+    
+    public List<UserMainDTO> getRecommendBooks() {
+    	return sql.selectList("userMain.getRecommendBooks");
     }
 	
 }
