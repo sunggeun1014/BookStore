@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/common/layout/myPageLayout}"
+      layout:fragment="Content">
+	
+	  <link rel="stylesheet" href="/user/mypage/css/memberUpdate.css" />
+	      
+<div class="inner">
 	<div>
-		<span>회원정보수정</span>
-		<div>
-			<form action="/user/mypage/checkPw" method="POST">
-				<div style="border: 1px solid #C0C0C0; border-radius: 7px; padding: 20px;">
-					<h1>비밀번호 확인</h1>
-					<span>안전한 개인정보보호를 위해 비밀번호를 입력해주세요</span>
-					<div>
-						<span>비밀번호</span>
-						<input type="password" th:name="member_pw">
-						<button type="submit">확인</button>				
-					</div>
+		<span class="middle-font">회원정보수정</span>
+		<form action="/user/mypage/checkPw" method="POST">
+			<div class="pw-checkbox">
+				<div class="pw-checkbox-span">
+					<span class="big-font">비밀번호 확인</span>
+					<span class="default-font">안전한 개인정보보호를 위해 비밀번호를 입력해주세요.</span>
 				</div>
-			</form>
-		</div>
+				<div class="pw-checkbox-input">
+					<span class="middle-font">비밀번호</span>
+					<input type="password" class="input-long" th:name="member_pw" placeholder="비밀번호를 입력하세요.">
+					<button type="submit" class="default-btn">확인</button>				
+				</div>
+			</div>
+		</form>
 	</div>
-</body>
+</div>
 </html>

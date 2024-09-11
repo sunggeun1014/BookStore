@@ -31,4 +31,27 @@ public class UserMyPageServiceImpl implements UserMyPageService {
 		
 		return passwordEncoder.matches(password, memberPw);
 	}
+	
+	@Override
+	public boolean updateMemberInfo(HttpSession session, UserMembersDTO userMembersDTO) {
+		UserMembersDTO membersDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
+		
+		userMembersDTO.setMember_id(membersDTO.getMember_id());
+		
+		String memberPw = userMembersDTO.getMember_pw();
+		
+		if (!memberPw.equals("") || !memberPw.isEmpty()) {
+			userMembersDTO.setMember_pw( passwordEncoder.encode(memberPw));
+		}
+			
+		
+		return userMyPageMapper.updateMemberInfo(userMembersDTO) > 0;
+	}
+	
+	@Override
+	public UserMembersDTO getUser(HttpSession session) {
+		UserMembersDTO membersDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
+		
+		return userMyPageMapper.getUser(membersDTO.getMember_id());
+	}
 }
