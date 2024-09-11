@@ -22,6 +22,5 @@ public class UserProductDTO {
     private String book_thumbnail_changed;
     private Timestamp book_publish_date;
     
-    private String book_state;
     private Integer book_qty;
 }

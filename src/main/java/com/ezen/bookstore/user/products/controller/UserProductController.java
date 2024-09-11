@@ -1,6 +1,5 @@
 package com.ezen.bookstore.user.products.controller;
 
-import com.ezen.bookstore.admin.products.dto.ProductsDTO;
 import com.ezen.bookstore.user.products.dto.UserProductDTO;
 import com.ezen.bookstore.user.products.dto.UserReviewDTO;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import com.ezen.bookstore.user.commons.UserSearchCondition;
 import com.ezen.bookstore.user.products.service.UserProductService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 

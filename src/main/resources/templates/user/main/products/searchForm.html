@@ -57,11 +57,11 @@
 				<span>건</span>
 			</div>
 			<div class="order-area">
-				<span onclick="productOrderBy(1)">판매량</span>
-				<span onclick="productOrderBy(2)">최근출판</span>
-				<span onclick="productOrderBy(3)">낮은가격</span>
-				<span onclick="productOrderBy(4)">높은평점</span>
-				<span onclick="productOrderBy(5)">리뷰수</span>
+				<span onclick="productOrderBy(1)" th:classappend="${condition.orderByValue == 1} ? 'order-by-click' : ''">판매량</span>
+				<span onclick="productOrderBy(2)" th:classappend="${condition.orderByValue == 2} ? 'order-by-click' : ''">최근출판</span>
+				<span onclick="productOrderBy(3)" th:classappend="${condition.orderByValue == 3} ? 'order-by-click' : ''">낮은가격</span>
+				<span onclick="productOrderBy(4)" th:classappend="${condition.orderByValue == 4} ? 'order-by-click' : ''">높은평점</span>
+				<span onclick="productOrderBy(5)" th:classappend="${condition.orderByValue == 5} ? 'order-by-click' : ''">리뷰수</span>
 			</div>
 		</div>
 		<div>

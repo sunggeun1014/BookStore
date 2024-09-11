@@ -230,3 +230,7 @@
     flex-direction: column;
     justify-content: center;
 }
+
+.order-by-click {
+	color: #845EC2;
+}
