@@ -2,6 +2,7 @@ package com.ezen.bookstore.user.products.repository;
 
 import java.util.List;
 
+import com.ezen.bookstore.user.products.dto.UserReviewDTO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +21,12 @@ public class UserProductRepository {
 	public List<UserProductDTO> getProductList(UserSearchCondition condition) {
 		return sql.selectList("Products.getProductList", condition);
 	}
-	
-    @GetMapping("/detail")
-    public String productDetail() {
-        return "/user/products/detail";
+
+    public UserProductDTO getProductDetail(String bookISBN) {
+        return sql.selectOne("Products.getBookDetail", bookISBN);
     }
+
+	public List<UserReviewDTO> getUserReview(String bookISBN) {
+		return sql.selectList("Products.getUserReviewList", bookISBN);
+	}
 }

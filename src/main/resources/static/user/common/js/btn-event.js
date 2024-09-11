@@ -1,24 +1,3 @@
-const BODY = document.querySelector("body"); //scrolling
-const topBtn = document.querySelector("#top-btn");
-
-window.addEventListener("scroll", function () {
-    let i = this.document.documentElement.scrollTop;
-
-    if (i > 600) {
-        BODY.classList.add("scrolling");
-    } else {
-        BODY.classList.remove("scrolling");
-    }
-});
-
-// 탑버튼 클릭 스크롤링
-topBtn.addEventListener("click", function () {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-    });
-});
-
 // 함수실행
 /*activeButton();
 filterTextActive();

@@ -13,6 +13,10 @@ public class UserProductDTO {
     private Integer book_price;
     private String book_publisher; 
     private String book_author;
+    private String book_intro;
+    private String book_country_type;
+    private String book_category;
+    private String book_state;
     private Integer review_rating_cnt;
     private Double reviews_rating_avg;
     private String book_thumbnail_changed;
