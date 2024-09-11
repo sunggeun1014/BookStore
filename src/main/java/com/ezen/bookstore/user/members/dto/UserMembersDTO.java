@@ -2,8 +2,6 @@ package com.ezen.bookstore.user.members.dto;
 
 import java.sql.Timestamp;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -12,14 +10,13 @@ import lombok.experimental.FieldDefaults;
 @Data
 public class UserMembersDTO {
 	String member_id;
-	private String member_pw;
-	private String member_name;
-	private String member_email;
-	private String member_phoneNo;
-	private String member_addr;
-	private String member_detail_addr;
+	String member_pw;
+	String member_name;
+	String member_email;
+	String member_phoneNo;
+	String member_addr;
+	String member_detail_addr;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Timestamp member_date;
 	String naver_login_cd;
 	String kakao_login_cd;	

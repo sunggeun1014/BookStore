@@ -5,113 +5,128 @@
       layout:decorate="~{/user/common/layout/myPageLayout}"
       layout:fragment="Content">
       
-<link rel="stylesheet" href="/admin/members/css/memberDetails.css" />
-
-<div>
+	  <link rel="stylesheet" href="/user/mypage/css/memberUpdateDetail.css" />
+	
+<div class="inner">
 	<h1 class="search-list-title">회원정보수정</h1>
-
-            <div class="info">
-                <span class="search-list-subject">아이디</span>
-                <div class="text-readonly">
-                    <span th:text="${member}"></span>
-                </div>
+        <div class="info">
+            <span class="search-list-subject">아이디</span>
+            <div style="margin-left: 50px;">
+                <span th:text="${userMembers.member_id}"></span>
             </div>
+        </div>
 
-            <div class="info">
-                <span class="search-list-subject important">새 비밀번호</span>
-                <div>
-                    <input type="password" id="input-pw" class="input-pw" placeholder="새 비밀번호 입력">
-                </div>
+        <div class="info">
+            <span class="search-list-subject">새 비밀번호</span>
+            <div>
+                <input type="password" id="input-pw" class="input-long" placeholder="새 비밀번호 입력">
             </div>
+        </div>
 
-            <div class="info">
-                <span class="search-list-subject important">새 비밀번호 확인</span>
-                <div>
-                    <input type="password" id="input-pw-check" class="input-pw" placeholder="새 비밀번호 확인">
-                </div>
-                <div>
-                </div>
-	                <span class="error-message" id="pwError" style="display: block;">※ 특수문자, 영문자, 숫자 포함, 최소 8자</span>
+        <div class="info">
+            <span class="search-list-subject">새 비밀번호 확인</span>
+            <div>
+                <input type="password" id="input-pw-check" class="input-long" placeholder="새 비밀번호 확인">
             </div>
-			
-			<div class="info">
-				<span>이름</span>
-				<div>
-					<span>홍길동</span>
-				</div>
+            <div></div>
+            <span class="error-message" id="pwError" style="display: block;">※ 특수문자, 영문자, 숫자 포함, 최소 8자</span>
+        </div>
+		
+		<div class="info">
+			<span class="search-list-subject">이름</span>
+			<div style="margin-left: 50px;">
+				<span th:text="${userMembers.member_name}"></span>
 			</div>
-            <!-- 이메일 필드 -->
-            <div class="select-wrap info">
-                <span class="search-list-subject">이메일</span>
-                <div class="info-items">
-                    <input type="text" id="emailUser" class="gray-text"/>
-                    <span class="search-list-subject-symbol">@</span>
-                    <div class="select-box">
-                        <select id="emailDomain" name="emailDomain">
-						    <option>naver.com</option>
-						</select>
-                        <div class="select-arrow-down" id="email"></div>
-                    </div>
-                    <input type="text" id="customEmailDomain" style="display:none;"/>
-                </div>
-                <div>
-	                <span class="error-message" id="emailError"></span>
+		</div>
+           <!-- 이메일 필드 -->
+        <div class="select-wrap info">
+            <span class="search-list-subject">이메일</span>
+            <div class="info-items">
+                <input type="text" id="emailUser" class="input-long" th:value="${emailUser}"/>
+                <span class="search-list-subject-symbol">@</span>
+                <div class="select-box">
+                    <select id="emailDomain" name="emailDomain" class="input-short" th:value="${emailDomainList}">
+						<option th:each="emailDomain : ${emailDomainList}"
+								th:value="${emailDomain}"
+								th:text="${emailDomain}"
+								th:selected="${emailDomain} == ${emailUser}">
+						</option>
+					</select>
+                    <div class="select-arrow-down" id="email"></div>
                 </div>
             </div>
+            <div></div>
+            <div>
+             	<span class="error-message" id="emailError"></span>
+            </div>
+        </div>
 
-            <!-- 전화번호 필드 -->
-            <div class="select-wrap info">
-                <span class="search-list-subject">전화번호</span>
-                <div class="info-items">
-                    <div class="select-box">
-                        <select id="countryNum" name="countryNum">
-			                <option value="010">010</option>
-			                <option value="011">011</option>
-			                <option value="016">016</option>
-			                <option value="017">017</option>
-			                <option value="018">018</option>
-			                <option value="019">019</option>
-			            </select>
-                        <div class="select-arrow-down" id="phoneNum"></div>
-                    </div>
-                    <span class="search-list-subject-symbol">-</span>
-                    <input type="number" id="userPart1" class="gray-num" max="9999" step="1"/>
-                    <span class="search-list-subject-symbol">-</span>
-                    <input type="number" id="userPart2" class="gray-num" max="9999" step="1"/>
-                </div>
-               
-                <div>
-	                <span class="error-message" id="phoneError"></span>
-                </div>
-            </div>
-
-            <!-- 주소 필드 -->
-            <div class="info">
-                <span class="search-list-subject">주소</span>
-                <div>
-                    <input type="text" id="address_kakao" class="gray-text"/>
-                </div>
-            </div>
-
-            <div class="info">
-                <span class="search-list-subject">상세주소</span>
-                <div>
-                    <input type="text" class="gray-text"/>
-                </div>
-            </div>
+           <!-- 전화번호 필드 -->
+       	<div class="select-wrap info">
+           <span class="search-list-subject">전화번호</span>
+           <div>
+               <div class="info-items">
+                	<div class="select-box">
+                    	<select id="countryNum" name="countryNum" class="input-short">
+			               <option th:each="number : ${countryNums}"
+			               		   th:value="${number}"
+			               		   th:text="${number}"
+			               		   th:selected="${number} == ${countryNum}">
+			               
+			               </option>
+           				</select>
+                    <div class="select-arrow-down" id="phoneNum"></div>
+                	</div>
+	                <span class="search-list-subject-symbol">-</span>
+	                <input type="number" id="userPart1" class="input-short" th:value="${userPart1}" max="9999" step="1"/>
+	                <span class="search-list-subject-symbol">-</span>
+	                <input type="number" id="userPart2" class="input-short" th:value="${userPart2}" max="9999" step="1"/>
+            	</div>
+	            <div>
+	            	<span class="error-message" id="phoneError"></span>
+	            </div>
+           </div>
             
-            <div class="info">
-				<span class="search-list-subject">간편로그인 연동</span>
-				<span class="search-list-subject-naver">네이버</span>
-				<label class="switch"> 
-					<input id="toggle-btn" type="checkbox"disabled /> 
-					<span class="slider naver"></span>
-				</label>
-			
-				<span class="search-list-subject-kakao">카카오</span>
-				<label class="switch"> 
-					<input type="checkbox" disabled /> <span class="slider kakao"></span>
-				</label>
+        </div>
+
+           <!-- 주소 필드 -->
+        <div class="info">
+            <span class="search-list-subject">주소</span>
+            <div>
+                <input type="text" id="address_kakao" class="input-long" th:value="${userMembers.member_addr}"/>
+            </div>
+        </div>
+
+        <div class="info">
+            <span class="search-list-subject">상세주소</span>
+            <div>
+                <input id="address_detail" type="text" class="input-long" th:value="${userMembers.member_detail_addr}"/>
+            </div>
+        </div>
+        
+        <div class="select-wrap info">
+			<span class="search-list-subject">간편로그인 연동</span>
+			<div>
+				<div class="info-social">
+					<span class="search-list-subject">네이버</span>
+					<label class="switch"> 
+						<input id="naverLogin" type="checkbox" th:checked="${userMembers.naver_login_cd != null and !userMembers.naver_login_cd.isEmpty()}" disabled/> 
+						<span class="slider naver"></span>
+					</label>
+					<span class="search-list-subject">카카오</span>
+					<label class="switch"> 
+						<input id="kakaoLogin" type="checkbox" th:checked="${userMembers.kakao_login_cd != null and !userMembers.kakao_login_cd.isEmpty()}" disabled/>
+						<span class="slider kakao"></span>
+					</label>
+				</div>			
 			</div>
+		</div>
+		<div class="btn-box">
+			<button type="button" class="default-btn" onclick="prepareSubmit()">수정</button>
+			<button type="button" class="default-btn grey" onclick="location.href='/user/mypage/update'">취소</button>
+		</div>
+	<script src="/user/mypage/js/memberUpdateDetail.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
 </div>
 </html>
