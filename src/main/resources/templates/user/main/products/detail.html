@@ -33,24 +33,31 @@
                             <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 4 ? 'fa-solid' : 'fa-regular'}"></i>
                             <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 5 ? 'fa-solid' : 'fa-regular'}"></i>
                         </div>
-                        <p class="review-text" th:text="'(' + ${bookDetail.review_rating_cnt} + '개의 리뷰)'"></p>
+                        <p class="total-review-cnt">(
+                            <span class="rating-count" th:text="${bookDetail.review_rating_cnt}"></span>개의 리뷰)
+                        </p>
                     </div>
                 </div>
-                <div class="price-wrap">
-                    <p class="book-price" th:text="${#numbers.formatInteger(bookDetail.book_price, 0, 'COMMA')}"></p>
-                    <p class="currency">원</p>
+                <div class="price-deliver">
+                    <div class="price-wrap">
+                        <p class="book-price" th:text="${#numbers.formatInteger(bookDetail.book_price, 0, 'COMMA')}"></p>
+                        <p class="currency">원</p>
+                    </div>
+                    <div class="deliver-info">
+                        <p>배송안내</p>
+                        <p>무료배송</p>
+                    </div>
                 </div>
-                <div class="deliver-info">
-                    <p>배송안내</p>
-                    <p>무료배송</p>
-                </div>
-                <div class="select-qty">
+                <div class="select-order">
                     <div class="reduce-qty">
                         <i class="fa-solid fa-minus"></i>
-                        <input type="number" max="999" id="" class="input-qty" value="0"/>
+                        <input type="number" max="999" id="" class="input-qty" value="1"/>
                         <i class="fa-solid fa-plus"></i>
                     </div>
-                    <p class="total-price"></p>
+                    <div class="price-wrap total">
+                        <p class="total-price" th:data-price="${bookDetail.book_price}"></p>
+                        <p>원</p>
+                    </div>
                 </div>
                 <div class="order-btn-wrap">
                     <button class="default-btn border">장바구니</button>
@@ -61,25 +68,29 @@
 
         <div class="book-default-info">
             <p class="info-title">기본 정보</p>
-            <div class="default-info-wrap">
-                <p class="info-subtitle">ISBN</p>
-                <p class="info-text">[[${bookDetail.book_isbn}]]</p>
-            </div>
-            <div class="default-info-wrap">
-                <p class="info-subtitle">발행(출시)일자</p>
-                <p class="info-text" th:text="${#dates.format(bookDetail.book_publish_date, 'yyyy-MM-dd')}"></p>
-            </div>
-            <div class="default-info-wrap">
-                <p class="info-subtitle">출판사</p>
-                <p class="info-text">[[${bookDetail.book_publisher}]]</p>
+            <div class="info-list">
+                <div class="default-info-wrap">
+                    <p class="info-subtitle">ISBN</p>
+                    <p class="info-text">[[${bookDetail.book_isbn}]]</p>
+                </div>
+                <div class="default-info-wrap">
+                    <p class="info-subtitle">발행(출시)일자</p>
+                    <p class="info-text" th:text="${#dates.format(bookDetail.book_publish_date, 'yyyy-MM-dd')}"></p>
+                </div>
+                <div class="default-info-wrap">
+                    <p class="info-subtitle">출판사</p>
+                    <p class="info-text">[[${bookDetail.book_publisher}]]</p>
+                </div>
             </div>
         </div>
         <div class="book-default-info">
             <p class="info-title">책 소개</p>
             <div class="default-info-wrap">
                 <p class="info-subtitle">이 책이 속한 분야</p>
-                <p class="info-text" th:text="${bookDetail.book_country_type == '01' ? '국내' : '국외'}"></p>
-                <p class="info-text">[[${bookDetail.book_category}]]</p>
+                <div class="book-category">
+                    <p class="info-text" th:text="${bookDetail.book_country_type == '01' ? '국내' : '국외'}"></p>
+                    <p class="info-text">[[${bookDetail.book_category}]]</p>
+                </div>
             </div>
             <p class="book-intro">
                [[${bookDetail.book_intro}]]
@@ -91,79 +102,86 @@
                 <div class="authour-img">
                     <img src="/user/products/img/author-icon.svg" alt="저자이미지">
                 </div>
-                <p class="info-subtitle">저자</p>
-                <p class="info-text">[[${bookDetail.book_author}]]</p>
+                <div class="book-author-wrap">
+                    <p class="info-subtitle">저자</p>
+                    <p class="info-text">[[${bookDetail.book_author}]]</p>
+                </div>
             </div>
         </div>
         <div class="review-info">
             <p class="info-title" th:text="'도서리뷰(' + ${bookDetail.review_rating_cnt} + ')'"></p>
             <div class="review-detail">
-                <div class="user-score">
-                    <p>사용자 총점</p>
-                    <div class="star-wrap">
-                        <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 1 ? 'fa-solid' : 'fa-regular'}"></i>
-                        <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 2 ? 'fa-solid' : 'fa-regular'}"></i>
-                        <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 3 ? 'fa-solid' : 'fa-regular'}"></i>
-                        <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 4 ? 'fa-solid' : 'fa-regular'}"></i>
-                        <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 5 ? 'fa-solid' : 'fa-regular'}"></i>
+                <div class="review-chart-wrap">
+                    <div class="user-score">
+                        <p>사용자 총점</p>
+                        <div class="star-wrap">
+                            <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 1 ? 'fa-solid' : 'fa-regular'}"></i>
+                            <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 2 ? 'fa-solid' : 'fa-regular'}"></i>
+                            <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 3 ? 'fa-solid' : 'fa-regular'}"></i>
+                            <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 4 ? 'fa-solid' : 'fa-regular'}"></i>
+                            <i class="fa-star" th:classappend="${bookDetail.reviews_rating_avg >= 5 ? 'fa-solid' : 'fa-regular'}"></i>
+                        </div>
+                        <div class="user-score-avg">
+                            <p class="score-avg" th:text="${bookDetail.reviews_rating_avg}"></p>
+                            <p class="slash">/</p>
+                            <p class="full-score">5</p>
+                        </div>
                     </div>
-                </div>
-                <div class="user-score-avg">
-                    <p class="score-avg" th:text="${bookDetail.reviews_rating_avg}"></p>
-                    <p class="slash">/</p>
-                    <p class="full-score">5</p>
-                </div>
-                <div class="rating-bar-wrap">
-                    <div class="rating-bar">
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-solid"></i>
-                    </div>
-                    <div class="rating-bar">
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-regular"></i>
-                    </div>
-                    <div class="rating-bar">
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-regular"></i>
-                        <i class="fa-star fa-regular"></i>
-                    </div>
-                    <div class="rating-bar">
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-regular"></i>
-                        <i class="fa-star fa-regular"></i>
-                        <i class="fa-star fa-regular"></i>
-                    </div>
-                    <div class="rating-bar">
-                        <i class="fa-star fa-solid"></i>
-                        <i class="fa-star fa-regular"></i>
-                        <i class="fa-star fa-regular"></i>
-                        <i class="fa-star fa-regular"></i>
-                        <i class="fa-star fa-regular"></i>
+                    <div class="rating-bar-wrap">
+                        <div class="rating-bar">
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-solid"></i>
+                        </div>
+                        <div class="rating-bar">
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-regular"></i>
+                        </div>
+                        <div class="rating-bar">
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-regular"></i>
+                            <i class="fa-star fa-regular"></i>
+                        </div>
+                        <div class="rating-bar">
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-regular"></i>
+                            <i class="fa-star fa-regular"></i>
+                            <i class="fa-star fa-regular"></i>
+                        </div>
+                        <div class="rating-bar">
+                            <i class="fa-star fa-solid"></i>
+                            <i class="fa-star fa-regular"></i>
+                            <i class="fa-star fa-regular"></i>
+                            <i class="fa-star fa-regular"></i>
+                            <i class="fa-star fa-regular"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="review-list">
-                    <p class="all-reviews">전체리뷰</p>
+                    <div class="all-reviews">
+                        <p>전체리뷰</p>
+                    </div>
                     <div class="review-content" th:each="reviewList: ${reviewList}">
-                        <div class="user-wrap">
-                            <p>[[${reviewList.member_id}]]</p>
-                            <p th:text="${#dates.format(reviewList.review_write_date, 'yyyy-MM-dd')}"></p>
-                        </div>
-                        <p>[[${reviewList.review_rating}]]</p>
-                        <div class="user-star-wrap">
-                            <i class="fa-star" th:classappend="${reviewList.review_rating >= 1 ? 'fa-solid' : 'fa-regular'}"></i>
-                            <i class="fa-star" th:classappend="${reviewList.review_rating >= 2 ? 'fa-solid' : 'fa-regular'}"></i>
-                            <i class="fa-star" th:classappend="${reviewList.review_rating >= 3 ? 'fa-solid' : 'fa-regular'}"></i>
-                            <i class="fa-star" th:classappend="${reviewList.review_rating >= 4 ? 'fa-solid' : 'fa-regular'}"></i>
-                            <i class="fa-star" th:classappend="${reviewList.review_rating >= 5 ? 'fa-solid' : 'fa-regular'}"></i>
+                        <div class="content-head">
+                            <div class="user-wrap">
+                                <p class="member-id" th:data-memid="${reviewList.member_id}"></p>
+                                <p th:text="${#dates.format(reviewList.review_write_date, 'yyyy-MM-dd')}"></p>
+                            </div>
+                            <div class="user-star-wrap">
+                                <i class="fa-star" th:classappend="${reviewList.review_rating >= 1 ? 'fa-solid' : 'fa-regular'}"></i>
+                                <i class="fa-star" th:classappend="${reviewList.review_rating >= 2 ? 'fa-solid' : 'fa-regular'}"></i>
+                                <i class="fa-star" th:classappend="${reviewList.review_rating >= 3 ? 'fa-solid' : 'fa-regular'}"></i>
+                                <i class="fa-star" th:classappend="${reviewList.review_rating >= 4 ? 'fa-solid' : 'fa-regular'}"></i>
+                                <i class="fa-star" th:classappend="${reviewList.review_rating >= 5 ? 'fa-solid' : 'fa-regular'}"></i>
+                            </div>
                         </div>
                         <p class="review-text">[[${reviewList.review_content}]]</p>
                     </div>
@@ -171,14 +189,53 @@
             </div>
         </div>
         <div class="refund-info-container">
-            <p class="info-text">교환/반품/품절 안내</p>
-            <div class="refund-btn-wrap">
-                <button class="default-btn border">반품신청</button>
-                <button class="default-btn">1:1문의</button>
+            <div class="info-header">
+                <p class="info-title">교환/반품/품절 안내</p>
+                <div class="refund-btn-wrap">
+                    <button class="default-btn border">반품신청</button>
+                    <button class="default-btn">1:1문의</button>
+                </div>
             </div>
+            <div class="refund-info-list">
+                <p class="refund-info-title">반품/교환방법</p>
+                <p class="refund-info-content">마이페이지 > 내정보 > 주문/배송목록 > 반품신청, [1:1 상담 > 반품/교환/환불] 또는 고객센터 (1234-1234)</p>
+                <p class="refund-info-content">• 교환은 1:1문의로 가능</p>
+            </div>
+            <div class="refund-info-list">
+                <p class="refund-info-title">반품/교환가능 기간</p>
+                <p class="refund-info-content">반품: 변심 반품의 경우 수령 후 7일 이내</p>
+                <p class="refund-info-content">교환: 상품의 결함 및 계약 내용과 다를 경우 문제점 발견 후 30일 이내</p>
+            </div>
+            <div class="refund-info-list">
+                <p class="refund-info-title">반품/교환 불가 사유</p>
+                <p class="refund-info-content">1) 소비자의 책임 있는 사유로 상품 등이 손실 또는 훼손된 경우</p>
+                <p class="refund-info-content">(단지 확인을 위한 포장 훼손은 제외)</p>
+                <p class="refund-info-content">2) 소비자의 사용, 포장 개봉에 의해 상품 등의 가치가 현저히 감소한 경우</p>
+                <p class="refund-info-content">예) 화장품, 식품, 가전제품(악세서리 포함) 등</p>
+                <p class="refund-info-content">3) 복제가 가능한 상품 등의 포장을 훼손한 경우</p>
+                <p class="refund-info-content">예) 음반/DVD/비디오, 소프트웨어, 만화책, 잡지, 영상 화보집</p>
+                <p class="refund-info-content">4) 소비자의 요청에 따라 개별적으로 주문 제작되는 상품의 경우 ((1)해외주문도서)</p>
+                <p class="refund-info-content">5) 디지털 컨텐츠인 ebook, 오디오북 등을 1회이상 ‘다운로드’를 받았거나 '바로보기'로 열람한 경우</p>
+                <p class="refund-info-content">6) 시간의 경과에 의해 재판매가 곤란한 정도로 가치가 현저히 감소한 경우</p>
+                <p class="refund-info-content">7) 전자상거래 등에서의 소비자보호에 관한 법률이 정하는 소비자 청약철회 제한 내용에 해당되는 경우</p>
+                <p class="refund-info-content">8) 세트상품 일부만 반품 불가 (필요시 세트상품 반품 후 낱권 재구매)</p>
+            </div>
+            <div class="refund-info-list">
+                <p class="refund-info-title">상품품절</p>
+                <p class="refund-info-content">공급사(출판사) 재고 사정에 의해 품절/지연될 수 있으며, 품절 시 관련 사항에 대해서는 이메일과 문자로 안내드리겠습니다.</p>
+            </div>
+            <div class="refund-info-list">
+                <p class="refund-info-title">소비자 피해보상 환불 지연에 따른 배상</p>
+                <p class="refund-info-content">1) 상품의 불량에 의한 교환, A/S, 환불, 품질보증 및 피해보상 등에 관한 사항은 소비자분쟁 해결 기준 (공정거래위원회 고시)에 준하여 처리됨</p>
+                <p class="refund-info-content">2) 대금 환불 및 환불지연에 따른 배상금 지급 조건, 절차 등은 전자상거래 등에서의 소비자 보호에 관한 법률에 따라 처리함</p>
+            </div>
+        </div>
+        <div class="warning-info-box">
+            <p>• 상품 설명에 반품/교환 관련한 안내가 있는 경우 그 내용을 우선으로 합니다. (업체 사정에 따라 달라질 수 있습니다.)</p>
         </div>
     </div>
 </div>
 
+<script src="/user/common/js/btn-event.js"></script>
 <script src="/user/products/js/detail.js"></script>
 </html>

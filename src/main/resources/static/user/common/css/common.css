@@ -35,11 +35,12 @@ body.scrolling #top-btn {
     transform: translateY(0);
 }
 
-/* 로그인, 회원가입 등 (버튼 긴거) */
+/* 버튼 기본 설정 */
 button {
     border: none;
     cursor: pointer;
 }
+
 .default-btn {
     width: 80px;
     height: 40px;
@@ -51,6 +52,7 @@ button {
     font-weight: 700;
 }
 
+/* 로그인, 회원가입 등 (버튼 긴거) */
 .default-btn.long {
     width: 340px;
 }
@@ -100,6 +102,12 @@ button {
 }
 
 /* 인풋박스 스타일 */
+input:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: none;
+}
+
 /* 로그인, 회원가입 등 인풋 */
 .input-long {
     width: 340px;
