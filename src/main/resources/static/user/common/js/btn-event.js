@@ -1,31 +1,9 @@
-const BODY = document.querySelector("body"); //scrolling
-const topBtn = document.querySelector("#top-btn");
-
-window.addEventListener("scroll", function () {
-    let i = this.document.documentElement.scrollTop;
-
-    console.log(i);
-    if (i > 600) {
-        BODY.classList.add("scrolling");
-    } else {
-        BODY.classList.remove("scrolling");
-    }
-});
-
-// 탑버튼 클릭 스크롤링
-topBtn.addEventListener("click", function () {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-    });
-});
-
 // 함수실행
-activeButton();
-filterTextActive();
-dateFilterActive();
-calcQty();
-tabBarActive();
+// activeButton();
+// filterTextActive();
+// dateFilterActive();
+// calcQty();
+// tabBarActive();
 
 // 인풋에 밸류 들어가면 버튼 활성화 (로그인, 회원가입때)
 function activeButton() {

@@ -1,5 +1,8 @@
 package com.ezen.bookstore.user.products.controller;
 
+import com.ezen.bookstore.admin.products.dto.ProductsDTO;
+import com.ezen.bookstore.user.products.dto.UserProductDTO;
+import com.ezen.bookstore.user.products.dto.UserReviewDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +12,9 @@ import com.ezen.bookstore.user.commons.UserSearchCondition;
 import com.ezen.bookstore.user.products.service.UserProductService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,7 +34,16 @@ public class UserProductController {
 	}
 
 	@GetMapping("/detail")
-	public String productDetail() {
+	public String productDetail(String bookISBN, Model model) {
+
+		bookISBN = "9791139220704";
+
+		UserProductDTO bookDetail = productService.getProductDetail(bookISBN);
+		List<UserReviewDTO> reviewList = productService.getReviewList(bookISBN);
+
+		model.addAttribute("bookDetail", bookDetail);
+		model.addAttribute("reviewList", reviewList);
+
 		return "/user/main/products/detail";
 	}
 	

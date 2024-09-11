@@ -116,10 +116,6 @@ public class ProductsController {
 
     @PostMapping("/addProduct")
     public String insertBook(@ModelAttribute ProductsDTO productDTO, Model model) throws IOException {
-
-//        if (productDTO.getBook_thumbnail_changed() == null || productDTO.getBook_thumbnail_changed().isEmpty()) {
-//            productDTO.setBook_thumbnail_changed("noimg.png");
-//        }
         productService.insertBook(productDTO);
 
         model.addAttribute("template", "/admin/products/product");

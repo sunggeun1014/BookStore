@@ -164,6 +164,9 @@
         WHERE
         book_isbn = #{book_isbn}
     </update>
+
+
+    <!--  유저페이지  -->
     
     <select id="getProductList" resultType="userProducts" parameterType="userCondition">
     	SELECT 
@@ -190,6 +193,53 @@
 		    b.book_author,
 		    b.book_thumbnail_changed,
 		    b.book_publish_date
+    </select>
+
+    <select id="getBookDetail" parameterType="userProducts" resultType="userProducts">
+        SELECT
+        b.book_isbn,
+        b.book_name,
+        b.book_price,
+        b.book_publisher,
+        b.book_author,
+        b.book_intro,
+        b.book_country_type,
+        b.book_category,
+        b.book_state,
+        b.book_publish_date,
+        COUNT(r.review_rating) AS review_rating_cnt,
+        NVL(TRUNC(SUM(r.review_rating) / COUNT(r.review_rating), 2), 0) AS reviews_rating_avg,
+        b.book_thumbnail_changed
+        FROM
+        books b
+        LEFT JOIN customer_order_details cod ON b.book_isbn = cod.book_isbn
+        LEFT JOIN reviews r ON cod.order_detail_num = r.order_detail_num
+        WHERE b.book_isbn = #{book_isbn}
+        GROUP BY
+        b.book_isbn,
+        b.book_name,
+        b.book_price,
+        b.book_publisher,
+        b.book_author,
+        b.book_intro,
+        b.book_country_type,
+        b.book_category,
+        b.book_state,
+        b.book_publish_date,
+        b.book_thumbnail_changed
+    </select>
+
+    <select id="getUserReviewList" resultType="userReview" parameterType="userReview">
+        SELECT
+        cod.book_isbn,
+        r.member_id,
+        r.review_content,
+        r.review_rating,
+        r.review_write_date
+        FROM
+        customer_order_details cod
+        LEFT JOIN reviews r ON cod.order_detail_num = r.order_detail_num
+        WHERE cod.book_isbn = #{book_isbn}
     </select>
 
 </mapper>

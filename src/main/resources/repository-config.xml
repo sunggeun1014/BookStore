@@ -35,6 +35,7 @@
       <typeAlias type="com.ezen.bookstore.admin.inventorylog.dto.InventoryLogDTO" alias="inventoryLog"/>
       
       <typeAlias type="com.ezen.bookstore.user.products.dto.UserProductDTO" alias="userProducts"/>
+      <typeAlias type="com.ezen.bookstore.user.products.dto.UserReviewDTO" alias="userReview"/>
       <typeAlias type="com.ezen.bookstore.user.commons.UserSearchCondition" alias="userCondition"/>
 
    </typeAliases>
