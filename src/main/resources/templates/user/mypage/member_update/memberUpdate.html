@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/common/layout/myPageLayout}"
+      layout:fragment="Content">
+      
+<div>
 	<div>
 		<span>회원정보수정</span>
 		<div>
@@ -21,5 +22,5 @@
 			</form>
 		</div>
 	</div>
-</body>
+</div>
 </html>
