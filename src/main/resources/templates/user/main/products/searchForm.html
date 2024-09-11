@@ -7,68 +7,109 @@
 
 	<link rel="stylesheet" href="/user/products/css/list.css" />
 
-<div class="content-container">
-	<div>
-		<span>''에 대한 검색결과 내용</span>
+<div class="inner">
+	<div class="search-word-area" th:if="${!#strings.isEmpty(condition.word)}">
+		<span class="search-word" th:text="'\'' + ${condition.word} + '\''"></span>
+		<span>에 대한 검색결과 내용</span>
 	</div>
-	<div>
-		<span>
-			<input type="text" placeholder="결과 내 재검색"/>
-		</span>
-	</div>
-	<div>
-		<div>
-			<div>검색조건</div>
-			<div>
-				<button>책제목</button>
-				<button>저자명</button>
-				<button>출판사</button>
+	<form id="search-form" action="/user/products/searchForm" method="GET">
+		<div class="re-search-bar">
+			<input type="text" name="word" id="word" class="re-search-input" placeholder="결과 내 재검색" th:value="${condition.word}">
+			<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+		</div>
+		<div class="search-condition-area">
+			<div class="search-condition-flex">
+				<div class="search-condition-title">검색조건</div>
+				<div data-radio-id="book-title-radio" class="filter-text-btn condition-click" th:classappend="${condition.search_conditions == 'book_title' || #strings.isEmpty(condition.search_conditions)} ? ' on' : ''">
+					<p>책제목</p>
+					<input type="radio" name="search_conditions" value="book_title" id="book-title-radio" th:checked="${condition.search_conditions == 'book_title' || #strings.isEmpty(condition.search_conditions)}" hidden="hidden">
+				</div>
+				<div data-radio-id="book-author-radio" class="filter-text-btn condition-click" th:classappend="${condition.search_conditions == 'book_author'} ? ' on' : ''">
+					<p>저자명</p>
+					<input type="radio" name="search_conditions" value="book_author" id="book-author-radio" th:checked="${condition.search_conditions == 'book_author'}" hidden="hidden">
+				</div>
+				<div data-radio-id="book-publisher-radio" class="filter-text-btn condition-click" th:classappend="${condition.search_conditions == 'book_publisher'} ? ' on' : ''">
+					<p>출판사</p>
+					<input type="radio" name="search_conditions" value="book_publisher" id="book-publisher-radio" th:checked="${condition.search_conditions == 'book_publisher'}" hidden="hidden">
+				</div>
+			</div>
+			<div class="search-condition-flex">
+				<div class="search-condition-title condition-title-style">검색분야</div>
+				<div class="filter-btn-wrap">
+					<div th:each="category : ${categoryList}">
+						<div class="filter-text-btn search-field-click" th:data-radio-id="'category-' + ${category.category_num}" th:classappend="${condition.search_field == #strings.toString(category.category_num)} ? ' on' : ''">
+							<p th:text="${category.category_name}"></p>
+							<p th:text="${category.category_cnt}"></p>
+							<input type="radio" name="search_field" th:value="${category.category_num}" th:id="'category-' + ${category.category_num}" th:checked="${condition.search_field == #strings.toString(category.category_num)}" hidden="hidden">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<input type="hidden" name="orderByValue" />
+	</form>
+	<div class="flex-row">
+		<div class="flex-column">
+			<div class="product-cnt-area">
+				<span>전체</span>
+				<span th:text="${#lists.size(productList)}" class="product-total-cnt"></span>
+				<span>건</span>
+			</div>
+			<div class="order-area">
+				<span onclick="productOrderBy(1)">판매량</span>
+				<span onclick="productOrderBy(2)">최근출판</span>
+				<span onclick="productOrderBy(3)">낮은가격</span>
+				<span onclick="productOrderBy(4)">높은평점</span>
+				<span onclick="productOrderBy(5)">리뷰수</span>
 			</div>
 		</div>
 		<div>
-			<div>검색분야</div>
-			<div>
-				
+			<button class="check-basket-btn">장바구니담기</button>
+		</div>
+	</div>
+	<div>
+		<div th:each="product : ${productList}">
+			<div class="product-list-area">
+			    <div class="product-checkbox-area check-btn">
+				    <input type="checkbox" id="check-btn" th:value="${product.book_isbn}">
+				    <label for="check-btn"></label>
+				  </div>
+			    <div class="product-img-area">
+			        <img class="product-image" th:src="@{/images/books/{image}(image=${product.book_thumbnail_changed})}" alt="책 이미지">
+			    </div>
+			    <div class="product-info-area">
+			        <div th:text="${product.book_name}" class="book-name"></div>
+			        <div class="book-author">
+			        	<span th:text="${product.book_author}"></span>
+			        	<span>저자(글)</span>
+			        </div>
+			        <div th:text="${product.book_publisher} + ' · ' + ${#dates.format(product.book_publish_date, 'yyyy-MM-dd')}" class="book-publisher">
+			        </div>
+			        <div th:text="${#numbers.formatInteger(product.book_price, 0, 'COMMA')} + ' 원'" class="book-price"></div>
+			        <div>
+			        	<i class="raing-ico"></i>
+			        	<span th:text="${product.reviews_rating_avg}" class="reviews_rating_avg"></span>
+			        	<span th:text="'(' + ${product.review_rating_cnt} + ')'" class="reviews_rating_cnt"></span>
+			        </div>
+			    </div>
+			    <div class="product-btn-area" th:if="${product.book_state == '01' && product.book_qty > 0}">
+			        <div class="purchase-btn-area">
+			            <button class="purchase-btn">바로구매</button>
+			        </div>
+			        <div>
+						<button class="basket-btn">장바구니</button>
+			        </div>
+			    </div>
+			    <div class="product-btn-area" th:if="${product.book_state != '01' || product.book_qty <= 0}">
+				    <div class="purchase-btn-area">
+			            <button class="impossibility-btn">구매불가</button>
+			        </div>
+			    </div>
 			</div>
-		</div>
-	</div>
-	<div>
-		<span>전체100건</span>
-		<div>
-			<span>판매량</span>
-			<span>최근출판</span>
-			<span>낮은가격</span>
-			<span>높은평점</span>
-			<span>리뷰수</span>
-		</div>
-		<div>
-			<button>장바구니담기</button>
-		</div>
-	</div>
-	<div>
-		<div class="product-list-area" th:each="product : ${productList}">
-		    <div>
-		        <input type="checkbox" th:value="${product.book_isbn}"/>
-		    </div>
-		    <div>
-		        <img class="product-image" th:src="@{/images/books/{image}(image=${product.book_thumbnail_changed})}" alt="책 이미지">
-		    </div>
-		    <div>
-		        <div th:text="'[국내도서] ' + ${product.book_name}"></div>
-		        <div th:text="${product.book_author}"></div>
-		        <div th:text="${product.book_publisher} + ' · ' + ${product.book_publish_date}"></div>
-		        <div th:text="${#numbers.formatInteger(product.book_price, 0, 'COMMA')}"></div>
-		        <div th:text="'★' + ${product.reviews_rating_avg} + ' (' + ${product.review_rating_cnt} + ')'"></div>
-		    </div>
-		    <div>
-		        <div>
-		            <button>바로구매</button>
-		        </div>
-		        <div>
-		            <button>장바구니</button>
-		        </div>
-		    </div>
 		</div>
 	</div>
 </div>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="/user/products/js/list.js"></script>
 </html>

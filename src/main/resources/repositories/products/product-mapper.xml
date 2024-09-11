@@ -176,8 +176,11 @@
 		    b.book_publisher, 
 		    b.book_author,
 		    b.book_publish_date,
-		    count(r.review_rating) AS review_rating_cnt,
-		    NVL(TRUNC(SUM(r.review_rating) / count(r.review_rating), 2), 0) AS reviews_rating_avg,
+		    b.book_state,
+		    b.book_qty,
+		    COUNT(DISTINCT co.order_num) AS order_count,
+		    COUNT(r.review_rating) AS review_rating_cnt,
+		    NVL(TRUNC(SUM(r.review_rating) / COUNT(r.review_rating), 2), 0) AS reviews_rating_avg,
     		b.book_thumbnail_changed
 		FROM 
 		    books b
@@ -185,6 +188,24 @@
 		    customer_order_details cod ON b.book_isbn = cod.book_isbn
 		LEFT JOIN 
 		    reviews r ON cod.order_detail_num = r.order_detail_num
+	    LEFT JOIN
+    		customer_orders co ON cod.order_num = co.order_num
+		WHERE 
+			b.book_deleted = '01' and (co.order_payment_status = '01' OR co.order_payment_status IS NULL)
+			<if test="word != null and !word.equals('')">
+				<if test="search_conditions.equals('book_title')">
+					and REPLACE(LOWER(b.book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+				</if>
+				<if test="search_conditions.equals('book_author')">
+					and REPLACE(LOWER(b.book_author), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+				</if>
+				<if test="search_conditions.equals('book_publisher')">
+					and REPLACE(LOWER(b.book_publisher), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+				</if>
+			</if>
+			<if test="search_field != null and !search_field.equals('')">
+				and b.book_category = (SELECT category_name FROM book_categorys WHERE category_num = #{search_field})
+			</if>
 		GROUP BY 
 		    b.book_isbn,
 		    b.book_name,
@@ -192,7 +213,15 @@
 		    b.book_publisher,
 		    b.book_author,
 		    b.book_thumbnail_changed,
-		    b.book_publish_date
+		    b.book_publish_date,
+   		    b.book_state,
+		    b.book_qty
+		<if test="orderByValue != null and !orderByValue.equals('')">
+			ORDER BY 
+			<if test="orderByValue == 1">
+	    		order_count DESC
+			</if>
+		</if>
     </select>
 
     <select id="getBookDetail" parameterType="userProducts" resultType="userProducts">

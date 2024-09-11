@@ -1,9 +1,9 @@
 // 함수실행
-// activeButton();
-// filterTextActive();
-// dateFilterActive();
-// calcQty();
-// tabBarActive();
+/*activeButton();
+filterTextActive();
+dateFilterActive();
+calcQty();
+tabBarActive();*/
 
 // 인풋에 밸류 들어가면 버튼 활성화 (로그인, 회원가입때)
 function activeButton() {
