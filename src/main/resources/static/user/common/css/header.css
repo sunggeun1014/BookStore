@@ -1,11 +1,16 @@
 /* 헤더 */
 header {
-    width: 1280px;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0px 55px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.header-inner {
+    width: 1280px;
+    padding: 0 55px;
 }
 
 .header-top {
@@ -138,9 +143,11 @@ nav {
 
 /* 전체 카테고리 모달 창*/
 .all-category-modal {
-    z-index: 100; /* 모달을 다른 요소들 위에 배치 */
+    position: absolute;
+    top: 206px;
     display: none;
     max-width: 1280px;
+    z-index: 100; /* 모달을 다른 요소들 위에 배치 */
 }
 
 .all-category-modal.visible {
@@ -154,7 +161,7 @@ nav {
     width: 1170px;
     height: 300px;
     border-radius: 20px;
-    position: relative;
+    /*position: relative;*/
 }
 
 .modal-category-list {
