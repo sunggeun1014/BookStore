@@ -1,0 +1,259 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.mainlogo {
+    margin-bottom: 20px;
+}
+
+h3 {
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    font-size: 16px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid black;
+}
+
+#back {
+    background: white; 
+    border: 1px solid #845EC2;
+    margin-top: 10px;
+    color: #845EC2;
+}
+
+.agreement {
+    display: flex;
+    border-top: 1px solid black;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.agreement div {
+    display: flex;
+    align-items: center; /* 라디오 버튼과 텍스트를 수직 중앙에 배치 */
+}
+
+.agreement input[type="radio"] {
+    margin-right: 10px; /* 텍스트와 라디오 버튼 사이의 여백 */
+}
+
+button {
+    background-color: transparent; 
+    border: none;                  
+    padding: 0;
+}
+
+button img {
+    display: block;               
+    width: 100%;                  
+    height: auto;
+}
+
+.join-wrap-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.join-wrap-social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 200px;
+}
+
+.social-btn {
+    margin-bottom: 10px;
+}
+
+.join-frame {
+    display: flex;              /* Flexbox 사용 */
+    flex-direction: column;      /* 세로로 배치 */
+    justify-content: center;     /* 세로 중앙 정렬 */
+    align-items: center;         /* 가로 중앙 정렬 */
+    width: 100%;
+    height: 100vh;               /* 화면의 전체 높이 사용 */
+    max-width: 400px;            /* 원하는 너비로 설정 */
+    padding: 20px;
+    margin: 0 auto;
+}
+
+
+input:not([type="radio"]) {
+    flex: 1 1 auto;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 16px;
+    line-height: 22px;
+    color: #222;
+    max-width: 380px;
+    border: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+.default-btn.short:disabled, .default-btn.short {
+    width: 55px;
+    height: 25px;
+    font-size: 12px;
+    background-color: #CCCCCC;
+}
+
+.default-btn.short-confirm {
+    background-color: #845EC2;
+}
+
+.form-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    max-width: 100%;
+    min-height: 45px;
+    padding: 0 10px 0 45px;
+    border: 1px solid #C0C0C0;
+    max-width: 400px;
+    margin-left: 0px;
+    width : 310px;
+}
+
+.form-list , .default-btn.long {
+    display: flex;
+    flex-direction: column;       /* 세로로 배치 */
+    align-items: center;          /* 가로 중앙 정렬 */
+    justify-content: center;
+    width: 100%;                  /* 부모 너비에 맞추기 */
+    max-width: 400px;             /* 최대 너비 설정 */
+    margin-bottom: 20px;
+    border-radius: 6px;
+}
+
+.form-item.id {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-bottom: -1px;    
+}
+
+.form-item.pw {
+    margin-bottom: -1px;
+}
+
+.form-item.confirm-pw {
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.error {
+    display: flex;
+    margin-bottom: 10px;
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: flex-start;     
+    width: 100%;                
+    font-size: 12px;
+    color: red;
+    margin-left: 35px;
+}
+
+span {
+    margin-bottom: 2px;
+}
+
+.form-item.name {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-bottom: -1px;
+}
+
+.form-item.email {
+    margin-bottom: -1px;
+}
+
+.form-item.email-confirm {
+    margin-bottom: -1px;
+}
+
+.form-item.phoneNo {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.form-item.addr {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-bottom: -1px;
+}
+
+.form-item.detail-addr {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.form-item::before {
+    font-family: 'Material Icons';
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: #C0C0C0;
+    pointer-events: none;
+}
+
+/* placeholder 속성 변경 */
+#member_id.warning::placeholder,
+#member_pw.warning::placeholder,
+#member_pw_check.warning::placeholder,
+#member_name.warning::placeholder,
+#member_email.warning::placeholder,
+#member_phoneNo.warning::placeholder,
+#address_kakao.warning::placeholder,
+#member_detail_addr.warning::placeholder,
+#number.warning::placeholder {
+    color: #E54F53;
+}
+
+#member_id.nomal::placeholder,
+#member_pw.nomal::placeholder,
+#member_pw_check.nomal::placeholder,
+#member_name.nomal::placeholder,
+#member_email.nomal::placeholder,
+#member_phoneNo.nomal::placeholder,
+#address_kakao.nomal::placeholder,
+#member_detail_addr.nomal::placeholder,
+#number.nomal::placeholder {
+    color: #C0C0C0;
+}
+
+/* 경고 스타일 */
+input.warning, .form-item.warning::before {
+    color: #E54F53;
+    border-color: #E54F53;
+}
+
+input.nomal, .form-item.nomal::before {
+    color: #7E7E7E;
+    border-color: #C0C0C0;
+}
+
+/* 아이콘 스타일 */
+.form-item.id::before { content: 'person'; }
+.form-item.pw::before { content: 'lock'; }
+.form-item.confirm-pw::before { content: 'verified_user'; }
+.form-item.name::before { content: 'person'; }
+.form-item.email::before { content: 'mail'; }
+.form-item.phoneNo::before { content: 'smartphone'; }
+.form-item.addr::before { content: 'book'; }
+.form-item.detail-addr::before { content: 'info'; }

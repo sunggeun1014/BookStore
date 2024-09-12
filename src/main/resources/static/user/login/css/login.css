@@ -1,0 +1,75 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+.mainlogo {
+    margin-bottom: 70px;
+}
+
+.default-btn.long.register {
+    background: white; 
+    border: 1px solid #845EC2;
+    margin-top: 10px;
+    color: #845EC2;
+}
+
+input:not([type="radio"]) {
+    flex: 1 1 auto;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 16px;
+    line-height: 22px;
+    color: #222;
+    max-width: 380px;
+    border: none;
+}
+
+.form-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    max-width: 100%;
+    min-height: 45px;
+    padding: 0 10px 0 45px;
+    border: 1px solid #C0C0C0;
+    max-width: 400px;
+    margin-left: 0px;
+    width : 310px;
+}
+
+.form-item.id {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-bottom: -1px;    
+}
+
+.form-item.pw {
+	border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin-bottom: -1px;
+}
+
+.social-btn {
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: transparent; 
+    border: none;                  
+    padding: 0;
+}
+
+button img {
+    display: block;               
+    width: 100%;                  
+    height: auto;
+}
+
+.join-wrap-social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 200px;
+}

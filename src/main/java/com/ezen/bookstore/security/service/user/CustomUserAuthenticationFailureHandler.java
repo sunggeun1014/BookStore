@@ -16,22 +16,17 @@ public class CustomUserAuthenticationFailureHandler implements AuthenticationFai
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException, ServletException {
-		
-        String redirectUrl = "/user/login?error=true";
-		
-        if(exception instanceof UsernameNotFoundException) {
-        	
-            redirectUrl += "&usernameError=" + URLEncoder.encode("아이디를 찾을 수 없습니다", "UTF-8");
+	        AuthenticationException exception) throws IOException, ServletException {
 
-        } else if (exception instanceof BadCredentialsException) {
-        	
-            redirectUrl += "&passwordError=" + URLEncoder.encode("비밀번호가 일치하지 않습니다", "UTF-8");
-        	
-        }
-        
-        response.sendRedirect(redirectUrl);
+	    String redirectUrl = "/user/login?error=true";
 
+	    if (exception instanceof UsernameNotFoundException) {
+	        redirectUrl += "&usernameError=" + URLEncoder.encode("⚠아이디를 찾을 수 없습니다", "UTF-8");
+	    } else if (exception instanceof BadCredentialsException) {
+	        redirectUrl += "&passwordError=" + URLEncoder.encode("⚠아이디와 비밀번호를 확인해주세요.", "UTF-8");
+	    }
+
+	    response.sendRedirect(redirectUrl);
 	}
 
 }
