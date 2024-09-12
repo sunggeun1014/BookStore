@@ -113,7 +113,7 @@ header .header-center {
 }
 
 /* 카테고리 */
-nav {
+nav.category-wrap {
     display: flex;
     flex-direction: row;
     width: 100%;

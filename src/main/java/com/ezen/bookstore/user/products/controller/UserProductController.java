@@ -1,19 +1,24 @@
 package com.ezen.bookstore.user.products.controller;
 
-import com.ezen.bookstore.user.products.dto.UserProductDTO;
-import com.ezen.bookstore.user.products.dto.UserReviewDTO;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ezen.bookstore.commons.AccountManagement;
+import com.ezen.bookstore.commons.Pagination;
+import com.ezen.bookstore.commons.PaginationProcess;
 import com.ezen.bookstore.user.bookcategory.service.UserBookCategoryService;
 import com.ezen.bookstore.user.commons.UserSearchCondition;
+import com.ezen.bookstore.user.members.dto.UserMembersDTO;
+import com.ezen.bookstore.user.products.dto.UserProductDTO;
+import com.ezen.bookstore.user.products.dto.UserReviewDTO;
 import com.ezen.bookstore.user.products.service.UserProductService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,28 +27,39 @@ public class UserProductController {
 
 	private final UserProductService productService;
 	private final UserBookCategoryService bookCategoryService;
+	private final PaginationProcess paginationProcess;
 	
 	@GetMapping("/searchForm")
-	public String ProductsSearchForm(Model model, UserSearchCondition condition) {
+	public String ProductsSearchForm(Model model, UserSearchCondition condition, Pagination pagination) {
+		List<UserProductDTO> productList = productService.getProductList(condition);
 		
-		model.addAttribute("productList", productService.getProductList(condition));
+		model.addAttribute("productList", productList);
 		model.addAttribute("categoryList", bookCategoryService.getCategoryList(condition));
 		model.addAttribute("condition", condition);
-		
+		model.addAttribute("page", paginationProcess.process(pagination, productList));
 	
 		return "/user/main/products/searchForm";
 	}
 
 	@GetMapping("/detail")
-	public String productDetail(String bookISBN, Model model) {
+	public String productDetail(String bookISBN, Model model, HttpSession session) {
+		UserMembersDTO member = (UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO);
 
-		bookISBN = "9791139220704";
+		String memID = member != null ? member.getMember_id() : null;
+
+		bookISBN = "9791172100650";
 
 		UserProductDTO bookDetail = productService.getProductDetail(bookISBN);
 		List<UserReviewDTO> reviewList = productService.getReviewList(bookISBN);
+		List<UserReviewDTO> reviewPercent = productService.getReviewPercent(bookISBN);
 
+		if (reviewList != null && !reviewList.isEmpty()) {
+			model.addAttribute("reviewList", reviewList);
+		}
+
+		model.addAttribute("memID", memID);
 		model.addAttribute("bookDetail", bookDetail);
-		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("reviewPercent", reviewPercent);
 
 		return "/user/main/products/detail";
 	}

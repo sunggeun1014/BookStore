@@ -5,10 +5,11 @@
       layout:decorate="~{/user/common/layout/myPageLayout}"
       layout:fragment="Content">
       
+      <link rel="stylesheet" href="/user/mypage/css/memberUpdate.css"/>
 	  <link rel="stylesheet" href="/user/mypage/css/memberUpdateDetail.css" />
 	
-<div class="inner">
-	<h1 class="search-list-title">회원정보수정</h1>
+<div class="content">
+	<h1 class="middle-font" style="margin-bottom: 40px;">회원정보수정</h1>
         <div class="info">
             <span class="search-list-subject">아이디</span>
             <div style="margin-left: 50px;">
@@ -123,10 +124,11 @@
 		</div>
 		<div class="btn-box">
 			<button type="button" class="default-btn" onclick="prepareSubmit()">수정</button>
-			<button type="button" class="default-btn grey" onclick="location.href='/user/mypage/update'">취소</button>
+			<button type="button" class="default-btn grey" onclick="location.href='/user/mypage/updatePage'">취소</button>
 		</div>
-	<script src="/user/mypage/js/memberUpdateDetail.js"></script>
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	
 </div>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="/user/mypage/js/memberUpdateDetail.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </html>

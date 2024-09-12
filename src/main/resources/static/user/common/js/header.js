@@ -138,4 +138,11 @@ document.addEventListener('DOMContentLoaded', function () {
 			getErrorModal();
 		}
 	});
+	
+	
+	$("#searchKeyword").on("keydown", function(e) {
+		if(e.key === 'Enter') {
+			location.href = `/user/products/searchForm?word=${$(this).val()}`;
+		}
+	});
 });

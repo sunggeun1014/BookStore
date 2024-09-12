@@ -169,72 +169,88 @@
     <!--  유저페이지  -->
     
     <select id="getProductList" resultType="userProducts" parameterType="userCondition">
-    	SELECT 
-		    b.book_isbn,
-		    b.book_name, 
-		    b.book_price, 
-		    b.book_publisher, 
-		    b.book_author,
-		    b.book_publish_date,
-		    b.book_state,
-		    b.book_qty,
-		    COUNT(DISTINCT co.order_num) AS order_count,
-		    COUNT(r.review_rating) AS review_rating_cnt,
-		    NVL(TRUNC(SUM(r.review_rating) / COUNT(r.review_rating), 2), 0) AS reviews_rating_avg,
-    		b.book_thumbnail_changed
-		FROM 
-		    books b
-		LEFT JOIN 
-		    customer_order_details cod ON b.book_isbn = cod.book_isbn
-		LEFT JOIN 
-		    reviews r ON cod.order_detail_num = r.order_detail_num
+	    SELECT 
+	        b.book_isbn,
+	        b.book_name, 
+	        b.book_price, 
+	        b.book_publisher, 
+	        b.book_author,
+	        b.book_publish_date,
+	        b.book_state,
+	        b.book_qty,
+            SUM(CASE 
+            	WHEN co.order_payment_status = '01' THEN cod.ORDER_DETAIL_QTY 
+            	ELSE 0 
+        	END) AS order_count, 
+	        COUNT(r.review_rating) AS review_rating_cnt,
+	        NVL(TRUNC(SUM(r.review_rating) / COUNT(r.review_rating), 2), 0) AS reviews_rating_avg,
+	        b.book_thumbnail_changed
+	    FROM 
+	        books b
+	    LEFT JOIN 
+	        customer_order_details cod ON b.book_isbn = cod.book_isbn
+	    LEFT JOIN 
+	        reviews r ON cod.order_detail_num = r.order_detail_num
 	    LEFT JOIN
     		customer_orders co ON cod.order_num = co.order_num
-		WHERE 
-			b.book_deleted = '01' and (co.order_payment_status = '01' OR co.order_payment_status IS NULL)
-			<if test="word != null and !word.equals('')">
-				<if test="search_conditions.equals('book_title')">
-					and REPLACE(LOWER(b.book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
-				</if>
-				<if test="search_conditions.equals('book_author')">
-					and REPLACE(LOWER(b.book_author), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
-				</if>
-				<if test="search_conditions.equals('book_publisher')">
-					and REPLACE(LOWER(b.book_publisher), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
-				</if>
-			</if>
-			<if test="search_field != null and !search_field.equals('')">
-				and b.book_category = (SELECT category_name FROM book_categorys WHERE category_num = #{search_field})
-			</if>
-		GROUP BY 
-		    b.book_isbn,
-		    b.book_name,
-		    b.book_price,
-		    b.book_publisher,
-		    b.book_author,
-		    b.book_thumbnail_changed,
-		    b.book_publish_date,
-   		    b.book_state,
-		    b.book_qty
-		<if test="orderByValue != null and !orderByValue.equals('')">
-			ORDER BY
-			<if test="orderByValue == 1">
-	    		order_count DESC
-			</if>
-			<if test="orderByValue == 2">
-	    		b.book_publish_date DESC
-			</if>
-			<if test="orderByValue == 3">
-	    		b.book_price ASC
-			</if>
-			<if test="orderByValue == 4">
-	    		reviews_rating_avg DESC
-			</if>
-			<if test="orderByValue == 5">
-	    		review_rating_cnt DESC
-			</if>
-		</if>
-    </select>
+	    LEFT JOIN
+	        book_categorys bc ON b.book_category = bc.category_name
+	    WHERE 
+	        b.book_deleted = '01'
+	        <if test="word != null and !word.equals('')">
+	            <if test="search_conditions == null">
+	                AND REPLACE(LOWER(b.book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+	            </if>
+	            <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_title')">
+	                AND REPLACE(LOWER(b.book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+	            </if>
+	            <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_author')">
+	                AND REPLACE(LOWER(b.book_author), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+	            </if>
+	            <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_publisher')">
+	                AND REPLACE(LOWER(b.book_publisher), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+	            </if>
+	        </if>
+	        <if test="search_field != null and !search_field.equals('')">
+	            AND b.book_category = (SELECT category_name FROM book_categorys WHERE category_num = #{search_field})
+	        </if>
+	        <if test="categoryCountryType != null and !categoryCountryType.equals('')">
+	            <if test="categoryCountryType == '01'">
+	                AND b.book_country_type = '01'
+	            </if>
+	            <if test="categoryCountryType == '02'">
+	                AND b.book_country_type = '02'
+	            </if>
+	        </if>
+	    GROUP BY 
+	        b.book_isbn,
+	        b.book_name,
+	        b.book_price,
+	        b.book_publisher,
+	        b.book_author,
+	        b.book_thumbnail_changed,
+	        b.book_publish_date,
+	        b.book_state,
+	        b.book_qty
+	    <if test="orderByValue != null and !orderByValue.equals('')">
+	        ORDER BY
+	        <if test="orderByValue == 1">
+	            order_count DESC
+	        </if>
+	        <if test="orderByValue == 2">
+	            b.book_publish_date DESC
+	        </if>
+	        <if test="orderByValue == 3">
+	            b.book_price ASC
+	        </if>
+	        <if test="orderByValue == 4">
+	            reviews_rating_avg DESC
+	        </if>
+	        <if test="orderByValue == 5">
+	            review_rating_cnt DESC
+	        </if>
+	    </if>
+	</select>
 
     <select id="getBookDetail" parameterType="userProducts" resultType="userProducts">
         SELECT
@@ -282,5 +298,58 @@
         LEFT JOIN reviews r ON cod.order_detail_num = r.order_detail_num
         WHERE cod.book_isbn = #{book_isbn}
     </select>
+
+    <select id="getReviewPercent" parameterType="string" resultType="userReview">
+        WITH ReviewCounts AS (
+        SELECT
+        r.review_rating,
+        COUNT(*) AS review_count
+        FROM
+        customer_order_details cod
+        LEFT JOIN
+        reviews r ON cod.order_detail_num = r.order_detail_num
+        WHERE
+        cod.book_isbn = #{book_isbn}
+        GROUP BY
+        r.review_rating
+        ),
+        TotalReviews AS (
+        SELECT
+        COUNT(*) AS total_count
+        FROM
+        customer_order_details cod
+        LEFT JOIN
+        reviews r ON cod.order_detail_num = r.order_detail_num
+        WHERE
+        cod.book_isbn = #{book_isbn}
+        ),
+        AllRatings AS (
+        SELECT 1 AS review_rating FROM DUAL
+        UNION ALL
+        SELECT 2 FROM DUAL
+        UNION ALL
+        SELECT 3 FROM DUAL
+        UNION ALL
+        SELECT 4 FROM DUAL
+        UNION ALL
+        SELECT 5 FROM DUAL
+        )
+        SELECT
+        a.review_rating,
+        COALESCE(rc.review_count, 0) AS review_count,
+        CASE
+        WHEN tr.total_count = 0 THEN '0%'
+        ELSE CONCAT(ROUND(COALESCE(rc.review_count, 0) * 100.0 / tr.total_count), '%')
+        END AS review_percentage
+        FROM
+        AllRatings a
+        LEFT JOIN
+        ReviewCounts rc ON a.review_rating = rc.review_rating
+        CROSS JOIN
+        TotalReviews tr
+        ORDER BY
+        a.review_rating desc
+    </select>
+
 
 </mapper>

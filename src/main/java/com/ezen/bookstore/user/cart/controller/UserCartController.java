@@ -32,12 +32,12 @@ public class UserCartController {
     	userCartService.addCartItem(cartItemDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/delete/{cart_num}")
     public void removeCartItem(@PathVariable Integer cartNum) {
     	userCartService.deleteCartItem(cartNum);
     }
 
-    @DeleteMapping("/clear")
+    @PostMapping("/clear")
     public void clearCart(@RequestParam String memberId) {
     	userCartService.clearCart(memberId);
     }

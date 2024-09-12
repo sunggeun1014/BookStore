@@ -44,6 +44,7 @@
 	  <typeAlias type="com.ezen.bookstore.user.members.dto.UserMembersDTO" alias="userMembers"/>
 	  
       <typeAlias type="com.ezen.bookstore.user.bookcategory.dto.UserBookCategoryDTO" alias="userCategory"/>
+      <typeAlias type="com.ezen.bookstore.user.cart.dto.CartDTO" alias="userCart"/>
    </typeAliases>
 
 </configuration>

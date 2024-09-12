@@ -7,31 +7,40 @@
 	<select id="getCategoryList" resultType="userCategory" parameterType="userCondition">
 		SELECT
 		    bc.category_num,
+		    bc.category_country_type,
 		    bc.category_name,
-		    NVL((SELECT COUNT(*) FROM books 
-		    	WHERE 
-		    		book_category = bc.category_name
-		    	<if test="word != null and !word.equals('')">
-					<if test="search_conditions.equals('book_title')">
-						and REPLACE(LOWER(book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
-					</if>
-					<if test="search_conditions.equals('book_author')">
-						and REPLACE(LOWER(book_author), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
-					</if>
-					<if test="search_conditions.equals('book_publisher')">
-						and REPLACE(LOWER(book_publisher), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
-					</if>
-				</if>
-		    ), 0) AS category_cnt
+		    COUNT(*) AS category_cnt
 		FROM
-		    book_categorys bc
-		LEFT JOIN books b ON bc.category_name = b.book_category
+		    books          b
+		    LEFT JOIN book_categorys bc ON b.book_country_type = bc.category_country_type
+		                                   AND b.book_category = bc.category_name
+		WHERE 1 = 1
+        <if test="word != null and !word.equals('')">
+            <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_title')">
+                AND REPLACE(LOWER(b.book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+            </if>
+            <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_author')">
+                AND REPLACE(LOWER(b.book_author), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+            </if>
+            <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_publisher')">
+                AND REPLACE(LOWER(b.book_publisher), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+            </if>
+        </if>
+		<if test="categoryCountryType != null and !categoryCountryType.equals('')">
+            <if test="categoryCountryType == '01'">
+                AND bc.category_country_type = '01'
+            </if>
+            <if test="categoryCountryType == '02'">
+                AND bc.category_country_type = '02'
+            </if>
+        </if>
 		GROUP BY
 		    bc.category_num,
+		    bc.category_country_type,
 		    bc.category_name
 		ORDER BY
-		    bc.category_name ASC
-		    
+	        bc.category_name ASC
 	</select>
+
 
 </mapper>
