@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/admin/managers/css/managerReg.css" />
+<link rel="stylesheet" href="/admin/common/css/modal.css" />
+<link rel="stylesheet" href="/user/registration/css/registration.css" />
+<link rel="stylesheet" href="/user/common/css/common.css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<body>
+<div class="join-frame">
+	<div class="join-wrap-info">
+	<img src="/user/common/imgs/main-logo.svg" alt="메인로고" class="mainlogo" />
+		<form action="/user/members/join" method="POST" id="joinForm">
+		<h3>회원가입</h3>
+
+			<div class="form-list first">
+				<div class="form-item id" id="divId">					
+					<input type="text" id="member_id" name="member_id" placeholder="아이디를 입력해주세요">			    	
+				</div>
+				<div class="form-item pw" id="divPw">
+					<input type="password" class="pw" name="member_pw" id="member_pw" placeholder="비밀번호를 입력해주세요">			
+				</div>	
+				<div class="form-item confirm-pw" id="dicConfirmPw">	
+					<input type="password" class="pw" name="member_pw_check" id="member_pw_check" placeholder="비밀번호를 한번더 입력해주세요">					
+				</div>	
+				<div class="error">
+				    <span id="idCheckForm" class="check-comment" style="color: red; display: none;" ></span>		    
+					<span id="pwCheckForm" class="check-comment" style="color: red; display: none;"></span>
+				</div>
+			</div>
+			
+			<div class="form-list second">
+				<div class="form-item name" id="divName">
+					<input type="text" id="member_name" name="member_name" placeholder="이름을 입력해주세요">			
+				</div>
+				
+				<div class="form-item email" id="divEmail">	
+					<input type="text" id="member_email" name="member_email" placeholder="이메일을 입력해주세요">
+			       	<button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()" class="default-btn short" disabled>인증</button>
+				</div>
+				<div class="form-item email-confirm" id="divConfirmEmail" style="display:none">				       		
+	       			<input type="text" name="number" id="number" placeholder="인증번호 입력" />		       		
+	       			<button type="button" name="confirmBtn" id="confirmBtn" class="default-btn short-confirm" onclick="confirmNumber()">확인</button>			       		
+		       		<input type="hidden" id="emailVerificationStatus" name="emailVerificationStatus" value="" />
+				</div>
+			
+				<div class="form-item phoneNo">
+				    <input type="text" id="member_phoneNo" name="member_phoneNo" placeholder="휴대전화번호" />
+				</div>
+				<div class="error">
+					<span id="nameCheck" class="check-comment" style="color: red; display: none;" ></span>			    					
+					<span id="emailCheck" class="check-comment" style="color: red; display: none;" ></span>
+					<span id="phoneNumCheck" class="check-comment" style="color: red; display: none;" ></span>
+			    	<span id="certifiedEmailFail" class="check-comment" style="color: red; display: none;"></span>
+		    	</div>
+		    	
+			</div>
+	
+			<div class="form-list third">			
+				<div class="form-item addr">
+					<input type="text" id="address_kakao" name="member_addr" class="gray-text pointer-cursor" placeholder="주소" />
+				</div>
+				<div class="form-item detail-addr">
+					<input type="text" id="member_detail_addr" name="member_detail_addr" onclick="this.value='';" class="gray-text" placeholder="상세주소" />
+				</div>
+				<div class="error">
+					<span id="addrCheck" class="check-comment" style="color: red; display: none;" ></span>
+					<span id="detailAddrCheck" class="check-comment" style="color: red; display: none;" ></span>
+				</div>
+			</div>
+			
+			<div class="join-wrap-social">
+				<h3>간편 로그인 연동</h3>
+				<div>
+					<button><img src="/user/common/imgs/sns-login-btn-naver.png" alt="네이버 소셜 연동" class="social-btn" /></button>	
+				</div>
+				<div>
+					<button ><img src="/user/common/imgs/sns-login-btn-kakao.png" alt="카카오 소셜 연동" class="social-btn" /></button>
+				</div>	
+			</div>
+			
+			<div class="agreement">
+				<div><input type="radio" />이용 약관 동의 ></div>
+			</div>
+			<button type="submit" id="reg-button" class="default-btn long" >가입</button>
+			<button type="button" id="back" class="default-btn long" onclick="window.location.href='/user/login'">뒤로가기</button>
+			
+		</form>
+	</div>	
+</div>
+	<script src="/user/common/js/main.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>	
+	<script src="/user/registration/js/memberReg.js"></script>
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</body>
+</html>

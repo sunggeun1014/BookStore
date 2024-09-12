@@ -124,14 +124,18 @@
 	        <artifactId>spring-boot-starter-mail</artifactId>
 	    </dependency>
 	
-	    <!-- Spring Boot Starter Data Redis -->
-	    <dependency>
+		<dependency>
 	        <groupId>org.springframework.boot</groupId>
-	        <artifactId>spring-boot-starter-data-redis</artifactId>
+	        <artifactId>spring-boot-starter-thymeleaf</artifactId>
 	    </dependency>
-
+	    
+	    <dependency>
+	        <groupId>nz.net.ultraq.thymeleaf</groupId>
+	        <artifactId>thymeleaf-layout-dialect</artifactId>
+	    </dependency>
+		   
+	
 	</dependencies>
-
 
 	<build>
 		<plugins>
