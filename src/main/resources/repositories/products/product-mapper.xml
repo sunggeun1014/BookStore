@@ -217,9 +217,21 @@
    		    b.book_state,
 		    b.book_qty
 		<if test="orderByValue != null and !orderByValue.equals('')">
-			ORDER BY 
+			ORDER BY
 			<if test="orderByValue == 1">
 	    		order_count DESC
+			</if>
+			<if test="orderByValue == 2">
+	    		b.book_publish_date DESC
+			</if>
+			<if test="orderByValue == 3">
+	    		b.book_price ASC
+			</if>
+			<if test="orderByValue == 4">
+	    		reviews_rating_avg DESC
+			</if>
+			<if test="orderByValue == 5">
+	    		review_rating_cnt DESC
 			</if>
 		</if>
     </select>

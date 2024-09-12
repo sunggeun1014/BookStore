@@ -28,8 +28,8 @@ function Research() {
 
 function conditionBtnStyle() {
 	$(".order-area > span").on("click", function() {
-		$(".order-area > span").css({"color": "#7E7E7E" });
-		$(this).css({ "color": "#845EC2" });
+		$(".order-area > span").removeClass("order-by-click");
+		$(this).addClass("order-by-click");
 	});
 		
 	$(".condition-click").on("click", function() {

@@ -9,4 +9,5 @@ public interface UserMyPageMapper {
 	String findPwById(String memberId);
 	int updateMemberInfo(UserMembersDTO userMembersDTO);
 	UserMembersDTO getUser(String memberId);
+	int deleteMember(String memberId);
 }

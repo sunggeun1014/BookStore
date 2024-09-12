@@ -35,11 +35,12 @@ body.scrolling #top-btn {
     transform: translateY(0);
 }
 
-/* 로그인, 회원가입 등 (버튼 긴거) */
+/* 버튼 기본 설정 */
 button {
     border: none;
     cursor: pointer;
 }
+
 .default-btn {
     width: 80px;
     height: 40px;
@@ -51,6 +52,7 @@ button {
     font-weight: 700;
 }
 
+/* 로그인, 회원가입 등 (버튼 긴거) */
 .default-btn.long {
     width: 340px;
 }
@@ -100,6 +102,12 @@ button {
 }
 
 /* 인풋박스 스타일 */
+input:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: none;
+}
+
 /* 로그인, 회원가입 등 인풋 */
 .input-long {
     width: 340px;
@@ -117,7 +125,7 @@ input[type='radio'] {
     appearance: none; /* 기본 브라우저에서 기본 스타일 제거 */
     width: 20px;
     height: 20px;
-    border: 2px solid #c0c0c0; /* 체크되지 않았을 때의 테두리 색상 */
+    border: 5px solid #c0c0c0; /* 체크되지 않았을 때의 테두리 색상 */
     border-radius: 50%;
     outline: none; /* focus 시에 나타나는 기본 스타일 제거 */
     cursor: pointer;
@@ -135,7 +143,7 @@ input[type='radio']:checked {
 }
 
 /* 체크박스 */
-input#check-btn[type=checkbox] {
+input.check-box[type=checkbox] {
     opacity: 0;
     position: absolute;
     width: 20px;
@@ -143,7 +151,7 @@ input#check-btn[type=checkbox] {
     cursor: pointer;
 }
 
-input#check-btn[type=checkbox] + label {
+input.check-box[type=checkbox] + label {
     display: inline-block;
     background-image: url(/user/common/imgs/check-circle=off.svg);
     background-repeat: no-repeat;
@@ -154,7 +162,7 @@ input#check-btn[type=checkbox] + label {
     height: 20px;
 }
 
-input#check-btn[type=checkbox]:checked + label {
+input.check-box[type=checkbox]:checked + label {
     background-image: url(/user/common/imgs/check-circle=on.svg);
 }
 
