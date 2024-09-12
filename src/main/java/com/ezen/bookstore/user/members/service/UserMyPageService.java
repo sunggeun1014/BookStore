@@ -8,4 +8,5 @@ public interface UserMyPageService {
 	boolean findPwById(HttpSession session, String password);
 	boolean updateMemberInfo(HttpSession session, UserMembersDTO userMembersDTO);
 	UserMembersDTO getUser(HttpSession session);
+	boolean deleteMember(HttpSession session);
 }

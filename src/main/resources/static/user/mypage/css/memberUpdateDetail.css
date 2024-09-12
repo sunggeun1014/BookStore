@@ -154,6 +154,7 @@ input:checked + .slider.kakao {
 input:checked + .slider:before {
   transform: translateX(10px); /* 핸들이 움직일 거리 계산: width - height */
 }
+
 .member-list-wrap {
 	display: flex;
 	justify-content: space-between;

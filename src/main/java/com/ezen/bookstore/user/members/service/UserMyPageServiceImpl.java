@@ -54,4 +54,16 @@ public class UserMyPageServiceImpl implements UserMyPageService {
 		
 		return userMyPageMapper.getUser(membersDTO.getMember_id());
 	}
+	
+	@Override
+	public boolean deleteMember(HttpSession session) {
+		UserMembersDTO membersDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
+		String memberId = membersDTO.getMember_id();
+		
+		if (memberId.isEmpty()) {
+			return false;
+		}
+		
+		return userMyPageMapper.deleteMember(memberId) > 0;
+	}
 }
