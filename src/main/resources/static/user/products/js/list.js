@@ -16,6 +16,10 @@ $(document).ready(function() {
 			$("#search-form").submit();
 	    });
 	});
+	
+	$(".btn-default").on("click", function(e) {
+		e.preventDefault();
+	});
 });
 
 function Research() {
@@ -28,8 +32,19 @@ function Research() {
 
 function conditionBtnStyle() {
 	$(".order-area > span").on("click", function() {
-		$(".order-area > span").removeClass("order-by-click");
-		$(this).addClass("order-by-click");
+		const obj = $("input[name='orderByValue']");
+		let num = $(this).attr("data-value");
+		
+		if ($(this).hasClass("order-by-click")) {
+			$(obj).val("");
+			$(".order-area > span").removeClass("order-by-click");
+		} else {
+			$(obj).val(num);
+			$(".order-area > span").removeClass("order-by-click");
+			$(this).addClass("order-by-click");
+		}
+		
+		$("#search-form").submit();
 	});
 		
 	$(".condition-click").on("click", function() {
@@ -42,8 +57,37 @@ function conditionBtnStyle() {
 		$(this).addClass("on");
 	});
 }
+function basket(obj) {
+	const isbn = $(obj).attr("data-value");
+	
+	basketProcess([isbn]);
+}
 
-function productOrderBy(num) {
-	$("input[name='orderByValue']").val(num);
-	$("#search-form").submit();
-} 
+function basketList() {
+	const obj = $("#product-list-form input[type='checkbox']:checked");
+		
+	const checkedIsbnList = obj.map(function() {
+	    return $(this).val();
+	}).get();
+		
+	basketProcess(checkedIsbnList);
+}
+
+function basketProcess(data) {
+	if(data.length > 0) {
+		$.ajax({
+			url: "/user/productsRest/productBasketSave",
+			method: "POST",
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			success: function() {
+				getCheckModal(`장바구니에 상품이 추가되었습니다.`);
+			},
+			error: function() {
+				getErrorModal();
+		  	}
+		});
+	} else {
+		getCheckModal("장바구니에 담으려면 최소한 하나의 상품을 선택해야 합니다.");	
+	}
+}
