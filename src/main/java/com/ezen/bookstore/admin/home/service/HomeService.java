@@ -22,7 +22,8 @@ public class HomeService {
     }
 
     public int getTodaySales() {
-        return homeRepository.getTodaySales();
+        Integer sales = homeRepository.getTodaySales();
+        return (sales != null) ? sales : 0;
     }
 
     public int getAllOrders() {

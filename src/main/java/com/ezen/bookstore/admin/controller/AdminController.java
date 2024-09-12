@@ -47,6 +47,10 @@ public class AdminController {
 		int memberCnt = homeService.getMembersCnt();
 		int orderCnt = homeService.getTodayOrder();
 
+		Integer todaySalesObj = homeService.getTodaySales();
+
+		int todaySales =(todaySalesObj != null) ? todaySalesObj : 0;
+
 		int allOrderCnt = homeService.getAllOrders();
 		int allDelivering = homeService.getAllDelivering();
 		int allCompleted = homeService.getAllCompleted();
@@ -54,6 +58,7 @@ public class AdminController {
 		model.addAttribute("productCnt", productCnt);
 		model.addAttribute("memberCnt", memberCnt);
 		model.addAttribute("orderCnt", orderCnt);
+		model.addAttribute("todaySales", todaySales);
 		model.addAttribute("allOrderCnt", allOrderCnt);
 		model.addAttribute("allDelivering", allDelivering);
 		model.addAttribute("allCompleted", allCompleted);

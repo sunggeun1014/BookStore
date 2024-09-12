@@ -64,5 +64,14 @@ function qtyHandler(obj) {
 	
 }
 
+function truncate() {
+	const element = document.querySelector(".book-title-data > span");
+	if (element) {
+		let text = element.innerText;
 
-
+		if (text.length > 18) {
+			element.innerText = text.slice(0, 18) + '...';
+		}
+	}
+}
+truncate();

@@ -103,20 +103,24 @@
     margin-bottom: 10px;
 }
 
-.status-info p:last-child {
+.status-info a {
     font-size: 28px;
     font-weight: 800;
 }
 
-.status-info.order p:last-child {
+.status-info a:hover {
+    text-decoration: underline;
+}
+
+.status-info.order a {
     color: #35C27D;
 }
 
-.status-info.deliver p:last-child {
+.status-info.deliver a {
     color: #35A9C2;
 }
 
-.status-info.complete p:last-child {
+.status-info.complete a {
     color: #000;
 }
 
@@ -130,4 +134,23 @@
 
 .search-list-title {
     margin-bottom: 20px;
+}
+
+.text-color-orange.table-center {
+    color: #F29425;
+}
+
+.text-color-green.table-center {
+    color: #10A142;
+}
+
+.text-color-blue.table-center {
+    color: #4777F6;
+}
+
+.text-ellipsis {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

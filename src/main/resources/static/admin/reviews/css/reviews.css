@@ -51,6 +51,13 @@
 }
 */
 
+/* 두 줄로 안넘어가게 */
+.text-ellipsis {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
 .input-group {
    display: flex;
    justify-content: space-between;
@@ -123,6 +130,7 @@
    justify-content: center;
    align-items: center;
 }
+
 /* reviewDetails.html */
 .text-title {
    font-size: 24px;

@@ -59,7 +59,7 @@
                 <div class="select-order">
                     <div class="reduce-qty">
                         <i class="fa-solid fa-minus"></i>
-                        <input type="number" max="999" id="" class="input-qty" value="1"/>
+                        <input type="number" max="999" id="" class="input-qty" th:data-qty="" value="1"/>
                         <i class="fa-solid fa-plus"></i>
                     </div>
                     <div class="price-wrap total">
@@ -69,7 +69,9 @@
                 </div>
                 <div class="order-btn-wrap">
                     <th:block th:if="${memID != null}">
-                        <input type="hidden" name="member-id" id="member-id" th:value="${memID}">
+                        <input type="hidden" name="member_id" id="member_id" th:value="${memID}">
+                        <input type="hidden" name="book_isbn" id="book_isbn" th:value="${bookDetail.book_isbn}">
+                        <input type="hidden" name="book_price" id="book_price" th:value="${bookDetail.book_isbn}">
                     </th:block>
                     <button class="default-btn border">장바구니</button>
                     <button class="default-btn">바로구매</button>

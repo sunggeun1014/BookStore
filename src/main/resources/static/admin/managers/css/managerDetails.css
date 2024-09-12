@@ -18,7 +18,7 @@ input, select {
 
 .info {
     display: flex;
-    border-bottom: 2px solid #D8D8D8;
+    border-bottom: 1px solid #D8D8D8;
     margin-bottom: 20px;
     padding-bottom: 20px;
     padding-left: 50px;

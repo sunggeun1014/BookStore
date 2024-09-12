@@ -31,7 +31,7 @@
     <div class="info-wrap" onclick="location.href='/admin/customerOrders/list'">
         <div class="sales-cnt txt-wrap">
             <p>오늘 매출</p>
-            <p>500,000</p>
+            <p th:text="${#numbers.formatInteger(todaySales, 0, 'COMMA')}"></p>
         </div>
         <i class="fa-solid fa-money-bill-trend-up"></i>
     </div>
@@ -45,7 +45,7 @@
                 <img src="/admin/home/imgs/order-list-icon.svg" alt="주문건수" class="img-icon"/>
             </div>
             <p>주문</p>
-            <p>[[${allOrderCnt}]]</p>
+            <a href="/admin/customerOrders/list">[[${allOrderCnt}]]</a>
         </div>
         <div class="arrow">
             <img src="/admin/home/imgs/dashboard-status-arrow.svg" alt="화살표"/>
@@ -55,7 +55,7 @@
                 <img src="/admin/home/imgs/deliver-icon.svg" alt="배송중건수" class="img-icon"/>
             </div>
             <p>배송중</p>
-            <p>[[${allDelivering}]]</p>
+            <a href="/admin/customerOrders/list">[[${allDelivering}]]</a>
         </div>
         <div class="arrow">
             <img src="/admin/home/imgs/dashboard-status-arrow.svg" alt="화살표"/>
@@ -65,7 +65,7 @@
                 <img src="/admin/home/imgs/complete-deliver.svg" alt="배송완료건수" class="img-icon"/>
             </div>
             <p>배송완료</p>
-            <p>[[${allCompleted}]]</p>
+            <a href="/admin/customerOrders/list">[[${allCompleted}]]</a>
         </div>
     </div>
 </div>
