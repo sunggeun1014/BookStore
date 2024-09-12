@@ -1,5 +1,5 @@
 function markStarID() {
-    const idElements = document.querySelectorAll(".member-id");
+    const idElements = document.querySelectorAll(".member_id");
 
     idElements.forEach(idP => {
         const getID = idP.dataset.memid;

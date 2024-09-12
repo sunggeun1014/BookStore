@@ -27,7 +27,7 @@ public class HomeRepository {
         return sql.selectOne("Home.getTodayOrder");
     }
 
-    public int getTodaySales() {
+    public Integer getTodaySales() {
         return sql.selectOne("Home.getTodaySales");
     }
 

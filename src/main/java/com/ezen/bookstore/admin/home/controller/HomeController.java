@@ -46,8 +46,6 @@ public class HomeController {
 
         responseMap.put("data", list);
 
-        log.info("Inventory logs: {}", list);
-
         return responseMap;
     }
 }

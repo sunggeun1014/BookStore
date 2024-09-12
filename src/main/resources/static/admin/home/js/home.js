@@ -38,15 +38,32 @@ $(document).ready(function() {
                 },
                 {
                     data: 'inquiry_title',
+                    width: '150px',
+                    className: 'text-eclipse',
+                    render: function(data, type, row) {
+                        return data.length > 10 ? data.slice(0, 10) + '...' : data.slice(0, 10);
+                    }
                 },
                 {
                     data: 'inquiry_type',
+                    width: '80px'
                 },
                 {
                     data: 'inquiry_answer_status',
+                    width: '80px',
+                    createdCell: function(td, cellData) {
+                        if (cellData === "미완료" || cellData === "완료") {
+                            $(td).addClass('text-color-orange');
+                        } else {
+                            $(td).addClass('text-color-green');
+                        }
+                    }
                 },
                 {
                     data: 'answer_write_date',
+                    render: function(data, type, row) {
+                        return data ? data : '-';
+                    }
                 },
 
             ],

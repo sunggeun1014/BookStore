@@ -2,9 +2,14 @@ var table;
 $(document).ready(function() {
 	// 테이블이 이미 초기화되어 있는지 확인
 	if (!$.fn.DataTable.isDataTable('#reviews')) {
-		table = $('#reviews').DataTable({
+		table = $('#reviews').removeAttr('width').DataTable({
+			autoWidth: false,
 			columnDefs: [
-				{ targets: 0, orderable: false } // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
+				{ targets: 0, orderable: false }, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
+				{
+					targets: 0,
+					width: '40px'
+				}
 			],
 			order: [[6, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
 			ajax: {
@@ -26,12 +31,25 @@ $(document).ready(function() {
 					data: 'review_num', // 실제 데이터는 변경하지 않습니다.
 					orderable: true // 이 컬럼은 정렬 가능
 				},
-				{ data: 'review_content' },
+				{
+					data: 'review_content',
+					className: 'text-ellipsis',
+					render: function(data) {
+						if (data.length > 15) {
+							return data.substring(0, 15) + '...';
+						} else {
+							return data;
+						}
+					}
+				},
 				{
 					data: 'book_name',
+					className: 'text-ellipsis',
 					render: function(data) {
-						return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
-					}
+						const editText = data.length > 10 ? data.substring(0, 10) + '...' : data.substring(0, 10) + '...';
+
+						return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + editText + '</a>';
+					},
 				},
 				{ data: 'book_isbn' },
 				{ data: 'member_id' },
