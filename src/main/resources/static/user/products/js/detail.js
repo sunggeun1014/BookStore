@@ -1,44 +1,3 @@
-function calcQty() {
-    const inputQty = document.querySelector(".input-qty");
-    const minus = document.querySelector(".fa-minus");
-    const plus = document.querySelector(".fa-plus");
-    let totalPrice = document.querySelector(".total-price");
-    const price = parseInt(totalPrice.dataset.price) || 0;
-
-    let qty = parseInt(inputQty.value) || 1;
-
-    function updatePrice() {
-        totalPrice.innerText = (price * qty).toLocaleString();
-    }
-
-    updatePrice();
-
-    minus.addEventListener("click", () => {
-        if (qty > 1) {
-            qty--;
-            inputQty.value = qty;
-            updatePrice();
-        } else {
-            getCheckModal("1보다 작을 수 없습니다.")
-        }
-    });
-
-    plus.addEventListener("click", () => {
-        qty++;
-        inputQty.value = qty;
-        updatePrice();
-    });
-
-    inputQty.addEventListener("change", () => {
-        qty = parseInt(inputQty.value) || 1;
-        if (qty < 1) {
-            qty = 1;
-            inputQty.value = 1;
-        }
-        updatePrice();
-    });
-}
-
 function markStarID() {
     const idElements = document.querySelectorAll(".member-id");
 
@@ -53,7 +12,37 @@ function markStarID() {
     });
 }
 
+function getWidthRating() {
+    const ratingBar = document.querySelectorAll(".rating-bar")
+
+    ratingBar.forEach(rating => {
+        const percent = rating.getAttribute('data-percent');
+        const inner = rating.querySelector(".rating-bar-inner")
+
+        if (rating.classList.contains("s5")) {
+            inner.style.width = percent;
+        }
+        if (rating.classList.contains("s4")) {
+            inner.style.width = percent;
+        }
+        if (rating.classList.contains("s3")) {
+            inner.style.width = percent;
+        }
+        if (rating.classList.contains("s2")) {
+            inner.style.width = percent;
+        }
+        if (rating.classList.contains("s1")) {
+            inner.style.width = percent;
+        }
+    })
+}
+
+calcQty(".total-price", "data-price");
+
 window.onload = function() {
-    calcQty();
     markStarID();
+    getWidthRating();
 };
+
+const memid = document.querySelector("#member-id");
+console.log(memid);

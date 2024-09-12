@@ -1,7 +1,10 @@
 package com.ezen.bookstore.user.products.controller;
 
+import com.ezen.bookstore.commons.AccountManagement;
+import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 import com.ezen.bookstore.user.products.dto.UserProductDTO;
 import com.ezen.bookstore.user.products.dto.UserReviewDTO;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +16,7 @@ import com.ezen.bookstore.user.products.service.UserProductService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -35,15 +39,24 @@ public class UserProductController {
 	}
 
 	@GetMapping("/detail")
-	public String productDetail(String bookISBN, Model model) {
+	public String productDetail(String bookISBN, Model model, HttpSession session) {
+		UserMembersDTO member = (UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO);
 
-		bookISBN = "9791139220704";
+		String memID = member != null ? member.getMember_id() : null;
+
+		bookISBN = "9791172100650";
 
 		UserProductDTO bookDetail = productService.getProductDetail(bookISBN);
 		List<UserReviewDTO> reviewList = productService.getReviewList(bookISBN);
+		List<UserReviewDTO> reviewPercent = productService.getReviewPercent(bookISBN);
 
+		if (reviewList != null && !reviewList.isEmpty()) {
+			model.addAttribute("reviewList", reviewList);
+		}
+
+		model.addAttribute("memID", memID);
 		model.addAttribute("bookDetail", bookDetail);
-		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("reviewPercent", reviewPercent);
 
 		return "/user/main/products/detail";
 	}

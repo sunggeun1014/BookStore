@@ -2,7 +2,6 @@
 /*activeButton();
 filterTextActive();
 dateFilterActive();
-calcQty();
 tabBarActive();*/
 
 // 인풋에 밸류 들어가면 버튼 활성화 (로그인, 회원가입때)
@@ -38,28 +37,55 @@ function dateFilterActive() {
 }
 
 // 인풋 넘버 숫자 (상품 상세페이지 주문수량 인풋)
-function calcQty() {
+/**
+ * input-qty 숫자에 따른 가격 변동 함수
+ * @param {string} priceElement total-price를 표시할 태그의 선택자 (클래스 or 아이디)
+ * @param {string} priceData data 속성으로 price를 보내줌
+ * ex) th:data-price="${?.book_price}"
+ */
+function calcQty(priceElement, priceData) {
     const inputQty = document.querySelector(".input-qty");
     const minus = document.querySelector(".fa-minus");
     const plus = document.querySelector(".fa-plus");
+    let totalPrice = document.querySelector(`${priceElement}`);
+    const price = parseInt(totalPrice.getAttribute(`${priceData}`)) || 0;
 
-    let i = parseInt(inputQty.value) || 0;
+    let qty = parseInt(inputQty.value) || 1;
 
-    // 마이너스 버튼 클릭 시
+    function updatePrice() {
+        totalPrice.innerText = (price * qty).toLocaleString();
+    }
+
+    updatePrice();
+
     minus.addEventListener("click", () => {
-        if (i > 1) {
-            i--;
-            inputQty.value = i;
+        if (qty > 1) {
+            qty--;
+            inputQty.value = qty;
+            updatePrice();
         } else {
-            alert("1보다 작을 수 없습니다."); // 모달로 알림 넣으면 됨
+            getCheckModal("수량은 1개 이상 선택하셔야 합니다.")
         }
     });
 
-    // 플러스 버튼 클릭 시
     plus.addEventListener("click", () => {
-        i++;
-        inputQty.value = i;
+        qty++;
+        inputQty.value = qty;
+        updatePrice();
     });
+
+    function handleQtyChange() {
+        let newQty = parseInt(inputQty.value);
+        if (isNaN(newQty) || newQty < 1) {
+            newQty = 1;
+        }
+        qty = newQty;
+        inputQty.value = qty;
+        updatePrice();
+    }
+
+    inputQty.addEventListener("change", handleQtyChange);
+    inputQty.addEventListener("input", handleQtyChange);
 }
 
 // 마이페이지 (리뷰, 1:1문의 등 탭 버튼)
