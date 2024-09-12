@@ -29,4 +29,8 @@ public class UserProductRepository {
 	public List<UserReviewDTO> getUserReview(String bookISBN) {
 		return sql.selectList("Products.getUserReviewList", bookISBN);
 	}
+
+	public List<UserReviewDTO> getReviewPercent(String bookISBN) {
+		return sql.selectList("Products.getReviewPercent", bookISBN);
+	}
 }

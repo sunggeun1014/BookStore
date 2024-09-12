@@ -41,6 +41,11 @@ button {
     cursor: pointer;
 }
 
+button:focus {
+    border: none;
+    outline: none;
+}
+
 .default-btn {
     width: 80px;
     height: 40px;
@@ -303,11 +308,14 @@ input[type='number'] {
 
 /* 검색결과(기타 등등) 없을때 */
 .result-wrap {
-    display: inline-flex; /* 아예 가운데로 놓고 싶으면 flex로 수정 */
+    width: 100%;
+    padding: 50px 0;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
+    border-bottom: 1px solid #c0c0c0;
 }
 
 .result-wrap p {

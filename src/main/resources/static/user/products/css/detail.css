@@ -1,12 +1,13 @@
-#product-info-container {
+#book-detail-container {
     padding: 90px 145px 0;
 }
 
-.book-order-info {
+/* 상단 수량, 가격정보 */
+#book-info-wrap {
     display: grid;
     grid-template-columns: 400px 400px;
     justify-content: space-between;
-    margin-bottom: 70px;
+    margin-bottom: 150px;
 }
 
 .book-img-wrap {
@@ -137,6 +138,7 @@
     height: 50px;
 }
 
+/* 책 기본정보들 */
 .book-default-info {
     margin-bottom: 50px;
     padding-bottom: 35px;
@@ -220,6 +222,22 @@
     color: #7E7E7E;
 }
 
+.rating-bar-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 15px;
+}
+
+.rating-cnt-star {
+    display: grid;
+    grid-template-columns: 1fr 1fr 50px;
+    align-items: center;
+    justify-items: center;
+    gap: 45px;
+}
+
 .user-score-avg {
     display: flex;
     align-items: center;
@@ -228,6 +246,7 @@
 }
 
 .all-reviews {
+    position: relative;
     width: 100%;
     height: 40px;
     /*margin-bottom: 20px;*/
@@ -235,10 +254,13 @@
 }
 
 .all-reviews p {
+    position: absolute;
+    bottom: -1px;
     width: max-content;
     height: 100%;
     padding: 10px;
     border-bottom: 2px solid #000;
+    font-weight: 700;
 }
 
 .review-content {
@@ -247,6 +269,29 @@
     padding: 10px 20px;
     /*border-top: 1px solid #C0C0C0;*/
     border-bottom: 1px solid #C0C0C0;
+}
+
+.user-star-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rating-bar {
+    position: relative;
+    width: 145px;
+    height: 3px;
+    border-radius: 3px;
+    background-color: #D8D8D8;
+}
+
+.rating-bar-inner {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 3px;
+    border-radius: 3px;
+    background-color: #845EC2;
 }
 
 .content-head {
@@ -285,9 +330,17 @@
 }
 
 /* 교환반품 안내 */
-.refund-info-container {
+#refund-info-container {
     margin-bottom: 20px;
 }
+
+.refund-btn-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
 .info-header {
     height: 60px;
     display: flex;

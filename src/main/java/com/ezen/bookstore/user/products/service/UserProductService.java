@@ -13,4 +13,6 @@ public interface UserProductService {
 	public UserProductDTO getProductDetail(String bookISBN);
 
 	public List<UserReviewDTO> getReviewList(String bookISBN);
+
+	public List<UserReviewDTO> getReviewPercent(String bookISBN);
 }
