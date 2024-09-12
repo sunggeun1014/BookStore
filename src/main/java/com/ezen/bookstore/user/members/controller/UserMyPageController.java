@@ -55,7 +55,7 @@ public class UserMyPageController {
 	
 			if(myPageService.findPwById(session, password)) {
 			
-				if (page.equals("updateDetail")) {
+				if (page.equals("updateDetailPage")) {
 					return "redirect:/user/mypage/updateDetailPage";
 				} else {
 					return "redirect:/user/mypage/deleteDetailPage";
