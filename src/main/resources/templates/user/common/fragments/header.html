@@ -13,10 +13,10 @@
 
 	<div class="header-center">
 		<div class="logo-searchbar">
-			<a href="./main"> <img src="/user/common/imgs/web-header-logo.svg" alt="로고" class="logo-img">
+			<a href="/user/main"> <img src="/user/common/imgs/web-header-logo.svg" alt="로고" class="logo-img">
 			</a>
 			<div class="searchbar">
-				<input type="text" name="searchKeyword" class="search-input"> <i class="fa-solid fa-magnifying-glass search-icon"></i>
+				<input type="text" id="searchKeyword" name="searchKeyword" class="search-input" th:value="${condition != null ? condition.word : ''}"> <i class="fa-solid fa-magnifying-glass search-icon"></i>
 			</div>
 		</div>
 
@@ -26,7 +26,7 @@
 					<p></p>
 				</div>
 			</a> <a href=""> <i class="fa-solid fa-circle-user user-icon"></i>
-		</a>
+			</a>
 		</div>
 	</div>
 	<!-- 카테고리 -->
@@ -39,8 +39,8 @@
 		</div>
 
 		<ul class="nav-category-list">
-			<li><a href="" class="nav-category-item">국내도서</a></li>
-			<li><a href="" class="nav-category-item">외국도서</a></li>
+			<li><a href="/user/products/searchForm?categoryCountryType=01" class="nav-category-item">국내도서</a></li>
+			<li><a href="/user/products/searchForm?categoryCountryType=02" class="nav-category-item">외국도서</a></li>
 			<li><a href="" class="nav-category-item">베스트</a></li>
 			<li><a href="" class="nav-category-item">신상품</a></li>
 		</ul>
@@ -54,7 +54,9 @@
 					<img src="/user/common/imgs/category-list-button.svg" alt="카테고리목록" class="all-categories-icon">
 				</div>
 			</div>
-			<img src="/user/common/imgs/web-fixed-header-logo.svg" alt="로고" class="header-fixed-logo-img">
+			<a href="/user/main"> 
+				<img src="/user/common/imgs/web-fixed-header-logo.svg" alt="로고" class="header-fixed-logo-img">
+			</a>
 			<div class="searchbar">
 				<input type="text" name="searchKeyword" class="search-input"> <i class="fa-solid fa-magnifying-glass search-icon"></i>
 			</div>
@@ -63,9 +65,7 @@
 					<div class="cart-qty">
 						<p></p>
 					</div>
-				</a>
-				<a href=""> <i class="fa-solid fa-circle-user user-icon"></i></a>
-				<a href=""> <img src="/user/common/imgs/web-cs-icon.svg" alt="고객센터" class="cs-icon"></a>
+				</a> <a href=""> <i class="fa-solid fa-circle-user user-icon"></i></a> <a href=""> <img src="/user/common/imgs/web-cs-icon.svg" alt="고객센터" class="cs-icon"></a>
 			</div>
 		</div>
 	</div>

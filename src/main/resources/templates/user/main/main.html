@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/user/common/layout/mainLayout}" layout:fragment="Content">
-
-<!-- SWIPER 외부 라이브러리 연결-->
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/common/layout/mainLayout}"
+      layout:fragment="Content">
+      
+<!-- SWIPER 라이브러리 연결-->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
 <link rel="stylesheet" href="/user/main/css/main.css" />
-
 
 <section class="hero">
 	<!-- Slider main container -->
 	<div class="swiper slide-wrap">
-		<!-- Additional required wrapper -->
 		<div class="swiper-wrapper">
 			<!-- Slides -->
 			<div class="swiper-slide">
@@ -42,7 +43,7 @@
 <div class="inner">
 	<section class="section section-best-books section-wrapper">
 		<div class="section-header">
-			<h2 class="section-title">9월의 베스트셀러</h2>
+			<h2 class="section-title" id="best-seller-month">월의 베스트셀러</h2>
 			<p class="section-title-emoji">🏆</p>
 		</div>
 		<div id="best-books-wrapper" class="section-content-books-wrapper"></div>

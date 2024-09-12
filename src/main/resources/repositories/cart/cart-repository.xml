@@ -1,8 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Cart">
 
-
+    <select id="getCartItemList" resultType="userCart">
+        SELECT 
+        	c.cart_num, 
+        	c.book_isbn, 
+        	b.book_name, 
+        	c.cart_purchase_qty, 
+        	b.book_price
+        FROM 
+        	orders_cart c
+        JOIN 
+        	books b ON b.book_isbn = c.book_isbn
+        WHERE 
+        	c.member_id = #{member_id}
+    </select>
+    
+    <insert id="addCartItem" parameterType="java.util.HashMap">
+        INSERT INTO 
+        	orders_cart (
+        		cart_num, 
+        		book_isbn, c
+        		art_purchase_qty, 
+        		member_id
+        ) VALUES (
+        		order_cart_seq.nextval,
+        		#{book_isbn}, 
+        		#{cart_purchase_qty}, 
+        		#{member_id})
+    </insert>
+    
+    <delete id="deleteItemByCartNum">
+    	DELETE FROM 
+    		orders_cart
+    	WHERE 
+    		cart_num = #{cart_num}
+    </delete>
+    
+    <delete id="deleteItemsByMemberId">
+    	DELETE FROM 
+    		orders_cart
+    	WHERE
+    		member_id = #{member_id}
+    </delete>
+    
 </mapper>

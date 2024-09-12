@@ -28,5 +28,28 @@
 
 .default-font {
   	font-size: 16px;
-  		color: #7E7E7E;
+  	color: #7E7E7E;
+}
+
+.info-box {
+	background-color: #FAF8FE;
+	width: 920px;
+	padding: 25px;
+	border-radius: 10px;
+}
+
+.info-box > ul {
+	padding : 30px;
+}
+
+.info-box > ul > li {
+	list-style: disc;
+	font-size: 14px;
+	color: #7E7E7E;
+	line-height: 1.8;
+}
+.pw-box {
+	display: grid;
+    justify-content: center;
+    margin-top: 50px;
 }

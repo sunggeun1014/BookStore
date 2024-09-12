@@ -1,23 +1,24 @@
 package com.ezen.bookstore.user.products.controller;
 
-import com.ezen.bookstore.commons.AccountManagement;
-import com.ezen.bookstore.user.members.dto.UserMembersDTO;
-import com.ezen.bookstore.user.products.dto.UserProductDTO;
-import com.ezen.bookstore.user.products.dto.UserReviewDTO;
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ezen.bookstore.commons.AccountManagement;
+import com.ezen.bookstore.commons.Pagination;
+import com.ezen.bookstore.commons.PaginationProcess;
 import com.ezen.bookstore.user.bookcategory.service.UserBookCategoryService;
 import com.ezen.bookstore.user.commons.UserSearchCondition;
+import com.ezen.bookstore.user.members.dto.UserMembersDTO;
+import com.ezen.bookstore.user.products.dto.UserProductDTO;
+import com.ezen.bookstore.user.products.dto.UserReviewDTO;
 import com.ezen.bookstore.user.products.service.UserProductService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Collections;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,14 +27,16 @@ public class UserProductController {
 
 	private final UserProductService productService;
 	private final UserBookCategoryService bookCategoryService;
+	private final PaginationProcess paginationProcess;
 	
 	@GetMapping("/searchForm")
-	public String ProductsSearchForm(Model model, UserSearchCondition condition) {
+	public String ProductsSearchForm(Model model, UserSearchCondition condition, Pagination pagination) {
+		List<UserProductDTO> productList = productService.getProductList(condition);
 		
-		model.addAttribute("productList", productService.getProductList(condition));
+		model.addAttribute("productList", productList);
 		model.addAttribute("categoryList", bookCategoryService.getCategoryList(condition));
 		model.addAttribute("condition", condition);
-		
+		model.addAttribute("page", paginationProcess.process(pagination, productList));
 	
 		return "/user/main/products/searchForm";
 	}

@@ -17,8 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		effect: 'slide', // 효과를 슬라이드로 설정 (기본값)
 	});
 
-
-
+	// 베스트셀러 헤더 월 변경되게
+	const now = new Date();
+	const month = now.getMonth() + 1;
+	const titleElement = document.getElementById('best-seller-month');
+	titleElement.textContent = titleElement.textContent.replace('월의 베스트셀러', `${month}월의 베스트셀러`);
 
 	fetchBooks('/user/main/best-books/json', 'best-books-wrapper');
 	fetchBooks('/user/main/new-books/json', 'new-books-wrapper');
@@ -37,19 +40,16 @@ function fetchBooks(url, wrapperId) {
 			booksWrapper.innerHTML = ''; // 기존 내용 지우기
 
 			books.forEach(book => {
-				console.log(`Book data:`, book);
 				// 책 정보를 HTML로 생성
 				const bookElement = createBookElement(book);
 				// 생성된 책 요소를 페이지에 추가
 				booksWrapper.appendChild(bookElement);
 			});
 		})
-		.catch(error => console.error(`Error fetching books from ${url}:`, error));
 }
 
 // 책 요소 생성
 function createBookElement(book) {
-	console.log(`Creating book element for:`, book);
 	const bookElement = document.createElement('div');
 	bookElement.classList.add('section-content-books-wrapper');
 	bookElement.innerHTML = `
