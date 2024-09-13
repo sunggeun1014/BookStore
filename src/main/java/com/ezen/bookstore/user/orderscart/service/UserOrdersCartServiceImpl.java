@@ -5,6 +5,7 @@ import java.util.List;
 import com.ezen.bookstore.user.cart.dto.UserCartDTO;
 import org.springframework.stereotype.Service;
 
+import com.ezen.bookstore.user.cart.dto.UserCartDTO;
 import com.ezen.bookstore.user.orderscart.repository.UserOrdersCartRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -16,14 +17,19 @@ public class UserOrdersCartServiceImpl implements UserOrdersCartService {
 	private final UserOrdersCartRepository ordersCartRepository; 
 	
 	@Override
-	public void productBasketInsert(List<String> book_isbn, String member_id) {
+	public int productBasketInsert(List<UserCartDTO> list, String member_id) {
+		int result = 0;
+		
 		try {
-			for(String isbn : book_isbn) {
-				ordersCartRepository.productBasketInsert(isbn, member_id);
+			result += ordersCartRepository.getBasketCount(member_id);
+			for(UserCartDTO dto : list) {
+				result += ordersCartRepository.productBasketInsert(dto, member_id);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return result;
 	}
 
 }

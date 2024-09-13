@@ -93,6 +93,8 @@ function drawTotalPrice() {
 
 }
 
+isLogin();
+
 function isLogin() {
     const memID = document.getElementById("cart-btn").getAttribute("data-memberid")
     const cartBtn = document.querySelector("#cart-btn")
@@ -108,7 +110,7 @@ function isLogin() {
         } else {
             addCartForm();
             getConfirmModal("장바구니에 담았습니다.", function () {
-                location.href = '/user/main/cart'
+                location.href = '/user/cart/list'
             })
         }
     })
@@ -132,19 +134,17 @@ function addCartForm() {
 
     let cartQty = cartQtyInput.value
 
-    isLogin();
-
     addForm.addEventListener("submit", function (e) {
         e.preventDefault();
         cartQty = getTotalQty;
-        const data = {
+        const data = [{
             book_isbn: bookISBN.value,
             cart_purchase_qty: cartQty,
             book_price: bookPrice * cartQty
-        }
+        }];
 
         $.ajax({
-            url: '/user/cart/add',
+            url: '/user/productsRest/productBasketSave',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),

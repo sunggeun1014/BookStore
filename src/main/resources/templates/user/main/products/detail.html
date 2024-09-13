@@ -68,16 +68,18 @@
                     </div>
                 </div>
                 <div class="order-btn-wrap">
-                    <form action="/user/cart/add" method="post" id="add-cart-form">
+                    <form id="add-cart-form">
                         <input type="hidden" name="book_isbn" id="book_isbn" th:value="${bookDetail.book_isbn}">
                         <input type="hidden" name="cart_purchase_qty" id="cart_purchase_qty">
                         <input type="hidden" name="book_price" id="book_price">
-                        <button type="submit" class="default-btn border" id="cart-btn"
-                                th:data-memberid="${session.member.member_id}">장바구니
-                        </button>
-                        <button type="submit" class="default-btn" id="direct-order-btn"
-                                th:data-memberid="${session.member.member_id}">바로구매
-                        </button>
+                        <button type="submit" class="default-btn border"
+                                th:if="${memberDTO != 'notlogin'}" th:data-memberid="${memberDTO.member_id}">장바구니</button>
+                        <button type="submit" class="default-btn"
+                                th:if="${memberDTO != 'notlogin'}" th:data-memberid="${memberDTO.member_id}">바로구매</button>
+                        <button type="submit" class="default-btn border"
+                                th:if="${memberDTO == 'notlogin'}">장바구니</button>
+                        <button type="submit" class="default-btn"
+                                th:if="${memberDTO == 'notlogin'}">바로구매</button>
                     </form>
                 </div>
             </div>
