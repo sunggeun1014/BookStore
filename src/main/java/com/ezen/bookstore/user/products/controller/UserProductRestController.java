@@ -24,7 +24,7 @@ public class UserProductRestController {
 	private final UserOrdersCartService ordersCartService;
 	
 	@PostMapping("/productBasketSave")
-	public void productBasketSave(@RequestBody List<String> book_isbn, HttpSession session) {
-		ordersCartService.productBasketInsert(book_isbn, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id());
+	public int productBasketSave(@RequestBody List<String> book_isbn, HttpSession session) {
+		return ordersCartService.productBasketInsert(book_isbn, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id());
 	}
 }

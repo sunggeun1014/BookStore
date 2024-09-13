@@ -1,6 +1,8 @@
 package com.ezen.bookstore.user.products.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,10 +35,12 @@ public class UserProductController {
 	public String ProductsSearchForm(Model model, UserSearchCondition condition, Pagination pagination) {
 		List<UserProductDTO> productList = productService.getProductList(condition);
 		
-		model.addAttribute("productList", productList);
 		model.addAttribute("categoryList", bookCategoryService.getCategoryList(condition));
 		model.addAttribute("condition", condition);
-		model.addAttribute("page", paginationProcess.process(pagination, productList));
+		
+		Map<String, Object> map = paginationProcess.process(pagination, productList);
+		model.addAttribute("page", map.get("page"));
+		model.addAttribute("productList", map.get("list"));
 	
 		return "/user/main/products/searchForm";
 	}

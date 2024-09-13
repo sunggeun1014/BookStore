@@ -54,7 +54,7 @@
 		<div class="flex-column">
 			<div class="product-cnt-area">
 				<span>전체</span>
-				<span th:text="${#lists.size(productList)}" class="product-total-cnt"></span>
+				<span th:text="${page.totalItems}" class="product-total-cnt"></span>
 				<span>건</span>
 			</div>
 			<div class="order-area">
@@ -74,7 +74,7 @@
 			<form id="product-list-form">
 				<div class="product-list-area">
 				    <div class="product-checkbox-area check-btn">
-					    <input type="checkbox" id="check-btn" th:value="${product.book_isbn}">
+					    <input type="checkbox" id="check-btn" class="check-box" th:value="${product.book_isbn}">
 					    <label for="check-btn"></label>
 					  </div>
 				    <div class="product-img-area">
@@ -113,10 +113,7 @@
 		</div>
 	</div>
 	
-	<div th:each="i : ${#numbers.sequence(1, page.pageSize)}" th:text="${i}">Number
-		<a th:text="${i}"></a>
-	</div>
+	<div th:include="~{/user/common/fragments/pagination.html}"></div>
 </div>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="/user/products/js/list.js"></script>
 </html>

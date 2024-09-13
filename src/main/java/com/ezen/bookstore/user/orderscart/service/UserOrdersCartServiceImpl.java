@@ -15,14 +15,19 @@ public class UserOrdersCartServiceImpl implements UserOrdersCartService {
 	private final UserOrdersCartRepository ordersCartRepository; 
 	
 	@Override
-	public void productBasketInsert(List<String> book_isbn, String member_id) {
+	public int productBasketInsert(List<String> book_isbn, String member_id) {
+		int result = 0;
+		
 		try {
+			result += ordersCartRepository.getBasketCount(member_id);
 			for(String isbn : book_isbn) {
-				ordersCartRepository.productBasketInsert(isbn, member_id);
+				result += ordersCartRepository.productBasketInsert(isbn, member_id);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return result;
 	}
 	
 }

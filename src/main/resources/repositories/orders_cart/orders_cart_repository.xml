@@ -17,4 +17,14 @@
 		    #{qty}
 		)
 	</insert>
+	
+	<select id="basketCount" resultType="Integer" parameterType="String">
+    	SELECT 
+    		COUNT(*) 
+    	FROM 
+    		orders_cart 
+    	WHERE
+    		member_id = #{member_id}
+    </select>
+    
 </mapper>

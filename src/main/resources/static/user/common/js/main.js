@@ -108,7 +108,6 @@ const topBtn = document.querySelector("#top-btn");
 window.addEventListener("scroll", function () {
     let i = this.document.documentElement.scrollTop;
 
-    console.log(i);
     if (i > 600) {
         BODY.classList.add("scrolling");
     } else {

@@ -80,7 +80,8 @@ function basketProcess(data) {
 			method: "POST",
 			contentType: 'application/json',
 			data: JSON.stringify(data),
-			success: function() {
+			success: function(response) {
+				$(".cart-qty p").text(response);
 				getCheckModal(`장바구니에 상품이 추가되었습니다.`);
 			},
 			error: function() {
