@@ -7,21 +7,46 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileManagement {
-	public final static String BANNER_PATH = "C:/images/banners/";
-	public final static String BOOK_PATH = "C:/images/books/";
-	public final static String PROFILE_PATH = "C:/images/profiles/";
-	public final static String NOTICE_PATH = "C:/images/notice/";
+	@Value("${file.upload.banner-path}")
+    private String bannerPath;
+
+    @Value("${file.upload.book-path}")
+    private String bookPath;
+
+    @Value("${file.upload.profile-path}")
+    private String profilePath;
+
+    @Value("${file.upload.notice-path}")
+    private String noticePath;
+
+    public static final String BANNER_UPLOAD_NAME = "banner_img_";
+    public static final String BOOK_UPLOAD_NAME = "book_img_";
+    public static final String PROFILE_UPLOAD_NAME = "profile_img_";
+    public static final String NOTICE_UPLOAD_NAME = "notice_img_";
 	
-	public final static String BANNER_UPLOAD_NAME = "banner_img_";
-	public final static String BOOK_UPLOAD_NAME = "book_img_";
-	public final static String PROFILE_UPLOAD_NAME = "profile_img_";
-	public final static String NOTICE_UPLOAD_NAME = "notice_img_";
-	
+    public Path getBannerPath() {
+        return Paths.get(bannerPath);
+    }
+
+    public Path getBookPath() {
+        return Paths.get(bookPath);
+    }
+
+    public Path getProfilePath() {
+        return Paths.get(profilePath);
+    }
+
+    public Path getNoticePath() {
+        return Paths.get(noticePath);
+    }
+   
+
 	// 이미지 파일 이름 변경 메서드
 	public static String generateNewFilename(String originalFilename, String nameToSave) {
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -30,8 +55,8 @@ public class FileManagement {
 	}
 
 	// 이미지 파일을 저장하는 메서드
-	public static void saveImage(MultipartFile file, String newFilename, String uploadDir) throws IOException {
-        Path uploadPath = Paths.get(uploadDir, newFilename); 
+	public static void saveImage(MultipartFile file, String newFilename, Path uploadDir) throws IOException {
+        Path uploadPath = uploadDir.resolve(newFilename); 
     	
     	if (!Files.exists(uploadPath.getParent())) {
     		Files.createDirectories(uploadPath.getParent());

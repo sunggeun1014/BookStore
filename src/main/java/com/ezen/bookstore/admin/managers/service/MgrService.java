@@ -22,6 +22,7 @@ public class MgrService {
 	
     private final MgrRepository mgrRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FileManagement fileManagement;
 
     @Transactional(readOnly = true)
     public List<ManagersDTO> list() {
@@ -48,7 +49,7 @@ public class MgrService {
             	String originalFileName = profileImage.getOriginalFilename();
             	String newFileName = FileManagement.generateNewFilename(originalFileName, FileManagement.PROFILE_UPLOAD_NAME);
             	
-            	FileManagement.saveImage(profileImage, newFileName, FileManagement.PROFILE_PATH);
+            	FileManagement.saveImage(profileImage, newFileName, fileManagement.getProfilePath());
             	
                 // DTO에 파일 정보 설정
                 managersDTO.setManager_profile_original(originalFileName);
@@ -79,7 +80,7 @@ public class MgrService {
 	             String originalFilename = profileImage.getOriginalFilename();
 	             String modifiedFilename = FileManagement.generateNewFilename(originalFilename, FileManagement.PROFILE_UPLOAD_NAME);
 	             
-	             FileManagement.saveImage(profileImage, modifiedFilename, FileManagement.PROFILE_PATH);
+	             FileManagement.saveImage(profileImage, modifiedFilename,  fileManagement.getProfilePath());
 	
 	             managersDTO.setManager_profile_original(originalFilename);
 	             managersDTO.setManager_profile_changed(modifiedFilename);
