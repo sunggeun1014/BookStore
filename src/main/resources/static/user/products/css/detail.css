@@ -313,10 +313,11 @@
     position: relative;
 }
 
-.user-wrap .member-id::after {
+.user-wrap .reviewer-id::after {
     position: absolute;
     content: "ㅣ";
     font-size: 10px;
+    margin-left: 2px;
 }
 
 /* 채워진 별 색상 */
@@ -369,4 +370,8 @@
     padding: 30px 0 30px 30px;
     background-color: #FAFAFA;
     color: #7E7E7E;
+}
+
+.number {
+    border: 1px solid #000;
 }

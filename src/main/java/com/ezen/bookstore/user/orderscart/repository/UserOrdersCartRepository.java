@@ -3,6 +3,7 @@ package com.ezen.bookstore.user.orderscart.repository;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ezen.bookstore.user.cart.dto.UserCartDTO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 

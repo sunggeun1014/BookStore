@@ -19,12 +19,12 @@
         	c.member_id = #{member_id}
     </select>
     
-    <insert id="addCartItem" parameterType="java.util.HashMap">
+    <insert id="addCartItem" parameterType="userCart">
         INSERT INTO 
         	orders_cart (
         		cart_num, 
-        		book_isbn, c
-        		art_purchase_qty, 
+        		book_isbn,
+				cart_purchase_qty,
         		member_id
         ) VALUES (
         		order_cart_seq.nextval,

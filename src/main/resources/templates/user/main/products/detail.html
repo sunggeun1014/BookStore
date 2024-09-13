@@ -58,23 +58,27 @@
                 </div>
                 <div class="select-order">
                     <div class="reduce-qty">
-                        <i class="fa-solid fa-minus"></i>
-                        <input type="number" max="999" id="" class="input-qty" th:data-qty="" value="1"/>
-                        <i class="fa-solid fa-plus"></i>
+                        <i class="fa-solid fa-minus" id="decrease"></i>
+                        <input type="number" max="999" id="" class="input-qty" value="1"/>
+                        <i class="fa-solid fa-plus" id="increase"></i>
                     </div>
                     <div class="price-wrap total">
-                        <p class="total-price" th:data-price="${bookDetail.book_price}"></p>
+                        <p type="text" class="total-price" th:data-price="${bookDetail.book_price}" ></p>
                         <p>원</p>
                     </div>
                 </div>
                 <div class="order-btn-wrap">
-                    <th:block th:if="${memID != null}">
-                        <input type="hidden" name="member_id" id="member_id" th:value="${memID}">
+                    <form action="/user/cart/add" method="post" id="add-cart-form">
                         <input type="hidden" name="book_isbn" id="book_isbn" th:value="${bookDetail.book_isbn}">
-                        <input type="hidden" name="book_price" id="book_price" th:value="${bookDetail.book_isbn}">
-                    </th:block>
-                    <button class="default-btn border">장바구니</button>
-                    <button class="default-btn">바로구매</button>
+                        <input type="hidden" name="cart_purchase_qty" id="cart_purchase_qty">
+                        <input type="hidden" name="book_price" id="book_price">
+                        <button type="submit" class="default-btn border" id="cart-btn"
+                                th:data-memberid="${session.member.member_id}">장바구니
+                        </button>
+                        <button type="submit" class="default-btn" id="direct-order-btn"
+                                th:data-memberid="${session.member.member_id}">바로구매
+                        </button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -179,7 +183,7 @@
                         <div class="review-content" th:each="reviewList: ${reviewList}">
                             <div class="content-head">
                                 <div class="user-wrap">
-                                    <p class="member-id" th:data-memid="${reviewList.member_id}"></p>
+                                    <p class="reviewer-id" th:data-reviewerid="${reviewList.member_id}"></p>
                                     <p th:text="${#dates.format(reviewList.review_write_date, 'yyyy-MM-dd')}"></p>
                                 </div>
                                 <div class="user-star-wrap">
