@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 import com.ezen.bookstore.admin.managers.service.MgrService;
+import com.ezen.bookstore.commons.CommonConstants;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -107,8 +108,7 @@ public class MgrController {
 	
 	@GetMapping("/register")
 	public String getRegisterForm(Model model) {
-		String[] emailDomainList = { "naver.com", "gmail.com", "daum.net", "nate.com", 
-				"hanmail.net", "kakao.com", "outlook.com", "yahoo.co.kr", "icloud.com", "hotmail.com" };
+		String[] emailDomainList = CommonConstants.EMAIL_DOMAINS;
 		
 		model.addAttribute("emailDomainList", emailDomainList);
 		

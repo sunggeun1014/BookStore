@@ -1,4 +1,4 @@
-package com.ezen.bookstore.user.members.service;
+package com.ezen.bookstore.user.mypage.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
-import com.ezen.bookstore.user.members.mapper.UserMyPageMapper;
+import com.ezen.bookstore.user.mypage.mapper.UserAccountMapper;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
@@ -17,9 +17,9 @@ import lombok.experimental.FieldDefaults;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class UserMyPageServiceImpl implements UserMyPageService {
+public class UserAccountServiceImpl implements UserAccountService {
 	
-	UserMyPageMapper userMyPageMapper;
+	UserAccountMapper userMyPageMapper;
 	PasswordEncoder passwordEncoder;
 
 	@Override

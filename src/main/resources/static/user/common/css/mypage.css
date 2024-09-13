@@ -45,6 +45,11 @@
     color: #845EC2;
 }
 
+.myinfo-content {
+	display: grid;
+	row-gap: 30px;
+	
+}
 /* 내정보 헤드 폰트 */
 .myinfo-title {
     font-size: 20px;
@@ -56,4 +61,41 @@
     border-radius: 20px;
     padding: 20px 30px;
     background-color: #FAF8FE;
+}
+
+/* input-date */
+.input-date-box {
+	width: 200px;
+	position: relative;
+}
+
+.date-picker {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+}
+
+.placeholder {
+	width: 100%;
+}
+
+.fa-calendar-days {
+	position: absolute;
+	font-size: 19px;
+	top: 50%;
+	right: 20px;
+	transform: translateY(-50%);
+}
+
+.fa-solid {
+	color: #666666;
+}
+
+.flatpickr-input {
+	width: 200px;
+	height: 40px;
+	border: 1px solid #C0C0C0;
+	padding: 20px;
+	border-radius: 5px;
 }
