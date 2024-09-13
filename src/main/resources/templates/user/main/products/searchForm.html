@@ -13,11 +13,25 @@
 		<span>에 대한 검색결과 내용</span>
 	</div>
 	<form id="search-form" action="/user/products/searchForm" method="GET">
-		<div class="re-search-bar">
+		<div class="best-filter-area" th:if="${condition.categoryCountryType == 03}">
+			<div class="search-condition-title">종합베스트</div>
+			<div>
+				<div class="filter-text-btn date-click on" data-selected-date-btn="01">
+					<p>주간</p>
+				</div>
+				<div class="filter-text-btn date-click" data-selected-date-btn="02">
+					<p>월간</p>
+				</div>
+				<div class="filter-text-btn date-click" data-selected-date-btn="02">
+					<p>연간</p>
+				</div>
+			</div>
+		</div>
+		<div class="re-search-bar" th:if="${condition.categoryCountryType == 01 or condition.categoryCountryType == 02}">
 			<input type="text" name="word" id="word" class="re-search-input" placeholder="결과 내 재검색" th:value="${condition.word}">
 			<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
 		</div>
-		<div class="search-condition-area">
+		<div class="search-condition-area" th:if="${condition.categoryCountryType == 01 or condition.categoryCountryType == 02}">
 			<div class="search-condition-flex">
 				<div class="search-condition-title">검색조건</div>
 				<div data-radio-id="book-title-radio" class="filter-text-btn condition-click" th:classappend="${condition.search_conditions == 'book_title' || #strings.isEmpty(condition.search_conditions)} ? ' on' : ''">
@@ -33,7 +47,7 @@
 					<input type="radio" name="search_conditions" value="book_publisher" id="book-publisher-radio" th:checked="${condition.search_conditions == 'book_publisher'}" hidden="hidden">
 				</div>
 			</div>
-			<div class="search-condition-flex" th:if="${!#strings.isEmpty(condition.categoryCountryType)}">
+			<div class="search-condition-flex" th:if="${condition.categoryCountryType == 01 or condition.categoryCountryType == 02}">
 				<div class="search-condition-title condition-title-style">검색분야</div>
 				<div class="filter-btn-wrap">
 					<div th:each="category : ${categoryList}">
@@ -47,11 +61,12 @@
 			</div>
 		</div>
 		
+		<input type="hidden" name="selectedDateCd" th:value="${condition.selectedDateCd}"/>
 		<input type="hidden" name="categoryCountryType" th:value="${condition.categoryCountryType}"/>
 		<input type="hidden" name="orderByValue" th:value="${condition.orderByValue}"/>
 	</form>
-	<div class="flex-row">
-		<div class="flex-column">
+	<div class="flex-row" th:classappend="${condition.categoryCountryType == 03} ? 'best' : ''">
+		<div class="flex-column" th:if="${condition.categoryCountryType == 01 or condition.categoryCountryType == 02}">
 			<div class="product-cnt-area">
 				<span>전체</span>
 				<span th:text="${page.totalItems}" class="product-total-cnt"></span>
@@ -110,6 +125,12 @@
 				    </div>
 				</div>
 			</form>
+		</div>
+		
+		<div class="result-wrap" th:if="${page.totalItems <= 0}">
+			<p>!</p>
+			<span>검색 결과가 없습니다.</span>
+			<span>검색어의 철자가 맞는지 확인 하시고 다시 검색해 주세요</span>
 		</div>
 	</div>
 	
