@@ -20,6 +20,7 @@ import com.ezen.bookstore.admin.home.service.HomeService;
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 import com.ezen.bookstore.admin.managers.service.MgrService;
 import com.ezen.bookstore.commons.AccountManagement;
+import com.ezen.bookstore.commons.CommonConstants;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -70,8 +71,7 @@ public class AdminController {
 	@GetMapping("/myinfo")
 	public String getMyInfo(HttpSession session, Model model) {
 	    
-	    String[] emailDomainList = { "naver.com", "gmail.com", "daum.net", "nate.com", 
-	    		"hanmail.net", "kakao.com", "outlook.com", "yahoo.co.kr", "icloud.com", "hotmail.com" };
+	    String[] emailDomainList = CommonConstants.EMAIL_DOMAINS;
 
 	    ManagersDTO sessionDTO = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
 	    ManagersDTO managerDetails = mgrService.detailList(sessionDTO.getManager_id()); 

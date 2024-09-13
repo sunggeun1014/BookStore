@@ -87,6 +87,11 @@ button:focus {
     color: #845EC2;
 }
 
+.size-up {
+	width: 120px;
+	height: 40px;
+}
+
 .small-btn {
     height: 25px;
     padding: 0 3px;

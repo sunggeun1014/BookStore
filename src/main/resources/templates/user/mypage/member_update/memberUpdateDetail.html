@@ -103,6 +103,10 @@
             <div>
                 <input id="address_detail" type="text" class="input-long" th:value="${userMembers.member_detail_addr}"/>
             </div>
+            <div></div>
+            <div>
+            	<span class="error-message" id="addressError"></span>
+            </div>
         </div>
         
         <div class="select-wrap info">
@@ -124,7 +128,7 @@
 		</div>
 		<div class="btn-box">
 			<button type="button" class="default-btn" onclick="prepareSubmit()">수정</button>
-			<button type="button" class="default-btn grey" onclick="location.href='/user/mypage/updatePage'">취소</button>
+			<button type="button" class="default-btn grey" onclick="location.href='/user/mypage/update-page'">취소</button>
 		</div>
 	
 </div>

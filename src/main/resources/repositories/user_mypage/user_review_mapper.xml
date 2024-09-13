@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ezen.bookstore.user.mypage.mapper.UserReviewMapper">
+	
+	<select id="getReviewByConditions" parameterType="map" resultType="BookReview">
+		SELECT 
+			B.BOOK_ISBN,
+		    B.BOOK_NAME,
+		    B.BOOK_AUTHOR,
+		    CO.ORDER_PURCHASE_DATE,
+		    R.REVIEW_CONTENT,
+		    R.REVIEW_RATING,
+		    R.REVIEW_WRITE_DATE
+		FROM 
+		    MEMBERS M
+		JOIN 
+		    CUSTOMER_ORDERS CO ON M.MEMBER_ID = CO.MEMBER_ID
+		JOIN 
+		    CUSTOMER_ORDER_DETAILS COD ON CO.ORDER_NUM = COD.ORDER_NUM
+		JOIN 
+		    BOOKS B ON COD.BOOK_ISBN = B.BOOK_ISBN
+		LEFT JOIN 
+		    REVIEWS R ON COD.ORDER_DETAIL_NUM = R.ORDER_DETAIL_NUM
+		WHERE 
+		    M.MEMBER_ID = #{memberId} 
+		    AND CO.ORDER_PURCHASE_DATE BETWEEN #{startDate} AND #{endDate}
+	</select>
+
+</mapper>

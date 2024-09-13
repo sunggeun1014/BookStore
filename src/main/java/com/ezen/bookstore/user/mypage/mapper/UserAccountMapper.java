@@ -1,11 +1,11 @@
-package com.ezen.bookstore.user.members.mapper;
+package com.ezen.bookstore.user.mypage.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 
 @Mapper
-public interface UserMyPageMapper {
+public interface UserAccountMapper {
 	String findPwById(String memberId);
 	int updateMemberInfo(UserMembersDTO userMembersDTO);
 	UserMembersDTO getUser(String memberId);
