@@ -12,7 +12,8 @@ $(document).ready(function() {
 	$(".search-field-click").each(function() {
 	    $(this).on("click", function() {
 	        const radioId = $(this).attr("data-radio-id");
-	        $(`#${radioId}`).prop("checked", true);
+	        $(`#${radioId}`).prop("checked", !$(`#${radioId}`).prop("checked"));
+			
 			$("#search-form").submit();
 	    });
 	});
@@ -55,6 +56,14 @@ function conditionBtnStyle() {
 	$(".search-field-click").on("click", function() {
 		$(".search-field-click").removeClass("on");
 		$(this).addClass("on");
+	});
+	
+	$(".date-click").on("click", function() {
+		$(".date-click").removeClass("on");
+		$(this).addClass("on");
+		$("input[name='selectedDateCd']").val($(this).attr("data-selected-date-btn"));		
+		
+		$("#search-form").submit();
 	});
 }
 function basket(obj) {

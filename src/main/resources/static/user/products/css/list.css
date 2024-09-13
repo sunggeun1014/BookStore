@@ -230,3 +230,15 @@
 .order-by-click {
 	color: #845EC2;
 }
+
+.best-filter-area {
+	display: flex;
+	padding: 20px 0;
+	border-bottom: 1px solid #eaeaea;
+	border-top: 1px solid #eaeaea;
+	margin: 45px 0 65px 0; 
+}
+
+.best {
+	justify-content: flex-end;
+}
