@@ -1,61 +1,48 @@
 package com.ezen.bookstore.user.main.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezen.bookstore.user.main.dto.UserMainDTO;
 import com.ezen.bookstore.user.main.service.UserMainService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @RequestMapping("/user/main")
 @Controller
+@Slf4j
 public class UserMainController {
-	
-	private final UserMainService userMainService;
+    
+    private final UserMainService userMainService;
 
-    @GetMapping(value = "/best-books/json", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Map<String, Object> getBestBooks() {
-        List<UserMainDTO> books = userMainService.getBestBooks();
-        Map<String, Object> response = new HashMap<>();
-        response.put("data", books);
-        return response;
-    }
-    
-    @GetMapping(value = "/new-books/json", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Map<String, Object> getNewBooks() {
-    	List<UserMainDTO> books = userMainService.getNewBooks();
-    	Map<String, Object> response = new HashMap<>();
-    	response.put("data", books);
-    	return response;
-    }
-    
-    @GetMapping(value = "/top-rated-books/json", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Map<String, Object> getTopRatedBooks() {
-    	List<UserMainDTO> books = userMainService.getTopRatedBooks();
-    	Map<String, Object> response = new HashMap<>();
-    	response.put("data", books);
-    	return response;
-    }
-    
-    @GetMapping(value = "/recommend-books/json", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Map<String, Object> getRecommendBooks() {
-        List<UserMainDTO> books = userMainService.getRecommendBooks();
-        Map<String, Object> response = new HashMap<>();
-        response.put("data", books);
-        return response;
-    }
+    @GetMapping("/")
+    public String mainPage(Model model) {
+        List<UserMainDTO> banners = userMainService.getBanners();
+        List<UserMainDTO> bestBooks = userMainService.getBestBooks();
+        List<UserMainDTO> newBooks = userMainService.getNewBooks();
+        List<UserMainDTO> topRatedBooks = userMainService.getTopRatedBooks();
+        List<UserMainDTO> recommendBooks = userMainService.getRecommendBooks();
+        
+        // 데이터가 제대로 로드되었는지 로그로 확인
+        log.info("Banners: {}", banners);
+        log.info("Best Books: {}", bestBooks);
+        log.info("New Books: {}", newBooks);
+        log.info("Top Rated Books: {}", topRatedBooks);
+        log.info("Recommend Books: {}", recommendBooks);
+        
+        // 모델에 데이터를 추가
+        model.addAttribute("banners", banners);
+        model.addAttribute("bestBooks", bestBooks);
+        model.addAttribute("newBooks", newBooks);
+        model.addAttribute("topRatedBooks", topRatedBooks);
+        model.addAttribute("recommendBooks", recommendBooks);
 
+        return "user/main/main"; // Thymeleaf 템플릿 파일 경로
+    }
 }

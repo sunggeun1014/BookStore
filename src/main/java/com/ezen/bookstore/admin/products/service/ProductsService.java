@@ -1,6 +1,7 @@
 package com.ezen.bookstore.admin.products.service;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,7 +27,7 @@ public class ProductsService {
 
     private static final Logger log = LoggerFactory.getLogger(ProductsService.class);
     private final ProductsRepository productRepository;
-
+    private final FileManagement fileManagement;
     public List<ProductsDTO> getBooksByCondition(SearchCondition searchCondition) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -133,7 +134,7 @@ public class ProductsService {
             String newFileName = selectedISBN + fileExtension;
 
             // 프로젝트의 정적 리소스 디렉토리에 이미지 저장 경로 설정
-            String uploadDir = FileManagement.BOOK_PATH; // 파일 저장 폴더 경로
+            Path uploadDir = fileManagement.getBookPath(); // 파일 저장 폴더 경로
 
             FileManagement.saveImage(thumbnailImg, newFileName, uploadDir);
             

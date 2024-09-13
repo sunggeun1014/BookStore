@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class NoticeServiceImpl implements NoticeService {
 	NoticeMapper noticeMapper;
+	FileManagement fileManagement;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -57,7 +58,7 @@ public class NoticeServiceImpl implements NoticeService {
 				String originalFilename = image.getOriginalFilename();
 				String modifiedFilename = FileManagement.generateNewFilename(originalFilename, FileManagement.NOTICE_UPLOAD_NAME);
 				
-				FileManagement.saveImage(image, modifiedFilename, FileManagement.NOTICE_PATH);
+				FileManagement.saveImage(image, modifiedFilename, fileManagement.getNoticePath());
 				
 				
 				noticeDTO.setNotice_detail_original(originalFilename);
@@ -82,7 +83,7 @@ public class NoticeServiceImpl implements NoticeService {
 				String originalFilename = image.getOriginalFilename();
 				String modifiedFilename = FileManagement.generateNewFilename(originalFilename, FileManagement.NOTICE_UPLOAD_NAME);
 				
-				FileManagement.saveImage(image, modifiedFilename, FileManagement.NOTICE_PATH);
+				FileManagement.saveImage(image, modifiedFilename, fileManagement.getNoticePath());
 				
 				
 				noticeDTO.setNotice_detail_original(originalFilename);

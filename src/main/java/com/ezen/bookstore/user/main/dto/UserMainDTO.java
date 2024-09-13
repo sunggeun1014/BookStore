@@ -11,6 +11,7 @@ public class UserMainDTO {
 	private String book_author;
 	private String book_intro;
 	private String book_thumbnail_changed;
+	private String banner_changed;
 	private Date book_publish_date;
 	private Integer review_rating;
 	private Integer order_detail_qty;
