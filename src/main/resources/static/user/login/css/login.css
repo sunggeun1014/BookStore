@@ -1,7 +1,25 @@
 body, html {
     height: 100%;
     margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
+
+.login-frame {
+    display: flex;
+    flex-direction: column; /* 요소들이 위아래로 배치되도록 설정 */
+    align-items: center;
+    justify-content: center;
+}
+
+a {
+	color: #7E7E7E;
+	margin-right : 5px;
+	margin-left : 5px;
+}
+
 .mainlogo {
     margin-bottom: 70px;
 }
@@ -11,6 +29,35 @@ body, html {
     border: 1px solid #845EC2;
     margin-top: 10px;
     color: #845EC2;
+}
+
+.radio {
+    display: inline-flex;
+    align-items: center;  /* 수직 중앙 정렬 */
+    font-size: 14px;      /* 텍스트 크기 (필요 시 조정 가능) */
+}
+
+.radio input[type="radio"] {
+    margin-right: 5px;
+    margin-bottom: 0px;     /* 라디오 버튼과 텍스트 사이의 간격 */
+    margin-top: 0px;
+}
+
+.default-btn.long.login {    
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.login-function .id-store {
+    display: flex;
+    font-size: 14px;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.login-function .id-store a {
+    text-decoration: none;
 }
 
 input:not([type="radio"]) {
@@ -23,7 +70,9 @@ input:not([type="radio"]) {
     max-width: 380px;
     border: none;
 }
-
+.text {
+	color:#7E7E7E;
+}
 .form-item {
     display: flex;
     align-items: center;
@@ -31,11 +80,11 @@ input:not([type="radio"]) {
     box-sizing: border-box;
     max-width: 100%;
     min-height: 45px;
-    padding: 0 10px 0 45px;
+    padding: 0 10px;
     border: 1px solid #C0C0C0;
     max-width: 400px;
     margin-left: 0px;
-    width : 310px;
+    width: 340px;
 }
 
 .form-item.id {
@@ -45,7 +94,7 @@ input:not([type="radio"]) {
 }
 
 .form-item.pw {
-	border-bottom-left-radius: 6px;
+    border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     margin-bottom: -1px;
 }
@@ -67,9 +116,22 @@ button img {
 }
 
 .join-wrap-social {
+	display: flex;
+	 flex-direction: column;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 필요 시 세로 중앙 정렬 */
+    margin-bottom: 80px;
+    margin-top: 80px;
+}
+
+.error-msg {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    height: 200px;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    font-size: 12px;
+    color: red;
+    height: 20px;
+    margin-top : 10px;
 }
