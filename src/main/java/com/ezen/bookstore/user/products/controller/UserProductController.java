@@ -1,6 +1,5 @@
 package com.ezen.bookstore.user.products.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.commons.Pagination;
@@ -46,12 +46,12 @@ public class UserProductController {
 	}
 
 	@GetMapping("/detail")
-	public String productDetail(String bookISBN, Model model, HttpSession session) {
+	public String productDetail(@RequestParam("book_isbn")String bookISBN, Model model, HttpSession session) {
 		UserMembersDTO member = (UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO);
 
 		String memID = member != null ? member.getMember_id() : null;
 
-		bookISBN = "9791172100650";
+//		bookISBN = "9791172100650";
 
 		UserProductDTO bookDetail = productService.getProductDetail(bookISBN);
 		List<UserReviewDTO> reviewList = productService.getReviewList(bookISBN);

@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+	
 	// 배너 슬라이드 swiper
 	new Swiper('.swiper', {
 		loop: true, // 무한 루프 설정
@@ -22,5 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	const month = now.getMonth() + 1;
 	const titleElement = document.getElementById('best-seller-month');
 	titleElement.textContent = titleElement.textContent.replace('월의 베스트셀러', `${month}월의 베스트셀러`);
-	
+
 });
+
+function redirectToDetailPage(isbn) {
+    window.location.href = './products/detail?book_isbn=' + encodeURIComponent(isbn);
+}

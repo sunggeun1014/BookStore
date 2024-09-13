@@ -17,12 +17,10 @@ public class UserMainService {
 	private final UserMainRepository userMainRepository;
 
 	public List<UserMainDTO> getBanners() {
-		log.info("banners: {}", userMainRepository.getBanners());
 		return userMainRepository.getBanners();
 	}
 	
 	public List<UserMainDTO> getBestBooks() {
-		log.info("bestbooks: {}", userMainRepository.getBestBooks());
 		return userMainRepository.getBestBooks();
 	}
 

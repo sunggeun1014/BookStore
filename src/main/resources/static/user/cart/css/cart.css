@@ -86,32 +86,51 @@
 
 .cart-item {
 	height: 180px;
+	border-bottom: 1px solid #cccccc;
 }
 
-.cart-item>.product-info {
+.cart-item > .product-info {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	text-align: start;
 }
 
-.product-info>img {
+.product-info > img {
 	width: 90px;
-	margin-right: 30px;
+	height: 120px;
+	margin-right: 20px;
 }
 
 .product-title-price {
-	display: flex;
-	flex-direction: column;
 	width: 200px;
 }
 
-.product-title-price > .book-price {
+.book-title {
+	margin-bottom: 7px;
+}
+
+.book-price {
+	font-size: 14px;
+	display: flex;
+}
+
+.product-title-price > .price-wrap {
 	font-size: 14px;
 }
 
-.book-amount {
-	margin-bottom: 8px;
+.price-wrap {
+	display: flex;
+}
+
+.reduce-qty {
+	margin-top: 7px;
+}
+
+.cart-item > .deliver-date {
+	gap: 5px;
+	display: flex;
+	justify-content: center;
 }
 
 .cart-empty {
@@ -140,7 +159,7 @@
 }
 
 .control-btns:hover {
-	background-color: #c0c0c0;
+	background-color: #ffffff;
 }
 
 .back-btn {
@@ -155,9 +174,14 @@
 }
 
 .aside-box-content {
-	gap: 20px;
+	gap: 25px;
 	display: flex;
 	flex-direction: column;
+}
+
+.content-item {
+	display: flex;
+	justify-content: space-between;
 }
 
 .box-content-info {
@@ -166,11 +190,27 @@
 }
 
 .box-content-total {
-	margin: 25px 0 35px;
+	margin: 30px 0 35px
 }
 
-.total-count {
-	text-align: end;
+.total-title {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.total-price-wrap, .total-qty-wrap {
+	display: flex;
+}
+
+.expected-payment-amount-wrap {
+	display: flex;
+	justify-content: end;
+	align-items: flex-end;
+}
+
+.expected-payment-amount {
+	font-weight: bold;
+	font-size: 20px;
 }
 
 .order-btn {

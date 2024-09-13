@@ -8,9 +8,11 @@
 		<div class="order-cart-header">
 			<h2 class="cart-header-title">장바구니</h2>
 			<ul class="cart-header-breadcrumb">
-				<li class="order-step is-active">장바구니 <img alt="arrow-active" src="/user/cart/img/arrow-circle-active.svg">
+				<li class="order-step is-active">장바구니 
+					<img alt="arrow-active" src="/user/cart/img/arrow-circle-active.svg">
 				</li>
-				<li class="order-step">결제하기 <img alt="arrow" src="/user/cart/img/arrow-circle.svg">
+				<li class="order-step">결제하기 
+					<img alt="arrow" src="/user/cart/img/arrow-circle.svg">
 				</li>
 				<li class="order-step">주문완료</li>
 			</ul>
@@ -30,75 +32,87 @@
 				</div>
 
 				<div class="cart-table-data-wrapper cart-items">
-					<div class="cart-table-data cart-item">
+					<div th:each="item : ${cartItems}" class="cart-table-data cart-item">
 						<div class="check-btn">
-							<input type="checkbox" class="check-box"> 
-							<label for="check-btn"></label>
+							<input type="checkbox" class="check-box"> <label for="check-btn"></label>
 						</div>
 						<div class="product-info">
-							<img src="/user/main/img/books/8809827620321.jpg" alt="책 이미지" />
+							<img class="product-img" th:src="@{/images/books/{image}(image=${item.book_thumbnail_changed})}" alt="책 이미지" />
 							<div class="product-title-price">
-								<span class="book-title">책 제목</span> 
-								<span class="book-price">정가</span>
+								<p class="book-title" th:text="${item.book_name}"></p>
+								<div class="price-wrap">
+									<p th:text="${item.book_price}" class="book-price"></p>
+									<p>원</p>
+								</div>
 							</div>
 						</div>
 
 						<div class="price-qty">
-							<span class="book-amount">가격</span>
+							<div class="price-wrap">
+								<p class="total-price" th:data-price="${item.book_price}"></p>
+								<p>원</p>
+							</div>
+
 							<div class="reduce-qty">
 								<i class="fa-solid fa-minus"></i> 
 								<input type="number" max="999" id="" class="input-qty" value="1" /> 
 								<i class="fa-solid fa-plus"></i>
 							</div>
 						</div>
-					</div>
-					</div>
-					<!-- 				
-				<div class="cart-items">
-					<div th:each="item : ${cartItems}" class="cart-item">
-						<div class="product-info">
-							<span th:text="${item.productName}">상품 제목</span>
-						</div>
-						<div class="price-qty">
-							<span th:text="${item.price}">가격</span> / <span th:text="${item.quantity}">수량</span>
-						</div>
 						<div class="deliver-date">
-							<span>배송일정</span>
+							<p>9/30</p>
+							<p>도착 예정</p>
 						</div>
-					</div>
-				</div> 
--->
-					<div class="cart-empty" th:if="${#lists.isEmpty(cartItems)}">장바구니가 비어 있습니다.</div>
-					<div class="cart-control">
-						<button class="default-btn control-btns delete-product-btn">삭제</button>
-						<button class="default-btn control-btns back-btn">쇼핑 계속하기</button>
 					</div>
 				</div>
-			</div>
-			<div class="aside">
-				<div class="aside-box">
-					<div class="aside-box-content box-content-info">
-						<div class="content-item">
-							<span class="item-title">상품 금액</span>
-						</div>
-						<div class="content-item">
-							<span class="item-title">상품 수</span>
-						</div>
-						<div class="content-item">
-							<span class="item-title">배송비</span>
-						</div>
-					</div>
-					<div class="aside-box-content box-content-total">
-						<div class="total-title">
-							<span>결제 예정 금액</span>
-						</div>
-						<div class="total-count">
-							<span>원</span>
-						</div>
-					</div>
-					<button class="default-btn order-btn">주문하기</button>
+
+
+				<div class="cart-empty" th:if="${cartItems == null}">장바구니가 비어 있습니다.</div>
+				<div class="cart-control">
+					<button class="default-btn control-btns delete-product-btn">삭제</button>
+					<button class="default-btn control-btns back-btn">쇼핑 계속하기</button>
 				</div>
 			</div>
 		</div>
+		
+		<div class="aside">
+			<div class="aside-box">
+				<div class="aside-box-content box-content-info">
+					<div class="content-item">
+						<span class="item-title" >상품 금액</span>
+						<div class="total-price-wrap">
+							<p class="total-products-price"></p>
+							<p>원</p>
+						</div>
+					</div>
+					<div class="content-item">
+						<span class="item-title">상품 수</span>
+						<div class="total-qty-wrap">
+							<p class="total-qty"></p>
+							<p>개</p>
+						</div>
+						
+					</div>
+					<div class="content-item">
+						<span class="item-title">배송비</span>
+						<p>0원</p>
+					</div>
+				</div>
+				<div class="aside-box-content box-content-total">
+					<div class="total-title">
+						<span>결제 예정 금액</span>
+					</div>
+					<div class="expected-payment-amount-wrap">
+						<p class="expected-payment-amount"></p>
+						<p>원</p>
+					</div>
+				</div>
+				<button class="default-btn order-btn">주문하기</button>
+			</div>
+		</div>
 	</div>
+</div>
+
+<script src="/user/common/js/btn-event.js"></script>
+<script src="/user/cart/js/cart.js"></script>
 </html>
