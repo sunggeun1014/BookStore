@@ -60,15 +60,23 @@ function conditionBtnStyle() {
 function basket(obj) {
 	const isbn = $(obj).attr("data-value");
 	
-	basketProcess([isbn]);
+	basketProcess([{
+		"book_isbn": isbn,
+		"cart_purchase_qty": 1
+	}]);
 }
 
 function basketList() {
 	const obj = $("#product-list-form input[type='checkbox']:checked");
 		
-	const checkedIsbnList = obj.map(function() {
-	    return $(this).val();
-	}).get();
+	const checkedIsbnList = [];
+	
+	obj.map(function() {
+	    checkedIsbnList.push({
+			"book_isbn": $(this).val(),
+			"cart_purchase_qty": 1
+		});
+	});
 		
 	basketProcess(checkedIsbnList);
 }
