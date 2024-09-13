@@ -10,21 +10,22 @@
         	c.book_isbn, 
         	b.book_name, 
         	c.cart_purchase_qty, 
-        	b.book_price
+        	b.book_price,
+        	b.book_thumbnail_changed
         FROM 
         	orders_cart c
         JOIN 
         	books b ON b.book_isbn = c.book_isbn
         WHERE 
-        	c.member_id = #{member_id}
+        	c.member_id = 'admin001'
     </select>
     
     <insert id="addCartItem" parameterType="userCart">
         INSERT INTO 
         	orders_cart (
         		cart_num, 
-        		book_isbn, c
-        		art_purchase_qty, 
+        		book_isbn,
+        		cart_purchase_qty, 
         		member_id
         ) VALUES (
         		order_cart_seq.nextval,

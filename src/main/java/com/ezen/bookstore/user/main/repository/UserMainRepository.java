@@ -18,10 +18,7 @@ public class UserMainRepository {
 	private final SqlSessionTemplate sql;
 
 	public List<UserMainDTO> getBanners() {
-//		return sql.selectList("userMain.getBanners");
-        List<UserMainDTO> banners = sql.selectList("userMain.getBanners");
-        log.info("Retrieved banners from database: {}", banners);
-        return banners;
+		return sql.selectList("userMain.getBanners");
 	}
 	
 	public List<UserMainDTO> getBestBooks() {

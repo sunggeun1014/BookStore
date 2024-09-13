@@ -25,19 +25,13 @@ public class UserCartController {
 	private final UserCartService userCartService;
 	
 	@GetMapping("/list")
-	public String cartDetail() {
-		
-		return  "/user/main/cart";
+	public String cartDetail(String memberId, Model model) {
+	    List<UserCartDTO> cartItems = userCartService.getCartItemList(memberId);
+	    
+	    model.addAttribute("cartItems", cartItems);
+	    
+	    return "/user/main/cart";
 	}
-
-//	@GetMapping("/list")
-//	public String cartDetail(@RequestParam String memberId, Model model) {
-//	    List<UserCartDTO> cartItems = userCartService.getCartItemList(memberId);
-//	    
-//	    model.addAttribute("cartItems", cartItems);
-//	    
-//	    return "/user/main/cart";
-//	}
 	
     @PostMapping("/add")
     public void addCartItem(@RequestBody UserCartDTO cartItemDTO) {

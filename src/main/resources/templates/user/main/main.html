@@ -9,24 +9,10 @@
 	<!-- Slider main container -->
 	<div class="swiper slide-wrap">
 		<div class="swiper-wrapper">
-			<!-- Slides 
-			
-			<div class="swiper-slide">
-				<img src="/user/main/img/배너1.png" alt="배너1">
+			<!-- Slides -->
+			<div class="swiper-slide" th:each="banner : ${banners}">
+				<img th:src="@{/images/banners/{banner}(banner=${banner.banner_changed})}" alt="배너" />
 			</div>
-			<div class="swiper-slide">
-				<img src="/user/main/img/배너2.png" alt="배너2">
-			</div>
-			<div class="swiper-slide">
-				<img src="/user/main/img/배너3.png" alt="배너3" />
-			</div>
-			<div class="swiper-slide">
-				<img src="/user/main/img/배너4.png" alt="배너4" />
-			</div>			
-			-->
-                <div class="swiper-slide" th:each="banner : ${banners}">
-                    <img th:src="@{/images/banners/{banner}(banner=${banner.banner_changed})}" alt="배너" />
-                </div>
 		</div>
 
 		<div class="swiper-pagination pagination-btns">
@@ -48,13 +34,13 @@
 				<div class="thumbnail-wrapper">
 					<img th:src="@{/images/books/{book}(book=${book.book_thumbnail_changed})}" alt="썸네일" class="book-thumbnail">
 					<div class="book-interactive">
-						<div class="book-interactive-info" th:text="${book.book_intro}" onclick="location.href=''"></div>
+						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
 							<button onclick="location.href=''" class="add-cart-button">장바구니</button>
 						</div>
 					</div>
 				</div>
-				<div class="book-info" onclick="location.href=''">
+				<div class="book-info" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)">
 					<h3 class="book-title" th:text="${book.book_name}"></h3>
 					<p class="book-author" th:text="${book.book_author}"></p>
 				</div>
@@ -73,13 +59,13 @@
 				<div class="thumbnail-wrapper">
 					<img th:src="@{/images/books/{book}(book=${book.book_thumbnail_changed})}" alt="썸네일" class="book-thumbnail">
 					<div class="book-interactive">
-						<div class="book-interactive-info" th:text="${book.book_intro}" onclick="location.href=''"></div>
+						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
 							<button onclick="location.href=''" class="add-cart-button">장바구니</button>
 						</div>
 					</div>
 				</div>
-				<div class="book-info" onclick="location.href=''">
+				<div class="book-info" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)">
 					<h3 class="book-title" th:text="${book.book_name}"></h3>
 					<p class="book-author" th:text="${book.book_author}"></p>
 				</div>
@@ -97,16 +83,17 @@
 				<div class="thumbnail-wrapper">
 					<img th:src="@{/images/books/{book}(book=${book.book_thumbnail_changed})}" alt="썸네일" class="book-thumbnail">
 					<div class="book-interactive">
-						<div class="book-interactive-info" th:text="${book.book_intro}" onclick="location.href=''"></div>
+						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
 							<button onclick="location.href=''" class="add-cart-button">장바구니</button>
 						</div>
 					</div>
 				</div>
-				<div class="book-info" onclick="location.href=''">
+				<div class="book-info" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)">
 					<h3 class="book-title" th:text="${book.book_name}"></h3>
 					<p class="book-author" th:text="${book.book_author}"></p>
 				</div>
+				<span class="book-isbn" th:text="${book.book_isbn}" style="display: none;"></span>
 			</div>
 		</div>
 	</section>
@@ -116,18 +103,18 @@
 			<h2 class="section-title">이런 책은 어떠세요?</h2>
 			<p class="section-title-emoji">👀</p>
 		</div>
-		<div id="recommend-books-wrapper" class="section-content-books-wrapper">
-			<div class="section-content-book" th:each="book : ${recommendBooks}">
+		<div id="recommend-books-wrapper" class="section-content-books-wrapper" >
+			<div class="section-content-book" th:each="book : ${recommendBooks}" > 
 				<div class="thumbnail-wrapper">
 					<img th:src="@{/images/books/{book}(book=${book.book_thumbnail_changed})}" alt="썸네일" class="book-thumbnail">
 					<div class="book-interactive">
-						<div class="book-interactive-info" th:text="${book.book_intro}" onclick="location.href=''"></div>
+						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
 							<button onclick="location.href=''" class="add-cart-button">장바구니</button>
 						</div>
 					</div>
 				</div>
-				<div class="book-info" onclick="location.href=''">
+				 <div class="book-info" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)">
 					<h3 class="book-title" th:text="${book.book_name}"></h3>
 					<p class="book-author" th:text="${book.book_author}"></p>
 				</div>
