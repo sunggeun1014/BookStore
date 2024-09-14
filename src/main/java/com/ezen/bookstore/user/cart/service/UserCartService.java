@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class UserCartService {
 
 	private final UserCartRepository userCartRepository;
-	
+
 	public List<UserCartDTO> getCartItemList(String memberId) {
 		return userCartRepository.getCartItemList(memberId);
 	}
@@ -22,12 +22,13 @@ public class UserCartService {
 	public void addCartItem(UserCartDTO userCartDTO) {
 		userCartRepository.addCartItem(userCartDTO);
 	}
-	
-	public void deleteCartItem(Integer cartNum) {
-		userCartRepository.deleteItemByCartNum(cartNum);
-	}
-	
+
+    public void deleteItems(List<Integer> cartNums, String memberId) {
+        userCartRepository.deleteItemsByCartNums(cartNums);
+    }
+
+
 	public void clearCart(String memberId) {
 		userCartRepository.deleteItemsByMemberId(memberId);
 	}
- }
+}

@@ -34,11 +34,14 @@
         		#{member_id})
     </insert>
     
-    <delete id="deleteItemByCartNum">
+    <delete id="deleteItemsByCartNums">
     	DELETE FROM 
     		orders_cart
     	WHERE 
-    		cart_num = #{cart_num}
+    		cart_num IN
+    	<foreach item="cart_num" collection="cartNums" open="(" separator="," close=")">
+            #{cart_num}
+        </foreach>
     </delete>
     
     <delete id="deleteItemsByMemberId">

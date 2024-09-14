@@ -46,12 +46,12 @@ public class UserProductController {
 	}
 
 	@GetMapping("/detail")
-	public String productDetail(@RequestParam("book_isbn")String bookISBN, Model model, HttpSession session) {
+	public String productDetail(String bookISBN, Model model, HttpSession session) {
 		UserMembersDTO member = (UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO);
 
 		String memID = member != null ? member.getMember_id() : null;
 
-//		bookISBN = "9791172100650";
+		bookISBN = "9791172100650";
 
 		UserProductDTO bookDetail = productService.getProductDetail(bookISBN);
 		List<UserReviewDTO> reviewList = productService.getReviewList(bookISBN);

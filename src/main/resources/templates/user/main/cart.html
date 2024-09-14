@@ -24,19 +24,19 @@
 			<div class="cart-table">
 				<div class="table-header table-columns-area">
 					<div class="check-btn">
-						<input type="checkbox" class="check-box"> <label for="check-btn"></label>
+						<input type="checkbox" id="select-all" class="check-box"> <label for="check-btn"></label>
 					</div>
 					<div class="table-column product-info">상품정보</div>
 					<div class="table-column price-qty">주문금액/수량</div>
-					<div class="table-column deliver-date">배송일정</div>
+					<div class="table-column delivery-date">배송일정</div>
 				</div>
 
 				<div class="cart-table-data-wrapper cart-items">
 					<div th:each="item : ${cartItems}" class="cart-table-data cart-item">
 						<div class="check-btn">
-							<input type="checkbox" class="check-box"> <label for="check-btn"></label>
+							<input type="checkbox" class="check-box item-checkbox"> <label for="check-btn"></label>
 						</div>
-						<div class="product-info">
+						<div class="product-info" >
 							<img class="product-img" th:src="@{/images/books/{image}(image=${item.book_thumbnail_changed})}" alt="책 이미지" />
 							<div class="product-title-price">
 								<p class="book-title" th:text="${item.book_name}"></p>
@@ -59,8 +59,8 @@
 								<i class="fa-solid fa-plus"></i>
 							</div>
 						</div>
-						<div class="deliver-date">
-							<p>9/30</p>
+						<div class="delivery-date">
+							<p class="delivery-date-text"></p>
 							<p>도착 예정</p>
 						</div>
 					</div>
@@ -113,6 +113,7 @@
 	</div>
 </div>
 
+<script src="/admin/common/js/main.js"></script>
 <script src="/user/common/js/btn-event.js"></script>
 <script src="/user/cart/js/cart.js"></script>
 </html>
