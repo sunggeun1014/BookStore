@@ -79,15 +79,14 @@ public class NoticeController {
 	
 	@PostMapping("/save")
 	public String saveNotice(@ModelAttribute NoticeDTO noticeDTO, 
-							 @RequestParam(value = "images", required = false) List<MultipartFile> images,
-							 HttpSession session) {
+							 @RequestParam(value = "images", required = false) List<MultipartFile> images) {
 		try {
 			
 			if (images == null || images.isEmpty()) {
 				images = new ArrayList<>();
 			}
 			
-			noticeService.saveNotice(noticeDTO, images, session);
+			noticeService.saveNotice(noticeDTO, images);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "redirect:/admin/notice/notice";
@@ -127,14 +126,13 @@ public class NoticeController {
 	@PostMapping("/update")
 	public String updateNotice(@ModelAttribute NoticeDTO noticeDTO,
 							   @RequestParam(value = "images", required = false) List<MultipartFile> images,
-							   HttpSession session,
 							   Model model) {
 		try {
 			if (images == null || images.isEmpty()) {
 				images = new ArrayList<>();
 			}
 			
-			noticeService.updateNotice(noticeDTO, images, session);
+			noticeService.updateNotice(noticeDTO, images);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

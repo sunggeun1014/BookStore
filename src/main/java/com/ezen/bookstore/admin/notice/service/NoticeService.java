@@ -13,6 +13,6 @@ public interface NoticeService {
 	List<NoticeDTO> getList();
 	NoticeDTO getDetailList(Long noticeNum);
 	void deleteNoticesByNums(List<Long> noticeNums);
-	void saveNotice(NoticeDTO noticeDTO, List<MultipartFile> images, HttpSession session) throws IOException;
-	void updateNotice(NoticeDTO noticeDTO, List<MultipartFile> images, HttpSession session) throws IOException;
+	void saveNotice(NoticeDTO noticeDTO, List<MultipartFile> images) throws IOException;
+	void updateNotice(NoticeDTO noticeDTO, List<MultipartFile> images) throws IOException;
 }
