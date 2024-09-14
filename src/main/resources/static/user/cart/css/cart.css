@@ -74,7 +74,7 @@
 	width: 320px;
 }
 
-.price-qty, .deliver-date {
+.price-qty, .delivery-date {
 	width: 190px;
 }
 
@@ -127,7 +127,7 @@
 	margin-top: 7px;
 }
 
-.cart-item > .deliver-date {
+.cart-item > .delivery-date {
 	gap: 5px;
 	display: flex;
 	justify-content: center;

@@ -1,6 +1,8 @@
 package com.ezen.bookstore.user.cart.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,9 +25,9 @@ public class UserCartRepository {
 		sql.insert("Cart.addCartItem", userCartDTO);
 	}
 	
-	public void deleteItemByCartNum (Integer cartNum) {
-		sql.delete("Cart.deleteItemByCartNum", cartNum);
-	}
+    public void deleteItemsByCartNums(List<Integer> cartNums) {
+        sql.delete("Cart.deleteItemsByCartNums", cartNums);
+    }
 	
 	public void deleteItemsByMemberId (String memberId) {
 		sql.delete("Cart.deleteItemsByMemberId", memberId);
