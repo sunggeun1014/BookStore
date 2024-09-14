@@ -1,6 +1,6 @@
 // 카카오 주소 api
 window.onload = function() {
-    var addressInput = document.getElementById("address_kakao");
+    let addressInput = document.getElementById("address_kakao");
 
     if (addressInput) {
         addressInput.addEventListener("click", function() {
@@ -11,7 +11,7 @@ window.onload = function() {
 
                     // 상세주소 입력 필드에 포커스 주기 (약간의 지연 추가)
                     setTimeout(function() {
-                        var detailAddressInput = document.getElementById("member_detail_addr");
+                        let detailAddressInput = document.getElementById("member_detail_addr");
                         if (detailAddressInput) {
                             detailAddressInput.focus();
                         }
@@ -23,34 +23,28 @@ window.onload = function() {
 };
 
 $(document).ready(function() {
-    var idCheckPassed = false;
-    var pwCheckPassed = false;
-    var emailCheckPassed = false;
-    var phoneCheckPassed = false;
-    var nameCheckPassed = false;
-    var addrCheckPassed = false;
-    var detailAddrCheckPassed = false;
+    let idCheckPassed = false;
 
     // 아이디 유효성 검사 함수(영문자와 숫자, 최소 5자)
     function validateId(id) {
-        var idPattern = /^[a-zA-Z0-9]{5,}$/; 
+        let idPattern = /^[a-zA-Z0-9]{5,}$/; 
         return idPattern.test(id);
     }
 
     // 비밀번호 유효성 검사 함수(특수문자 영어 숫자 조합 8자리 이상)
     function validatePassword(password) {
-        var pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+        let pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
         return pwPattern.test(password);
     }
 
     // 이메일 유효성 검사 함수
     function validateEmail(email) {
-        var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|edu|gov|mil|co\.kr|ac\.kr|biz|info)$/;
+        let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|edu|gov|mil|co\.kr|ac\.kr|biz|info)$/;
         return emailPattern.test(email);
     }
     // 전화번호 유효성 검사(010-XXXX-XXXX 형식만)
     function validatePhoneNumber(phoneNumber) {
-	    var phonePattern = /^010-\d{4}-\d{4}$/;  
+	    let phonePattern = /^010-\d{4}-\d{4}$/;  
 	    return phonePattern.test(phoneNumber);  
 	}
 
@@ -71,7 +65,7 @@ $(document).ready(function() {
     });
     
     $('#member_id').on('change', function() {
-        var member_id = $('#member_id').val();
+        let member_id = $('#member_id').val();
 
         // ID 유효성 검사 먼저 수행
         if (!validateId(member_id)) {
@@ -120,7 +114,7 @@ $(document).ready(function() {
 
     // 각 필드에서 포인터가 떠날 때 유효성 검사 및 오류 메시지 숨기기
     $('#member_id').on('blur', function() {
-        var member_Id = $(this).val();
+        let member_Id = $(this).val();
         if (validateId(member_Id)) {
             $('#idCheckForm').hide();  
             $('.form-item.id').removeClass('warning').css({
@@ -146,8 +140,8 @@ $(document).ready(function() {
     });
 
     $('#member_pw_check').on('blur', function() {
-	    var password = $('#member_pw').val();
-	    var confirmPassword = $(this).val();
+	    let password = $('#member_pw').val();
+	    let confirmPassword = $(this).val();
 	
 	    // Validate password format first
 	    if (!validatePassword(password)) {
@@ -207,7 +201,7 @@ $(document).ready(function() {
 	
 	
 	$('#member_name').on('blur', function() {
-		var member_name = $(this).val();
+		let member_name = $(this).val();
 		if(member_name.length > 0) {
 			$('#nameCheck').hide();
 			$('.form-item.name').removeClass('warning').css({
@@ -233,7 +227,7 @@ $(document).ready(function() {
 	});
 
     $('#member_email').on('input', function() {
-        var member_email = $(this).val();
+        let member_email = $(this).val();
         if (validateEmail(member_email)) {
 	        $('#emailCheck').hide();
 	       	$('.form-item.email').removeClass('warning').css({
@@ -263,7 +257,7 @@ $(document).ready(function() {
     });
     
     $('#member_phoneNo').on('input', function() {
-        var phoneNo = $(this).val();
+        let phoneNo = $(this).val();
         if (validatePhoneNumber(phoneNo)) {
             $('#phoneNumCheck').hide();  // 전화번호가 입력되었으면 오류 메시지를 숨김
             $('.form-item.phoneNo').removeClass('warning').css({
@@ -288,7 +282,7 @@ $(document).ready(function() {
     });
 
     $('#address_kakao').on('blur', function() {
-        var member_addr = $(this).val();
+        let member_addr = $(this).val();
         if (member_addr.length > 0) {
             $('#addrCheck').hide();  // 주소가 입력되었으면 오류 메시지를 숨김
             $('.form-item.addr').removeClass('warning').css({
@@ -315,7 +309,7 @@ $(document).ready(function() {
     });
 
     $('#member_detail_addr').on('blur', function() {
-        var member_detail_addr = $(this).val();
+        let member_detail_addr = $(this).val();
         if (member_detail_addr.length > 0) {
             $('#detailAddrCheck').hide();  // 상세주소가 입력되었으면 오류 메시지를 숨김
             $('.form-item.detail-addr').removeClass('warning').css({
@@ -343,14 +337,14 @@ $(document).ready(function() {
 
     // 폼 제출 시 모든 유효성 검사 실행
     $('#joinForm').on('submit', function(event) {
-        var member_id = $('#member_id').val();
-        var password = $('#member_pw').val();
-        var confirmPassword = $('#member_pw_check').val();
-        var member_name = $('#member_name').val();
-        var member_phoneNo = $('#member_phoneNo').val();
-        var member_addr = $('#address_kakao').val();
-        var member_detail_addr = $('#member_detail_addr').val();
-        var certifiedEmail = $('#emailVerificationStatus').val();
+        let member_id = $('#member_id').val();
+        let password = $('#member_pw').val();
+        let confirmPassword = $('#member_pw_check').val();
+        let member_name = $('#member_name').val();
+        let member_phoneNo = $('#member_phoneNo').val();
+        let member_addr = $('#address_kakao').val();
+        let member_detail_addr = $('#member_detail_addr').val();
+        let certifiedEmail = $('#emailVerificationStatus').val();
 
         // 각 필드의 유효성 검사
         if (!validateId(member_id)) {

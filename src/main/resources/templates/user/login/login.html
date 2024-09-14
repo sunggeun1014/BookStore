@@ -8,7 +8,9 @@
   
 </head>
 <body>
-	<img src="/user/common/imgs/main-logo.svg" alt="메인로고" class="mainlogo" />
+	<a href="/user/main">
+	    <img src="/user/common/imgs/main-logo.svg" alt="메인로고" class="mainlogo" />
+	</a>
 
     <div class="login-frame">      
 		<form th:action="@{/user/loginProc}" method="POST" class="login-form">
@@ -36,7 +38,7 @@
 		        <div class="login-function">
 			        <div class="id-store">
 						<label class="radio"><input type="radio" />아이디 저장 ></label>
-						<label class="text"><a href="/user/find-id">아이디 찾기</a>|<a href="/user/find-pw">비밀번호 찾기</a></label>
+						<label class="text"><a href="/user/members/find_Id">아이디 찾기</a>|<a href="/user/members/find_Pw">비밀번호 찾기</a></label>
 					</div>					
 				</div>
 				

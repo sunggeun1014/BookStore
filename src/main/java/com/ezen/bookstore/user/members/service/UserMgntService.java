@@ -1,9 +1,12 @@
 package com.ezen.bookstore.user.members.service;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ezen.bookstore.admin.members.dto.MembersDTO;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 import com.ezen.bookstore.user.members.repository.UserMgntRepository;
 
@@ -44,5 +47,23 @@ public class UserMgntService {
 		}
     	
     	return result;
+    }
+    
+    public List<UserMembersDTO> searchMember(String name, String email) {
+    	return userMgntRepository.getFindMember(name,email);
+    }
+    
+    public boolean isMemberVerification(UserMembersDTO userMembersDTO ) {
+    	
+    	return userMgntRepository.memberVerification(userMembersDTO);
+    }
+    
+    public boolean modifyMemberPw(UserMembersDTO userMembersDTO) {
+        String encodedPassword = passwordEncoder.encode(userMembersDTO.getMember_pw());
+        userMembersDTO.setMember_pw(encodedPassword);
+
+    	int result = userMgntRepository.modifyPw(userMembersDTO);
+    	
+    	return result > 0;
     }
 }
