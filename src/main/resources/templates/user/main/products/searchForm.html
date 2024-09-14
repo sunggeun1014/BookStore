@@ -16,14 +16,22 @@
 		<div class="best-filter-area" th:if="${condition.categoryCountryType == 03}">
 			<div class="search-condition-title">종합베스트</div>
 			<div>
-				<div class="filter-text-btn date-click on" data-selected-date-btn="01">
+				<div class="filter-text-btn date-click" data-selected-date-btn="01" th:classappend="${condition.selectedDateCd == '01'} ? 'on' : ''">
 					<p>주간</p>
 				</div>
-				<div class="filter-text-btn date-click" data-selected-date-btn="02">
+				<div class="filter-text-btn date-click" data-selected-date-btn="02" th:classappend="${condition.selectedDateCd == '02'} ? 'on' : ''">
 					<p>월간</p>
 				</div>
-				<div class="filter-text-btn date-click" data-selected-date-btn="02">
+				<div class="filter-text-btn date-click" data-selected-date-btn="03" th:classappend="${condition.selectedDateCd == '03'} ? 'on' : ''">
 					<p>연간</p>
+				</div>
+			</div>
+		</div>
+		<div class="new-products-area" th:if="${condition.categoryCountryType == 04}">
+			<div class="search-condition-title">신상품</div>
+			<div>
+				<div class="filter-text-btn on">
+					<p>새로나온도서</p>
 				</div>
 			</div>
 		</div>
@@ -31,7 +39,7 @@
 			<input type="text" name="word" id="word" class="re-search-input" placeholder="결과 내 재검색" th:value="${condition.word}">
 			<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
 		</div>
-		<div class="search-condition-area" th:if="${condition.categoryCountryType == 01 or condition.categoryCountryType == 02}">
+		<div class="search-condition-area" th:if="${condition.categoryCountryType != 03 and condition.categoryCountryType != 04}">
 			<div class="search-condition-flex">
 				<div class="search-condition-title">검색조건</div>
 				<div data-radio-id="book-title-radio" class="filter-text-btn condition-click" th:classappend="${condition.search_conditions == 'book_title' || #strings.isEmpty(condition.search_conditions)} ? ' on' : ''">
@@ -65,8 +73,8 @@
 		<input type="hidden" name="categoryCountryType" th:value="${condition.categoryCountryType}"/>
 		<input type="hidden" name="orderByValue" th:value="${condition.orderByValue}"/>
 	</form>
-	<div class="flex-row" th:classappend="${condition.categoryCountryType == 03} ? 'best' : ''">
-		<div class="flex-column" th:if="${condition.categoryCountryType == 01 or condition.categoryCountryType == 02}">
+	<div class="flex-row" th:classappend="${condition.categoryCountryType == 03 or condition.categoryCountryType == 04} ? 'best' : ''">
+		<div class="flex-column" th:if="${condition.categoryCountryType != 03 and condition.categoryCountryType != 04}">
 			<div class="product-cnt-area">
 				<span>전체</span>
 				<span th:text="${page.totalItems}" class="product-total-cnt"></span>

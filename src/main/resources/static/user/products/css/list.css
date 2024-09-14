@@ -231,7 +231,7 @@
 	color: #845EC2;
 }
 
-.best-filter-area {
+.best-filter-area, .new-products-area {
 	display: flex;
 	padding: 20px 0;
 	border-bottom: 1px solid #eaeaea;
@@ -242,3 +242,4 @@
 .best {
 	justify-content: flex-end;
 }
+
