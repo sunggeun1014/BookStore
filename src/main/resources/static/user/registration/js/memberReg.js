@@ -43,8 +43,6 @@ document.getElementById('kakao_login_btn').addEventListener('click', function() 
                     // 이메일로 연동이 필요하면 여기에 추가 (기존 사용자의 이메일과 비교할 수 있음)
                     console.log('카카오 로그인 성공! ID:', kakaoId, '이메일:', email);
 
-                    // 가입 폼을 자동으로 전송할 수도 있음
-                    // document.getElementById('joinForm').submit();
                 },
                 fail: function(error) {
                     console.log(error);
@@ -55,6 +53,38 @@ document.getElementById('kakao_login_btn').addEventListener('click', function() 
             console.log(err);
         }
     });
+});
+
+let naverLogin = new naver.LoginWithNaverId({
+    clientId: 'sutMcxM8vDfiUuQgTc15',  // 네이버에서 발급받은 클라이언트 ID
+    callbackUrl: 'http://localhost:9080/user/members/join',  // 네이버에서 설정한 콜백 URL
+    isPopup: true,  // 팝업 모드 사용
+    loginButton: { color: 'green', type: 5, height: 40 }  // 로그인 버튼 스타일 설정
+});
+
+// 네이버 로그인 초기화
+naverLogin.init();
+
+// 로그인 성공 시 상태 확인 후 ID와 이메일 받아오기
+naverLogin.getLoginStatus(function(status) {
+    if (status) {
+        let naverId = naverLogin.user.getId();  // 네이버 유저의 고유 ID
+        let email = naverLogin.user.getEmail();  // 네이버 유저의 이메일
+
+        // ID와 이메일을 사용해 추가 작업 수행
+        console.log('네이버 로그인 성공! ID:', naverId, '이메일:', email);
+
+        // 부모 창에 값 전달
+        if (window.opener) {
+            window.opener.document.getElementById('naver_login_cd').value = naverId;  // 부모 창의 hidden input에 값 저장
+            window.opener.console.log('부모 창으로 전달된 네이버 ID:', naverId);
+        }
+
+        // 팝업 창 닫기
+        window.close();  // 팝업 창을 닫습니다.
+    } else {
+        console.log('네이버 로그인 실패');
+    }
 });
 
 $(document).ready(function() {
