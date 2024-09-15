@@ -17,7 +17,7 @@
         JOIN 
         	books b ON b.book_isbn = c.book_isbn
         WHERE 
-        	c.member_id = 'admin001'
+        	c.member_id = #{member_id}
     </select>
     
     <insert id="addCartItem" parameterType="userCart">
@@ -43,6 +43,7 @@
     	<foreach item="cart_num" collection="cartNums" open="(" separator="," close=")">
             #{cart_num}
         </foreach>
+        AND member_id = #{member_id}
     </delete>
     
     <delete id="deleteItemsByMemberId">
@@ -52,4 +53,13 @@
     		member_id = #{member_id}
     </delete>
     
+    
+    <select id="basketCount" resultType="Integer" parameterType="String">
+    	SELECT 
+    		COUNT(*) 
+    	FROM 
+    		orders_cart 
+    	WHERE
+    		member_id = #{member_id}
+    </select>
 </mapper>

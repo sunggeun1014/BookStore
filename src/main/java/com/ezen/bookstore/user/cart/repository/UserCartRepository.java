@@ -21,10 +21,6 @@ public class UserCartRepository {
 		return sql.selectList("Cart.getCartItemList", memberId);
 	};
 	
-	public void addCartItem (UserCartDTO userCartDTO) {
-		sql.insert("Cart.addCartItem", userCartDTO);
-	}
-	
     public void deleteItemsByCartNums(List<Integer> cartNums) {
         sql.delete("Cart.deleteItemsByCartNums", cartNums);
     }
@@ -33,5 +29,13 @@ public class UserCartRepository {
 		sql.delete("Cart.deleteItemsByMemberId", memberId);
 	}
 	
+	public int addCartItem(UserCartDTO dto, String memberId) {
+		dto.setMember_id(memberId);
+		return sql.insert("Cart.addCartItem", dto);
+	}
+	
+    public int getBasketCount(String memberId) {
+        return sql.selectOne("Cart.basketCount", memberId);
+    }
 	
 }
