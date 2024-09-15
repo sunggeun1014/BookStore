@@ -41,14 +41,13 @@ function goToReviewList() {
     const reviewBox = document.querySelector(".review-avg-wrap");
     const reviewList = document.querySelector(".review-info");
 
-    if(reviewBox && reviewList) {
+    if (reviewBox && reviewList) {
         reviewBox.addEventListener('click', function () {
             reviewList.scrollIntoView({
                 behavior: 'smooth',
             })
         })
     }
-
 }
 
 let getTotalPrice = 0;
@@ -89,7 +88,6 @@ function calcQty() {
     // 개수 초기화
     initialzeQty();
 }
-calcQty();
 
 function drawTotalPrice() {
     const priceText = document.querySelector(".total-price")
@@ -99,81 +97,113 @@ function drawTotalPrice() {
     priceText.innerText = getTotalPrice.toLocaleString();
 }
 
-isLoginMember();
+const cartBtn = document.getElementById("cart-btn")
+const buyNowBtn = document.getElementById("buy-now-btn");
 
-function isLoginMember() {
-    const cartBtn = document.getElementById("cart-btn")
-    const directBtn = document.getElementById("direct-order-btn");
+const addForm = document.getElementById("add-form")
 
-    const cartBtnIDCheck = cartBtn.getAttribute("data-memberid")
-    const directBtnIDCheck = directBtn.getAttribute("data-memberid")
+function submitHandler() {
+    const bookISBN = document.getElementById("book_isbn")
+    const cartQtyInput = document.getElementById("cart_purchase_qty")
+    const bookPriceInput = document.getElementById("book_price")
+    const bookNameInput = document.getElementById("book_name");
+    const bookThumbNailInput = document.getElementById("book_thumbnail_changed");
 
-    console.log(cartBtnIDCheck)
-
-    cartBtn.addEventListener("click", function (e) {
+    addForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        if (cartBtnIDCheck === null) {
+        // const isCartAction = e.submitter === cartBtn;
+        // const isBuyNowAction = e.submitter === buyNowBtn;
+
+        const action = e.submitter.getAttribute("data-action")
+        // const memberID = cartBtn.getAttribute("data-memberid") || buyNowBtn.getAttribute("data-memberid");
+
+        const memberID = getMemberID([cartBtn, buyNowBtn])
+
+        if (memberID === null) {
             getConfirmModal("로그인 하지 않으셨습니다. 로그인 페이지로 가시겠습니까?", function () {
                 location.href = '/user/login'
             })
         } else {
-            console.log('장바구니가격 ', getTotalPrice)
-            console.log('장바구니수량 ', getTotalQty)
-            console.log("장바구니담기")
-            addCartForm();
-        }
-    })
-}
+            cartQtyInput.value = getTotalQty;
+            bookPriceInput.value = getTotalPrice;
 
-function addCartForm() {
-    const addForm = document.getElementById("add-cart-form")
-    const bookISBN = document.getElementById("book_isbn")
-    const cartQtyInput = document.getElementById("cart_purchase_qty")
-    const bookPriceInput = document.getElementById("book_price")
+            const data = [{
+                book_isbn: bookISBN.value,
+                // member_id: memberID,
+                cart_purchase_qty: cartQtyInput.value,
+                // book_price: bookPriceInput.value,
+            }];
 
-    if(!addForm) {
-        console.log('폼태그 못찾음??')
-        return
-    }
-    console.log('폼태그 찾았냐??')
+            console.log('data? ', data)
 
-    cartQtyInput.value = getTotalQty;
-    bookPriceInput.value = getTotalPrice;
-
-    addForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const data = {
-            book_isbn: bookISBN.value,
-            cart_purchase_qty: cartQtyInput.value,
-            book_price: bookPriceInput.value,
-        };
-
-        console.log('data? ', data)
-
-        $.ajax({
-            url: '/user/cart/add',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function () {
-                console.log('ajax 성공')
-                addForm.submit();
-                getConfirmModal("장바구니에 담겼습니다. 장바구니로 이동 하시겠습니까?", function () {
-                    location.href = '/user/cart/list'
+            if (action === 'cart') {
+                $.ajax({
+                    url: '/user/productsRest/productBasketSave',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function () {
+                        console.log('ajax 성공')
+                        getConfirmModal("장바구니에 담겼습니다. 장바구니로 이동 하시겠습니까?", function () {
+                            location.href = '/user/cart/list'
+                        })
+                    },
+                    error: function () {
+                        console.log("ajax 에러")
+                        getErrorModal();
+                    }
                 })
-            },
-            error: function () {
-                console.log("ajax 에러")
-                getErrorModal();
+            } else if (action === 'buyNow') {
+                const updateData = data.map(elements => ({
+                    ...elements,
+                    book_price: bookPriceInput.value,
+                    book_name: bookNameInput.value,
+                    book_thumbnail: bookThumbNailInput.value,
+                }))
+                console.log('바로구매클릭')
+                console.log('바로구매data? ', updateData)
             }
-        })
-
-    })
+        }
+    });
 }
+
+function refundInfoHandler() {
+    const refundBtn = document.getElementById("refund-btn");
+    const inquiryBtn = document.getElementById("inquiry-btn");
+
+    const memberID = getMemberID([refundBtn, inquiryBtn]);
+
+    function handleClick(button, action) {
+        button.addEventListener("click", function () {
+            if (memberID === null) {
+                getConfirmModal("로그인 하지 않으셨습니다. 로그인 페이지로 이동하시겠습니까?", function () {
+                    location.href = '/user/login';
+                });
+            } else {
+                console.log(action);
+            }
+        });
+    }
+
+    handleClick(refundBtn, "반품신청으로 이동 (주문목록)");
+    handleClick(inquiryBtn, "1:1문의로 이동 (접수화면)");
+}
+
+function getMemberID(buttons) {
+    for (let btn of buttons) {
+        const memberId = btn.getAttribute("data-memberid");
+        if (memberId) return memberId;
+    }
+    return null;
+}
+
 
 document.addEventListener('DOMContentLoaded', function () {
     goToReviewList();
+    calcQty();
+    // isLoginMember();
+    submitHandler();
+    refundInfoHandler();
 })
 
 window.onload = function () {

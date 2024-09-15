@@ -70,15 +70,16 @@ header .header-center {
 }
 
 .cart-qty {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 2px;
     position: absolute;
     top: -2px;
     right: -8px;
-    width: 20px;
-    height: 20px;
-    border-radius: 100%;
+    border-radius: 20px;
     background-color: #845EC2;
-    font-size: 14px;
-    font-weight: 900;
+    font-size: 13px;
+    font-weight: 700;
     color: #fff;
     text-align: center;
     line-height: 20px;

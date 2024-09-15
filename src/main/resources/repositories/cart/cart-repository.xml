@@ -21,17 +21,18 @@
     </select>
     
     <insert id="addCartItem" parameterType="userCart">
-        INSERT INTO 
-        	orders_cart (
-        		cart_num, 
-        		book_isbn,
-        		cart_purchase_qty, 
-        		member_id
+        INSERT INTO
+		orders_cart (
+			cart_num,
+			book_isbn,
+			member_id,
+			cart_purchase_qty
         ) VALUES (
         		order_cart_seq.nextval,
-        		#{book_isbn}, 
-        		#{cart_purchase_qty}, 
-        		#{member_id})
+        		#{book_isbn},
+				#{member_id},
+				#{cart_purchase_qty}
+		)
     </insert>
     
     <delete id="deleteItemsByCartNums">
