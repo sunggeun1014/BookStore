@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.ezen.bookstore.security.service.admin.CustomAdminAuthenticationFailureHandler;
 import com.ezen.bookstore.security.service.admin.CustomAdminAuthenticationSuccessHandler;
 import com.ezen.bookstore.security.service.admin.CustomAdminDetailsService;
+import com.ezen.bookstore.security.service.user.CustomOAuth2UserService;
 import com.ezen.bookstore.security.service.user.CustomUserAuthenticationFailureHandler;
 import com.ezen.bookstore.security.service.user.CustomUserAuthenticationSuccessHandler;
 import com.ezen.bookstore.security.service.user.CustomUserDetailsService;
@@ -26,8 +27,9 @@ public class SecurityConfig {
 
     private final CustomAdminDetailsService customAdminDetailsService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final PasswordEncoder passwordEncoder;
-
+  
     @Bean
     DaoAuthenticationProvider adminAuthenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -90,7 +92,7 @@ public class SecurityConfig {
     @Order(2)
     SecurityFilterChain securityUserFilterChain(HttpSecurity http) throws Exception {
         http
-            .securityMatcher("/user/**")
+            .securityMatcher("/user/**", "/oauth2/**", "/login/**")
             .authenticationProvider(userAuthenticationProvider())
             .sessionManagement(session -> 
                 session
@@ -102,9 +104,18 @@ public class SecurityConfig {
             )
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-            	.requestMatchers("/images/**").permitAll()
+                .requestMatchers("/oauth2/authorization/**", "/login/oauth2/code/**").permitAll() // 여기를 전역적으로 허용
+                .requestMatchers("/images/**").permitAll()
                 .requestMatchers("/user/mypage").hasAuthority("ROLE_USER")
                 .anyRequest().permitAll()
+            )
+            .oauth2Login(oauth2 -> oauth2
+                .loginPage("/user/login")  // 사용자 정의 로그인 페이지
+//                .defaultSuccessUrl("/user/main", true)  // 로그인 성공 후 이동할 페이지
+                .userInfoEndpoint(userInfo -> userInfo
+                    .userService(customOAuth2UserService)  // 사용자 정보를 처리하는 서비스
+                )
+                .successHandler(new CustomUserAuthenticationSuccessHandler())
             )
             .formLogin(form -> form
                 .loginProcessingUrl("/user/loginProc")    
