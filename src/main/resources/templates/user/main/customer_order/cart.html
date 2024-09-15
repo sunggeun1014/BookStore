@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/user/common/layout/mainLayout}" layout:fragment="Content">
 
-<link rel="stylesheet" href="/user/cart/css/cart.css">
+<link rel="stylesheet" href="/user/customer_order/css/cart.css">
 
 <div class="inner">
 	<section class="order-cart-container">
@@ -9,10 +9,10 @@
 			<h2 class="cart-header-title">장바구니</h2>
 			<ul class="cart-header-breadcrumb">
 				<li class="order-step is-active">장바구니 
-					<img alt="arrow-active" src="/user/cart/img/arrow-circle-active.svg">
+					<img alt="arrow-active" src="/user/customer_order/img/arrow-right=on.svg">
 				</li>
 				<li class="order-step">결제하기 
-					<img alt="arrow" src="/user/cart/img/arrow-circle.svg">
+					<img alt="arrow" src="/user/customer_order/img/arrow-right=off.svg">
 				</li>
 				<li class="order-step">주문완료</li>
 			</ul>
@@ -115,5 +115,5 @@
 
 <script src="/admin/common/js/main.js"></script>
 <script src="/user/common/js/btn-event.js"></script>
-<script src="/user/cart/js/cart.js"></script>
+<script src="/user/customer_order/js/cart.js"></script>
 </html>

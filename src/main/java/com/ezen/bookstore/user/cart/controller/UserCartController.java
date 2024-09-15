@@ -31,7 +31,7 @@ public class UserCartController {
 	    
 	    model.addAttribute("cartItems", cartItems);
 	    
-	    return "/user/main/cart";
+	    return "/user/main/customer_order/cart";
 	}
 	
     @PostMapping("/add")
