@@ -1,5 +1,7 @@
 package com.ezen.bookstore.user.cart.controller;
 
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +28,8 @@ public class UserCartController {
 		
 		return  "user/main/cart";
 	}
-	
-    @PostMapping("/add")
+
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addCartItem(@RequestBody UserCartDTO cartItemDTO) {
     	userCartService.addCartItem(cartItemDTO);
     }

@@ -48,13 +48,16 @@ public class UserProductController {
 
 	@GetMapping("/detail")
 	public String productDetail(@RequestParam("book_isbn") String bookISBN, Model model, HttpSession session) {
-		UserMembersDTO memberDTO = (UserMembersDTO) session.getAttribute("memberID");
+//		UserMembersDTO memberDTO = (UserMembersDTO) session.getAttribute("memberID");
+		UserMembersDTO memberDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
 
-		if (memberDTO != null) {
-			model.addAttribute("memberDTO", memberDTO);
-		} else {
-			model.addAttribute("memberDTO", "notlogin");
-		}
+//		if (memberDTO != null) {
+//			model.addAttribute("memberDTO", memberDTO);
+//		} else {
+//			model.addAttribute("memberDTO", "notlogin");
+//		}
+
+		String memberID = memberDTO != null ? memberDTO.getMember_id() : null;
 
 		UserProductDTO bookDetail = productService.getProductDetail(bookISBN);
 		List<UserReviewDTO> reviewList = productService.getReviewList(bookISBN);
@@ -64,6 +67,7 @@ public class UserProductController {
 			model.addAttribute("reviewList", reviewList);
 		}
 
+		model.addAttribute("member_id", memberID);
 		model.addAttribute("bookDetail", bookDetail);
 		model.addAttribute("reviewPercent", reviewPercent);
 

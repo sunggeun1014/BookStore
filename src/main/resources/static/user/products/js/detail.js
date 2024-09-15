@@ -37,6 +37,20 @@ function getWidthRating() {
     })
 }
 
+function goToReviewList() {
+    const reviewBox = document.querySelector(".review-avg-wrap");
+    const reviewList = document.querySelector(".review-info");
+
+    if(reviewBox && reviewList) {
+        reviewBox.addEventListener('click', function () {
+            reviewList.scrollIntoView({
+                behavior: 'smooth',
+            })
+        })
+    }
+
+}
+
 let getTotalPrice = 0;
 let getTotalQty = 0;
 
@@ -44,15 +58,23 @@ function calcQty() {
     const inputQty = document.querySelector(".input-qty");
     const minus = document.querySelector("#decrease");
     const plus = document.querySelector("#increase");
-    getTotalQty = parseInt(inputQty.value);
 
-    drawTotalPrice();
+    function initialzeQty() {
+        getTotalQty = parseInt(inputQty.value) || 1;
+        updateQtyDisplay();
+        console.log('초기값 수량 ', getTotalQty)
+    }
+
+    function updateQtyDisplay() {
+        inputQty.value = getTotalQty;
+        drawTotalPrice();
+    }
 
     minus.addEventListener("click", () => {
         if (getTotalQty > 1) {
             getTotalQty--;
             inputQty.value = getTotalQty;
-            drawTotalPrice();
+            updateQtyDisplay();
         } else {
             getCheckModal("수량은 1개 이상 선택하셔야 합니다.")
         }
@@ -61,65 +83,44 @@ function calcQty() {
     plus.addEventListener("click", () => {
         getTotalQty++;
         inputQty.value = getTotalQty;
-        drawTotalPrice();
+        updateQtyDisplay();
     });
 
-    // function handleQtyChange() {
-    //     let newQty = parseInt(inputQty.value);
-    //     if (isNaN(newQty) || newQty < 1) {
-    //         newQty = 1;
-    //     }
-    //     getTotalQty = newQty;
-    //     inputQty.value = getTotalQty;
-    //
-    // }
-
-    // inputQty.addEventListener("change", handleQtyChange);
-    // inputQty.addEventListener("input", handleQtyChange);
-
-    return getTotalQty;
+    // 개수 초기화
+    initialzeQty();
 }
-
 calcQty();
-console.log(getTotalQty)
 
 function drawTotalPrice() {
     const priceText = document.querySelector(".total-price")
     const price = parseInt(priceText.getAttribute('data-price')) || 0;
 
-    priceText.innerText = (price * getTotalQty).toLocaleString();
-
-    return getTotalPrice = price * getTotalQty;
-
+    getTotalPrice = price * getTotalQty;
+    priceText.innerText = getTotalPrice.toLocaleString();
 }
 
-isLogin();
+isLoginMember();
 
-function isLogin() {
-    const memID = document.getElementById("cart-btn").getAttribute("data-memberid")
-    const cartBtn = document.querySelector("#cart-btn")
-    const directBtn = document.querySelector("#direct-order-btn");
+function isLoginMember() {
+    const cartBtn = document.getElementById("cart-btn")
+    const directBtn = document.getElementById("direct-order-btn");
 
-    console.log(memID)
+    const cartBtnIDCheck = cartBtn.getAttribute("data-memberid")
+    const directBtnIDCheck = directBtn.getAttribute("data-memberid")
 
-    cartBtn.addEventListener("click", function() {
-        if (memID == null) {
-            getConfirmModal("로그인이 되어있지 않습니다. 로그인페이지로 이동 하시겠습니까?", function () {
+    console.log(cartBtnIDCheck)
+
+    cartBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (cartBtnIDCheck === null) {
+            getConfirmModal("로그인 하지 않으셨습니다. 로그인 페이지로 가시겠습니까?", function () {
                 location.href = '/user/login'
             })
         } else {
+            console.log('장바구니가격 ', getTotalPrice)
+            console.log('장바구니수량 ', getTotalQty)
+            console.log("장바구니담기")
             addCartForm();
-            getConfirmModal("장바구니에 담았습니다.", function () {
-                location.href = '/user/cart/list'
-            })
-        }
-    })
-
-    directBtn.addEventListener("click", function () {
-        if (memID == null) {
-            getConfirmModal("로그인이 되어있지 않습니다. 로그인페이지로 이동 하시겠습니까?", function () {
-                location.href = '/user/login'
-            })
         }
     })
 }
@@ -128,30 +129,42 @@ function addCartForm() {
     const addForm = document.getElementById("add-cart-form")
     const bookISBN = document.getElementById("book_isbn")
     const cartQtyInput = document.getElementById("cart_purchase_qty")
-    const bookPrice = parseInt(document.querySelector(".total-price").getAttribute("data-price")) || 0;
+    const bookPriceInput = document.getElementById("book_price")
 
-    console.log(bookPrice)
+    if(!addForm) {
+        console.log('폼태그 못찾음??')
+        return
+    }
+    console.log('폼태그 찾았냐??')
 
-    let cartQty = cartQtyInput.value
+    cartQtyInput.value = getTotalQty;
+    bookPriceInput.value = getTotalPrice;
 
     addForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        cartQty = getTotalQty;
-        const data = [{
+
+        const data = {
             book_isbn: bookISBN.value,
-            cart_purchase_qty: cartQty,
-            book_price: bookPrice * cartQty
-        }];
+            cart_purchase_qty: cartQtyInput.value,
+            book_price: bookPriceInput.value,
+        };
+
+        console.log('data? ', data)
 
         $.ajax({
-            url: '/user/productsRest/productBasketSave',
+            url: '/user/cart/add',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function () {
+                console.log('ajax 성공')
                 addForm.submit();
+                getConfirmModal("장바구니에 담겼습니다. 장바구니로 이동 하시겠습니까?", function () {
+                    location.href = '/user/cart/list'
+                })
             },
             error: function () {
+                console.log("ajax 에러")
                 getErrorModal();
             }
         })
@@ -159,7 +172,11 @@ function addCartForm() {
     })
 }
 
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function () {
+    goToReviewList();
+})
+
+window.onload = function () {
     markStarID();
     getWidthRating();
 };

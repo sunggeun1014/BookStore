@@ -72,6 +72,11 @@
     border: .5px solid #C0C0C0;
     border-radius: 10px;
     text-align: center;
+    cursor: pointer;
+}
+
+.review-avg-wrap:hover .rating-count {
+    text-decoration: underline;
 }
 
 .star-avg {
