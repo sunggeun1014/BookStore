@@ -1,18 +1,10 @@
 package com.ezen.bookstore.admin.banners.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ezen.bookstore.admin.banners.dto.BannersDTO;
 import com.ezen.bookstore.admin.banners.service.BannersService;
-import com.ezen.bookstore.commons.FileManagement;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,28 +59,19 @@ public class BannersController {
 	public String insertBanner(@ModelAttribute BannersDTO bannersDTO,
 			@RequestParam("banner_image") MultipartFile bannerImage, Model model) {
 		try {
-			// 이미지 업로드 처리
-			if (!bannerImage.isEmpty()) {
-				String originalFileName = bannerImage.getOriginalFilename();
-				String newFileName = FileManagement.generateNewFilename(originalFileName, FileManagement.BANNER_UPLOAD_NAME);
-            	
-            	FileManagement.saveImage(bannerImage, newFileName, FileManagement.BANNER_PATH);
-            	
-            	bannersDTO.setBanner_original(originalFileName);
-				bannersDTO.setBanner_changed(newFileName);
-			}
-				
-			bannersService.insertBanner(bannersDTO);
+			bannersService.insertBanner(bannersDTO, bannerImage);
 			model.addAttribute("success", "배너 등록 성공");
+
 		} catch (IOException e) {
-			e.printStackTrace();
+            log.error("파일 업로드 오류", e);
+            model.addAttribute("error", "파일 업로드 오류");
 		}
 	    return "redirect:/admin/banners/banners";
 	}
 
 	@PostMapping("/details")
 	public String showBannerDetail(@RequestParam("banner_num") Integer bannerNum, Model model) {
-		BannersDTO banners = bannersService.detailList(bannerNum);
+		BannersDTO banners = bannersService.getBannerDetail(bannerNum);
         
 		model.addAttribute("banners", banners);
 
@@ -102,27 +84,13 @@ public class BannersController {
 			@RequestParam(value="banner_image", required = false) MultipartFile bannerImage, Model model) {
 		
 		try {
-			// 업로드한 이미지가 있는 경우
-			if (!bannerImage.isEmpty()) {
-				String originalFileName = bannerImage.getOriginalFilename();
-				String newFileName = FileManagement.generateNewFilename(originalFileName, FileManagement.BANNER_UPLOAD_NAME);
-				
-            	FileManagement.saveImage(bannerImage, newFileName, FileManagement.BANNER_PATH);
-            	
-				bannersDTO.setBanner_original(originalFileName);
-				bannersDTO.setBanner_changed(newFileName);
-			} else {
-				// 이미지가 업로드되지 않은 경우
-	            BannersDTO existBanner = bannersService.detailList(bannersDTO.getBanner_num());
-	            bannersDTO.setBanner_original(existBanner.getBanner_original());
-	            bannersDTO.setBanner_changed(existBanner.getBanner_changed());
-			}
-			bannersService.updateBanner(bannersDTO);
+		
+			bannersService.updateBanner(bannersDTO, bannerImage);
 			model.addAttribute("success", "배너 업데이트 성공");
 		} catch (Exception e) {
-			e.printStackTrace();
+            log.error("파일 업로드 오류", e);
+            model.addAttribute("error", "파일 업로드 오류");
 		}
-
 		return "redirect:/admin/banners/banners";
 	}
 
@@ -130,9 +98,10 @@ public class BannersController {
 	public ResponseEntity<?> deleteBanners(@RequestBody List<Integer> bannerNums) {
 		try {
 			bannersService.deleteBanners(bannerNums);
-			return ResponseEntity.ok("삭제가 완료되었습니다.");
+			return ResponseEntity.ok("배너 삭제 완료");
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
+			log.error("배너 삭제 오류", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
 		}
 	}
 

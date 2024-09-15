@@ -46,7 +46,7 @@
         WHERE member_id = #{member_id}
     </update>
     
-    <insert id="addMember" parameterType="member">
+    <insert id="addMember" parameterType="userMembers">
 	    INSERT INTO members (
 	        member_id,
 	        member_pw,
@@ -82,7 +82,7 @@
 	    )
 	</insert>
 	
-	<select id="findById" parameterType="String" resultType="member">
+	<select id="findById" parameterType="String" resultType="userMembers">
     	SELECT * FROM members WHERE member_id = #{member_id}
 	</select>
 	
@@ -94,5 +94,34 @@
         WHERE
             member_id = #{member_id}
     </select>
+    
+    <select id="findMember" resultType="userMembers">
+	    SELECT 
+	        member_id,
+	        member_date
+	    FROM 
+	        members
+	    WHERE 
+	        member_name = #{member_name}
+	        AND member_email = #{member_email}
+	</select>
+	
+	<select id="verification" resultType="int" parameterType="userMembers">
+	    SELECT 
+	        COUNT(*)
+	    FROM 
+	        members
+	    WHERE 
+	        member_name = #{member_name}
+	        AND member_email = #{member_email}
+	        AND member_id = #{member_id}
+	</select>
+	
+	<update id="updateMemberPw" parameterType="userMembers">
+        UPDATE members
+        SET 
+        member_pw = #{member_pw}        
+        WHERE member_id = #{member_id}
+    </update>
 	
 </mapper>

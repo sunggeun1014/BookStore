@@ -1,11 +1,12 @@
 package com.ezen.bookstore.user.cart.controller;
 
-import org.springframework.http.MediaType;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,20 +24,27 @@ import lombok.RequiredArgsConstructor;
 public class UserCartController {
 
 	private final UserCartService userCartService;
+	
 	@GetMapping("/list")
-	public String cartDetail() {
-		
-		return  "user/main/cart";
+	public String cartDetail(String memberId, Model model) {
+	    List<UserCartDTO> cartItems = userCartService.getCartItemList(memberId);
+	    
+	    model.addAttribute("cartItems", cartItems);
+	    
+	    return "/user/main/cart";
 	}
-
-    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	
+    @PostMapping("/add")
     public void addCartItem(@RequestBody UserCartDTO cartItemDTO) {
     	userCartService.addCartItem(cartItemDTO);
     }
 
-    @PostMapping("/delete/{cart_num}")
-    public void removeCartItem(@PathVariable Integer cartNum) {
-    	userCartService.deleteCartItem(cartNum);
+    @PostMapping("/delete")
+    public ResponseEntity <Map<String, Object>> deleteCartItems(@RequestBody Map<String, Object> requestParams) {
+        List<Integer> cartNums = (List<Integer>) requestParams.get("cartNums");
+        String memberId = (String) requestParams.get("memberId");
+        userCartService.deleteItems(cartNums, memberId);
+        return ResponseEntity.ok(Map.of("success", true));
     }
 
     @PostMapping("/clear")

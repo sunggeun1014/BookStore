@@ -25,11 +25,13 @@ $(document).ready(function() {
 	$(rightArrowElment).on("click", function() {
 		getNextPage(-1);		
 	});
-	
+
 	if(currentPage <= 1) {
 		$(leftArrowElment).addClass("arrow-disabled");
 		$(leftArrowElment).off("click");
-	} else if(currentPage >= totalPage) {
+	}
+	
+	if(currentPage >= totalPage) {
 		$(rightArrowElment).addClass("arrow-disabled");
 		$(rightArrowElment).off("click");
 	}

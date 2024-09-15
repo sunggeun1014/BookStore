@@ -8,12 +8,17 @@ import com.ezen.bookstore.user.main.dto.UserMainDTO;
 import com.ezen.bookstore.user.main.repository.UserMainRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class UserMainService {
 	private final UserMainRepository userMainRepository;
 
+	public List<UserMainDTO> getBanners() {
+		return userMainRepository.getBanners();
+	}
 	
 	public List<UserMainDTO> getBestBooks() {
 		return userMainRepository.getBestBooks();

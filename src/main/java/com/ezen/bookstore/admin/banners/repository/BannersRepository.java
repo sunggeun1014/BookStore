@@ -1,6 +1,5 @@
 package com.ezen.bookstore.admin.banners.repository;
 
-import java.util.Date;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;

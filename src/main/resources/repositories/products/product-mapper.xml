@@ -169,87 +169,111 @@
     <!--  유저페이지  -->
     
     <select id="getProductList" resultType="userProducts" parameterType="userCondition">
-	    SELECT 
-	        b.book_isbn,
-	        b.book_name, 
-	        b.book_price, 
-	        b.book_publisher, 
-	        b.book_author,
-	        b.book_publish_date,
-	        b.book_state,
-	        b.book_qty,
-            SUM(CASE 
-            	WHEN co.order_payment_status = '01' THEN cod.ORDER_DETAIL_QTY 
-            	ELSE 0 
-        	END) AS order_count, 
-	        COUNT(r.review_rating) AS review_rating_cnt,
-	        NVL(TRUNC(SUM(r.review_rating) / COUNT(r.review_rating), 2), 0) AS reviews_rating_avg,
-	        b.book_thumbnail_changed
-	    FROM 
-	        books b
-	    LEFT JOIN 
-	        customer_order_details cod ON b.book_isbn = cod.book_isbn
-	    LEFT JOIN 
-	        reviews r ON cod.order_detail_num = r.order_detail_num
-	    LEFT JOIN
-    		customer_orders co ON cod.order_num = co.order_num
-	    LEFT JOIN
-	        book_categorys bc ON b.book_category = bc.category_name
-	    WHERE 
-	        b.book_deleted = '01'
-	        <if test="word != null and !word.equals('')">
-	            <if test="search_conditions == null">
-	                AND REPLACE(LOWER(b.book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
-	            </if>
-	            <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_title')">
-	                AND REPLACE(LOWER(b.book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
-	            </if>
-	            <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_author')">
-	                AND REPLACE(LOWER(b.book_author), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
-	            </if>
-	            <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_publisher')">
-	                AND REPLACE(LOWER(b.book_publisher), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
-	            </if>
-	        </if>
-	        <if test="search_field != null and !search_field.equals('')">
-	            AND b.book_category = (SELECT category_name FROM book_categorys WHERE category_num = #{search_field})
-	        </if>
-	        <if test="categoryCountryType != null and !categoryCountryType.equals('')">
-	            <if test="categoryCountryType == '01'">
-	                AND b.book_country_type = '01'
-	            </if>
-	            <if test="categoryCountryType == '02'">
-	                AND b.book_country_type = '02'
-	            </if>
-	        </if>
-	    GROUP BY 
-	        b.book_isbn,
-	        b.book_name,
-	        b.book_price,
-	        b.book_publisher,
-	        b.book_author,
-	        b.book_thumbnail_changed,
-	        b.book_publish_date,
-	        b.book_state,
-	        b.book_qty
-	    <if test="orderByValue != null and !orderByValue.equals('')">
-	        ORDER BY
-	        <if test="orderByValue == 1">
-	            order_count DESC
-	        </if>
-	        <if test="orderByValue == 2">
-	            b.book_publish_date DESC
-	        </if>
-	        <if test="orderByValue == 3">
-	            b.book_price ASC
-	        </if>
-	        <if test="orderByValue == 4">
-	            reviews_rating_avg DESC
-	        </if>
-	        <if test="orderByValue == 5">
-	            review_rating_cnt DESC
-	        </if>
-	    </if>
+    	SELECT
+		    b.book_isbn,
+		    b.book_name, 
+		    b.book_price, 
+		    b.book_publisher, 
+		    b.book_author,
+		    b.book_publish_date,
+		    b.book_state,
+		    b.book_qty,
+		    b.book_thumbnail_changed,
+		    NVL(SUM(
+	            <choose>
+	                <when test="selectedDateCd != null and !selectedDateCd.equals('') and selectedDateCd.equals('01')">
+	            	CASE
+	                    WHEN co.order_payment_status = '01' AND TO_CHAR(co.order_purchase_date, 'YYYY-MM-DD') 
+	                    BETWEEN TO_CHAR(TRUNC(current_timestamp, 'IW'), 'YYYY-MM-DD') 
+	                    AND TO_CHAR(TRUNC(current_timestamp, 'IW') + 6, 'YYYY-MM-DD') 
+	                    THEN cod.order_detail_qty
+	                END    
+	                </when>
+	                <when test="selectedDateCd != null and !selectedDateCd.equals('') and selectedDateCd.equals('02')">
+	                CASE
+	                    WHEN co.order_payment_status = '01' AND TO_CHAR(co.order_purchase_date, 'YYYY-MM-DD') 
+	                    BETWEEN TO_CHAR(TRUNC(current_timestamp, 'MM'), 'YYYY-MM-DD') 
+	                    AND TO_CHAR(LAST_DAY(current_timestamp), 'YYYY-MM-DD')
+	                    THEN cod.order_detail_qty
+	                END    
+	                </when>
+	                <when test="selectedDateCd != null and !selectedDateCd.equals('') and selectedDateCd.equals('03')">
+	                CASE
+	                    WHEN co.order_payment_status = '01' AND TO_CHAR(co.order_purchase_date, 'YYYY-MM-DD') 
+	                    BETWEEN TO_CHAR(TRUNC(current_timestamp, 'YYYY'), 'YYYY-MM-DD') 
+	                    AND TO_CHAR(ADD_MONTHS(TRUNC(current_timestamp, 'YYYY'), 12) - 1, 'YYYY-MM-DD') 
+	                    THEN cod.order_detail_qty
+	                END    
+	                </when>
+	                <otherwise>
+	                	CASE
+        		            WHEN co.order_payment_status = '01' THEN cod.order_detail_qty
+	                    END
+	                </otherwise>
+	            </choose>
+		    ), 0) AS order_count,
+		    NVL(COUNT(r.review_num), 0) AS review_rating_cnt,
+		    ROUND(NVL(AVG(r.review_rating), 0), 2) AS reviews_rating_avg
+		FROM
+		    books b
+		    LEFT JOIN customer_order_details cod ON b.book_isbn = cod.book_isbn
+		    LEFT JOIN customer_orders co ON cod.order_num = co.order_num
+		    LEFT JOIN reviews r ON cod.order_detail_num = r.order_detail_num
+		WHERE
+		    b.book_deleted = '01'
+		    <if test="word != null and !word.equals('')">
+		        <if test="search_conditions == null">
+		            AND REPLACE(LOWER(b.book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+		        </if>
+		        <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_title')">
+		            AND REPLACE(LOWER(b.book_name), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+		        </if>
+		        <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_author')">
+		            AND REPLACE(LOWER(b.book_author), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+		        </if>
+		        <if test="search_conditions != null and !search_conditions.equals('') and search_conditions.equals('book_publisher')">
+		            AND REPLACE(LOWER(b.book_publisher), ' ', '') LIKE '%' || REPLACE(LOWER(#{word}), ' ', '') || '%'
+		        </if>
+		    </if>
+		    <if test="search_field != null and !search_field.equals('')">
+		        AND b.book_category = (SELECT category_name FROM book_categorys WHERE category_num = #{search_field})
+		    </if>
+		    <if test="categoryCountryType != null and !categoryCountryType.equals('')">
+		        <if test="categoryCountryType == '01'">
+		            AND b.book_country_type = '01'
+		        </if>
+		        <if test="categoryCountryType == '02'">
+		            AND b.book_country_type = '02'
+		        </if>
+		    </if>
+		GROUP BY
+		    b.book_isbn,
+		    b.book_name, 
+		    b.book_price, 
+		    b.book_publisher, 
+		    b.book_author,
+		    b.book_publish_date,
+		    b.book_state,
+		    b.book_qty,
+		    b.book_thumbnail_changed
+		<if test="orderByValue != null and !orderByValue.equals('')">
+		    ORDER BY
+		    <if test="orderByValue == 1">
+		        order_count DESC
+		    </if>
+		    <if test="orderByValue == 2">
+		        b.book_publish_date DESC
+		    </if>
+		    <if test="orderByValue == 3">
+		        b.book_price ASC
+		    </if>
+		    <if test="orderByValue == 4">
+		        reviews_rating_avg DESC
+		    </if>
+		    <if test="orderByValue == 5">
+		        review_rating_cnt DESC
+		    </if>
+		</if>
 	</select>
 
     <select id="getBookDetail" parameterType="java.lang.String" resultType="userProducts">

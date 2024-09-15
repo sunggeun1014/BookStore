@@ -33,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class NoticeController {
 	
 	private final NoticeService noticeService;
+	private final FileManagement fileManagement;
 	
 	@GetMapping("/notice")
 	public String notice() {
@@ -107,10 +108,10 @@ public class NoticeController {
 	            String originalFilename = image.getOriginalFilename();
 	            String modifiedFilename = FileManagement.generateNewFilename(originalFilename, FileManagement.NOTICE_UPLOAD_NAME);
 
-	            FileManagement.saveImage(image, modifiedFilename, FileManagement.NOTICE_PATH);
+	            FileManagement.saveImage(image, modifiedFilename, fileManagement.getNoticePath());
 	            
 	            // 이미지 URL을 리스트에 추가
-	            String imageUrl = FileManagement.NOTICE_PATH.replace("C:", "") + modifiedFilename;
+	            String imageUrl = "/images/notice/" + modifiedFilename;
 	            imageUrls.add(imageUrl);
 	        }
 

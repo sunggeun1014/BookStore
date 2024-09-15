@@ -2,8 +2,11 @@ package com.ezen.bookstore.user.members.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.user.members.dto.EmailDTO;
@@ -41,6 +45,17 @@ public class UserMgntController {
 			
 		return "user/registration/registration";
 	}
+	
+	@GetMapping("/find_Id")
+	public String getfindId() {
+		return "user/members/findId";
+	}
+	
+	@GetMapping("/find_Pw")
+	public String getfindPw() {
+		return "user/members/findPw";
+	}
+	
 	
 	@PostMapping("/join")
 	public String joinProccess(@ModelAttribute UserMembersDTO userMembersDTO) {
@@ -103,4 +118,68 @@ public class UserMgntController {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\":\"인증이 실패하였습니다.\"}");
 	    }
 	}
+	
+	@PostMapping("/find_Id")
+	public String postFindId(@RequestParam String name, @RequestParam String email, RedirectAttributes redirectAttributes) {
+	    
+		
+		redirectAttributes.addAttribute("name", name);
+		redirectAttributes.addAttribute("email", email);
+	    
+	    return "redirect:/user/members/showFindId";
+	}
+	
+	@GetMapping("/showFindId")
+	public String showFindIdPage(@RequestParam String name, @RequestParam String email, RedirectAttributes redirectAttributes, Model model) {
+
+	    List<UserMembersDTO> memberIds = userMgntService.searchMember(name, email);
+	    
+	    if (memberIds.isEmpty()) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "⚠일치하는 회원 정보가 없습니다.");
+	        return "redirect:/user/members/find_Id";  
+	    }
+	    
+	    model.addAttribute("name", name);
+	    model.addAttribute("memberIds", memberIds);
+	    
+	    return "user/members/showFindId";  
+	}
+	
+	@PostMapping("/verification")
+	@ResponseBody
+	public Map<String, String> ckeckInfo(UserMembersDTO usermembersDTO, HttpSession session) {
+	    Map<String, String> response = new HashMap<>();
+	    
+		if(userMgntService.isMemberVerification(usermembersDTO)) {
+			session.setAttribute("member_id", usermembersDTO.getMember_id());
+			
+			response.put("status", "true");
+
+		}else {
+			
+			response.put("status", "false");
+		}
+		return response;
+	}
+	
+	@PostMapping("/modifyPw")
+	@ResponseBody
+	public Map<String, String> updatePw(@RequestBody UserMembersDTO usermembersDTO) {
+		Map<String, String> response = new HashMap<>();
+		
+		if(userMgntService.modifyMemberPw(usermembersDTO)) {
+			response.put("status", "success");
+		} else {
+			response.put("status", "fail");
+		}
+		
+		return response;
+		
+	}
+	
+	@GetMapping("/modifyPwScreen")
+	public String showUpdatePw() {
+		return "/user/members/findPw-modifyPw";
+	}
+	
 }
