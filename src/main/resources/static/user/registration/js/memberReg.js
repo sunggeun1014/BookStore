@@ -22,6 +22,41 @@ window.onload = function() {
     }
 };
 
+Kakao.init('4f23d110021dacd702bf22df50d94c73'); // 여기서 YOUR_KAKAO_APP_KEY는 카카오에서 발급받은 앱 키로 대체하세요
+console.log(Kakao.isInitialized()); // SDK 초기화가 제대로 되었는지 확인 (true가 나와야 함)
+
+document.getElementById('kakao_login_btn').addEventListener('click', function() {
+	event.preventDefault();  // 폼 전송 방지
+
+    Kakao.Auth.login({
+        success: function(authObj) {
+            // 카카오 API 호출하여 사용자 정보 가져오기
+            Kakao.API.request({
+                url: '/v2/user/me',
+                success: function(response) {
+                    const kakaoId = response.id; // 카카오에서 받은 고유 ID
+                    const email = response.kakao_account.email; // 카카오에서 받은 이메일
+
+                    // 숨겨진 input 필드에 kakao ID 저장
+                    document.getElementById('kakao_login_cd').value = kakaoId;
+
+                    // 이메일로 연동이 필요하면 여기에 추가 (기존 사용자의 이메일과 비교할 수 있음)
+                    console.log('카카오 로그인 성공! ID:', kakaoId, '이메일:', email);
+
+                    // 가입 폼을 자동으로 전송할 수도 있음
+                    // document.getElementById('joinForm').submit();
+                },
+                fail: function(error) {
+                    console.log(error);
+                }
+            });
+        },
+        fail: function(err) {
+            console.log(err);
+        }
+    });
+});
+
 $(document).ready(function() {
     let idCheckPassed = false;
 
@@ -532,5 +567,3 @@ function confirmNumber() {
         }
     });
 }
-
-

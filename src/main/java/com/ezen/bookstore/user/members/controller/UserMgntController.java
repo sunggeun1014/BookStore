@@ -2,12 +2,11 @@ package com.ezen.bookstore.user.members.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,7 +38,8 @@ public class UserMgntController {
 	
 	private final UserMgntService userMgntService;
     private final EmailService emailService;
-
+    
+    
 	@GetMapping("/join")
 	public String mgntJoin() {
 			
@@ -55,6 +55,7 @@ public class UserMgntController {
 	public String getfindPw() {
 		return "user/members/findPw";
 	}
+	
 	
 	
 	@PostMapping("/join")
