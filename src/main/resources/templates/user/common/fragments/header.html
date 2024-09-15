@@ -7,7 +7,10 @@
 <div class="header-inner">
 	<div class="header-top">
 		<div class="top-menu-wrap">
-			<a href="" class="top-menu-link">로그인</a> <a href="" class="top-menu-link">장바구니</a> <a href="/user/customer_order/list" class="top-menu-link">1:1문의</a>
+			<a href="/user/login" class="top-menu-link">로그인</a> 
+			<a href="/user/cart/list" id="cartBtn" class="top-menu-link">장바구니</a> 
+			<a href="/user/mypage" id="mypageLink" class="top-menu-link" style="display:none;">마이페이지</a>
+			<a href="" class="top-menu-link">1:1문의</a>
 		</div>
 	</div>
 
@@ -21,7 +24,7 @@
 		</div>
 
 		<div class="searchbar-right">
-			<a href="/user/customer_order/list" class="cart-icon-wrap"> <img src="/user/common/imgs/web-cart-icon.svg" alt="장바구니" class="cart-icon">
+			<a href="/user/cart/list" id="cartBtn" class="cart-icon-wrap"> <img src="/user/common/imgs/web-cart-icon.svg" alt="장바구니" class="cart-icon">
 				<div class="cart-qty">
 					<p></p>
 				</div>
@@ -61,11 +64,14 @@
 				<input type="text" name="searchKeyword" class="search-input"> <i class="fa-solid fa-magnifying-glass search-icon"></i>
 			</div>
 			<div class="header-fixed-right">
-				<a href="" class="cart-icon-wrap"> <img src="/user/common/imgs/web-cart-icon.svg" alt="장바구니" class="cart-icon">
+				<a href="/user/cart/list" id="cartBtn" class="cart-icon-wrap"> 
+					<img src="/user/common/imgs/web-cart-icon.svg" alt="장바구니" class="cart-icon">
 					<div class="cart-qty">
 						<p></p>
 					</div>
-				</a> <a href=""> <i class="fa-solid fa-circle-user user-icon"></i></a> <a href=""> <img src="/user/common/imgs/web-cs-icon.svg" alt="고객센터" class="cs-icon"></a>
+				</a> 
+				<a href=""> <i class="fa-solid fa-circle-user user-icon"></i></a> 
+				<a href=""> <img src="/user/common/imgs/web-cs-icon.svg" alt="고객센터" class="cs-icon"></a>
 			</div>
 		</div>
 	</div>

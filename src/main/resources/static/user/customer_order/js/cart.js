@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const itemCheckboxes = document.querySelectorAll('.item-checkbox');
 	const deleteButton = document.querySelector('.delete-product-btn');
 	
+	
     // 전체 선택 체크박스 상태 업데이트
     function updateSelectAllCheckbox() {
         const allChecked = Array.from(itemCheckboxes).every(checkbox => checkbox.checked);
