@@ -43,50 +43,50 @@ function dateFilterActive() {
  * @param {string} priceData data 속성으로 price를 보내줌
  * ex) th:data-price="${?.book_price}"
  */
-function calcQty(priceElement, priceData) {
-    const inputQty = document.querySelector(".input-qty");
-    const minus = document.querySelector(".fa-minus");
-    const plus = document.querySelector(".fa-plus");
-    let totalPrice = document.querySelector(`${priceElement}`);
-    const price = parseInt(totalPrice.getAttribute(`${priceData}`)) || 0;
-
-    let qty = parseInt(inputQty.value) || 1;
-
-    function updatePrice() {
-        totalPrice.innerText = (price * qty).toLocaleString();
-    }
-
-    updatePrice();
-
-    minus.addEventListener("click", () => {
-        if (qty > 1) {
-            qty--;
-            inputQty.value = qty;
-            updatePrice();
-        } else {
-            getCheckModal("수량은 1개 이상 선택하셔야 합니다.")
-        }
-    });
-
-    plus.addEventListener("click", () => {
-        qty++;
-        inputQty.value = qty;
-        updatePrice();
-    });
-
-    function handleQtyChange() {
-        let newQty = parseInt(inputQty.value);
-        if (isNaN(newQty) || newQty < 1) {
-            newQty = 1;
-        }
-        qty = newQty;
-        inputQty.value = qty;
-        updatePrice();
-    }
-
-    inputQty.addEventListener("change", handleQtyChange);
-    inputQty.addEventListener("input", handleQtyChange);
-}
+// function calcQty(priceElement, priceData) {
+//     const inputQty = document.querySelector(".input-qty");
+//     const minus = document.querySelector(".fa-minus");
+//     const plus = document.querySelector(".fa-plus");
+//     let totalPrice = document.querySelector(`${priceElement}`);
+//     const price = parseInt(totalPrice.getAttribute(`${priceData}`)) || 0;
+//
+//     let qty = parseInt(inputQty.value) || 1;
+//
+//     function updatePrice() {
+//         totalPrice.innerText = (price * qty).toLocaleString();
+//     }
+//
+//     updatePrice();
+//
+//     minus.addEventListener("click", () => {
+//         if (qty > 1) {
+//             qty--;
+//             inputQty.value = qty;
+//             updatePrice();
+//         } else {
+//             getCheckModal("수량은 1개 이상 선택하셔야 합니다.")
+//         }
+//     });
+//
+//     plus.addEventListener("click", () => {
+//         qty++;
+//         inputQty.value = qty;
+//         updatePrice();
+//     });
+//
+//     function handleQtyChange() {
+//         let newQty = parseInt(inputQty.value);
+//         if (isNaN(newQty) || newQty < 1) {
+//             newQty = 1;
+//         }
+//         qty = newQty;
+//         inputQty.value = qty;
+//         updatePrice();
+//     }
+//
+//     inputQty.addEventListener("change", handleQtyChange);
+//     inputQty.addEventListener("input", handleQtyChange);
+// }
 
 // 마이페이지 (리뷰, 1:1문의 등 탭 버튼)
 function tabBarActive() {

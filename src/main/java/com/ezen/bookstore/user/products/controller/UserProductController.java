@@ -21,6 +21,7 @@ import com.ezen.bookstore.user.products.service.UserProductService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,12 +47,17 @@ public class UserProductController {
 	}
 
 	@GetMapping("/detail")
-	public String productDetail(String bookISBN, Model model, HttpSession session) {
-		UserMembersDTO member = (UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO);
+	public String productDetail(@RequestParam("book_isbn") String bookISBN, Model model, HttpSession session) {
+//		UserMembersDTO memberDTO = (UserMembersDTO) session.getAttribute("memberID");
+		UserMembersDTO memberDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
 
-		String memID = member != null ? member.getMember_id() : null;
+//		if (memberDTO != null) {
+//			model.addAttribute("memberDTO", memberDTO);
+//		} else {
+//			model.addAttribute("memberDTO", "notlogin");
+//		}
 
-		bookISBN = "9791172100650";
+		String memberID = memberDTO != null ? memberDTO.getMember_id() : null;
 
 		UserProductDTO bookDetail = productService.getProductDetail(bookISBN);
 		List<UserReviewDTO> reviewList = productService.getReviewList(bookISBN);
@@ -61,7 +67,7 @@ public class UserProductController {
 			model.addAttribute("reviewList", reviewList);
 		}
 
-		model.addAttribute("memID", memID);
+		model.addAttribute("member_id", memberID);
 		model.addAttribute("bookDetail", bookDetail);
 		model.addAttribute("reviewPercent", reviewPercent);
 

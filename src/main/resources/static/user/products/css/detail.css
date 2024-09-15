@@ -72,6 +72,11 @@
     border: .5px solid #C0C0C0;
     border-radius: 10px;
     text-align: center;
+    cursor: pointer;
+}
+
+.review-avg-wrap:hover .rating-count {
+    text-decoration: underline;
 }
 
 .star-avg {
@@ -313,10 +318,11 @@
     position: relative;
 }
 
-.user-wrap .member-id::after {
+.user-wrap .reviewer-id::after {
     position: absolute;
     content: "ㅣ";
     font-size: 10px;
+    margin-left: 2px;
 }
 
 /* 채워진 별 색상 */
@@ -369,4 +375,8 @@
     padding: 30px 0 30px 30px;
     background-color: #FAFAFA;
     color: #7E7E7E;
+}
+
+.number {
+    border: 1px solid #000;
 }

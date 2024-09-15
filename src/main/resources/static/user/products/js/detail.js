@@ -1,8 +1,8 @@
 function markStarID() {
-    const idElements = document.querySelectorAll(".member_id");
+    const idElements = document.querySelectorAll(".reviewer-id");
 
     idElements.forEach(idP => {
-        const getID = idP.dataset.memid;
+        const getID = idP.dataset.reviewerid;
         const setID = getID ? getID.trim() : ''; // 데이터가 없을 경우를 대비해 기본값 설정
 
         if (setID.length > 2) {
@@ -37,12 +37,176 @@ function getWidthRating() {
     })
 }
 
-calcQty(".total-price", "data-price");
+function goToReviewList() {
+    const reviewBox = document.querySelector(".review-avg-wrap");
+    const reviewList = document.querySelector(".review-info");
 
-window.onload = function() {
+    if (reviewBox && reviewList) {
+        reviewBox.addEventListener('click', function () {
+            reviewList.scrollIntoView({
+                behavior: 'smooth',
+            })
+        })
+    }
+}
+
+let getTotalPrice = 0;
+let getTotalQty = 0;
+
+function calcQty() {
+    const inputQty = document.querySelector(".input-qty");
+    const minus = document.querySelector("#decrease");
+    const plus = document.querySelector("#increase");
+
+    function initialzeQty() {
+        getTotalQty = parseInt(inputQty.value) || 1;
+        updateQtyDisplay();
+        console.log('초기값 수량 ', getTotalQty)
+    }
+
+    function updateQtyDisplay() {
+        inputQty.value = getTotalQty;
+        drawTotalPrice();
+    }
+
+    minus.addEventListener("click", () => {
+        if (getTotalQty > 1) {
+            getTotalQty--;
+            inputQty.value = getTotalQty;
+            updateQtyDisplay();
+        } else {
+            getCheckModal("수량은 1개 이상 선택하셔야 합니다.")
+        }
+    });
+
+    plus.addEventListener("click", () => {
+        getTotalQty++;
+        inputQty.value = getTotalQty;
+        updateQtyDisplay();
+    });
+
+    // 개수 초기화
+    initialzeQty();
+}
+
+function drawTotalPrice() {
+    const priceText = document.querySelector(".total-price")
+    const price = parseInt(priceText.getAttribute('data-price')) || 0;
+
+    getTotalPrice = price * getTotalQty;
+    priceText.innerText = getTotalPrice.toLocaleString();
+}
+
+const cartBtn = document.getElementById("cart-btn")
+const buyNowBtn = document.getElementById("buy-now-btn");
+
+const addForm = document.getElementById("add-form")
+
+function submitHandler() {
+    const bookISBN = document.getElementById("book_isbn")
+    const cartQtyInput = document.getElementById("cart_purchase_qty")
+    const bookPriceInput = document.getElementById("book_price")
+    const bookNameInput = document.getElementById("book_name");
+    const bookThumbNailInput = document.getElementById("book_thumbnail_changed");
+
+    addForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        // const isCartAction = e.submitter === cartBtn;
+        // const isBuyNowAction = e.submitter === buyNowBtn;
+
+        const action = e.submitter.getAttribute("data-action")
+        // const memberID = cartBtn.getAttribute("data-memberid") || buyNowBtn.getAttribute("data-memberid");
+
+        const memberID = getMemberID([cartBtn, buyNowBtn])
+
+        if (memberID === null) {
+            getConfirmModal("로그인 하지 않으셨습니다. 로그인 페이지로 가시겠습니까?", function () {
+                location.href = '/user/login'
+            })
+        } else {
+            cartQtyInput.value = getTotalQty;
+            bookPriceInput.value = getTotalPrice;
+
+            const data = [{
+                book_isbn: bookISBN.value,
+                // member_id: memberID,
+                cart_purchase_qty: cartQtyInput.value,
+                // book_price: bookPriceInput.value,
+            }];
+
+            console.log('data? ', data)
+
+            if (action === 'cart') {
+                $.ajax({
+                    url: '/user/productsRest/productBasketSave',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function () {
+                        console.log('ajax 성공')
+                        getConfirmModal("장바구니에 담겼습니다. 장바구니로 이동 하시겠습니까?", function () {
+                            location.href = '/user/cart/list'
+                        })
+                    },
+                    error: function () {
+                        console.log("ajax 에러")
+                        getErrorModal();
+                    }
+                })
+            } else if (action === 'buyNow') {
+                const updateData = data.map(elements => ({
+                    ...elements,
+                    book_price: bookPriceInput.value,
+                    book_name: bookNameInput.value,
+                    book_thumbnail: bookThumbNailInput.value,
+                }))
+                console.log('바로구매클릭')
+                console.log('바로구매data? ', updateData)
+            }
+        }
+    });
+}
+
+function refundInfoHandler() {
+    const refundBtn = document.getElementById("refund-btn");
+    const inquiryBtn = document.getElementById("inquiry-btn");
+
+    const memberID = getMemberID([refundBtn, inquiryBtn]);
+
+    function handleClick(button, action) {
+        button.addEventListener("click", function () {
+            if (memberID === null) {
+                getConfirmModal("로그인 하지 않으셨습니다. 로그인 페이지로 이동하시겠습니까?", function () {
+                    location.href = '/user/login';
+                });
+            } else {
+                console.log(action);
+            }
+        });
+    }
+
+    handleClick(refundBtn, "반품신청으로 이동 (주문목록)");
+    handleClick(inquiryBtn, "1:1문의로 이동 (접수화면)");
+}
+
+function getMemberID(buttons) {
+    for (let btn of buttons) {
+        const memberId = btn.getAttribute("data-memberid");
+        if (memberId) return memberId;
+    }
+    return null;
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    goToReviewList();
+    calcQty();
+    // isLoginMember();
+    submitHandler();
+    refundInfoHandler();
+})
+
+window.onload = function () {
     markStarID();
     getWidthRating();
 };
-
-const memid = document.querySelector("#member-id");
-console.log(memid);

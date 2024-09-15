@@ -276,7 +276,7 @@
 		</if>
 	</select>
 
-    <select id="getBookDetail" parameterType="userProducts" resultType="userProducts">
+    <select id="getBookDetail" parameterType="java.lang.String" resultType="userProducts">
         SELECT
         b.book_isbn,
         b.book_name,

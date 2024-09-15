@@ -1,5 +1,6 @@
 package com.ezen.bookstore.user.orderscart.repository;
 
+import com.ezen.bookstore.user.cart.dto.UserCartDTO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
