@@ -14,4 +14,8 @@ public interface UserMapper {
 	@Select("SELECT member_id, member_pw, member_name, member_email, member_phoneNo, member_addr, member_detail_addr, member_date, naver_login_cd, kakao_login_cd " +
             "FROM members WHERE kakao_login_cd = #{kakaoLoginCd}")
     UserMembersDTO loadUserByKakaoLoginCd(@Param("kakaoLoginCd") String kakaoLoginCd);
+	
+	@Select("SELECT member_id, member_pw, member_name, member_email, member_phoneNo, member_addr, member_detail_addr, member_date, naver_login_cd, kakao_login_cd "
+            + "FROM members WHERE naver_login_cd = #{naverLoginCd}")
+    UserMembersDTO loadUserByNaverLoginCd(@Param("naverLoginCd") String naverLoginCd);
 }

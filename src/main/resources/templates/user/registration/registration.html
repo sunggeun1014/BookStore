@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/user/common/css/common.css" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+ <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -79,9 +80,16 @@
 			
 			<div class="join-wrap-social">
 				<h3>간편 로그인 연동</h3>
-				<div>
-					<button><img src="/user/common/imgs/sns-login-btn-naver.png" alt="네이버 소셜 연동" class="social-btn" /></button>	
-				</div>
+<!-- 				<div> -->
+<!-- 				    <button type="button" id="naver_login_btn"> -->
+<!-- 				        <img src="/user/common/imgs/sns-login-btn-naver.png" alt="네이버 소셜 연동" class="social-btn" /> -->
+<!-- 				    </button>						 -->
+<!-- 				</div> -->
+<!-- 				<input type="hidden" id="naver_login_cd" name="naver_login_cd" /> -->
+				<div id="naverIdLogin"></div>
+				<input type="hidden" id="naver_login_cd" name="naver_login_cd" />
+
+				
 				<div>
 					<button ><img src="/user/common/imgs/sns-login-btn-kakao.png" id="kakao_login_btn" alt="카카오 소셜 연동" class="social-btn" /></button>
 				</div>	

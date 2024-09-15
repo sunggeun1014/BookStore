@@ -29,23 +29,40 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
         String kakaoId = null;
-        // 사용자 정보 처리 (카카오의 경우)
+        String naverId = null;
+        UserMembersDTO user = null;
+
+        // 카카오 사용자 정보 처리
         if ("kakao".equals(registrationId)) {
             Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
             kakaoId = String.valueOf(attributes.get("id")); // 카카오 유저의 고유 ID
+            user = userMapper.loadUserByKakaoLoginCd(kakaoId);
+
+        // 네이버 사용자 정보 처리
+        } else if ("naver".equals(registrationId)) {
+            Map<String, Object> response = (Map<String, Object>) attributes.get("response");            
+            naverId = String.valueOf(response.get("id")); // 네이버 유저의 고유 ID
+            user = userMapper.loadUserByNaverLoginCd(naverId);
+           
         }
 
-        // DB에서 사용자 조회 (이메일 또는 kakaoId로 조회)
-        UserMembersDTO user = userMapper.loadUserByKakaoLoginCd(kakaoId);
-        
         // 사용자가 존재하지 않으면 예외 처리
         if (user == null) {
             throw new OAuth2AuthenticationException("해당 사용자가 존재하지 않습니다.");
         }
 
+        // 확장된 속성 추가
         Map<String, Object> extendedAttributes = new HashMap<>(attributes);
-        extendedAttributes.put("userMembersDTO", user);  // DTO를 속성에 추가
+        extendedAttributes.put("userMembersDTO", user); 
 
-        return new DefaultOAuth2User(oAuth2User.getAuthorities(), extendedAttributes, "id");
+        // 카카오와 네이버에 따라 다른 리턴 처리
+        if ("kakao".equals(registrationId)) {
+            return new DefaultOAuth2User(oAuth2User.getAuthorities(), extendedAttributes, "id");
+        } else if ("naver".equals(registrationId)) {
+            return new DefaultOAuth2User(oAuth2User.getAuthorities(), extendedAttributes, "response");
+        } else {
+            throw new OAuth2AuthenticationException("지원하지 않는 OAuth2 서비스입니다.");
+        }
     }
+
 }
