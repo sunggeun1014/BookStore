@@ -28,9 +28,18 @@ public class UserCartRepository {
 	    sql.delete("Cart.deleteItemsByCartNums", params);
 	}
 
-	public int addCartItem(UserCartDTO dto, String memberId) {
-		dto.setMember_id(memberId);
-		return sql.insert("Cart.addCartItem", dto);
+	public int addCartItem(UserCartDTO userCartDTO) {
+		return sql.insert("Cart.addCartItem", userCartDTO);
 	}
+	
+	public boolean checkItemExists(UserCartDTO userCartDTO) {
+		Integer count = sql.selectOne("Cart.checkItemExists", userCartDTO);
+		return count != null && count > 0;
+	}
+	
+    public void updateCartItemQuantity(UserCartDTO userCartDTO) {
+        sql.update("Cart.updateCartItemQuantity", userCartDTO);
+    }
+    
 	
 }

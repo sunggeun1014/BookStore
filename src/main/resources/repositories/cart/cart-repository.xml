@@ -20,6 +20,28 @@
         	c.member_id = #{member_id}
     </select>
     
+    <!-- 장바구니 항목 존재 여부 확인 -->
+    <select id="checkItemExists" parameterType="userCart" resultType="Integer">
+        SELECT 
+        	COUNT(*)
+        FROM 
+        	orders_cart
+        WHERE 
+        	book_isbn = #{book_isbn}
+        AND 
+        	member_id = #{member_id}
+    </select>
+    
+    <!-- 장바구니 항목의 수량 업데이트 -->
+    <update id="updateCartItemQuantity" parameterType="userCart">
+        UPDATE 
+        	orders_cart
+        SET 
+        	cart_purchase_qty = cart_purchase_qty + #{cart_purchase_qty}
+        WHERE 
+        	cart_num = #{cart_num}
+    </update>
+    
     <insert id="addCartItem" parameterType="userCart">
         INSERT INTO
 			orders_cart (

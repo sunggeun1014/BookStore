@@ -36,7 +36,7 @@
 					<div class="book-interactive">
 						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
-							<button onclick="location.href=''" class="add-cart-button">장바구니</button>
+							<button th:data-isbn="${book.book_isbn}" class="add-cart-button">장바구니</button>
 						</div>
 					</div>
 				</div>
@@ -61,7 +61,7 @@
 					<div class="book-interactive">
 						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
-							<button onclick="location.href=''" class="add-cart-button">장바구니</button>
+							<button th:data-isbn="${book.book_isbn}" class="add-cart-button">장바구니</button>
 						</div>
 					</div>
 				</div>
@@ -85,7 +85,7 @@
 					<div class="book-interactive">
 						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
-							<button onclick="location.href=''" class="add-cart-button">장바구니</button>
+							<button th:data-isbn="${book.book_isbn}" class="add-cart-button">장바구니</button>
 						</div>
 					</div>
 				</div>
@@ -93,7 +93,6 @@
 					<h3 class="book-title" th:text="${book.book_name}"></h3>
 					<p class="book-author" th:text="${book.book_author}"></p>
 				</div>
-				<span class="book-isbn" th:text="${book.book_isbn}" style="display: none;"></span>
 			</div>
 		</div>
 	</section>
@@ -110,7 +109,7 @@
 					<div class="book-interactive">
 						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
-							<button onclick="location.href=''" class="add-cart-button">장바구니</button>
+							<button th:data-isbn="${book.book_isbn}" class="add-cart-button">장바구니</button>
 						</div>
 					</div>
 				</div>

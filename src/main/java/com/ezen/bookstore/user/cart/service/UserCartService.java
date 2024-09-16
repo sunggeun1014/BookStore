@@ -20,14 +20,24 @@ public class UserCartService {
 		return userCartRepository.getCartItemList(memberId);
 	}
 
-	public void addCartItem(UserCartDTO userCartDTO, HttpSession session) {
-		String memberId = (String) session.getAttribute("memberId");
+	public void addCartItem(UserCartDTO userCartDTO) {
+		String memberId = userCartDTO.getMember_id();
 		userCartDTO.setMember_id(memberId);
-		userCartRepository.addCartItem(userCartDTO, memberId);
+		
+		// 장바구니에 이미 항목이 있는지 확인
+		boolean exists = userCartRepository.checkItemExists(userCartDTO);
+
+		if (exists) {
+			// 이미 있는 항목의 수량을 업데이트
+			userCartRepository.updateCartItemQuantity(userCartDTO);
+		} else {
+			// 새로운 항목 추가
+			userCartRepository.addCartItem(userCartDTO);
+		}
 	}
 
 	public void deleteItemsByCartNums(List<Integer> cartNums, String memberId) {
-	    userCartRepository.deleteItemsByCartNums(cartNums, memberId);
+		userCartRepository.deleteItemsByCartNums(cartNums, memberId);
 	}
 
 }
