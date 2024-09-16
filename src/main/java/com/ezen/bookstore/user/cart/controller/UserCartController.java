@@ -42,12 +42,16 @@ public class UserCartController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<String> addCartItem(@RequestBody UserCartDTO cartItemDTO, HttpServletRequest request) {
+	public ResponseEntity<String> addCartItem(@RequestBody UserCartDTO userCartDTO, HttpServletRequest request) {
+		
 			String memberId = getMemberIdFromSession(request);
 			if (memberId == null) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 인증되지 않았습니다.");
 			}
-			userCartService.addCartItem(cartItemDTO, request.getSession());
+			
+	        // 장바구니에 추가할 항목에 회원 ID 설정
+			userCartDTO.setMember_id(memberId);
+			userCartService.addCartItem(userCartDTO);
 			return ResponseEntity.ok("장바구니에 추가하였습니다.");
 	}
 
