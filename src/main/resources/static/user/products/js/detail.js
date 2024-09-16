@@ -145,7 +145,7 @@ function submitHandler() {
                     success: function () {
                         console.log('ajax 성공')
                         getConfirmModal("장바구니에 담겼습니다. 장바구니로 이동 하시겠습니까?", function () {
-                            location.href = '../../customer_order/list'
+                            location.href = '/user/cart/list'
                         })
                     },
                     error: function () {
