@@ -22,11 +22,11 @@
     
     <insert id="addCartItem" parameterType="userCart">
         INSERT INTO
-		orders_cart (
-			cart_num,
-			book_isbn,
-			member_id,
-			cart_purchase_qty
+			orders_cart (
+				cart_num,
+				book_isbn,
+				member_id,
+				cart_purchase_qty
         ) VALUES (
         		order_cart_seq.nextval,
         		#{book_isbn},
@@ -35,31 +35,15 @@
 		)
     </insert>
     
-    <delete id="deleteItemsByCartNums">
-    	DELETE FROM 
-    		orders_cart
-    	WHERE 
-    		cart_num IN
-    	<foreach item="cart_num" collection="cartNums" open="(" separator="," close=")">
-            #{cart_num}
-        </foreach>
-        AND member_id = #{member_id}
-    </delete>
+	<delete id="deleteItemsByCartNums" parameterType="map">
+	    DELETE FROM 
+	        orders_cart
+	    WHERE 
+	        cart_num IN
+	    <foreach item="cartNum" collection="cartNums" open="(" separator="," close=")">
+	        #{cartNum}
+	    </foreach>
+	    AND member_id = #{memberId}
+	</delete>
     
-    <delete id="deleteItemsByMemberId">
-    	DELETE FROM 
-    		orders_cart
-    	WHERE
-    		member_id = #{member_id}
-    </delete>
-    
-    
-    <select id="basketCount" resultType="Integer" parameterType="String">
-    	SELECT 
-    		COUNT(*) 
-    	FROM 
-    		orders_cart 
-    	WHERE
-    		member_id = #{member_id}
-    </select>
 </mapper>
