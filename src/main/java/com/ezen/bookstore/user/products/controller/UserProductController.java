@@ -47,15 +47,8 @@ public class UserProductController {
 	}
 
 	@GetMapping("/detail")
-	public String productDetail(@RequestParam("book_isbn") String bookISBN, Model model, HttpSession session) {
-//		UserMembersDTO memberDTO = (UserMembersDTO) session.getAttribute("memberID");
+	public String productDetail(@RequestParam("book_isbn") String bookISBN, Model model, HttpSession session, Pagination pagination) {
 		UserMembersDTO memberDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
-
-//		if (memberDTO != null) {
-//			model.addAttribute("memberDTO", memberDTO);
-//		} else {
-//			model.addAttribute("memberDTO", "notlogin");
-//		}
 
 		String memberID = memberDTO != null ? memberDTO.getMember_id() : null;
 
@@ -64,7 +57,10 @@ public class UserProductController {
 		List<UserReviewDTO> reviewPercent = productService.getReviewPercent(bookISBN);
 
 		if (reviewList != null && !reviewList.isEmpty()) {
-			model.addAttribute("reviewList", reviewList);
+//			model.addAttribute("reviewList", reviewList);
+			Map<String, Object> map = paginationProcess.process(pagination, reviewList);
+			model.addAttribute("page", map.get("page"));
+			model.addAttribute("reviewList", map.get("list"));
 		}
 
 		model.addAttribute("member_id", memberID);

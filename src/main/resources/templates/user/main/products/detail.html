@@ -63,14 +63,15 @@
                         <i class="fa-solid fa-plus" id="increase"></i>
                     </div>
                     <div class="price-wrap total">
-                        <p type="text" class="total-price" th:data-price="${bookDetail.book_price}" ></p>
+                        <p type="text" class="total-price" th:data-price="${bookDetail.book_price}"></p>
                         <p>원</p>
                     </div>
                 </div>
                 <form id="add-form">
                     <input type="hidden" name="book_isbn" id="book_isbn" th:value="${bookDetail.book_isbn}">
                     <input type="hidden" name="book_isbn" id="book_name" th:value="${bookDetail.book_name}">
-                    <input type="hidden" name="book_isbn" id="book_thumbnail_changed" th:value="${bookDetail.book_thumbnail_changed}">
+                    <input type="hidden" name="book_isbn" id="book_thumbnail_changed"
+                           th:value="${bookDetail.book_thumbnail_changed}">
                     <input type="hidden" name="cart_purchase_qty" id="cart_purchase_qty" value="">
                     <input type="hidden" name="book_price" id="book_price" value="">
                     <div class="order-btn-wrap">
@@ -176,12 +177,10 @@
                         <div class="all-reviews">
                             <p>전체리뷰</p>
                         </div>
-                        <th:block th:if="${bookDetail.review_rating_cnt == 0}">
-                            <div class="result-wrap">
-                                <p>!</p>
-                                <span>등록된 리뷰가 없습니다</span>
-                            </div>
-                        </th:block>
+                        <div class="result-wrap" th:if="${bookDetail.review_rating_cnt == 0}">
+                            <p>!</p>
+                            <span>등록된 리뷰가 없습니다</span>
+                        </div>
                         <div class="review-content" th:each="reviewList: ${reviewList}">
                             <div class="content-head">
                                 <div class="user-wrap">
@@ -205,6 +204,7 @@
                         </div>
                     </div>
                 </div>
+                <div th:include="~{/user/common/fragments/pagination.html}"></div>
             </div>
         </section>
 
