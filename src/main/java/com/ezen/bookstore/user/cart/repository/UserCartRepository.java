@@ -21,21 +21,16 @@ public class UserCartRepository {
 		return sql.selectList("Cart.getCartItemList", memberId);
 	};
 	
-    public void deleteItemsByCartNums(List<Integer> cartNums) {
-        sql.delete("Cart.deleteItemsByCartNums", cartNums);
-    }
-	
-	public void deleteItemsByMemberId (String memberId) {
-		sql.delete("Cart.deleteItemsByMemberId", memberId);
+	public void deleteItemsByCartNums(List<Integer> cartNums, String memberId) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("cartNums", cartNums);
+	    params.put("memberId", memberId);
+	    sql.delete("Cart.deleteItemsByCartNums", params);
 	}
-	
+
 	public int addCartItem(UserCartDTO dto, String memberId) {
 		dto.setMember_id(memberId);
 		return sql.insert("Cart.addCartItem", dto);
 	}
-	
-    public int getBasketCount(String memberId) {
-        return sql.selectOne("Cart.basketCount", memberId);
-    }
 	
 }

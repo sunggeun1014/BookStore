@@ -3,16 +3,19 @@ package com.ezen.bookstore.user.cart.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.user.cart.dto.UserCartDTO;
 import com.ezen.bookstore.user.cart.service.UserCartService;
+import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,36 +26,54 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/user/cart")
 public class UserCartController {
 
-    private final UserCartService userCartService;
+	private final UserCartService userCartService;
 
-    @GetMapping("/list")
-    public String showCart(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String memberId = (String) session.getAttribute("memberId");
+	@GetMapping("/list")
+	public String showCart(HttpServletRequest request, Model model) {
+		String memberId = getMemberIdFromSession(request);
+		if (memberId == null) {
+			return "redirect:/user/login";
+		}
 
-        // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-        if (memberId == null) {
-            return "redirect:/user/login";
-        }
+		List<UserCartDTO> cartItems = userCartService.getCartItemList(memberId);
+		model.addAttribute("cartItems", cartItems);
 
-        // 로그인된 경우 장바구니 페이지를 반환
-        return "/user/main/customer_order/cart";
-    }
+		return "/user/main/customer_order/cart";
+	}
 
-    @PostMapping("/add")
-    public void addCartItem(@RequestBody UserCartDTO cartItemDTO, @RequestParam String memberId) {
-        userCartService.addCartItem(cartItemDTO, memberId);
-    }
+	@PostMapping("/add")
+	public ResponseEntity<String> addCartItem(@RequestBody UserCartDTO cartItemDTO, HttpServletRequest request) {
+			String memberId = getMemberIdFromSession(request);
+			if (memberId == null) {
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 인증되지 않았습니다.");
+			}
+			userCartService.addCartItem(cartItemDTO, request.getSession());
+			return ResponseEntity.ok("장바구니에 추가하였습니다.");
+	}
 
-    @PostMapping("/delete")
-    public ResponseEntity<Map<String, Object>> deleteCartItems(@RequestBody Map<String, Object> requestParams) {
-        List<Integer> cartNums = (List<Integer>) requestParams.get("cartNums");
-        userCartService.deleteItemsByCartNums(cartNums);
-        return ResponseEntity.ok(Map.of("success", true));
-    }
+	@PostMapping("/delete")
+	public ResponseEntity<?> deleteCartItems(@RequestBody Map<String, List<Integer>> requestData,
+							HttpServletRequest request) {
+		List<Integer> cartNums = requestData.get("cartNums");
+		String memberId = getMemberIdFromSession(request);
 
-    @PostMapping("/clear")
-    public void clearCart(@RequestParam String memberId) {
-        userCartService.clearCart(memberId);
-    }
+		if (memberId == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+					.body(Map.of("success", false, "message", "로그인 되지 않았습니다"));
+		}
+		userCartService.deleteItemsByCartNums(cartNums, memberId);
+		return ResponseEntity.ok(Map.of("success", true));
+	}
+
+	private String getMemberIdFromSession(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			UserMembersDTO membersDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
+			if (membersDTO != null) {
+				return membersDTO.getMember_id();
+			}
+		}
+		return null;
+	}
+
 }

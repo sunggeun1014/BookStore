@@ -34,7 +34,8 @@
 				<div class="cart-table-data-wrapper cart-items">
 					<div th:each="item : ${cartItems}" class="cart-table-data cart-item">
 						<div class="check-btn">
-							<input type="checkbox" class="check-box item-checkbox"> <label for=""></label>
+							<input type="checkbox" class="check-box item-checkbox" th:data-cart-num="${item.cart_num}"> 
+								<label for=""></label>
 						</div>
 						<div class="product-info" >
 							<img class="product-img" th:src="@{/images/books/{image}(image=${item.book_thumbnail_changed})}" alt="책 이미지" />
@@ -113,7 +114,7 @@
 	</div>
 </div>
 
-<script src="/admin/common/js/main.js"></script>
+<script src="/user/common/js/main.js"></script>
 <script src="/user/common/js/btn-event.js"></script>
 <script src="/user/customer_order/js/cart.js"></script>
 </html>
