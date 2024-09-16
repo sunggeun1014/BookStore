@@ -6,5 +6,10 @@ import java.util.Map;
 import com.ezen.bookstore.user.mypage.dto.UserBookReviewDTO;
 
 public interface UserReviewService {
-	List<UserBookReviewDTO> getReviewById(Map<String, Object> conditions);
+	List<UserBookReviewDTO> getPendingReviews(UserBookReviewDTO userBookReviewDTO);
+    List<UserBookReviewDTO> getWrittenReviews(UserBookReviewDTO userBookReviewDTO);
+    UserBookReviewDTO getReviewByReviewNum(Long reviewNum);
+    void updateReview(Long reviewNum, UserBookReviewDTO userBookReviewDTO);
+    void deleteReview(Long reviewNum);
+    UserBookReviewDTO getOrderDetail(Integer orderDetailNum);
 }

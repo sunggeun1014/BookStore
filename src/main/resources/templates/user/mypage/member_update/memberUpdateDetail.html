@@ -90,7 +90,7 @@
             
         </div>
 
-           <!-- 주소 필드 -->
+        <!-- 주소 필드 -->
         <div class="info">
             <span class="search-list-subject">주소</span>
             <div>
@@ -113,16 +113,20 @@
 			<span class="search-list-subject">간편로그인 연동</span>
 			<div>
 				<div class="info-social">
-					<span class="search-list-subject">네이버</span>
-					<label class="switch"> 
-						<input id="naverLogin" type="checkbox" th:checked="${userMembers.naver_login_cd != null and !userMembers.naver_login_cd.isEmpty()}" disabled/> 
-						<span class="slider naver"></span>
-					</label>
-					<span class="search-list-subject">카카오</span>
-					<label class="switch"> 
-						<input id="kakaoLogin" type="checkbox" th:checked="${userMembers.kakao_login_cd != null and !userMembers.kakao_login_cd.isEmpty()}" disabled/>
-						<span class="slider kakao"></span>
-					</label>
+					<div>
+						<span class="search-list-subject">네이버</span>
+						<label class="switch"> 
+							<input id="naverLogin" type="checkbox" th:checked="${userMembers.naver_login_cd != null and !userMembers.naver_login_cd.isEmpty()}" disabled/> 
+							<span class="slider naver"></span>
+						</label>
+					</div>
+					<div>
+						<span class="search-list-subject">카카오</span>
+						<label class="switch"> 
+							<input id="kakaoLogin" type="checkbox" th:checked="${userMembers.kakao_login_cd != null and !userMembers.kakao_login_cd.isEmpty()}" disabled/>
+							<span class="slider kakao"></span>
+						</label>
+					</div>
 				</div>			
 			</div>
 		</div>

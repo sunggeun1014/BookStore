@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/common/layout/myPageLayout}"
+      layout:fragment="Content">
+	<style>
+	.btn-box {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 20px;
+		margin-top: 30px;
+	}
+	.container {
+            width: 100%;
+            margin: 0 auto;
+            border-top: 1px solid #C0C0C0;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+  .book-info {
+           display: flex;
+           align-items: center;
+       }
+       .book-info img {
+           width: 82px;
+           height: 115px;
+           margin-right: 20px;
+           background-color: #f4f4f4; /* 이미지가 없으므로 배경색 설정 */
+       }
+       .book-details {
+           font-size: 16px;
+       }
+       .book-details span {
+           display: block;
+           margin-bottom: 5px;
+       }
+		.far {
+			color: #845EC2;
+		}
+		.fas {
+			color: #845EC2;
+		}
+		.review-container {
+            width: 60%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .review-container span {
+            display: inline-block;
+            font-weight: bold;
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .review-container span::after {
+            content: "*";
+            color: red;
+            position: absolute;
+            top: 0;
+            right: -10px;
+        }
+
+        .review-container textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: none;
+            margin-top: 10px;
+        }
+
+        .review-container textarea:focus {
+            border-color: #6a47db;
+            outline: none;
+        }
+	</style>
+<div class="review-form">
+  <h3>리뷰 작성</h3>
+  <form action="/user/mypage/save-review" method="post">
+    <input type="hidden" name="orderDetailNum">
+    <div class="container">
+	    <div class="book-info">
+	      <img src="${imageUrl}" alt="책 이미지">
+	      <div class="book-details">
+	          <span class="book-title">${book.book_name}</span>
+	          <span>저자: ${book.book_author}</span>
+	          <span>구매일: ${purchaseDateFormatted}</span>
+	      </div>
+	  	</div>
+	      <div>
+		      <i class="star far fa-star" data-rating="1"></i>
+		      <i class="star far fa-star" data-rating="2"></i>
+		      <i class="star far fa-star" data-rating="3"></i>
+		      <i class="star far fa-star" data-rating="4"></i>
+		      <i class="star far fa-star" data-rating="5"></i>
+		      <span style="display: block; text-align: center">5/5</span>
+	      </div>
+    </div>
+    <div class="review-container">
+    	<span>리뷰 작성</span>
+	    <textarea name="reviewContent" rows="4" cols="50" placeholder="리뷰를 작성하세요" required></textarea>
+    
+    </div>
+
+	
+	<div class="btn-box">
+	    <button type="submit" class="default-btn long">리뷰 작성 완료</button>
+	    <button type="button" class="default-btn long border">취소</button>
+	</div>    
+  </form>
+</div>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="/user/mypage/js/wrtieReview.js"></script>	
+	
+</html>

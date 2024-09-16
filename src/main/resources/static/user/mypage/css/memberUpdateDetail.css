@@ -5,15 +5,13 @@ input, select {
 
 #userPart1 , #userPart2 {
 	margin-left : 0px;
+	text-align: center;
 }
 
 .text-readonly {
 	margin-left: 50px;
 }
 
-label {
-	margin-left: 20px;
-}
 
 .input-short {
     width: 90px;
@@ -31,6 +29,8 @@ label {
 }
 
 .info-social {
+	display: flex;
+	column-gap: 35px;
 	margin-left: 50px;
 	align-items : center;
 }
@@ -77,6 +77,7 @@ select#emailUser, select#emailDomain {
 }
 
 select#countryNum {
+	padding-left: 15px;
 	width: 80px;
 }
 
@@ -90,12 +91,24 @@ span.search-list-subject {
 	width: 106px;
 }
 
-div#email.select-arrow-down, div#dept.select-arrow-down {
-	margin-left: 30px;
+select {
+	padding-right: 30px; /* 화살표를 위한 공간 확보 */
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
-select#deptName {
-	margin-left: 50px;
+.select-arrow-down {
+	position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+    pointer-events: none; /* 클릭을 차단하여 select와의 상호작용 방해를 방지 */
+    transform: translateY(-50%); /* 화살표 수직 정렬 */
 }
 
 .btn-box {

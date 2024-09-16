@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.bookstore.commons.CommonConstants;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
-import com.ezen.bookstore.user.mypage.service.UserAccountServiceImpl;
+import com.ezen.bookstore.user.mypage.service.UserAccountService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +29,7 @@ import lombok.experimental.FieldDefaults;
 @Controller
 public class UserAccountController {
     
-	UserAccountServiceImpl myPageService;
+	UserAccountService myPageService;
 
 	@GetMapping("/update-page")
 	public String updatePage() {
