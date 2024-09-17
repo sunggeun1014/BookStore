@@ -25,10 +25,13 @@
             <div class="addr-info">
                 <p class="sub-title">배송지 정보</p>
                 <div class="user-info">
-                    <p>홍길동</p>
-                    <p>전화번호</p>
+                    <p id="deliver-name" th:text="${memberDTO.member_name}"></p>
+                    <p id="deliver-number" th:text="${memberDTO.member_phoneNo}"></p>
                     <div class="addr-wrap">
-                        <p>주소</p>
+                        <div class="addr-text">
+                            <p id="deliver-addr" th:text="${memberDTO.member_addr}"></p>
+                            <p id="deliver-addr-detail" th:text="${memberDTO.member_detail_addr}"></p>
+                        </div>
                         <button class="default-btn border" id="edit-btn">변경</button>
                     </div>
                 </div>
@@ -63,20 +66,25 @@
                 <div class="addr-edit-wrap">
                     <div class="edit-input person-name">
                         <p class="edit-subtitle">받는 분</p>
-                        <input type="text" name="" id="" placeholder="이름">
+                        <input type="text" name="" id="edit-name" placeholder="이름" th:value="${memberDTO.member_name}">
                     </div>
                     <div class="edit-input phone-number">
                         <p class="edit-subtitle">전화번호</p>
-                        <input type="number" name="" id="" placeholder="전화번호">
+                        <input type="text" name="" id="edit-number" placeholder="전화번호" th:value="${memberDTO.member_phoneNo}"
+                               oninput="hyphenTel(this)">
                     </div>
                     <div class="edit-input change-addr">
                         <p class="edit-subtitle">주소</p>
                         <div class="search-addr">
                             <div class="addr-top">
-                                <input type="text" name="order_addr" id="order_addr" disabled>
-                                <button class="default-btn" id="search-btn">검색</button>
+                                <div class="addr-input-box">
+                                    <input type="text" name="order_addr" id="edit-addr"
+                                           th:value="${memberDTO.member_addr}">
+                                </div>
+                                <button type="button" class="default-btn" id="search-btn">검색</button>
                             </div>
-                            <input type="text" name="order_addr_detail" id="order_addr_detail">
+                            <input type="text" name="order_addr_detail" id="edit-addr-detail"
+                                   th:value="${memberDTO.member_detail_addr}">
                         </div>
                     </div>
                     <button class="default-btn" id="confirm-btn">확인</button>
@@ -90,7 +98,7 @@
                 <div class="price-wrap">
                     <p>상품금액</p>
                     <div class="price">
-                        <p>20000</p>
+                        <p th:text="${#numbers.formatInteger(totalPrice, 0, 'COMMA')}"></p>
                         <p>원</p>
                     </div>
                 </div>
@@ -103,7 +111,7 @@
                 <div class="total-wrap">
                     <p>최종 결제 금액</p>
                     <div class="price">
-                        <p>34000</p>
+                        <p th:text="${#numbers.formatInteger(totalPrice, 0, 'COMMA')}"></p>
                         <p>원</p>
                     </div>
                 </div>
@@ -118,29 +126,49 @@
                     <p class="product-name">주문상품</p>
                     <div class="total-cnt">
                         <p>총</p>
-                        <p class="book-cnt">2</p>
+                        <p class="book-cnt" th:text="${itemsCnt}"></p>
                         <p>개</p>
                     </div>
                 </div>
                 <i class="fa-solid fa-angle-down product-info-arrow"></i>
             </div>
-            <div class="product-list">
-                <!--                <img th:attr="src=${bookDetail.book_thumbnail_changed != null ? '/images/books/' + bookDetail.book_thumbnail_changed : '/images/books/noimg.png'}"-->
-                <!--                     alt="책사진">-->
-                <div class="list-left">
-                    <div class="img-wrap">
-                        <img src="/images/books/9791139220704.jpg" alt="책사진">
+            <div class="list-wrap">
+                <div class="product-list" th:each="item : ${orderItems}">
+                    <div class="list-left">
+                        <div class="img-wrap">
+                            <img th:src="${item.book_thumbnail_changed != null ? '/images/books/' + item.book_thumbnail_changed : '/images/books/noimg.png'}"
+                                 alt="책사진">
+                        </div>
+                        <p class="book-name" th:text="${item.book_name}"></p>
                     </div>
-                    <p class="book-name">기억의 분식집</p>
+                    <div class="list-right">
+                        <div class="books-cnt">
+                            <p th:text="${item.cart_purchase_qty}"></p>
+                            <p>개</p>
+                        </div>
+                        <div class="book-price">
+                            <p th:text="${#numbers.formatInteger(item.book_price, 0, 'COMMA')}"></p>
+                            <p>원</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="list-right">
-                    <div class="books-cnt">
-                        <p>1</p>
-                        <p>개</p>
+                <div class="product-list" th:each="cartitem : ${orderCartItems}">
+                    <div class="list-left">
+                        <div class="img-wrap">
+                            <img th:src="${cartitem.book_thumbnail_changed != null ? '/images/books/' + cartitem.book_thumbnail_changed : '/images/books/noimg.png'}"
+                                 alt="책사진">
+                        </div>
+                        <p class="book-name" th:text="${cartitem.book_name}"></p>
                     </div>
-                    <div class="book-price">
-                        <p>18000</p>
-                        <p>원</p>
+                    <div class="list-right">
+                        <div class="books-cnt">
+                            <p th:text="${cartitem.cart_purchase_qty}"></p>
+                            <p>개</p>
+                        </div>
+                        <div class="book-price">
+                            <p th:text="${#numbers.formatInteger(cartitem.book_price, 0, 'COMMA')}"></p>
+                            <p>원</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -169,5 +197,6 @@
     </div>
 
 </div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/user/customer_order/js/payment.js"></script>
 </html>

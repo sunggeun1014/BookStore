@@ -12,7 +12,7 @@
         <!-- 수량, 가격정보 -->
         <section id="book-info-wrap">
             <div class="book-img-wrap">
-                <img th:attr="src=${bookDetail.book_thumbnail_changed != null ? '/images/books/' + bookDetail.book_thumbnail_changed : '/images/books/noimg.png'}"
+                <img th:src="${bookDetail.book_thumbnail_changed != null ? '/images/books/' + bookDetail.book_thumbnail_changed : '/images/books/noimg.png'}"
                      alt="책사진">
             </div>
             <div class="book-info-text">

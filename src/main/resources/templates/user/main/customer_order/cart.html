@@ -34,7 +34,9 @@
 				<div class="cart-table-data-wrapper cart-items">
 					<div th:each="item : ${cartItems}" class="cart-table-data cart-item">
 						<div class="check-btn">
-							<input type="checkbox" class="check-box item-checkbox" th:data-cart-num="${item.cart_num}"> 
+							<input type="checkbox" class="check-box item-checkbox" th:data-cart-num="${item.cart_num}"
+								   th:data-isbn="${item.book_isbn}" th:data-price="${item.book_price}"
+								   th:data-thumbnail="${item.book_thumbnail_changed}" th:data-name="${item.book_name}">
 								<label for=""></label>
 						</div>
 						<div class="product-info" >

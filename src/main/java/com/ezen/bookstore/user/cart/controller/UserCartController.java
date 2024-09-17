@@ -1,8 +1,11 @@
 package com.ezen.bookstore.user.cart.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ezen.bookstore.user.payment.dto.OrderItemDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -67,6 +70,15 @@ public class UserCartController {
 		}
 		userCartService.deleteItemsByCartNums(cartNums, memberId);
 		return ResponseEntity.ok(Map.of("success", true));
+	}
+
+	@PostMapping("/order")
+	public ResponseEntity<Void> orderToPayment(@RequestBody List<OrderItemDTO> selectedItems, HttpSession session) {
+
+		session.setAttribute("orderItems", selectedItems);
+		session.setAttribute("purchaseType", "cart");
+
+		return ResponseEntity.ok().build();
 	}
 
 	private String getMemberIdFromSession(HttpServletRequest request) {
