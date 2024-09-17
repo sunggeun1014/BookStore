@@ -43,6 +43,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		if (expectedPaymentAmountElement) {
 			expectedPaymentAmountElement.innerText = total.toLocaleString();
 		}
+		
+		// 헤더 장바구니 수량 업데이트
+		const headerCartQtyElements = document.querySelectorAll('.cart-qty p');
+		headerCartQtyElements.forEach(p => p.innerText = totalItems);
 	}
 
 	function calcQty(item) {
@@ -52,12 +56,32 @@ document.addEventListener("DOMContentLoaded", function() {
 		const totalPriceElement = item.querySelector(".total-price");
 
 		const price = parseInt(totalPriceElement.getAttribute("data-price")) || 0;
+		const book_isbn = parseInt(item.querySelector('.item-checkbox').getAttribute('data-isbn'));
 
 		let qty = parseInt(inputQty.value) || 1;
 
 		function updatePrice() {
 			totalPriceElement.innerText = (price * qty).toLocaleString();
 			updateTotal();
+		}
+
+		function updateCartItemQuantity() {
+			$.ajax({
+				url: '/user/cart/update',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify({ book_isbn: book_isbn, cart_purchase_qty: qty }),
+				success: function(response) {
+					if (response.success) {
+						console.log(response.message);
+					} else {
+						console.error(response.message);
+					}
+				},
+				error: function() {
+					console.error('서버 통신 오류');
+				}
+			});
 		}
 
 		updatePrice();
@@ -67,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				qty--;
 				inputQty.value = qty;
 				updatePrice();
+				updateCartItemQuantity(); 
 			}
 		});
 
@@ -74,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			qty++;
 			inputQty.value = qty;
 			updatePrice();
+			updateCartItemQuantity(); 
 		});
 
 		function handleQtyChange() {
@@ -84,11 +110,13 @@ document.addEventListener("DOMContentLoaded", function() {
 			qty = newQty;
 			inputQty.value = qty;
 			updatePrice();
+			updateCartItemQuantity();
 		}
 
 		inputQty.addEventListener("change", handleQtyChange);
 		inputQty.addEventListener("input", handleQtyChange);
 	}
+
 
 	// 배송예정일 업데이트 (오늘 날짜 이틀 뒤)
 	function updateDeliveryDates() {
@@ -170,10 +198,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	function goToPayment() {
 		const orderBtn = document.querySelector(".order-btn")
 
-		orderBtn.addEventListener('click', function () {
+		orderBtn.addEventListener('click', function() {
 			const selectedItems = [];
 
-			document.querySelectorAll('.item-checkbox:checked').forEach(function (checkbox) {
+			document.querySelectorAll('.item-checkbox:checked').forEach(function(checkbox) {
 				const bookIsbn = checkbox.getAttribute("data-isbn")
 				const bookName = checkbox.getAttribute("data-name")
 				const thumbnail = checkbox.getAttribute("data-thumbnail")
@@ -199,11 +227,11 @@ document.addEventListener("DOMContentLoaded", function() {
 				method: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify(selectedItems),
-				success: function (response) {
+				success: function(response) {
 					window.location.href = '/user/payment'
 				},
 
-				error: function (jqXHR, textStatus, errorThrown) {
+				error: function(jqXHR, textStatus, errorThrown) {
 					console.error('error', textStatus, errorThrown)
 				}
 			})

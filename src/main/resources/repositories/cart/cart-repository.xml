@@ -20,14 +20,15 @@
         	c.member_id = #{member_id}
     </select>
     
-    <!-- 장바구니 항목 존재 여부 확인 -->
-    <select id="checkItemExists" parameterType="userCart" resultType="Integer">
+    <!-- 장바구니에 이미 존재하는지 확인하는 쿼리 -->
+    <select id="checkItemExists" parameterType="map" resultType="Integer">
         SELECT 
-        	COUNT(*)
+        COUNT 
+        	(*) 
         FROM 
         	orders_cart
         WHERE 
-        	book_isbn = #{book_isbn}
+        	book_isbn = #{book_isbn} 
         AND 
         	member_id = #{member_id}
     </select>
@@ -37,9 +38,11 @@
         UPDATE 
         	orders_cart
         SET 
-        	cart_purchase_qty = cart_purchase_qty + #{cart_purchase_qty}
+        	cart_purchase_qty = #{cart_purchase_qty}
         WHERE 
-        	cart_num = #{cart_num}
+         	book_isbn = #{book_isbn}       	
+        AND 
+        	member_id = #{member_id} 
     </update>
     
     <insert id="addCartItem" parameterType="userCart">

@@ -37,9 +37,8 @@ public class UserCartRepository {
 		return count != null && count > 0;
 	}
 	
-    public void updateCartItemQuantity(UserCartDTO userCartDTO) {
-        sql.update("Cart.updateCartItemQuantity", userCartDTO);
+    public int updateCartItemQuantity(UserCartDTO userCartDTO) {
+        return sql.update("Cart.updateCartItemQuantity", userCartDTO);
     }
-    
 	
 }
