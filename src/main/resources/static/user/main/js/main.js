@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	document.querySelectorAll('.add-cart-button').forEach(button => {
 		button.addEventListener('click', function() {
-			const isbn = this.getAttribute('data-isbn');
-			addToCart(isbn, 1);
+			const bookIsbn = this.getAttribute('data-isbn');
+			addToCart(bookIsbn, 1);
 		});
 	});
 
@@ -37,8 +37,8 @@ function redirectToDetailPage(isbn) {
 	window.location.href = './products/detail?book_isbn=' + encodeURIComponent(isbn);
 }
 
-function addToCart(isbn, quantity) {
-	const cartItem = { bookIsbn: isbn, quantity: quantity };
+function addToCart(bookIsbn, qty) {
+	const cartItem = { book_isbn: bookIsbn, cart_purchase_qty: qty };
 
 	$.ajax({
 		url: '/user/cart/add',
@@ -46,14 +46,18 @@ function addToCart(isbn, quantity) {
 		contentType: 'application/json',
 		data: JSON.stringify(cartItem),
 		success: function(response) {
-			getCheckModal('장바구니에 담겼습니다.');
-			if (confirm("장바구니로 이동하시겠습니까?")) {
-				location.href = 'user/cart/list';
+			if (response.message === '장바구니에 이미 있는 상품입니다.') {
+			    getConfirmModal('장바구니에 이미 있는 상품입니다. 장바구니로 이동하시겠습니까?', function() {
+			        window.location.href = '/user/cart/list';
+			    });
+			} else {
+				getConfirmModal('장바구니에 담겼습니다. 장바구니로 이동하시겠습니까?', function() {
+					window.location.href = '/user/cart/list';
+				});
 			}
 		},
-		error: function(xhr, status, error) {
+		error: function() {
 			getCheckModal('장바구니 추가에 실패했습니다.');
 		}
 	});
-
 }
