@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderPayment">
+    <insert id="addOrder">
+        INSERT INTO customer_order (
+        order_num,
+        order_addr,
+        order_addr_detail,
+        common_ent_pw,
+        member_id
+        ) VALUES (
+        customer_orders_seq.NEXTVAL,
+        #{order_addr}
+        #{order_addr_detail}
+        #{common_ent_pw}
+        #{member_id}
+        )
+    </insert>
+</mapper>
