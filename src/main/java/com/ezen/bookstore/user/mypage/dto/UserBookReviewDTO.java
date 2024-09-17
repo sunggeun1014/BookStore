@@ -13,9 +13,16 @@ public class UserBookReviewDTO {
 	String book_name;
 	String book_author;
 	
+	String member_id;
+	
 	Timestamp order_purchase_date;
 	
+	Integer review_num;
+	Integer order_detail_num;
 	String review_content;
 	Integer review_rating;
-	Timestamp review_write_date;
+	Timestamp review_write_date;	
+	
+	Timestamp startDate;
+	Timestamp endDate;
 }

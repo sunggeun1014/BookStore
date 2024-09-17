@@ -4,35 +4,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/user/common/layout/myPageLayout}"
       layout:fragment="Content">
-       <style>
-        .container {
-            width: 100%;
-            margin: 0 auto;
-            border-top: 1px solid #C0C0C0;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .book-info {
-            display: flex;
-            align-items: center;
-        }
-        .book-info img {
-            width: 100px;
-            height: 140px;
-            margin-right: 20px;
-            background-color: #f4f4f4; /* 이미지가 없으므로 배경색 설정 */
-        }
-        .book-details {
-            font-size: 16px;
-        }
-        .book-details span {
-            display: block;
-            margin-bottom: 5px;
-        }
-        
-    </style>
+      
+      <link rel="stylesheet" href="/user/mypage/css/review.css"/>
 <div class="content">
 	
 	<div class="myinfo-content">
@@ -59,14 +32,13 @@
 	        <button class="tab-btn">내가 작성한 리뷰</button>
     	</div>
     	
-    	<!-- 검색결과(기타 결과) 없다 -->
 		<div class="result-wrap">
 		  <p>!</p>
 		  <span>검색결과가 없습니다</span>
 		</div>
 	    
 	    <!-- #book-list 리스트 뽑아올 곳 -->
-	    <div id="book-list" class="container" style="display:none;"></div>
+		<div id="book-list"></div>
 	</div>	    
 </div>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>

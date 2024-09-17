@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.bookstore.commons.CommonConstants;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
-import com.ezen.bookstore.user.mypage.service.UserAccountServiceImpl;
+import com.ezen.bookstore.user.mypage.service.UserAccountService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -29,122 +29,79 @@ import lombok.experimental.FieldDefaults;
 @Controller
 public class UserAccountController {
     
-	UserAccountServiceImpl myPageService;
+	UserAccountService myPageService;
 
 	@GetMapping("/update-page")
-	public String updatePage(Model model) {
-		
-		model.addAttribute("page", "update-detail-page");
-		
+	public String updatePage() {
 		return "user/mypage/member_update/memberUpdate";
 	}
 	
 	@GetMapping("/delete-page")
-	public String deletePage(Model model) {
-		
-		model.addAttribute("page", "delete-detail-page");
+	public String deletePage() {
 		
 		return "user/mypage/member_del/memberDel";
 	}
 	
-	@PostMapping("/check-pw")
-	public String checkPw(@RequestParam("page") String page, 
-				          @RequestParam("member_pw") String password,
-						  HttpSession session,
+	@PostMapping("/update-check-pw")
+	public String checkPw(@RequestParam("member_pw") String password,
+				          Model model,
 						  HttpServletRequest request) {
-		try {
-	
-			if(myPageService.findPwById(session, password)) {
-				session.setAttribute("isPasswordConfirmed", true);
-				
-				
-				if (page.equals("update-detail-page")) {
-					return "redirect:/user/mypage/update-detail-page";
-				} else {
-					return "redirect:/user/mypage/delete-detail-page";
-				}
-				
-			} else {
-				session.removeAttribute("isPasswordConfirmed");
-				return "redirect:/user/mypage/" + page;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "redirect:" + request.getHeader("Referer");
-		}
-	}
-	
-	
-	@GetMapping("/update-detail-page")
-	public String updateDetailPage(HttpSession session, Model model) {
-		Boolean isPasswordConfirmed = (Boolean) session.getAttribute("isPasswordConfirmed");
 		
-		if (isPasswordConfirmed == null || !isPasswordConfirmed) {
-			session.removeAttribute("isPasswordConfirmed");
+		if(myPageService.findPwById(password)) {
+
+			UserMembersDTO userMembersDTO =	myPageService.getUser();
+			
+			String[] emailParts = userMembersDTO.getMember_email().split("@");
+			
+			String[] phoneNumber = userMembersDTO.getMember_phoneNo().split("-");
+			
+			model.addAttribute("userMembers", userMembersDTO);
+			model.addAttribute("emailDomainList", CommonConstants.EMAIL_DOMAINS);
+			model.addAttribute("countryNums", CommonConstants.COUNTRY_NUMS);
+			model.addAttribute("emailUser", emailParts[0]);
+			model.addAttribute("emailDomain", emailParts[1]);
+		    model.addAttribute("countryNum", phoneNumber[0]);
+		    model.addAttribute("userPart1", phoneNumber[1]);
+		    model.addAttribute("userPart2", phoneNumber[2]);
+			
+			return "user/mypage/member_update/memberUpdateDetail";
+			
+		} else {
 			return "redirect:/user/mypage/update-page";
 		}
 		
-		
-		UserMembersDTO userMembersDTO =	myPageService.getUser(session);
-
-		String[] emailParts = userMembersDTO.getMember_email().split("@");
-		String emailUser = emailParts[0];
-		String emailDomain = emailParts[1];
-		
-		String[] phoneNumber = userMembersDTO.getMember_phoneNo().split("-");
-		String countryNum = phoneNumber[0];
-		String userPart1 = phoneNumber[1];
-		String userPart2 = phoneNumber[2];
-		
-		String[] emailDomainList = CommonConstants.EMAIL_DOMAINS;
-		
-		String[] countryNums = CommonConstants.COUNTRY_NUMS;
-		
-		model.addAttribute("userMembers", userMembersDTO);
-		model.addAttribute("emailDomainList", emailDomainList);
-		model.addAttribute("countryNums", countryNums);
-		model.addAttribute("emailUser", emailUser);
-		model.addAttribute("emailDomain", emailDomain);
-	    model.addAttribute("countryNum", countryNum);
-	    model.addAttribute("userPart1", userPart1);
-	    model.addAttribute("userPart2", userPart2);
-		
-		return "user/mypage/member_update/memberUpdateDetail";
 	}
 	
-	@GetMapping("/delete-detail-page")
-	public String deleteDetailPage(HttpSession session) {
-		Boolean isPasswordConfirmed = (Boolean) session.getAttribute("isPasswordConfirmed");
+	@PostMapping("/updatedata")
+	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserMembersDTO userMembersDTO) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			myPageService.updateMemberInfo(userMembersDTO);
+			
+			response.put("success", true);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			response.put("success", false);
+			response.put("message", "회원 정보 수정 중 오류가 발생했습니다.");
+			return ResponseEntity.status(500).body(response);
+		}
+	}
+	
+	@PostMapping("/delete-check-pw")
+	public String deleteDetailPage(@RequestParam("member_pw") String password) {
 		
-		if (isPasswordConfirmed != null && isPasswordConfirmed) {
-			session.removeAttribute("isPasswordConfirmed");
+		if(myPageService.findPwById(password)) {
 			return "user/mypage/member_del/memberDelDetail";
 		} else {
 			return "redirect:/user/mypage/delete-page";
 		}
+	
 	}
-	
-	
-	@PostMapping("/updatedata")
-	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserMembersDTO userMembersDTO,
-														  HttpSession session) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-        	myPageService.updateMemberInfo(session, userMembersDTO);
-        	
-            response.put("success", true);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", "회원 정보 수정 중 오류가 발생했습니다.");
-            return ResponseEntity.status(500).body(response);
-        }
-    }
 	
 	@PostMapping("/delete")
 	public ResponseEntity<Map<String, Object>> deleteUser(HttpSession session) {
 		
-		if (myPageService.deleteMember(session)) {
+		if (myPageService.deleteMember()) {
 			session.invalidate();
 			return ResponseEntity.ok(Map.of("success", true));
 		} else {

@@ -3,8 +3,11 @@ package com.ezen.bookstore.user.mypage.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.ezen.bookstore.commons.AccountManagement;
+import com.ezen.bookstore.commons.SessionUtils;
+import com.ezen.bookstore.user.commons.UserSessionInfo;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 import com.ezen.bookstore.user.mypage.mapper.UserAccountMapper;
 
@@ -21,46 +24,36 @@ public class UserAccountServiceImpl implements UserAccountService {
 	
 	UserAccountMapper userMyPageMapper;
 	PasswordEncoder passwordEncoder;
-
+	
 	@Override
 	@Transactional(readOnly = true)
-	public boolean findPwById(HttpSession session, String password) {
-		UserMembersDTO membersDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
-
-		String memberPw = userMyPageMapper.findPwById(membersDTO.getMember_id());
-		
+	public boolean findPwById( String password) {
+		String memberPw = userMyPageMapper.findPwById(SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID));
 		return passwordEncoder.matches(password, memberPw);
 	}
 	
 	@Override
-	public boolean updateMemberInfo(HttpSession session, UserMembersDTO userMembersDTO) {
-		UserMembersDTO membersDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
-		
-		userMembersDTO.setMember_id(membersDTO.getMember_id());
-		
+	public boolean updateMemberInfo(UserMembersDTO userMembersDTO) {
+		userMembersDTO.setMember_id(SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID));
 		String memberPw = userMembersDTO.getMember_pw();
 		
-		if (!memberPw.equals("") || !memberPw.isEmpty()) {
+		if (StringUtils.hasText(memberPw)) {
 			userMembersDTO.setMember_pw( passwordEncoder.encode(memberPw));
 		}
-			
 		
 		return userMyPageMapper.updateMemberInfo(userMembersDTO) > 0;
 	}
 	
 	@Override
-	public UserMembersDTO getUser(HttpSession session) {
-		UserMembersDTO membersDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
-		
-		return userMyPageMapper.getUser(membersDTO.getMember_id());
+	public UserMembersDTO getUser() {
+		return userMyPageMapper.getUser(SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID));
 	}
 	
 	@Override
-	public boolean deleteMember(HttpSession session) {
-		UserMembersDTO membersDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
-		String memberId = membersDTO.getMember_id();
+	public boolean deleteMember() {
+		String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
 		
-		if (memberId.isEmpty()) {
+		if (memberId == null) {
 			return false;
 		}
 		

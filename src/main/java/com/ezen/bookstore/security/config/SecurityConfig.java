@@ -99,7 +99,7 @@ public class SecurityConfig {
                     .sessionFixation().newSession()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                     .invalidSessionUrl("/user/login") 
-                    .maximumSessions(1)                 
+                    .maximumSessions(1) 
                     .expiredUrl("/login?expired=true")  
             )
             .csrf(csrf -> csrf.disable())
@@ -134,6 +134,9 @@ public class SecurityConfig {
             .exceptionHandling(exception -> exception
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
                     response.sendRedirect("/user/login");
+                })
+                .authenticationEntryPoint((request, response, authException) -> {
+                	response.sendRedirect("/user/login");
                 })
             )
             .userDetailsService(customUserDetailsService);

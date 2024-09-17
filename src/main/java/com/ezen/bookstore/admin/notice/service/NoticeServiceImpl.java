@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ezen.bookstore.admin.commons.AdminSessionInfo;
 import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
 import com.ezen.bookstore.admin.notice.dto.NoticeDTO;
 import com.ezen.bookstore.admin.notice.mapper.NoticeMapper;
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.commons.FileManagement;
+import com.ezen.bookstore.commons.SessionUtils;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
@@ -46,10 +48,8 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 	
 	@Override
-	public void saveNotice(NoticeDTO noticeDTO, List<MultipartFile> images, HttpSession session) throws IOException {
-		ManagersDTO managersDTO = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
-		
-		noticeDTO.setManager_id(managersDTO.getManager_id());
+	public void saveNotice(NoticeDTO noticeDTO, List<MultipartFile> images) throws IOException {
+		noticeDTO.setManager_id(SessionUtils.getAdminAttribute(AdminSessionInfo.MANAGER_ID));
 		
 		noticeMapper.insertNotice(noticeDTO);
 
@@ -71,10 +71,8 @@ public class NoticeServiceImpl implements NoticeService {
 	};
 	
 	@Override
-	public void updateNotice(NoticeDTO noticeDTO, List<MultipartFile> images, HttpSession session) throws IOException {
-		ManagersDTO managersDTO = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
-		
-		noticeDTO.setManager_id(managersDTO.getManager_id());
+	public void updateNotice(NoticeDTO noticeDTO, List<MultipartFile> images) throws IOException {
+		noticeDTO.setManager_id(SessionUtils.getAdminAttribute(AdminSessionInfo.MANAGER_ID));
 		
 		noticeMapper.updateNotice(noticeDTO);
 		

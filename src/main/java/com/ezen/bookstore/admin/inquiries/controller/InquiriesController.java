@@ -69,14 +69,9 @@ public class InquiriesController {
 	}
 	
 	@PostMapping("/insert")
-	public String insertInquiries(@ModelAttribute("inquiries") InquiriesDTO inquiriesDTO, HttpSession session, Model model) {
+	public String insertInquiries(@ModelAttribute("inquiries") InquiriesDTO inquiriesDTO, Model model) {
 		
-		ManagersDTO sessionInfo = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
-		
-        inquiriesDTO.setManager_id(sessionInfo.getManager_id());  // DTO에 manager_id 설정
-        
 		iqs.insertInquiry(inquiriesDTO);
-		
 		
 		
 		return "redirect:/admin/inquiries/inquiries";

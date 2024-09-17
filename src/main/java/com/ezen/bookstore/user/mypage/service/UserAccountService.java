@@ -5,8 +5,8 @@ import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 import jakarta.servlet.http.HttpSession;
 
 public interface UserAccountService {
-	boolean findPwById(HttpSession session, String password);
-	boolean updateMemberInfo(HttpSession session, UserMembersDTO userMembersDTO);
-	UserMembersDTO getUser(HttpSession session);
-	boolean deleteMember(HttpSession session);
+	boolean findPwById(String password);
+	boolean updateMemberInfo(UserMembersDTO userMembersDTO);
+	UserMembersDTO getUser();
+	boolean deleteMember();
 }
