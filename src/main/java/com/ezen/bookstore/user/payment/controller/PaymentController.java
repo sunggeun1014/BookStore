@@ -27,7 +27,7 @@ public class PaymentController {
 
         List<OrderItemDTO> items = (List<OrderItemDTO>) session.getAttribute("orderItems");
 
-        Integer itemsCnt = items == null ? 0 : items.size();
+        Integer totalItems = 0;
         Integer totalPrice = 0;
 
         log.info("받은 목록: {}", items);
@@ -37,17 +37,17 @@ public class PaymentController {
             if ("instantBuy".equals(purchaseType)) {
                 for (OrderItemDTO item : items) {
                     totalPrice = item.getBook_price();
+                    totalItems += item.getCart_purchase_qty();
                 }
                 model.addAttribute("orderItems", items);
             } else if ("cart".equals(purchaseType)) {
                 for (OrderItemDTO item : items) {
-                    if (item.isSelected()) {
-                        totalPrice += item.getBook_price();
-                    }
+                    totalPrice += item.getBook_price();
+                    totalItems += item.getCart_purchase_qty();
                 }
                 model.addAttribute("orderCartItems", items);
             }
-            model.addAttribute("itemsCnt", itemsCnt);
+            model.addAttribute("itemsCnt", totalItems);
             model.addAttribute("totalPrice", totalPrice);
         } else {
             model.addAttribute("error", "데이터를 찾을 수 없습니다");

@@ -12,8 +12,12 @@ public class PaginationProcess {
 	
 	public Map<String, Object> process(Pagination pagination, List<?> list) {
 		Map<String, Object> map = new HashMap<>();
-		
-		int totalItems = list.size();
+
+		if (pagination == null) {
+			pagination = new Pagination();
+		}
+
+		int totalItems = list != null ? list.size() : 0;
 	    int currentPage = Math.max(1, pagination.getCurrentPage());
 	    int itemsPerPage = pagination.getItemsPerPage();
 	    int pageRange = pagination.getPageRange();
