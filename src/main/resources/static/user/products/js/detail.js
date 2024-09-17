@@ -111,11 +111,7 @@ function submitHandler() {
 
     addForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        // const isCartAction = e.submitter === cartBtn;
-        // const isBuyNowAction = e.submitter === buyNowBtn;
-
         const action = e.submitter.getAttribute("data-action")
-        // const memberID = cartBtn.getAttribute("data-memberid") || buyNowBtn.getAttribute("data-memberid");
 
         const memberID = getMemberID([cartBtn, buyNowBtn])
 
@@ -127,16 +123,12 @@ function submitHandler() {
             cartQtyInput.value = getTotalQty;
             bookPriceInput.value = getTotalPrice;
 
-            const data = [{
-                book_isbn: bookISBN.value,
-                // member_id: memberID,
-                cart_purchase_qty: cartQtyInput.value,
-                // book_price: bookPriceInput.value,
-            }];
-
-            console.log('data? ', data)
-
             if (action === 'cart') {
+                const data = [{
+                    book_isbn: bookISBN.value,
+                    cart_purchase_qty: cartQtyInput.value,
+                }];
+
                 $.ajax({
                     url: '/user/productsRest/productBasketSave',
                     method: 'POST',
@@ -154,14 +146,29 @@ function submitHandler() {
                     }
                 })
             } else if (action === 'buyNow') {
-                const updateData = data.map(elements => ({
-                    ...elements,
-                    book_price: bookPriceInput.value,
+                const orderData = [{
+                    book_isbn: bookISBN.value,
                     book_name: bookNameInput.value,
-                    book_thumbnail: bookThumbNailInput.value,
-                }))
+                    cart_purchase_qty: cartQtyInput.value,
+                    book_price: bookPriceInput.value,
+                    book_thumbnail_changed: bookThumbNailInput.value,
+                }]
                 console.log('바로구매클릭')
-                console.log('바로구매data? ', updateData)
+                console.log('바로구매data? ', orderData)
+
+                $.ajax({
+                    url: '/user/productsRest/instantBuy',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(orderData),
+                    success: function (response) {
+                        console.log("바로구매 성공")
+                        location.href = '/user/payment';
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("바로구매 에러", textStatus, errorThrown);
+                    }
+                })
             }
         }
     });
@@ -180,6 +187,7 @@ function refundInfoHandler() {
                     location.href = '/user/login';
                 });
             } else {
+                // location.href = action;
                 console.log(action);
             }
         });
@@ -201,7 +209,6 @@ function getMemberID(buttons) {
 document.addEventListener('DOMContentLoaded', function () {
     goToReviewList();
     calcQty();
-    // isLoginMember();
     submitHandler();
     refundInfoHandler();
 })

@@ -95,6 +95,7 @@
 
 .book-thumbnail {
 	border-radius: 0 10px 10px 0;
+	border: 1px solid #f3f3f3;
 	overflow: hidden;
 	width: 190px;
 	height: 270px;

@@ -57,7 +57,6 @@ public class UserProductController {
 		List<UserReviewDTO> reviewPercent = productService.getReviewPercent(bookISBN);
 
 		if (reviewList != null && !reviewList.isEmpty()) {
-//			model.addAttribute("reviewList", reviewList);
 			Map<String, Object> map = paginationProcess.process(pagination, reviewList);
 			model.addAttribute("page", map.get("page"));
 			model.addAttribute("reviewList", map.get("list"));

@@ -5,9 +5,7 @@
     align-items: center;
 }
 
-#pay-header {
-    margin-bottom: 30px;
-}
+#pay-header { margin: 90px 0 50px; }
 
 .header-title {
     font-size: 36px;
@@ -15,12 +13,13 @@
 }
 
 .order-process {
-    gap: 10px;
+    gap: 8px;
     color: #7E7E7E;
 }
 
 .order-process .bold {
     color: #000;
+    font-weight: 500;
 }
 
 #payment-section {
@@ -48,6 +47,12 @@
     align-items: center;
 }
 
+.addr-text {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 .radio-wrap {
     display: flex;
     align-items: center;
@@ -58,6 +63,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
 }
 
 .addr-info, .select-enter-way {
@@ -159,6 +165,7 @@
     border-bottom: 0;
     border-radius: 10px 10px 0 0;
     padding: 25px 50px;
+    cursor: pointer;
 }
 
 .product-head.off {
@@ -179,7 +186,7 @@
 
 .total-cnt { gap: 5px }
 .product-head { justify-content: space-between }
-.left { gap: 50px; }
+.left { gap: 80px; }
 .left .product-name { font-weight: 700 }
 .total-cnt .book-cnt { font-weight: 900; color: #845EC2 }
 .product-info-arrow { font-size: 25px; }
@@ -193,6 +200,14 @@
     justify-content: space-between;
 }
 
+.list-wrap.off {
+    display: none;
+}
+
+.product-info-arrow.off {
+    transform: rotate(180deg);
+}
+
 .product-list:last-of-type {
     border-bottom: 1px solid #c0c0c0;
     border-radius: 0 0 10px 10px;
@@ -201,11 +216,11 @@
 .books-cnt, .book-price, .list-left, .list-right {
     display: flex;
     align-items: center;
+    gap: 3px;
 }
 
-.list-left, .list-right {
-    gap: 80px;
-}
+.list-left { gap: 40px; }
+.list-right { gap: 80px; }
 
 .img-wrap {
     width: 80px;
@@ -299,7 +314,7 @@
 
 .addr-edit-wrap > * > input,
 .addr-edit-wrap > * > * > input,
-#edit-addr-modal #order_addr {
+#edit-addr-modal #edit-addr {
     width: 100%;
     height: 40px;
     padding: 10px;
@@ -307,13 +322,17 @@
     border-radius: 5px;
 }
 
+.addr-input-box { width: 100%; }
+
 .addr-edit-wrap > * > input:focus,
 .addr-edit-wrap > * > * > input:focus {
     border: 1px solid #666;
 }
 
-#edit-addr-modal #order_addr {
+#edit-addr-modal #edit-addr {
     background-color: #FAFAFA;
+    cursor: default;
+    pointer-events: none;
 }
 
 .edit-subtitle { font-weight: 700; }

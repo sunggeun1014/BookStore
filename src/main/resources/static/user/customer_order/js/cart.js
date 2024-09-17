@@ -164,5 +164,52 @@ document.addEventListener("DOMContentLoaded", function() {
 			getCheckModal('삭제할 상품을 선택해주세요.');
 		}
 	});
+
+	// 선택 아이템 주문페이지로
+	goToPayment()
+	function goToPayment() {
+		const orderBtn = document.querySelector(".order-btn")
+
+		orderBtn.addEventListener('click', function () {
+			const selectedItems = [];
+
+			document.querySelectorAll('.item-checkbox:checked').forEach(function (checkbox) {
+				const bookIsbn = checkbox.getAttribute("data-isbn")
+				const bookName = checkbox.getAttribute("data-name")
+				const thumbnail = checkbox.getAttribute("data-thumbnail")
+				const qty = checkbox.closest('.cart-item').querySelector('.input-qty').value
+				const price = qty * checkbox.getAttribute("data-price")
+
+				selectedItems.push({
+					book_isbn: bookIsbn,
+					book_name: bookName,
+					cart_purchase_qty: qty,
+					book_price: price,
+					book_thumbnail_changed: thumbnail,
+				})
+			});
+
+			if (selectedItems.length === 0) {
+				getCheckModal("주문하실 상품을 선택해 주세요")
+				return;
+			}
+
+			$.ajax({
+				url: '/user/cart/order',
+				method: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(selectedItems),
+				success: function (response) {
+					window.location.href = '/user/payment'
+				},
+
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.error('error', textStatus, errorThrown)
+				}
+			})
+
+		})
+
+	}
 });
 
