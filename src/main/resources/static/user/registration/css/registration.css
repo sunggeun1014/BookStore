@@ -43,6 +43,24 @@ h3 {
     margin-left: 0px;
 }
 
+
+.social-whether {
+	margin-bottom: 10px;
+    display: flex;
+    font-size: 14px;
+    text-align: center;
+}
+
+.social-whether div {
+    display: flex;
+    align-items: center; /* 라디오 버튼과 텍스트를 수직 중앙에 배치 */
+}
+
+.social-whether input[type="radio"] {
+    margin-right: 10px; /* 텍스트와 라디오 버튼 사이의 여백 */
+    margin-left: 0px;
+}
+
 button {
     background-color: transparent; 
     border: none;                  
@@ -67,12 +85,17 @@ button img {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 200px;
+    height: 230px;
 }
 
-.social-btn {
-    margin-bottom: 10px;
+input.check-box.naver[type=checkbox]:checked + label {
+    background-image: url(/user/common/imgs/check-circle.naver=on.png);
 }
+
+input.check-box.kakao[type=checkbox]:checked + label {
+    background-image: url(/user/common/imgs/check-circle.kakao=on.png);
+}
+
 
 .join-frame {
     display: flex;              /* Flexbox 사용 */
