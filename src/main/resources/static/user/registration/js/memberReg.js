@@ -40,8 +40,13 @@ document.getElementById('kakao_login_btn').addEventListener('click', function() 
                     // 숨겨진 input 필드에 kakao ID 저장
                     document.getElementById('kakao_login_cd').value = kakaoId;
 
-                    // 이메일로 연동이 필요하면 여기에 추가 (기존 사용자의 이메일과 비교할 수 있음)
+                    // 값 확인용 log
                     console.log('카카오 로그인 성공! ID:', kakaoId, '이메일:', email);
+                    
+                    let kakaoCheckbox = document.querySelector('.check-box.kakao');
+                    if (kakaoCheckbox) {
+                        kakaoCheckbox.checked = true; 
+                    }
 
                 },
                 fail: function(error) {
@@ -59,7 +64,7 @@ let naverLogin = new naver.LoginWithNaverId({
     clientId: 'sutMcxM8vDfiUuQgTc15',  // 네이버에서 발급받은 클라이언트 ID
     callbackUrl: 'http://localhost:9080/user/members/join',  // 네이버에서 설정한 콜백 URL
     isPopup: true,  // 팝업 모드 사용
-    loginButton: { color: 'green', type: 5, height: 40 }  // 로그인 버튼 스타일 설정
+    loginButton: { color: 'green', type: 5, height: 45 }  // 로그인 버튼 스타일 설정
 });
 
 // 네이버 로그인 초기화
@@ -71,17 +76,19 @@ naverLogin.getLoginStatus(function(status) {
         let naverId = naverLogin.user.getId();  // 네이버 유저의 고유 ID
         let email = naverLogin.user.getEmail();  // 네이버 유저의 이메일
 
-        // ID와 이메일을 사용해 추가 작업 수행
+        // 값확인용 lgo
         console.log('네이버 로그인 성공! ID:', naverId, '이메일:', email);
 
-        // 부모 창에 값 전달
         if (window.opener) {
-            window.opener.document.getElementById('naver_login_cd').value = naverId;  // 부모 창의 hidden input에 값 저장
+            window.opener.document.getElementById('naver_login_cd').value = naverId;  
+            let naverCheckbox = window.opener.document.querySelector('.check-box.naver');
+            if (naverCheckbox) {
+                naverCheckbox.checked = true;  
+            }
             window.opener.console.log('부모 창으로 전달된 네이버 ID:', naverId);
         }
 
-        // 팝업 창 닫기
-        window.close();  // 팝업 창을 닫습니다.
+        window.close(); 
     } else {
         console.log('네이버 로그인 실패');
     }
