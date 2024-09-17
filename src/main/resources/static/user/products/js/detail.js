@@ -142,7 +142,7 @@ function submitHandler() {
                     },
                     error: function () {
                         console.log("ajax 에러")
-                        getErrorModal();
+                        getErrorModal("장바구니에 담기에 실패 했습니다.");
                     }
                 })
             } else if (action === 'buyNow') {
@@ -167,6 +167,7 @@ function submitHandler() {
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("바로구매 에러", textStatus, errorThrown);
+                        getErrorModal("바로구매 오류 입니다.")
                     }
                 })
             }
@@ -205,12 +206,47 @@ function getMemberID(buttons) {
     return null;
 }
 
+function toggleReview() {
+    const reviewContents = document.querySelectorAll('.review-content');
+
+    reviewContents.forEach(content => {
+        const reviewText = content.querySelector('.review-text');
+        const toggleWrap = content.querySelector('.toggle-wrap');
+        const toggleBtn = content.querySelector('.toggle-btn')
+
+        // 컨텐츠 높이 측정
+        const contentHeight = reviewText.scrollHeight;
+
+        // 3줄 높이에 맞게 버튼 표시 여부 결정
+        const lineHeight = parseFloat(window.getComputedStyle(reviewText).lineHeight);
+        const maxHeight = lineHeight * 3;
+
+        if (contentHeight > maxHeight) {
+            // 3줄을 넘는 경우 버튼 표시
+            toggleWrap.style.display = 'block';
+        } else {
+            // 3줄 이하인 경우 버튼 숨기기
+            toggleWrap.style.display = 'none';
+        }
+
+        toggleWrap.addEventListener('click', function() {
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                toggleBtn.textContent = '펼치기';
+            } else {
+                content.classList.add('expanded');
+                toggleBtn.textContent = '접기';
+            }
+        });
+    });
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     goToReviewList();
     calcQty();
     submitHandler();
     refundInfoHandler();
+    toggleReview();
 })
 
 window.onload = function () {

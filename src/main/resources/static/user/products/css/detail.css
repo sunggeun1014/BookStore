@@ -40,7 +40,7 @@
 .publish-wrap {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     font-size: 14px;
     color: #7E7E7E;
 }
@@ -52,8 +52,8 @@
 .publish::after {
     position: absolute;
     content: "•";
-    top: 1px;
-    right: -7px;
+    top: 3px;
+    right: -10px;
     font-size: 10px;
 }
 
@@ -141,6 +141,21 @@
 .default-btn {
     width: 120px;
     height: 50px;
+}
+
+.default-btn.grey {
+    align-self: flex-end;
+    cursor: default;
+}
+
+.default-btn.grey:hover {
+    background-color: #7E7E7E;
+}
+
+.sold-out {
+    font-size: 18px;
+    font-weight: 700;
+    color: #E54F53;
 }
 
 /* 책 기본정보들 */
@@ -269,10 +284,55 @@
 }
 
 .review-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
     width: 100%;
     height: 155px;
     padding: 10px 20px;
     border-bottom: 1px solid #C0C0C0;
+    overflow: hidden;
+    transition: height .3s ease;
+}
+
+.review-text {
+    line-height: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.review-content.expanded {
+    height: auto;
+}
+
+.review-content.expanded .review-text {
+    display: block;
+}
+
+.toggle-wrap {
+    width: 80px;
+    cursor: pointer;
+}
+
+.fa-chevron-down {
+    font-size: 12px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1.5px solid #c0c0c0;
+    padding: 2px;
+    text-align: center;
+}
+.toggle-btn {
+    background-color: #fff;
+}
+.toggle-wrap:hover .toggle-btn { text-decoration: underline; }
+
+.review-content.expanded .fa-chevron-down {
+    transform: rotate(180deg);
 }
 
 .user-star-wrap {
@@ -314,15 +374,14 @@
     margin-bottom: 20px;
 }
 
-.user-wrap .member-id {
-    position: relative;
-}
+.user-wrap .reviewer-id { position: relative; }
 
 .user-wrap .reviewer-id::after {
     position: absolute;
     content: "ㅣ";
+    top: 1px;
+    right: -12px;
     font-size: 10px;
-    margin-left: 2px;
 }
 
 /* 채워진 별 색상 */

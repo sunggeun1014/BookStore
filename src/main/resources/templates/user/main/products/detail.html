@@ -56,7 +56,7 @@
                         <p>무료배송</p>
                     </div>
                 </div>
-                <div class="select-order">
+                <div class="select-order" th:if="${bookDetail.book_state == '01'}">
                     <div class="reduce-qty">
                         <i class="fa-solid fa-minus" id="decrease"></i>
                         <input type="number" max="999" id="" class="input-qty" value="1"/>
@@ -67,7 +67,9 @@
                         <p>원</p>
                     </div>
                 </div>
-                <form id="add-form">
+                <p class="sold-out" th:if="${bookDetail.book_state == '02'}">구매가 불가능한 상품입니다.</p>
+
+                <form id="add-form" th:if="${bookDetail.book_state == '01'}">
                     <input type="hidden" name="book_isbn" id="book_isbn" th:value="${bookDetail.book_isbn}">
                     <input type="hidden" name="book_isbn" id="book_name" th:value="${bookDetail.book_name}">
                     <input type="hidden" name="book_isbn" id="book_thumbnail_changed"
@@ -83,6 +85,7 @@
                         </button>
                     </div>
                 </form>
+                <button class="default-btn grey" th:if="${bookDetail.book_state == '02'}" disabled>구매불가</button>
             </div>
         </section>
 
@@ -182,25 +185,31 @@
                             <span>등록된 리뷰가 없습니다</span>
                         </div>
                         <div class="review-content" th:each="reviewList: ${reviewList}">
-                            <div class="content-head">
-                                <div class="user-wrap">
-                                    <p class="reviewer-id" th:data-reviewerid="${reviewList.member_id}"></p>
-                                    <p th:text="${#dates.format(reviewList.review_write_date, 'yyyy-MM-dd')}"></p>
+                            <div class="content-top">
+                                <div class="content-head">
+                                    <div class="user-wrap">
+                                        <p class="reviewer-id" th:data-reviewerid="${reviewList.member_id}"></p>
+                                        <p th:text="${#dates.format(reviewList.review_write_date, 'yyyy-MM-dd')}"></p>
+                                    </div>
+                                    <div class="user-star-wrap">
+                                        <i class="fa-star"
+                                           th:classappend="${reviewList.review_rating >= 1 ? 'fa-solid' : 'fa-regular'}"></i>
+                                        <i class="fa-star"
+                                           th:classappend="${reviewList.review_rating >= 2 ? 'fa-solid' : 'fa-regular'}"></i>
+                                        <i class="fa-star"
+                                           th:classappend="${reviewList.review_rating >= 3 ? 'fa-solid' : 'fa-regular'}"></i>
+                                        <i class="fa-star"
+                                           th:classappend="${reviewList.review_rating >= 4 ? 'fa-solid' : 'fa-regular'}"></i>
+                                        <i class="fa-star"
+                                           th:classappend="${reviewList.review_rating >= 5 ? 'fa-solid' : 'fa-regular'}"></i>
+                                    </div>
                                 </div>
-                                <div class="user-star-wrap">
-                                    <i class="fa-star"
-                                       th:classappend="${reviewList.review_rating >= 1 ? 'fa-solid' : 'fa-regular'}"></i>
-                                    <i class="fa-star"
-                                       th:classappend="${reviewList.review_rating >= 2 ? 'fa-solid' : 'fa-regular'}"></i>
-                                    <i class="fa-star"
-                                       th:classappend="${reviewList.review_rating >= 3 ? 'fa-solid' : 'fa-regular'}"></i>
-                                    <i class="fa-star"
-                                       th:classappend="${reviewList.review_rating >= 4 ? 'fa-solid' : 'fa-regular'}"></i>
-                                    <i class="fa-star"
-                                       th:classappend="${reviewList.review_rating >= 5 ? 'fa-solid' : 'fa-regular'}"></i>
-                                </div>
+                                <p class="review-text">[[${reviewList.review_content}]]</p>
                             </div>
-                            <p class="review-text">[[${reviewList.review_content}]]</p>
+                            <div class="toggle-wrap">
+                                <button class="toggle-btn">펼치기</button>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
                         </div>
                     </div>
                 </div>

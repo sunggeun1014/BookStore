@@ -75,11 +75,11 @@ function getCheckModal(msg, focusElement) {
     $("#confirm-delete").focus();
 }
 
-function getErrorModal(focusElement) {
+function getErrorModal(msg, focusElement) {
     let divArea = $("<div id='myModal' class='modal' style='display: block;'></div>"); // 잘못된 따옴표 수정
     let contentArea = $("<div class='modal-content'></div>");
 
-    let messageArea = $(`<div class='modal-text error-text'><i class="fa-solid fa-triangle-exclamation"></i><p>오류가 발생했습니다.</p></div>`);
+    let messageArea = $(`<div class='modal-text error-text'><i class="fa-solid fa-triangle-exclamation"></i><p>${msg}</p></div>`);
     let modalFotter = $("<div class='modal-footer'></div>");
     let btnArea = $("<button id='confirm-delete' class='modal-btn confirm error'>확인</button>");
 
