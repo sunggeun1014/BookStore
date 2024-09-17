@@ -51,10 +51,12 @@ a {
 .login-function .id-store {
     display: flex;
     font-size: 14px;
-    justify-content: space-between;
     align-items: center;
     flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
 }
+
 
 .login-function .id-store a {
     text-decoration: none;
