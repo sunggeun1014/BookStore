@@ -61,6 +61,25 @@ public class UserCartController {
         }
         return ResponseEntity.ok(response);
     }
+    
+    @PostMapping("/update")
+    public ResponseEntity<Map<String, Object>> updateCartItem(@RequestBody UserCartDTO userCartDTO) {
+        Map<String, Object> response = new HashMap<>();
+        String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
+
+        userCartDTO.setMember_id(memberId);
+        boolean updated = userCartService.updateCartItemQuantity(userCartDTO);
+
+        if (updated) {
+            response.put("success", true);
+            response.put("message", "수량 업데이트 성공");
+        } else {
+            response.put("status", "error");
+            response.put("message", "수량 업데이트 실패");
+        }
+        return ResponseEntity.ok(response);
+    }
+
 
     @PostMapping("/delete")
     public ResponseEntity<Map<String, Object>> deleteCartItems(@RequestBody Map<String, List<Integer>> requestData) {

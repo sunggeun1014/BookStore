@@ -10,4 +10,5 @@ public interface UserCartService {
     void addCartItem(UserCartDTO userCartDTO);
     void deleteItemsByCartNums(List<Integer> cartNums, String memberId);
     boolean cartItemExists(UserCartDTO userCartDTO);
+    boolean updateCartItemQuantity(UserCartDTO userCartDTO);
 }

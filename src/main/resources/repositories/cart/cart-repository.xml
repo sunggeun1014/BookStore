@@ -34,13 +34,15 @@
     </select>
     
     <!-- 장바구니 항목의 수량 업데이트 -->
-    <update id="updateCartItemQuantity" parameterType="map">
+    <update id="updateCartItemQuantity" parameterType="userCart">
         UPDATE 
         	orders_cart
         SET 
-        	cart_purchase_qty = cart_purchase_qty + #{cart_purchase_qty}
+        	cart_purchase_qty = #{cart_purchase_qty}
         WHERE 
-        	cart_num = #{cart_num}
+         	book_isbn = #{book_isbn}       	
+        AND 
+        	member_id = #{member_id} 
     </update>
     
     <insert id="addCartItem" parameterType="userCart">

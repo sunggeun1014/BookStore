@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/common/layout/mainLayout}"
+      layout:fragment="Content">
+
+<link rel="stylesheet" href="/user/customer_order/css/complete-order.css">
+
+<div class="inner">
+    <div id="order-container">
+        <!-- 상단제목 -->
+        <section id="pay-header">
+            <div class="order-process">
+                <p>장바구니</p>
+                <img src="/user/customer_order/img/arrow-right=off.svg" alt="화살표">
+                <p class="bold">결제하기</p>
+                <img src="/user/customer_order/img/arrow-right=on.svg" alt="화살표">
+                <p class="order-comp">주문완료</p>
+            </div>
+            <div class="complete-msg">
+                <p>주문이 완료되었습니다.</p>
+                <p>주문번호 09090</p>
+            </div>
+        </section>
+
+        <!-- 주문 정보 -->
+        <section id="order-info-wrap">
+            <div class="order-info">
+                <p class="sub-title">주문상품</p>
+                <div class="info-head">
+                    <div class="product-text">
+                        <p>방구석 미술관</p>
+                        <p>외 <strong>1</strong>개</p>
+                        <p>(총 상품 <strong>1</strong>개)</p>
+                    </div>
+                    <i class="fa-solid fa-angle-down product-info-arrow"></i>
+                </div>
+                <div class="list-wrap">
+                    <div class="order-list">
+                        <div class="img-wrap">
+                            <img src="/images/books/9780061129735.jpg" alt="책사진">
+                        </div>
+                        <div class="book-info">
+                            <p class="info-subject">방구석 미술관</p>
+                            <div class="qty-price">
+                                <p>20000원</p>
+                                <p> / 1개</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-info">
+                <p class="sub-title">결제금액</p>
+                <div class="info-content payment-info">
+                    <p class="info-subject">최종 결제금액</p>
+                    <div class="price-wrap">
+                        <p>15,000</p>
+                        <p>원</p>
+                    </div>
+                </div>
+            </div>
+            <div class="order-info">
+                <p class="sub-title">배송지 정보</p>
+                <div class="info-content deliver">
+                    <div class="deliver-info">
+                        <p class="info-subject">받는 사람</p>
+                        <div class="person-info">
+                            <p>홍길동 / </p>
+                            <p>010-1234-5678</p>
+                        </div>
+                    </div>
+                    <div class="deliver-info">
+                        <p class="info-subject">받는 주소</p>
+                        <div class="addr-info">
+                            <p>서울시 노원구 상계로 64</p>
+                            <p>이젠아카데미</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="btn-wrap">
+            <button class="default-btn border" id="go-main">쇼핑계속</button>
+            <button class="default-btn" id="go-detail">주문/배송상세</button>
+        </div>
+    </div>
+</div>
+
+<script src="/user/customer_order/js/complete-order.js"></script>
+</html>

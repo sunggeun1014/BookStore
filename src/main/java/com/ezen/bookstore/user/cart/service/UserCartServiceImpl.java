@@ -36,4 +36,10 @@ public class UserCartServiceImpl implements UserCartService {
     public boolean cartItemExists(UserCartDTO userCartDTO) {
         return userCartRepository.checkItemExists(userCartDTO);
     }
+    
+    @Override
+    public boolean updateCartItemQuantity(UserCartDTO userCartDTO) {
+        int result = userCartRepository.updateCartItemQuantity(userCartDTO);
+        return result > 0;
+    }
 }
