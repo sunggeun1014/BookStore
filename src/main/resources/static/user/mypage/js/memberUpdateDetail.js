@@ -185,7 +185,7 @@ function showSuccessModal(msg) {
 	getCheckModal(msg);
 
 	$(document).on('click', '#confirm-delete', function() {
-		window.location.href = '/user/mypage/updatePage';
+		window.location.href = '/user/mypage/update-page';
 	});
 }
 	   

@@ -1,7 +1,6 @@
 package com.ezen.bookstore.user.mypage.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,20 +40,20 @@ public class UserReviewRestController {
     }
 
     @GetMapping("/edit-review/{reviewNum}")
-    public ResponseEntity<UserBookReviewDTO> getReview(@PathVariable Long reviewNum) {
+    public ResponseEntity<UserBookReviewDTO> getReview(@PathVariable Integer reviewNum) {
         UserBookReviewDTO review = userReviewService.getReviewByReviewNum(reviewNum);
         return ResponseEntity.ok(review);
     }
 
     @PostMapping("/update-review/{reviewNum}")
-    public ResponseEntity<String> updateReview(@PathVariable("reviewNum") Long reviewNum,
+    public ResponseEntity<String> updateReview(@PathVariable("reviewNum") Integer reviewNum,
     										   @RequestBody UserBookReviewDTO userBookReviewDTO) {
         userReviewService.updateReview(reviewNum, userBookReviewDTO);
         return ResponseEntity.ok("리뷰가 성공적으로 수정되었습니다.");
     }
 
     @DeleteMapping("/delete-review/{reviewNum}")
-    public ResponseEntity<String> deleteReview(@PathVariable Long reviewNum) {
+    public ResponseEntity<String> deleteReview(@PathVariable Integer reviewNum) {
         userReviewService.deleteReview(reviewNum);
         return ResponseEntity.ok("리뷰가 성공적으로 삭제되었습니다.");
     }

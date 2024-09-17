@@ -4,161 +4,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/user/common/layout/myPageLayout}"
       layout:fragment="Content">
-       <style>
-        .container {
-            width: 100%;
-            margin: 0 auto;
-            border-top: 1px solid #C0C0C0;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .book-info {
-            display: flex;
-            align-items: center;
-        }
-        .book-info img {
-            width: 82px;
-            height: 115px;
-            margin-right: 20px;
-            background-color: #f4f4f4; /* 이미지가 없으므로 배경색 설정 */
-        }
-        .book-details {
-            font-size: 16px;
-        }
-        .book-details span {
-            display: block;
-            margin-bottom: 5px;
-        }
-		/* 전체 컨테이너 */
-		.review-container {
-		    width: 100%;
-		}
-		
-		/* 책 정보 (이미지와 제목을 묶는 div) */
-		.book-info-wrapper {
-		    display: flex;
-		    align-items: center; /* 이미지와 제목을 중앙 정렬 */
-		    margin-bottom: 10px; /* 책 정보와 회색 박스 사이 간격 */
-		}
-		
-		/* 이미지 스타일 */
-		.book-info-wrapper img {
-		    width: 82px;
-		    height: 115px;
-		    margin-right: 20px; /* 이미지와 텍스트 사이 간격 */
-		    background-color: #f4f4f4; /* 이미지 배경색 */
-		}
-		
-		/* 책 제목 스타일 */
-		.book-title {
-		    font-size: 16px;
-		    font-weight: bold;
-		}
-		
-		/* 회색 박스 안의 리뷰 정보 */
-		.review-box {
-		    background-color: #FAFAFA; /* 회색 상자 */
-		    padding: 15px;
-		    border-radius: 8px;
-		}
-		
-		/* 별점과 리뷰 정보 */
-		.review-stars {
-		    display: flex;
-		    align-items: center;
-		    color: #845EC2;
-		    font-size: 18px;
-		    margin-bottom: 10px;
-		}
-		
-		.empty-stars {
-		    color: #845EC2;
-		}
-		
-		.review-date {
-		    font-size: 14px;
-		    color: #666666;
-		    margin-bottom: 10px;
-		}
-		
-		.review-content {
-		    font-size: 14px;
-		    color: #666666;
-		    margin-bottom: 10px;
-		}
-		
-		/* 수정, 삭제 버튼 */
-		.review-actions {
-		    display: flex;
-		    justify-content: flex-end;
-		    padding-top : 15px;
-		    border-top : 1px solid #CCCCCC;
-		}
-		
-		/* 버튼 스타일 */
-		.review-actions button {
-		    background: none; /* 버튼 배경 제거 */
-		    border: none; /* 테두리 없음 */
-		    color: #666666; /* 버튼 텍스트 색상 */
-		    cursor: pointer;
-		    font-size: 14px;
-		    padding: 0; /* 패딩 없음 */
-		}
-		
-		.review-actions button:hover {
-		     text-decoration: underline;
-		}
-		
-		.btn-spacebetween {
-			margin: 0 10px;
-			color: C0C0C0;
-		}
-		
-		.edit-modal-content {
-		   display: flex;
-		   flex-direction: column;
-		   background-color: #fefefe;
-		   margin: 15% auto; /* 상하 좌우 가운데 정렬 */
-		   border: 0.5px solid #888;
-		   padding: 0;
-		   width: 500px;
-		   border-radius: 8px;
-		   overflow: hidden;
-		}
-		
-		
-		/* 별점 영역 스타일 */
-		.modal-stars {
-		   display: flex;
-		   color: #845EC2;
-		   margin: 10px 0;
-		}
-		
-		.modal-stars .star {
-		   font-size: 18px; /* 별 크기 */
-		   margin: 0 5px; /* 별 사이 간격 */
-		   cursor: pointer;
-		}
-		
-		/* 리뷰 텍스트 입력 영역 */
-		.modal-textarea {
-		   width: 95%; /* 입력 영역 너비 */
-		   height: 150px; /* 입력 영역 높이 */
-		   margin: 0 auto 20px; /* 아래쪽에 여백 추가 */
-		   border-color: #CCCCCC;
-		   border-radius: 10px;
-		   padding: 10px;
-		   font-size: 14px;
-		   color: #666666;
-		   resize: none;
-		}
-		
-		.edit-modal-item {
-			padding: 20px;
-		}
-    	</style>
+      
+      <link rel="stylesheet" href="/user/mypage/css/review.css"/>
 <div class="content">
 	
 	<div class="myinfo-content">
@@ -185,14 +32,13 @@
 	        <button class="tab-btn">내가 작성한 리뷰</button>
     	</div>
     	
-    	<!-- 검색결과(기타 결과) 없다 -->
 		<div class="result-wrap">
 		  <p>!</p>
 		  <span>검색결과가 없습니다</span>
 		</div>
 	    
 	    <!-- #book-list 리스트 뽑아올 곳 -->
-	    <div id="book-list" class="container" style="display:none;"></div>
+		<div id="book-list"></div>
 	</div>	    
 </div>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>

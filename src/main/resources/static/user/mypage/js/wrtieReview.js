@@ -1,18 +1,53 @@
 $(document).ready(function () {
-    let selectedRating = 0; // 사용자가 선택한 별점 값을 저장할 변수
-    
-    $(".star").on("click", function () {
-        selectedRating = $(this).data('rating'); // 클릭된 별의 rating 값을 가져옴
-        $("input[name='reviewRating']").val(selectedRating); // 숨겨진 input에 별점 값을 저장
+    let selectedRating = 0; 
+	const maxByteLength  = 1000;
+	
+	
+	function getByteLength(str) {
+	    let byteLength = 0;
+	    for (let i = 0; i < str.length; i++) {
+	        let charCode = str.charCodeAt(i);
+	        if (charCode <= 0x007F) {
+	            byteLength += 1;
+	        } else if (charCode <= 0x07FF) {
+	            byteLength += 2;
+	        } else {
+	            byteLength += 3;
+	        }
+	    }
+	    return byteLength;
+	}
+	
+	
+	$("textarea[name='reviewContent']").on("input", function () {
+	    let textarea = $(this);
+	    let content = textarea.val();
+	    let byteLength = getByteLength(content);
 
-        // 별의 상태 업데이트
+	    if (byteLength > maxByteLength) {
+	        while (getByteLength(content) > maxByteLength) {
+	            content = content.substring(0, content.length - 1);
+	        }
+	        textarea.val(content);  
+	    }
+
+	    $("#charCount").text(getByteLength(textarea.val()));
+	});
+	
+	
+    $(".star").on("click", function () {
+        selectedRating = $(this).data('rating'); 
+        $("input[name='reviewRating']").val(selectedRating); 
+
         $(".star").each(function () {
             let starValue = $(this).data('rating');
             if (starValue <= selectedRating) {
-                $(this).removeClass('far').addClass('fas'); // 선택된 별과 그 이전 별들 활성화
+                $(this).removeClass('far').addClass('fas');
             } else {
-                $(this).removeClass('fas').addClass('far'); // 그 이후 별들 비활성화
+                $(this).removeClass('fas').addClass('far');
             }
         });
+
+        $(".rating-value").text(selectedRating + "/5");
     });
 });

@@ -70,11 +70,11 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.length === 0) {
                     $('.result-wrap').show();
-                    $('#book-list').hide();
+                    $('#book-list').empty().hide();
                 } else {
                     $('.result-wrap').hide();
                     $('#book-list').empty().show();
-
+	
                     $.each(data, function (index, book) {
                         var imageUrl = "/images/books/" + book.book_isbn + ".jpg";
                         var purchaseDateFormatted = formatDate(book.order_purchase_date);
@@ -82,14 +82,16 @@ $(document).ready(function () {
                         if (type === 'pending') {
                             var bookHtml = `
                                 <div class="book-info">
-                                    <img src="${imageUrl}" alt="책 이미지">
-                                    <div class="book-details">
-                                        <span class="book-title">${book.book_name}</span>
-                                        <span>저자: ${book.book_author}</span>
-                                        <span>구매일: ${purchaseDateFormatted}</span>
-                                    </div>
-                                </div>
-                                <button class="default-btn border size-up review-btn" data-order-detail-num="${book.order_detail_num}">리뷰작성</button>`;
+									<div class="book-wrap">
+	                                    <img src="${imageUrl}" alt="책 이미지">
+	                                    <div class="book-details">
+	                                        <span class="book-title">${book.book_name}</span>
+	                                        <span class="book-author">저자: ${book.book_author}</span>
+	                                        <span class="book-date">구매일: ${purchaseDateFormatted}</span>
+	                                    </div>
+									</div>
+                                <button class="default-btn border size-up review-btn" data-order-detail-num="${book.order_detail_num}">리뷰작성</button>
+                                </div>`;
                             $('#book-list').append(bookHtml);
 
                         } else if (type === 'written') {
@@ -97,22 +99,22 @@ $(document).ready(function () {
                                 '<span class="far fa-star empty-stars"></span>'.repeat(5 - book.review_rating);
                             var reviewDateFormatted = formatDate(book.review_write_date);
                             var reviewHtml = `
-                                <div class="review-container">
-                                    <div class="book-info-wrapper">
-                                        <img src="${imageUrl}" alt="책 이미지">
-                                        <div class="book-title">${book.book_name}</div>
-                                    </div>
-                                    <div class="review-box">
-                                        <div class="review-stars">${starsHtml}</div>
-                                        <div class="review-date">${reviewDateFormatted}</div>
-                                        <div class="review-content">${book.review_content}</div>
-                                        <div class="review-actions">
-                                            <button class="edit-review-btn" data-review-num="${book.review_num}">수정</button>
-                                            <span class="btn-spacebetween">|</span>
-                                            <button class="delete-review-btn" data-review-num="${book.review_num}">삭제</button>
-                                        </div>
-                                    </div>
-                                </div>`;
+	                                <div class="review-container">
+	                                    <div class="book-info-wrapper">
+	                                        <img src="${imageUrl}" alt="책 이미지">
+	                                        <div class="book-title">${book.book_name}</div>
+	                                    </div>
+	                                    <div class="review-box">
+	                                        <div class="review-stars">${starsHtml}</div>
+	                                        <div class="review-date">${reviewDateFormatted}</div>
+	                                        <div class="review-content">${book.review_content}</div>
+	                                        <div class="review-actions">
+	                                            <button class="edit-review-btn" data-review-num="${book.review_num}">수정</button>
+	                                            <span class="btn-spacebetween">|</span>
+	                                            <button class="delete-review-btn" data-review-num="${book.review_num}">삭제</button>
+	                                        </div>
+	                                    </div>
+	                                </div>`;
                             $('#book-list').append(reviewHtml);
                         }
                     });

@@ -17,7 +17,7 @@ public class UserBookReviewDTO {
 	
 	Timestamp order_purchase_date;
 	
-	Long review_num;
+	Integer review_num;
 	Integer order_detail_num;
 	String review_content;
 	Integer review_rating;

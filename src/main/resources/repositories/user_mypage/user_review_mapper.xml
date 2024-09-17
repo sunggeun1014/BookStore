@@ -65,7 +65,7 @@
 
 
 	<!-- 리뷰 조회 -->
-	<select id="getReviewByReviewNum" parameterType="long" resultType="BookReview">
+	<select id="getReviewByReviewNum" parameterType="Integer" resultType="BookReview">
 		 SELECT 
         R.REVIEW_NUM,
         R.REVIEW_CONTENT,
@@ -94,7 +94,7 @@
 	</update>
 
 	<!-- 리뷰 삭제 -->
-	<delete id="deleteReview" parameterType="long">
+	<delete id="deleteReview" parameterType="Integer">
 		DELETE FROM 
 			REVIEWS 
 		WHERE 
@@ -106,7 +106,8 @@
 		SELECT 
 			B.book_isbn,
 		    B.book_name,              
-		    B.book_author,               
+		    B.book_author,
+		    COD.order_detail_num,               
 		    CO.order_purchase_date,      
 		    R.review_rating              
 		FROM 
@@ -121,5 +122,14 @@
 		    COD.order_detail_num = #{orderDetailNum}
 	
 	</select>
+	
+	
+	<insert id="insertReview" parameterType="BookReview">
+    INSERT INTO 
+    	REVIEWS 
+    	(review_num, member_id, order_detail_num, review_content, review_rating, review_write_date)
+    VALUES 
+    	(REVIEW_VIEWS_SEQ.NEXTVAL, #{member_id}, #{order_detail_num}, #{review_content}, #{review_rating}, CURRENT_TIMESTAMP)
+	</insert>
 	
 </mapper>

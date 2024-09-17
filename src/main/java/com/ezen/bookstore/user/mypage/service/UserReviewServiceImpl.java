@@ -1,7 +1,6 @@
 package com.ezen.bookstore.user.mypage.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,17 +38,17 @@ public class UserReviewServiceImpl implements UserReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserBookReviewDTO getReviewByReviewNum(Long reviewNum) {
+    public UserBookReviewDTO getReviewByReviewNum(Integer reviewNum) {
         return reviewMapper.getReviewByReviewNum(reviewNum);
     }
 
     @Override
-    public void updateReview(Long reviewNum, UserBookReviewDTO userBookReviewDTO) {
+    public void updateReview(Integer reviewNum, UserBookReviewDTO userBookReviewDTO) {
         reviewMapper.updateReview(reviewNum, userBookReviewDTO);
     }
 
     @Override
-    public void deleteReview(Long reviewNum) {
+    public void deleteReview(Integer reviewNum) {
         reviewMapper.deleteReview(reviewNum);
     }
     
@@ -57,5 +56,10 @@ public class UserReviewServiceImpl implements UserReviewService {
     @Transactional(readOnly = true)
     public UserBookReviewDTO getOrderDetail(Integer orderDetailNum) {
     	return reviewMapper.getOrderDetail(orderDetailNum);
+    }
+    
+    @Override
+    public void saveReview(UserBookReviewDTO userBookReviewDTO) {
+    	reviewMapper.insertReview(userBookReviewDTO);
     }
 }
