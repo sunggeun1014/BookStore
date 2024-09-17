@@ -48,21 +48,16 @@ public class UserCartController {
         String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
 
         if (memberId == null) {
-            response.put("success", false);
-            response.put("message", "사용자가 인증되지 않았습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
-
         userCartDTO.setMember_id(memberId);
         boolean exists = userCartService.cartItemExists(userCartDTO);
 
         if (exists) {
-            response.put("success", false);
-            response.put("message", "장바구니에 이미 있는 상품입니다.");
+        	response.put("status", "warning");
         } else {
             userCartService.addCartItem(userCartDTO);
             response.put("success", true);
-            response.put("message", "장바구니에 추가하였습니다.");
         }
         return ResponseEntity.ok(response);
     }
@@ -75,8 +70,6 @@ public class UserCartController {
         Map<String, Object> response = new HashMap<>();
 
         if (memberId == null) {
-            response.put("success", false);
-            response.put("message", "로그인 되지 않았습니다");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
 

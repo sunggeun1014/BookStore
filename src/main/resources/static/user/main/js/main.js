@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		effect: 'slide', // 효과를 슬라이드로 설정 (기본값)
 	});
 
-	// 베스트셀러 헤더 월 변경되게
+	// 현재 월을 베스트셀러 제목에 반영
 	const now = new Date();
 	const month = now.getMonth() + 1;
 	const titleElement = document.getElementById('best-seller-month');
@@ -46,18 +46,28 @@ function addToCart(bookIsbn, qty) {
 		contentType: 'application/json',
 		data: JSON.stringify(cartItem),
 		success: function(response) {
-			if (response.message === '장바구니에 이미 있는 상품입니다.') {
-			    getConfirmModal('장바구니에 이미 있는 상품입니다. 장바구니로 이동하시겠습니까?', function() {
-			        window.location.href = '/user/cart/list';
-			    });
-			} else {
-				getConfirmModal('장바구니에 담겼습니다. 장바구니로 이동하시겠습니까?', function() {
-					window.location.href = '/user/cart/list';
-				});
+			let message = '';
+			let redirectUrl = null;
+
+			if (response.success === true) {
+				message = '장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?';
+				redirectUrl = '/user/cart/list';
+			} else if (response.status === 'warning') {
+				message = '장바구니에 이미 있는 상품입니다. 장바구니로 이동하시겠습니까?';
+				redirectUrl = '/user/cart/list';
 			}
+			getConfirmModal(message, function() {
+				if (redirectUrl) {
+					location.href = redirectUrl;
+				}
+			});
 		},
-		error: function() {
-			getCheckModal('장바구니 추가에 실패했습니다.');
+		error: function(xhr) {
+			if (xhr.status === 401) {
+				location.href = '/user/login';
+			} else {
+				getErrorModal('장바구니 추가에 실패했습니다.');
+			}
 		}
 	});
 }
