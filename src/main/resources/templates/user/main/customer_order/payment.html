@@ -7,7 +7,8 @@
 
 <link rel="stylesheet" href="/user/customer_order/css/payment.css">
 
-<div class="inner">
+<div id="member-check" th:data-member="${memberDTO != null ? true : false}"></div>
+<div class="inner" th:if="${memberDTO != null}">
     <!-- 상단 제목 -->
     <section id="pay-header">
         <h3 class="header-title">주문/결제</h3>
@@ -98,7 +99,7 @@
                 <div class="price-wrap">
                     <p>상품금액</p>
                     <div class="price">
-                        <p th:text="${#numbers.formatInteger(totalPrice, 0, 'COMMA')}"></p>
+                        <p th:text="${totalPrice != null ? #numbers.formatInteger(totalPrice, 0, 'COMMA') : 0}"></p>
                         <p>원</p>
                     </div>
                 </div>
@@ -111,11 +112,11 @@
                 <div class="total-wrap">
                     <p>최종 결제 금액</p>
                     <div class="price">
-                        <p th:text="${#numbers.formatInteger(totalPrice, 0, 'COMMA')}"></p>
+                        <p th:text="${totalPrice != null ? #numbers.formatInteger(totalPrice, 0, 'COMMA') : 0}"></p>
                         <p>원</p>
                     </div>
                 </div>
-                <button class="default-btn" id="pay-btn">결제하기</button>
+                <button class="default-btn" id="pay-btn" th:disabled="${orderCartItems == null && orderItems == null}">결제하기</button>
             </div>
         </section>
 
@@ -126,13 +127,17 @@
                     <p class="product-name">주문상품</p>
                     <div class="total-cnt">
                         <p>총</p>
-                        <p class="book-cnt" th:text="${itemsCnt}"></p>
+                        <p class="book-cnt" th:text="${itemsCnt != null ? itemsCnt : 0}"></p>
                         <p>개</p>
                     </div>
                 </div>
                 <i class="fa-solid fa-angle-down product-info-arrow"></i>
             </div>
             <div class="list-wrap">
+                <div class="result-wrap" th:if="${orderItems == null && orderCartItems == null}">
+                    <p>!</p>
+                    <span>상품이 없습니다</span>
+                </div>
                 <div class="product-list" th:each="item : ${orderItems}">
                     <div class="list-left">
                         <div class="img-wrap">
@@ -195,8 +200,8 @@
             </div>
         </section>
     </div>
-
 </div>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/user/customer_order/js/payment.js"></script>
 </html>

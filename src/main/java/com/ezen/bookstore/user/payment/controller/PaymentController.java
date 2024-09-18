@@ -18,10 +18,13 @@ import java.util.List;
 @Controller
 public class PaymentController {
 
-    @GetMapping("/payment")
+    @GetMapping("/order")
     public String payment(HttpSession session, Model model) {
         UserMembersDTO memberDTO = (UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO);
-        model.addAttribute("memberDTO", memberDTO);
+
+        if (memberDTO != null) {
+            model.addAttribute("memberDTO", memberDTO);
+        }
 
         String purchaseType = (String) session.getAttribute("purchaseType");
 
@@ -52,6 +55,8 @@ public class PaymentController {
         } else {
             model.addAttribute("error", "데이터를 찾을 수 없습니다");
         }
+
+        session.removeAttribute("purchaseType");
 
         return "/user/main/customer_order/payment";
     }

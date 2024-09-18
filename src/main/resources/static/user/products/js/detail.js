@@ -163,7 +163,7 @@ function submitHandler() {
                     data: JSON.stringify(orderData),
                     success: function (response) {
                         console.log("바로구매 성공")
-                        location.href = '/user/payment';
+                        location.href = '/user/order';
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("바로구매 에러", textStatus, errorThrown);

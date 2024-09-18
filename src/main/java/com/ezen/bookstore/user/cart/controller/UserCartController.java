@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -98,7 +99,9 @@ public class UserCartController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<Void> orderToPayment(@RequestBody List<OrderItemDTO> selectedItems) {
+    public ResponseEntity<Void> orderToPayment(@RequestBody List<OrderItemDTO> selectedItems, HttpSession session) {
+        session.setAttribute("orderItems", selectedItems);
+        session.setAttribute("purchaseType", "cart");
         return ResponseEntity.ok().build();
     }
 }
