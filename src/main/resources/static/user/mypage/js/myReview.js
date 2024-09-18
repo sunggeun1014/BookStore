@@ -242,21 +242,21 @@ $(document).ready(function () {
     }
 
     function deleteReview(reviewNum) {
-        if (confirm("정말로 이 리뷰를 삭제하시겠습니까?")) {
-            $.ajax({
-                url: `/user/mypage/my-reviews-page/delete-review/${reviewNum}`,
-                method: 'DELETE',
-                success: function () {
-                    getCheckModal('리뷰가 삭제되었습니다.');
-                    loadBooks('written'); 
-					return;
-                },
-                error: function () {
-                    getCheckModal('리뷰 삭제에 실패했습니다.');
-					return;
-                }
-            });
-        }
+		getConfirmModal("정말로 이 리뷰를 삭제하시겠습니까?", function() {
+		       $.ajax({
+		           url: `/user/mypage/my-reviews-page/delete-review/${reviewNum}`,
+		           method: 'DELETE',
+		           success: function () {
+		               getCheckModal('리뷰가 삭제되었습니다.');
+		               loadBooks('written'); 
+		               return;
+		           },
+		           error: function () {
+		               getCheckModal('리뷰 삭제에 실패했습니다.');
+		               return;
+		           }
+		       });
+		   });
     }
 
     function formatDate(timestamp) {

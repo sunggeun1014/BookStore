@@ -19,7 +19,7 @@ $(document).ready(function () {
 	}
 	
 	
-	$("textarea[name='reviewContent']").on("input", function () {
+	$("textarea[name='review_content']").on("input", function () {
 	    let textarea = $(this);
 	    let content = textarea.val();
 	    let byteLength = getByteLength(content);
@@ -37,7 +37,7 @@ $(document).ready(function () {
 	
     $(".star").on("click", function () {
         selectedRating = $(this).data('rating'); 
-        $("input[name='reviewRating']").val(selectedRating); 
+        $("input[name='review_rating']").val(selectedRating); 
 
         $(".star").each(function () {
             let starValue = $(this).data('rating');

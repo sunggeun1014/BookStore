@@ -60,6 +60,7 @@ public class UserReviewServiceImpl implements UserReviewService {
     
     @Override
     public void saveReview(UserBookReviewDTO userBookReviewDTO) {
+    	userBookReviewDTO.setMember_id(SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID));
     	reviewMapper.insertReview(userBookReviewDTO);
     }
 }
