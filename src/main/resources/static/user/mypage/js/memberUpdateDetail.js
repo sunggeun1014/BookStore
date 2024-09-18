@@ -110,6 +110,7 @@ function validateForm() {
 	} 
 	   
 	if (inputPwCheck && !validatePassword(inputPwCheck)) {
+		pwError.style.color = "red";
 		pwError.textContent = "※ 비밀번호 양식에 맞춰 작성해주세요"
 			
 		isValid = false;

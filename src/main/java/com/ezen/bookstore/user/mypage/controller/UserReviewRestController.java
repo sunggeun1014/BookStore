@@ -1,8 +1,10 @@
 package com.ezen.bookstore.user.mypage.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,8 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ezen.bookstore.commons.Pagination;
+import com.ezen.bookstore.commons.PaginationProcess;
 import com.ezen.bookstore.user.mypage.dto.UserBookReviewDTO;
 import com.ezen.bookstore.user.mypage.service.UserReviewService;
 
@@ -27,12 +32,14 @@ public class UserReviewRestController {
 	
 	UserReviewService userReviewService;
 	
+	 // 리뷰를 기다리는 도서 목록
     @GetMapping("/pending-reviews")
     public ResponseEntity<List<UserBookReviewDTO>> getPendingReviews(@ModelAttribute UserBookReviewDTO userBookReviewDTO) {
         List<UserBookReviewDTO> pendingReviews = userReviewService.getPendingReviews(userBookReviewDTO);
         return ResponseEntity.ok(pendingReviews);
     }
 
+    // 작성한 리뷰 목록
     @GetMapping("/written-reviews")
     public ResponseEntity<List<UserBookReviewDTO>> getWrittenReviews(@ModelAttribute UserBookReviewDTO userBookReviewDTO) {
         List<UserBookReviewDTO> writtenReviews = userReviewService.getWrittenReviews(userBookReviewDTO);

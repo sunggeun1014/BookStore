@@ -27,6 +27,7 @@ public class UserReviewController {
 		
 		return "user/mypage/review/myReview";
 	}
+	
 	@GetMapping("/write-review")
 	public String writeReviewPageModel(@RequestParam("orderDetailNum") Integer orderDetailNum, Model model) {
 		UserBookReviewDTO userBookReviewDTO = reviewService.getOrderDetail(orderDetailNum);
@@ -39,7 +40,7 @@ public class UserReviewController {
 	@PostMapping("/save-review")
 	public String saveReview(UserBookReviewDTO userBookReviewDTO) {
 		reviewService.saveReview(userBookReviewDTO);
-		return "redirect:/user/mypage/my-reivews-page";
+		return "redirect:/user/mypage/my-reviews-page";
 	}
 	
 }
