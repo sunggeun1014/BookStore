@@ -319,7 +319,7 @@
         r.review_write_date
         FROM
         customer_order_details cod
-        LEFT JOIN reviews r ON cod.order_detail_num = r.order_detail_num
+        INNER JOIN reviews r ON cod.order_detail_num = r.order_detail_num
         WHERE cod.book_isbn = #{book_isbn}
     </select>
 
