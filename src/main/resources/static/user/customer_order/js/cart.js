@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				contentType: 'application/json',
 				data: JSON.stringify(selectedItems),
 				success: function(response) {
-					window.location.href = '/user/payment'
+					window.location.href = '/user/order'
 				},
 
 				error: function(jqXHR, textStatus, errorThrown) {

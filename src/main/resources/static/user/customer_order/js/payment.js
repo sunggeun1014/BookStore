@@ -127,6 +127,40 @@ function toggleProductList() {
     })
 }
 
+function showModal() {
+    const memberCheck = document.getElementById("member-check")
+    let isLogin = memberCheck.getAttribute("data-member")
+    console.log('로그인? ', isLogin);
+    console.log('로그인? ', typeof isLogin);
+
+    if (isLogin === "false") {
+        getDataCheckModal();
+    }
+}
+
+function getDataCheckModal() {
+    let divArea = $("<div id='myModal' class='modal' style='display: block;'></div>"); // 잘못된 따옴표 수정
+    let contentArea = $("<div class='modal-content'></div>");
+
+    let messageArea = $(`<div class='modal-text'><p>잘못된 접근 입니다.</p></div>`);
+    let modalFotter = $("<div class='modal-footer'></div>");  // 문자열 수정
+    let btnArea = $("<button id='confirm-delete' class='modal-btn confirm'>확인</button>");
+
+    contentArea.append(messageArea);
+    contentArea.append(modalFotter);
+
+    modalFotter.append(btnArea);
+    divArea.append(contentArea);
+
+    $("body").append(divArea);
+    $(".modal-btn.confirm").on("click", function() {
+        location.href = '/user/login'
+        divArea.remove(); // 모달 제거
+    });
+
+    $("#confirm-delete").focus();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     showDoorPWInput();
     agreeClickHandler();
@@ -134,3 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
     inputAddr();
     toggleProductList();
 });
+
+window.onload = function () {
+    showModal();
+}
