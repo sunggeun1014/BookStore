@@ -3,19 +3,42 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="OrderPayment">
-    <insert id="addOrder">
-        INSERT INTO customer_order (
-        order_num,
-        order_addr,
-        order_addr_detail,
-        common_ent_pw,
-        member_id
-        ) VALUES (
-        customer_orders_seq.NEXTVAL,
-        #{order_addr}
-        #{order_addr_detail}
-        #{common_ent_pw}
-        #{member_id}
-        )
+    <insert id="insertCustomerOrder">
+        <![CDATA[
+        DECLARE
+            v_order_num NUMBER;
+        BEGIN
+            INSERT INTO customer_orders (
+                order_num,
+                order_addr,
+                order_addr_detail,
+                common_ent_pw,
+                member_id
+            ) VALUES (
+                CUSTOMER_ORDERS_SEQ.nextval,
+                #{orderAddr},
+                #{orderAddrDetail},
+                #{commonEntPw},
+                #{memberId}
+            )
+            RETURNING ORDER_NUM INTO v_order_num;
+
+            <foreach collection="orderDetails" item="detail" separator=";">
+                INSERT INTO customer_order_details (
+                    order_detail_num,
+                    order_detail_qty,
+                    book_isbn,
+                    order_detail_price,
+                    order_num
+                ) VALUES (
+                    customer_orders_detail_seq.nextval,
+                    #{detail.orderDetailQty},
+                    #{detail.bookIsbn},
+                    #{detail.orderDetailPrice},
+                    v_order_num
+                )
+            </foreach>
+        END;
+    ]]>
     </insert>
 </mapper>
