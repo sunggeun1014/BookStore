@@ -155,6 +155,7 @@ $(document).ready(function () {
         let modalDiv = $("<div id='myModal' class='modal' style='display: block;'></div>");
         let modalContent = $("<div class='edit-modal-content'></div>");
         let modalItem = $("<div class='edit-modal-item'></div>");
+		let modalHead = $("<div class='modal-head'><h3>리뷰 수정</h3></div>")
         let title = $(`<h2>${review.book_name}</h2>`);
         let starRatingArea = $("<div class='modal-stars'></div>");
         let reviewTextArea = $(`<textarea class='modal-textarea'>${review.review_content}</textarea>`);
@@ -174,6 +175,7 @@ $(document).ready(function () {
         let cancelButton = $("<button id='cancel-edit' class='modal-btn cancel'>취소</button>");
         
         modalFooter.append(confirmButton).append(cancelButton);
+		modalContent.append(modalHead);
         modalItem.append(title);
         modalItem.append(starRatingArea);
         modalItem.append(reviewTextArea);

@@ -1,4 +1,4 @@
-package com.ezen.bookstore.user.mypage.controller;
+package com.ezen.bookstore.user.mypage.account.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.bookstore.commons.CommonConstants;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
-import com.ezen.bookstore.user.mypage.service.UserAccountService;
+import com.ezen.bookstore.user.mypage.account.service.UserAccountService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

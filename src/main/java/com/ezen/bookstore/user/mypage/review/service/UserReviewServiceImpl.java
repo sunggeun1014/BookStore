@@ -1,4 +1,4 @@
-package com.ezen.bookstore.user.mypage.service;
+package com.ezen.bookstore.user.mypage.review.service;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.bookstore.commons.SessionUtils;
 import com.ezen.bookstore.user.commons.UserSessionInfo;
-import com.ezen.bookstore.user.mypage.dto.UserBookReviewDTO;
-import com.ezen.bookstore.user.mypage.mapper.UserReviewMapper;
+import com.ezen.bookstore.user.mypage.review.dto.UserBookReviewDTO;
+import com.ezen.bookstore.user.mypage.review.mapper.UserReviewMapper;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

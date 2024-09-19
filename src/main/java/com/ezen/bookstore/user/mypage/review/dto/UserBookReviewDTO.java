@@ -1,4 +1,4 @@
-package com.ezen.bookstore.user.mypage.dto;
+package com.ezen.bookstore.user.mypage.review.dto;
 
 import java.sql.Timestamp;
 

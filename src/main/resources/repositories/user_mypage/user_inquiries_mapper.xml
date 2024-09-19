@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.bookstore.user.mypage.inquiries.mapper.UserInquiriesMapper">
+	
+	<select id="getInquiriesList" resultType="userInquiries" parameterType="userInquiries">
+        SELECT 
+            i.inquiry_num,
+            i.inquiry_title,
+            i.inquiry_content,
+            i.member_id,
+            i.inquiry_write_date,
+            i.inquiry_answer_status,
+            i.inquiry_type,
+            i.inquiries_original,
+            i.inquiries_changed,
+            i.order_num,
+            i.order_detail_num,
+            i.order_qty,
+            ia.answer_content,
+            ia.answer_write_date
+        FROM 
+            inquiries i
+        LEFT JOIN 
+            inquiries_answer ia ON i.inquiry_num = ia.inquiry_num
+        WHERE 
+            1=1
+        <!-- 상태 필터링 -->
+        <if test="inquiry_answer_status != null and inquiry_answer_status != ''">
+            AND i.inquiry_answer_status = #{inquiry_answer_status}
+        </if>
+        <if test="startDate != null and endDate != null">
+		    AND i.inquiry_write_date BETWEEN #{startDate} AND #{endDate}
+		</if>
+		AND i.member_id = #{member_id}
+    </select>
+
+	<delete id="deleteInquiry" parameterType="Integer">
+        DELETE FROM
+        	inquiries
+        WHERE 
+        	inquiry_num = #{inquiry_num}
+    </delete>
+
+
+
+
+</mapper>

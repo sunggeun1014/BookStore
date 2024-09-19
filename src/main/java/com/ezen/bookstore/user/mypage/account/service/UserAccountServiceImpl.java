@@ -1,4 +1,4 @@
-package com.ezen.bookstore.user.mypage.service;
+package com.ezen.bookstore.user.mypage.account.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.commons.SessionUtils;
 import com.ezen.bookstore.user.commons.UserSessionInfo;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
-import com.ezen.bookstore.user.mypage.mapper.UserAccountMapper;
+import com.ezen.bookstore.user.mypage.account.mapper.UserAccountMapper;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
