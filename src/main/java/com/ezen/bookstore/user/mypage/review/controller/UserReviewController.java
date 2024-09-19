@@ -1,4 +1,4 @@
-package com.ezen.bookstore.user.mypage.controller;
+package com.ezen.bookstore.user.mypage.review.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ezen.bookstore.user.mypage.dto.UserBookReviewDTO;
-import com.ezen.bookstore.user.mypage.service.UserReviewService;
+import com.ezen.bookstore.user.mypage.review.dto.UserBookReviewDTO;
+import com.ezen.bookstore.user.mypage.review.service.UserReviewService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

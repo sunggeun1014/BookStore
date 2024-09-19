@@ -1,11 +1,11 @@
-package com.ezen.bookstore.user.mypage.mapper;
+package com.ezen.bookstore.user.mypage.review.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.ezen.bookstore.user.mypage.dto.UserBookReviewDTO;
+import com.ezen.bookstore.user.mypage.review.dto.UserBookReviewDTO;
 
 @Mapper
 public interface UserReviewMapper {

@@ -1,4 +1,4 @@
-package com.ezen.bookstore.user.mypage.service;
+package com.ezen.bookstore.user.mypage.account.service;
 
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 

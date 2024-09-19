@@ -80,12 +80,70 @@
 	width: 100%;
 }
 
+.date-picker-plus {
+	display: flex;
+	align-items: center;
+	gap: 10px;	
+}
+
 .fa-calendar-days {
 	position: absolute;
 	font-size: 19px;
 	top: 50%;
 	right: 20px;
 	transform: translateY(-50%);
+}
+
+.icon-question {
+ 	display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('/user/common/imgs/question-icon.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.icon-arrow-on {
+ 	display: inline-block;
+    width: 14px;
+    height: 16px;
+    color: #666666;
+    background-image: url('/user/common/imgs/arrow=on.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.icon-arrow-off {
+ 	display: inline-block;
+    width: 14px;
+    height: 16px;
+    color: #666666;
+    background-image: url('/user/common/imgs/arrow=off.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.icon-answer-arrow {
+	display: inline-block;
+	width: 16px;
+	height: 14px;
+	color: #7E7E7E;
+	background-image: url('/user/common/imgs/answer-arrow.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.important::after {
+	content: "*";
+	color: red;
+	font-weight: bold;
+	margin-left: 2px;
+	position: absolute;
+	transform: translateY(-45%);
 }
 
 .fa-solid {

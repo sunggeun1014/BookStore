@@ -1,4 +1,4 @@
-package com.ezen.bookstore.user.mypage.mapper;
+package com.ezen.bookstore.user.mypage.account.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
