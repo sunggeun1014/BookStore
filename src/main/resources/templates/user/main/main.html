@@ -32,8 +32,9 @@
 
 			<div class="section-content-book" th:each="book : ${bestBooks}">
 				<div class="thumbnail-wrapper">
-					<img th:src="@{/images/books/{book}(book=${book.book_thumbnail_changed})}" alt="썸네일" class="book-thumbnail">
-					<div class="book-interactive">
+					<img th:src="${book.book_thumbnail_changed != null ? '/images/books/' + book.book_thumbnail_changed : '/images/books/noimg.png'}"
+                     alt="썸네일" class="book-thumbnail">
+                    <div class="book-interactive">
 						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
 							<button th:data-isbn="${book.book_isbn}" class="add-cart-button">장바구니</button>
@@ -57,7 +58,8 @@
 		<div id="new-books-wrapper" class="section-content-books-wrapper">
 			<div class="section-content-book" th:each="book : ${newBooks}">
 				<div class="thumbnail-wrapper">
-					<img th:src="@{/images/books/{book}(book=${book.book_thumbnail_changed})}" alt="썸네일" class="book-thumbnail">
+					<img th:src="${book.book_thumbnail_changed != null ? '/images/books/' + book.book_thumbnail_changed : '/images/books/noimg.png'}"
+                     alt="썸네일" class="book-thumbnail">
 					<div class="book-interactive">
 						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
@@ -81,7 +83,8 @@
 		<div id="top-rated-books-wrapper" class="section-content-books-wrapper">
 			<div class="section-content-book" th:each="book : ${topRatedBooks}">
 				<div class="thumbnail-wrapper">
-					<img th:src="@{/images/books/{book}(book=${book.book_thumbnail_changed})}" alt="썸네일" class="book-thumbnail">
+					<img th:src="${book.book_thumbnail_changed != null ? '/images/books/' + book.book_thumbnail_changed : '/images/books/noimg.png'}"
+                     alt="썸네일" class="book-thumbnail">
 					<div class="book-interactive">
 						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">
@@ -105,7 +108,8 @@
 		<div id="recommend-books-wrapper" class="section-content-books-wrapper" >
 			<div class="section-content-book" th:each="book : ${recommendBooks}" > 
 				<div class="thumbnail-wrapper">
-					<img th:src="@{/images/books/{book}(book=${book.book_thumbnail_changed})}" alt="썸네일" class="book-thumbnail">
+					<img th:src="${book.book_thumbnail_changed != null ? '/images/books/' + book.book_thumbnail_changed : '/images/books/noimg.png'}"
+                     alt="썸네일" class="book-thumbnail">
 					<div class="book-interactive">
 						<div class="book-interactive-info" th:text="${book.book_intro}" th:onclick="redirectToDetailPage(/*[[${book.book_isbn}]]*/)"></div>
 						<div class="book-interactive-cart">

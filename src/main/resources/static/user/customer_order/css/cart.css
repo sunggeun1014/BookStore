@@ -49,6 +49,7 @@
 	margin: 0 8px;
 }
 
+
 .table-header, .cart-item {
 	display: flex;
 	gap: 20px;
@@ -72,6 +73,7 @@
 
 .product-info {
 	width: 320px;
+	cursor: pointer;
 }
 
 .price-qty, .delivery-date {

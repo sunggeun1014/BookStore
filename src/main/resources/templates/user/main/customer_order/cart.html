@@ -39,7 +39,7 @@
 								   th:data-thumbnail="${item.book_thumbnail_changed}" th:data-name="${item.book_name}">
 								<label for=""></label>
 						</div>
-						<div class="product-info" >
+						<div class="product-info" th:data-isbn="${item.book_isbn}" >
 							<img class="product-img" th:src="@{/images/books/{image}(image=${item.book_thumbnail_changed})}" alt="책 이미지" />
 							<div class="product-title-price">
 								<p class="book-title" th:text="${item.book_name}"></p>

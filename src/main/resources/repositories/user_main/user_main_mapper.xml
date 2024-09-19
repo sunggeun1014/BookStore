@@ -9,7 +9,9 @@
 		FROM 
 			banners_popups
 		WHERE
-			banner_visible = '01'
+			banner_visible = '01' 
+		AND 
+			banner_position = '01'
 	</select>
 
 	<select id="getBestBooks" parameterType="String" resultType="userMain">
