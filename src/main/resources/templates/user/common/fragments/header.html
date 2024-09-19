@@ -6,12 +6,17 @@
 <!-- 메인 헤더 -->
 <div class="header-inner">
     <div class="header-top">
-        <div id="topMenuWrap" class="top-menu-wrap">
-            <a href="/user/login" class="top-menu-link">로그인</a>
-            <a href="/user/cart/list" class="top-menu-link">장바구니</a>
-            <a href="/user/mypage" class="top-menu-link" style="display:none;">마이페이지</a>
-            <a href="" class="top-menu-link">1:1문의</a>
-        </div>
+	    <div id="loginMenu" class="top-menu-wrap">
+	        <a href="/user/login" class="top-menu-link">로그인</a>
+	      	<a href="/user/cart/list" class="top-menu-link">장바구니</a>
+	   		<a href="/user/contact" class="top-menu-link">1:1문의</a>
+	    </div>
+	    <div id="userMenu" class="top-menu-wrap" style="display: none;">
+	        <a href="/user/logout" class="top-menu-link">로그아웃</a>
+	        <a href="/user/mypage" class="top-menu-link">마이페이지</a>
+		    <a href="/user/cart/list" class="top-menu-link">장바구니</a>
+		    <a href="/user/contact" class="top-menu-link">1:1문의</a>
+	    </div>
     </div>
 
     <div class="header-center">
@@ -20,8 +25,8 @@
             </a>
             <div class="searchbar">
                 <input type="text" id="searchKeyword" name="searchKeyword" class="search-input"
-                       th:value="${condition != null ? condition.word : ''}"> <i
-                    class="fa-solid fa-magnifying-glass search-icon"></i>
+                       th:value="${condition != null ? condition.word : ''}"> 
+                       <i class="fa-solid fa-magnifying-glass search-icon"></i>
             </div>
         </div>
 

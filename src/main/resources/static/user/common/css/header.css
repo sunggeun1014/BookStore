@@ -24,10 +24,8 @@ header {
 
 .top-menu-wrap {
     display: flex;
-    flex-direction: row;
     gap: 20px;
     margin-right: 10px;
-
 }
 
 .top-menu-link {
