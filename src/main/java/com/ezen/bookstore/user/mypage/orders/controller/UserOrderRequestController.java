@@ -16,6 +16,12 @@ public class UserOrderRequestController {
 	
 	private final UserOrderRequestService orderRequestService;
 	
+	
+	@GetMapping("/orderList")
+	public String myOrderPage() {
+		return "/user/mypage/customer_order/orderList";
+	}
+	
     @GetMapping("/cancleList")
     public String purchaseCancleForm(Model model, Integer orderNum) {
     	model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum)); 

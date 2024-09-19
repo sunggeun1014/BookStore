@@ -87,12 +87,12 @@
 	</select>
 	
 	<select id="getBasketCount" resultType="Integer" parameterType="String">
-        SELECT
-            SUM(cart_purchase_qty)
-        FROM
-            orders_cart
-        WHERE
-            member_id = #{member_id}
+	    SELECT 
+	        COALESCE(SUM(cart_purchase_qty), 0)
+	    FROM 
+	        orders_cart
+	    WHERE 
+	        member_id = #{member_id}
     </select>
     
     <select id="findMember" resultType="userMembers">

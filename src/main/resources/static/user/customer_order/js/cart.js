@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		if (expectedPaymentAmountElement) {
 			expectedPaymentAmountElement.innerText = total.toLocaleString();
 		}
-		
+
 		// 헤더 장바구니 수량 업데이트
 		const headerCartQtyElements = document.querySelectorAll('.cart-qty p');
 		headerCartQtyElements.forEach(p => p.innerText = totalItems);
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				qty--;
 				inputQty.value = qty;
 				updatePrice();
-				updateCartItemQuantity(); 
+				updateCartItemQuantity();
 			}
 		});
 
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			qty++;
 			inputQty.value = qty;
 			updatePrice();
-			updateCartItemQuantity(); 
+			updateCartItemQuantity();
 		});
 
 		function handleQtyChange() {
@@ -168,25 +168,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		if (cartNums.length > 0) {
 			const requestData = { cartNums: cartNums };
-
-			$.ajax({
-				url: '/user/cart/delete',
-				method: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify(requestData),
-				xhrFields: {
-					withCredentials: true // 쿠키를 포함시키기 위한 설정
-				},
-				success: function(response) {
-					if (response.success) {
+			getConfirmModal('선택한 상품을 삭제하시겠습니까?', function() {
+				$.ajax({
+					url: '/user/cart/delete',
+					method: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(requestData),
+					xhrFields: {
+						withCredentials: true
+					},
+					success: function(response) {
 						location.reload(); // 페이지 새로고침
-					} else {
-						getCheckModal('삭제에 실패했습니다.');
+					},
+					error: function(error) {
+						getErrorModal('삭제 중 오류가 발생했습니다.');
 					}
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					getErrorModal();
-				}
+				});
 			});
 		} else {
 			getCheckModal('삭제할 상품을 선택해주세요.');
@@ -194,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 	// 선택 아이템 주문페이지로
-	goToPayment()
+	goToPayment();
 	function goToPayment() {
 		const orderBtn = document.querySelector(".order-btn")
 
@@ -217,27 +214,48 @@ document.addEventListener("DOMContentLoaded", function() {
 				})
 			});
 
-			if (selectedItems.length === 0) {
+			if (selectedItems.length > 0) {
+				getConfirmModal(`${selectedItems.length}개의 상품을 주문하시겠습니까?`, function() {
+					$.ajax({
+						url: '/user/cart/order',
+						method: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify(selectedItems),
+						success: function(response) {
+							window.location.href = '/user/order'
+						},
+
+						error: function(jqXHR, textStatus, errorThrown) {
+							console.error('error', textStatus, errorThrown)
+						}
+					})
+
+				});
+			} else {
 				getCheckModal("주문하실 상품을 선택해 주세요")
 				return;
 			}
-
-			$.ajax({
-				url: '/user/cart/order',
-				method: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify(selectedItems),
-				success: function(response) {
-					window.location.href = '/user/order'
-				},
-
-				error: function(jqXHR, textStatus, errorThrown) {
-					console.error('error', textStatus, errorThrown)
-				}
-			})
-
 		})
 
+	}
+
+	// 상품 클릭 시 상세 페이지로 이동
+	const productInfos = document.querySelectorAll('.product-info');
+
+	productInfos.forEach(productInfo => {
+		productInfo.addEventListener('click', function() {
+			const isbn = this.getAttribute('data-isbn');
+			window.location.href = `/user/products/detail?book_isbn=${isbn}`;
+		});
+	});
+
+
+	const backButton = document.querySelector('.back-btn');
+	if (backButton) {
+		backButton.addEventListener('click', function() {
+			window.history.back();
+
+		});
 	}
 });
 

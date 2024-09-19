@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/common/layout/myPageLayout}"
+      layout:fragment="Content">
+      
+<link rel="stylesheet" href="/user/mypage/orderList/css/orderList.css"/>
+      
+<div class="content">
+	<div class="myinfo-content">
+		<div class="myinfo-title">주문/배송목록</div>
+		<div class="sub-info-bg">
+			<div class="date-picker-title">주문일</div>
+      		<div class="date-picker">
+				<div class="input-date-box">
+					<input type="text" id="startDate" class="placeholder" placeholder="YYYY-MM-DD" />
+					<i class="fa-solid fa-calendar-days"></i>
+				</div>
+				<div class="calendar-slash">~</div>
+				<div class="input-date-box">
+					<input type="text" id="endDate" class="placeholder" placeholder="YYYY-MM-DD" />
+					<i class="fa-solid fa-calendar-days"></i>
+				</div>
+			</div>
+				<button id="searchBtn" class="default-btn border">검색</button>
+	    </div>
+	    <div class="order-history-group">
+	    	<div class="order-history-box-title">
+	    		<span class="box-title">주문내역</span>
+	    	</div>
+	    	<div class="order-history-box">
+	    		<span class="history-val">0</span>
+	    		<span class="history-status">배송전</span>
+	    	</div>
+	    	<div class="order-history-box">
+	    		<span class="history-val">0</span>
+	    		<span class="history-status">배송중</span>
+	    	</div>
+	    	<div class="order-history-box">
+	    		<span class="history-val">0</span>
+	    		<span class="history-status">배송완료</span>
+	    	</div>
+	    	<div class="order-history-box">
+	    		<span class="history-val">0</span>
+	    		<span class="history-status">취소</span>
+	    	</div>
+	    	<div class="order-history-box">
+	    		<span class="history-val">0</span>
+	    		<span class="history-status">교환반품</span>
+	    	</div>
+	    </div>
+		<div class="order-history-table">
+			<div class="order-history-table-header table-header">
+				<div class="history-table-column order-date">주문일</div>
+				<div class="history-table-column order-num">주문번호</div>
+				<div class="history-table-column order-content">주문내역</div>
+				<div class="history-table-column order-price">결제금액</div>
+				<div class="history-table-column order-status">주문상태</div>
+				<div class="history-table-column delivery-status">배송상태</div>
+			</div>
+			<div class="order-history-table-list order-list">
+				<div class="history-table-item order-date">2024.09.19</div>
+				<div class="history-table-item order-num">12345678</div>
+				<div class="history-table-item order-content">
+					<div class="img-wrap">썸네일</div>
+					<p class="book-name">000 외 0건</p>
+				</div>
+				<div class="history-table-item order-price">
+					<p class="total-price">100,000원</p>
+				</div>
+				<div class="history-table-item order-status">결제완료</div>
+				<div class="history-table-item delivery-status">배송중</div>
+				<div class="history-table-item request-button">
+					<button class="default-btn border return-cancel-btn">반품</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="/user/mypage/orderList/js/orderList.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</html>

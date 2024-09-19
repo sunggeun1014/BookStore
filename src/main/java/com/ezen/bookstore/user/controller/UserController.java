@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ezen.bookstore.commons.SessionUtils;import com.ezen.bookstore.user.commons.UserSessionInfo;
+import com.ezen.bookstore.commons.SessionUtils;
+import com.ezen.bookstore.user.commons.UserSessionInfo;
 import com.ezen.bookstore.user.main.dto.UserMainDTO;
 import com.ezen.bookstore.user.main.service.UserMainService;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,35 +21,35 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/user")
 @Controller
 public class UserController {
-	
-    private final UserMainService userMainService;
-    
-    @GetMapping("/login")
-    public String login(Model model) {
-        return "/user/login/login";
-    }
-	
-    @GetMapping("/main")
-    public String mainPage(Model model) {
-        List<UserMainDTO> banners = userMainService.getBanners();
-        List<UserMainDTO> bestBooks = userMainService.getBestBooks();
-        List<UserMainDTO> newBooks = userMainService.getNewBooks();
-        List<UserMainDTO> topRatedBooks = userMainService.getTopRatedBooks();
-        List<UserMainDTO> recommendBooks = userMainService.getRecommendBooks();
-                
-        model.addAttribute("banners", banners);
-        model.addAttribute("bestBooks", bestBooks);
-        model.addAttribute("newBooks", newBooks);
-        model.addAttribute("topRatedBooks", topRatedBooks);
-        model.addAttribute("recommendBooks", recommendBooks);
 
-        return "user/main/main";
-    }
-    
-    @GetMapping("/login-status")
-    @ResponseBody
-    public boolean isLoggedIn() {
-        String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
-        return memberId != null;
-    }
+	private final UserMainService userMainService;
+
+	@GetMapping("/login")
+	public String login(Model model) {
+		return "/user/login/login";
+	}
+
+	@GetMapping("/main")
+	public String mainPage(Model model) {
+		List<UserMainDTO> banners = userMainService.getBanners();
+		List<UserMainDTO> bestBooks = userMainService.getBestBooks();
+		List<UserMainDTO> newBooks = userMainService.getNewBooks();
+		List<UserMainDTO> topRatedBooks = userMainService.getTopRatedBooks();
+		List<UserMainDTO> recommendBooks = userMainService.getRecommendBooks();
+
+		model.addAttribute("banners", banners);
+		model.addAttribute("bestBooks", bestBooks);
+		model.addAttribute("newBooks", newBooks);
+		model.addAttribute("topRatedBooks", topRatedBooks);
+		model.addAttribute("recommendBooks", recommendBooks);
+
+		return "user/main/main";
+	}
+
+	@GetMapping("/login-status")
+	@ResponseBody
+	public boolean isLoggedIn() {
+		String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
+		return memberId != null;
+	}
 }
