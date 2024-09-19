@@ -1,8 +1,8 @@
-package com.ezen.bookstore.user.mypage.service;
+package com.ezen.bookstore.user.mypage.review.service;
 
 import java.util.List;
 
-import com.ezen.bookstore.user.mypage.dto.UserBookReviewDTO;
+import com.ezen.bookstore.user.mypage.review.dto.UserBookReviewDTO;
 
 public interface UserReviewService {
 	List<UserBookReviewDTO> getPendingReviews(UserBookReviewDTO userBookReviewDTO);
