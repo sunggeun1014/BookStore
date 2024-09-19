@@ -5,7 +5,7 @@
       layout:decorate="~{/user/common/layout/mainLayout}"
       layout:fragment="Content">
 
-<link rel="stylesheet" href="/user/customer_order/css/payment.css">
+<link rel="stylesheet" href="/user/customer_order/css/order.css">
 
 <div id="member-check" th:data-member="${memberDTO != null ? true : false}"></div>
 <div class="inner" th:if="${memberDTO != null}">
@@ -139,6 +139,7 @@
                     <span>상품이 없습니다</span>
                 </div>
                 <div class="product-list" th:each="item : ${orderItems}">
+                    <input type="hidden" name="book_isbn" class="order-book-isbn" th:data-isbn="${item.book_isbn}">
                     <div class="list-left">
                         <div class="img-wrap">
                             <img th:src="${item.book_thumbnail_changed != null ? '/images/books/' + item.book_thumbnail_changed : '/images/books/noimg.png'}"
@@ -158,6 +159,7 @@
                     </div>
                 </div>
                 <div class="product-list" th:each="cartitem : ${orderCartItems}">
+                    <input type="hidden" name="book_isbn" class="order-book-isbn" th:data-isbn="${cartitem.book_isbn}">
                     <div class="list-left">
                         <div class="img-wrap">
                             <img th:src="${cartitem.book_thumbnail_changed != null ? '/images/books/' + cartitem.book_thumbnail_changed : '/images/books/noimg.png'}"
@@ -202,6 +204,10 @@
     </div>
 </div>
 
+<!-- 결제api -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<!-- 카카오주소   -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/user/customer_order/js/order.js"></script>
 <script src="/user/customer_order/js/payment.js"></script>
 </html>
