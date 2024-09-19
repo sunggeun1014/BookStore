@@ -5,12 +5,13 @@
       layout:decorate="~{/user/common/layout/myPageLayout}"
       layout:fragment="Content">
       
-<link rel="stylesheet" href="/user/mypage/css/myOrder.css"/>
+<link rel="stylesheet" href="/user/mypage/orderList/css/orderList.css"/>
       
 <div class="content">
 	<div class="myinfo-content">
 		<div class="myinfo-title">주문/배송목록</div>
 		<div class="sub-info-bg">
+			<div class="date-picker-title">주문일</div>
       		<div class="date-picker">
 				<div class="input-date-box">
 					<input type="text" id="startDate" class="placeholder" placeholder="YYYY-MM-DD" />
@@ -21,8 +22,8 @@
 					<input type="text" id="endDate" class="placeholder" placeholder="YYYY-MM-DD" />
 					<i class="fa-solid fa-calendar-days"></i>
 				</div>
-				<button id="searchBtn" class="default-btn border">검색</button>
 			</div>
+				<button id="searchBtn" class="default-btn border">검색</button>
 	    </div>
 	    <div class="order-history-group">
 	    	<div class="order-history-box-title">
@@ -70,12 +71,14 @@
 				</div>
 				<div class="history-table-item order-status">결제완료</div>
 				<div class="history-table-item delivery-status">배송중</div>
-				<div class="history-table-item order-date"></div>
+				<div class="history-table-item request-button">
+					<button class="default-btn border return-cancel-btn">반품</button>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="/user/mypage/js/myOrder.js"></script>
+	<script src="/user/mypage/orderList/js/orderList.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </html>

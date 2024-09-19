@@ -17,7 +17,7 @@ public class UserOrderRequestController {
 	private final UserOrderRequestService orderRequestService;
 	
 	
-	@GetMapping("/orderlist")
+	@GetMapping("/orderList")
 	public String myOrderPage() {
 		return "/user/mypage/customer_order/orderList";
 	}
