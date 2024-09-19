@@ -101,10 +101,10 @@
 					    <label for="check-btn"></label>
 					  </div>
 				    <div class="product-img-area">
-				        <img class="product-image" th:src="@{/images/books/{image}(image=${product.book_thumbnail_changed})}" alt="책 이미지">
+				        <a th:href="'/user/products/detail?book_isbn=' + ${product.book_isbn}"><img class="product-image" th:src="@{/images/books/{image}(image=${product.book_thumbnail_changed})}" alt="책 이미지"></a>
 				    </div>
 				    <div class="product-info-area">
-				        <div th:text="${product.book_name}" class="book-name"></div>
+				        <div class="book-name"><a th:href="'/user/products/detail?book_isbn=' + ${product.book_isbn}" th:text="${product.book_name}"></a></div>
 				        <div class="book-author">
 				        	<span th:text="${product.book_author}"></span>
 				        	<span>저자(글)</span>

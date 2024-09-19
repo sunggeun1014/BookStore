@@ -140,12 +140,14 @@ window.addEventListener("scroll", function () {
 });
 
 // 탑버튼 클릭 스크롤링
-topBtn.addEventListener("click", function () {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-    });
-});
+if(topBtn != null) {
+	topBtn.addEventListener("click", function () {
+	    window.scrollTo({
+	        top: 0,
+	        behavior: "smooth",
+	    });
+	});
+}
 
 
 function datepicker(start, end) {
