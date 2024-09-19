@@ -134,15 +134,26 @@ function submitHandler() {
                     method: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(data),
-                    success: function () {
-                        console.log('ajax 성공')
-                        getConfirmModal("장바구니에 담겼습니다. 장바구니로 이동 하시겠습니까?", function () {
-                            location.href = '/user/cart/list'
-                        })
+                    success: function (response) {
+                        if (response === 1) {
+                            console.log("장바구니에 이미 있다")
+                            getConfirmModal("장바구니에 이미 있는 상품입니다. 수량을 추가하여 장바구니에 추가 했습니다. 장바구니로 이동 하시겠습니까?", function () {
+                                location.href = '/user/cart/list'
+                            })
+                        } else {
+                            console.log('ajax 성공')
+                            getConfirmModal("장바구니에 추가 되었습니다. 장바구니로 이동 하시겠습니까?", function () {
+                                location.href = '/user/cart/list'
+                            })
+                        }
                     },
-                    error: function () {
-                        console.log("ajax 에러")
-                        getErrorModal("장바구니에 담기에 실패 했습니다.");
+                    error: function (xhr) {
+                        if (xhr.status === 409) {
+                            getErrorModal("이미 장바구니에 있는 상품입니다.");
+                        } else {
+                            console.log(xhr)
+                            getErrorModal("장바구니에 담기에 실패 했습니다.");
+                        }
                     }
                 })
             } else if (action === 'buyNow') {

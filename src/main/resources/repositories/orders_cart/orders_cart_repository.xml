@@ -26,5 +26,27 @@
     	WHERE
     		member_id = #{member_id}
     </select>
+
+	<select id="existItem" resultType="int" parameterType="java.util.HashMap">
+		SELECT
+			COUNT(*)
+		FROM
+			orders_cart
+		WHERE
+			book_isbn = #{book_isbn}
+		AND
+			member_id = #{member_id}
+	</select>
+
+	<update id="updateBasketItem" parameterType="userCart">
+		UPDATE
+			orders_cart
+		SET
+			cart_purchase_qty = cart_purchase_qty + #{cart_purchase_qty}
+		WHERE
+			book_isbn = #{book_isbn}
+		AND
+			member_id = #{member_id}
+	</update>
     
 </mapper>

@@ -1,17 +1,24 @@
 package com.ezen.bookstore.user.payment.controller;
 
 import com.ezen.bookstore.commons.AccountManagement;
+import com.ezen.bookstore.commons.SessionUtils;
+import com.ezen.bookstore.user.commons.UserSessionInfo;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 import com.ezen.bookstore.user.payment.dto.OrderItemDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import static com.ezen.bookstore.commons.SessionUtils.getAuthentication;
+import static com.ezen.bookstore.commons.SessionUtils.getUserAttribute;
 
 @Slf4j
 @RequestMapping("/user")

@@ -24,11 +24,15 @@ public class FileManagement {
 
     @Value("${file.upload.notice-path}")
     private String noticePath;
-
+    
+    @Value("${file.upload.inquiries-path}")
+    private String inquiriesPath;
+    
     public static final String BANNER_UPLOAD_NAME = "banner_img_";
     public static final String BOOK_UPLOAD_NAME = "book_img_";
     public static final String PROFILE_UPLOAD_NAME = "profile_img_";
     public static final String NOTICE_UPLOAD_NAME = "notice_img_";
+	public static final String INQUIRIES_UPLOAD_NAME = "inquiries_img_";
 	
     public Path getBannerPath() {
         return Paths.get(bannerPath);
@@ -45,7 +49,10 @@ public class FileManagement {
     public Path getNoticePath() {
         return Paths.get(noticePath);
     }
-   
+    
+    public Path getInquiriesPath() {
+    	return Paths.get(inquiriesPath);
+    }
 
 	// 이미지 파일 이름 변경 메서드
 	public static String generateNewFilename(String originalFilename, String nameToSave) {

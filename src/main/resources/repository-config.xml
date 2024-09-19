@@ -44,7 +44,9 @@
 	  <typeAlias type="com.ezen.bookstore.user.members.dto.UserMembersDTO" alias="userMembers"/>
 	  
       <typeAlias type="com.ezen.bookstore.user.bookcategory.dto.UserBookCategoryDTO" alias="userCategory"/>
-      <typeAlias type="com.ezen.bookstore.user.mypage.dto.UserBookReviewDTO" alias="BookReview"/>
+      <typeAlias type="com.ezen.bookstore.user.mypage.review.dto.UserBookReviewDTO" alias="BookReview"/>
+      <typeAlias type="com.ezen.bookstore.user.mypage.inquiries.dto.UserInquiriesDTO" alias="userInquiries"/>
+      <typeAlias type="com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO" alias="customerOrderWithDetails"/>
    </typeAliases>
 
 </configuration>

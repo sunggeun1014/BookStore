@@ -5,7 +5,6 @@ import java.util.List;
 import com.ezen.bookstore.user.cart.dto.UserCartDTO;
 import org.springframework.stereotype.Service;
 
-import com.ezen.bookstore.user.cart.dto.UserCartDTO;
 import com.ezen.bookstore.user.orderscart.repository.UserOrdersCartRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -32,4 +31,13 @@ public class UserOrdersCartServiceImpl implements UserOrdersCartService {
 		return result;
 	}
 
+	@Override
+	public int existBasketItem(String book_isbn, String member_id) {
+		return ordersCartRepository.existBasketItems(book_isbn, member_id);
+	}
+
+	@Override
+	public int updateBasketItemCnt(UserCartDTO dto, String member_id) {
+		return ordersCartRepository.updateBasketItemCnt(dto, member_id);
+	}
 }
