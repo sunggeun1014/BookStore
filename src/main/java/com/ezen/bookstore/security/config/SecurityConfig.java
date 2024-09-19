@@ -111,7 +111,6 @@ public class SecurityConfig {
             )
             .oauth2Login(oauth2 -> oauth2
                 .loginPage("/user/login")  // 사용자 정의 로그인 페이지
-//                .defaultSuccessUrl("/user/main", true)  // 로그인 성공 후 이동할 페이지
                 .userInfoEndpoint(userInfo -> userInfo
                     .userService(customOAuth2UserService)  // 사용자 정보를 처리하는 서비스
                 )
