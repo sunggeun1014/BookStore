@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	const foreignCategories = document.getElementById('modal-categories-foreign');
 	const headerFixed = document.querySelector('.header-fixed');
 	const fixedPosition = 120; // 모달을 고정할 스크롤 위치
-	const topMenuWrap = document.getElementById('topMenuWrap'); // 상단 메뉴
 
 	// 스크롤 위치에 따라 헤더 고정 여부 결정 및 모달 고정
 	function handleScroll() {
@@ -138,33 +137,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 
-	// 로그인 상태에 따른 메뉴 업데이트
-	function updateTopMenu(isLoggedIn) {
-		if (isLoggedIn) {
-			topMenuWrap.innerHTML = `
-	                <a href="/user/logout">로그아웃</a>
-	                <a href="/user/myPage">마이페이지</a>
-	                <a href="/user/cart/list">장바구니</a>
-	                <a href="/user/inquiry">1:1문의</a>
-	            `;
+	$.get('/user/login-status', function(loggedIn) {
+		if (loggedIn) {
+			// 로그인 상태일 때
+			$('#loginMenu').hide();
+			$('#userMenu').show();
 		} else {
-			topMenuWrap.innerHTML = `
-	                <a href="/user/login">로그인</a>
-	                <a href="/user/cart/list">장바구니</a>
-	                <a href="/user/inquiry">1:1문의</a>
-	            `;
-		}
-	}
-
-	// 로그인 상태 체크
-	$.ajax({
-		url: "/user/members/checkLoginStatus",
-		method: "GET",
-		success: function(response) {
-			updateTopMenu(response.isLoggedIn);
-		},
-		error: function() {
-			console.error("로그인 상태를 확인하는 데 실패했습니다.");
+			// 로그인 상태가 아닐 때
+			$('#loginMenu').show();
+			$('#userMenu').hide();
 		}
 	});
 });
