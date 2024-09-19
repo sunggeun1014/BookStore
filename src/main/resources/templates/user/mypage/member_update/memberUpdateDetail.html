@@ -46,11 +46,11 @@
                 <input type="text" id="emailUser" class="input-long" th:value="${emailUser}"/>
                 <span class="search-list-subject-symbol">@</span>
                 <div class="select-box">
-                    <select id="emailDomain" name="emailDomain" class="input-short" th:value="${emailDomainList}">
-						<option th:each="emailDomain : ${emailDomainList}"
-								th:value="${emailDomain}"
-								th:text="${emailDomain}"
-								th:selected="${emailDomain} == ${emailUser}">
+                    <select id="emailDomain" name="emailDomain" class="input-short">
+						<option th:each="emailDomains : ${emailDomainList}"
+								th:value="${emailDomains}"
+								th:text="${emailDomains}"
+								th:selected="${emailDomains} == ${emailDomain}">
 						</option>
 					</select>
                     <div class="select-arrow-down" id="email"></div>
