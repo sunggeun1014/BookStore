@@ -1,10 +1,18 @@
 package com.ezen.bookstore.user.mypage.orders.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO;
 
 public interface UserOrderRequestService {
+	public List<UserCustomerOrderWithDetailsDTO> getOrderList(String memberId);
+
+	public Map<String, Integer> getOrderStatusCounts(String memberId);
+
+	public Map<String, Integer> getDeliveryStatusCounts(String memberId);
+
 	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum);
-	public int orderCancle(Integer orderNum); 
+
+	public int orderCancle(Integer orderNum);
 }

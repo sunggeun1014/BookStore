@@ -4,6 +4,69 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="UserOrderRequest">
 
+	<select id="orderList" resultType="customerOrderWithDetails">
+		SELECT
+			co.order_purchase_date,
+			co.order_num,
+			b.book_thumbnail_changed,
+			b.book_name,
+			SUM(od.order_detail_qty) AS order_qty_total,
+			SUM(od.order_detail_price * od.order_detail_qty) AS order_price_total,
+			CASE
+			WHEN 
+				co.order_delivery_status = '01' THEN '배송전'
+		    WHEN 
+		    	co.order_delivery_status = '02' THEN '배송중'
+		    WHEN 
+		    	co.order_delivery_status = '03' THEN '배송완료'
+		    END 
+		    	AS order_delivery_status,
+			CASE
+			
+		    WHEN od.order_detail_status = '01' THEN '주문완료'
+		    WHEN od.order_detail_status = '02' THEN '취소요청'
+		    WHEN od.order_detail_status = '04' THEN '반품요청'
+		    WHEN od.order_detail_status = '05' THEN '취소완료'
+		    WHEN od.order_detail_status = '06' THEN '교환완료'
+		    WHEN od.order_detail_status = '07' THEN '반품완료'
+		    END 
+		    	AS order_detail_status
+		FROM
+			customer_orders co
+			LEFT JOIN customer_order_details od ON co.order_num = od.order_num
+	    	LEFT JOIN books b ON od.book_isbn = b.book_isbn
+	    WHERE
+	    	co.member_id = #{member_id}
+	    GROUP BY
+        	co.order_num,
+	        co.order_purchase_date,
+	        b.book_thumbnail_changed,
+	        b.book_name,
+	        od.order_detail_status,
+	        co.order_delivery_status
+	</select>
+	
+	<select id="countByOrderStatus" parameterType="Map" resultType="Integer">
+	    SELECT 
+	    	COUNT(*)
+	    FROM 
+	    	customer_orders co
+	    JOIN
+	    	customer_order_details od ON co.order_num = od.order_num
+	    WHERE 
+	    	member_id = #{memberId} AND order_detail_status = #{status}
+	</select>
+	
+	<select id="countByDeliveryStatus" parameterType="Map" resultType="Integer">
+	    SELECT 
+	    	COUNT(*)
+	    FROM 
+	    	customer_orders
+	    WHERE 
+	    	member_id = #{memberId} AND order_delivery_status = #{status}
+	</select>
+	
+
 	<select id="cancleList" parameterType="Integer" resultType="customerOrderWithDetails">
 		SELECT
 	    co.order_num,
