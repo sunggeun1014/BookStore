@@ -38,17 +38,26 @@ public class UserOrderRequestRepository {
     }
 	
 	
-	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum) {
-		return sql.selectList("UserOrderRequest.cancleList", orderNum);
+	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String memberId) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("orderNum", orderNum);
+		map.put("memberId", memberId);
+		
+		return sql.selectList("UserOrderRequest.cancleList", map);
 	}
 	
-	public int orderCancle(Integer orderNum) {
-		Integer result = sql.update("UserOrderRequest.orderCancle", orderNum);
+	public int orderCancle(UserCustomerOrderWithDetailsDTO dto) {
+		Integer result = sql.update("UserOrderRequest.orderCancle", dto);
 		
 		if(result != null && result > 0) {
-			sql.update("UserOrderRequest.orderDateModify", orderNum);
+			sql.update("UserOrderRequest.orderDateModify", dto.getOrder_num());
 		}
 		
 		return result;
+	}
+	
+	public UserCustomerOrderWithDetailsDTO getRefundInfo(Integer orderNum) {
+		return sql.selectOne("UserOrderRequest.getRefundInfo", orderNum);
 	}
 }

@@ -8,11 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.commons.SessionUtils;
 import com.ezen.bookstore.user.commons.UserSessionInfo;
+import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO;
 import com.ezen.bookstore.user.mypage.orders.service.UserOrderRequestService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/user/mypage")
@@ -47,10 +50,18 @@ public class UserOrderRequestController {
 
 	
     @GetMapping("/cancleList")
-    public String purchaseCancleForm(Model model, Integer orderNum) {
-    	model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum)); 
+    public String purchaseCancleForm(Model model, Integer orderNum, HttpSession session) {
+    	model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id())); 
     	
     	return "/user/mypage/customer_order/cancleList";
+    }
+    
+    @GetMapping("/cancleCompletion")
+    public String purchaseCancleCompletionForm(Model model, Integer orderNum, HttpSession session) {
+        model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
+        model.addAttribute("refund", orderRequestService.getRefundInfo(orderNum));
+        
+        return "/user/mypage/customer_order/cancleCompletion";
     }
     
 }

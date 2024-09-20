@@ -95,9 +95,7 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 				String zoenNum = getZone_num(isbn);
 				Integer inputQty = list.getInput_qty().get(i);
 				
-				if(list.getOrder_detail_status().get(i).equals(getStatus(order_selected_status))) {
-					continue;
-				} else if(order_selected_status.equals("06")) {
+				if(order_selected_status.equals("06")) {
 					// 입출고 기록 (교환)
 					wr.invQtyUpdate(isbn, inputQty);
 					
@@ -111,7 +109,7 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 					ilr.invLogRequestDetailInsert(isbn, bookTitle, zoenNum, inputQty);
 				}
 				
-				cor.orderStatusUpdate(list.getOrder_detail_num().get(i), order_selected_status);
+				cor.orderStatusUpdate(list.getOrder_detail_num().get(i), order_selected_status, list.getInput_qty().get(i));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

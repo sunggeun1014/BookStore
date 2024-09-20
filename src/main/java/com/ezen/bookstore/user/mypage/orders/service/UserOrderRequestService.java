@@ -12,7 +12,9 @@ public interface UserOrderRequestService {
 
 	public Map<String, Integer> getDeliveryStatusCounts(String memberId);
 
-	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum);
+	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String member_id);
 
-	public int orderCancle(Integer orderNum);
+	public int orderCancle(List<UserCustomerOrderWithDetailsDTO> list); 
+	
+    public UserCustomerOrderWithDetailsDTO getRefundInfo(Integer orderNum);
 }

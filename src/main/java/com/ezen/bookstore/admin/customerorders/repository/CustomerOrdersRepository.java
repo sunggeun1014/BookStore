@@ -42,11 +42,12 @@ public class CustomerOrdersRepository {
 		return sql.selectList("CustomerOrders.getDetailList", order_num);
 	}
 	
-	public int orderStatusUpdate(int order_detail_num, String order_selected_status) {
+	public int orderStatusUpdate(int order_detail_num, String order_selected_status, Integer input_qty) {
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("order_detail_num", order_detail_num);
 		map.put("order_detail_status", order_selected_status);
+		map.put("input_qty", input_qty);
 		
 		return sql.update("CustomerOrders.orderStatusUpdate", map);
 	}

@@ -169,6 +169,7 @@
 		    cod.order_detail_price,
 		    cod.order_detail_qty,
 		    cod.order_detail_price * cod.order_detail_qty AS order_price_sum,
+		    cod.order_complete_qty,
 		    cod.order_request_qty,
 	    	CASE
 		        WHEN cod.order_detail_status = '01' THEN
@@ -197,7 +198,8 @@
 	
 	<update id="orderStatusUpdate" parameterType="java.util.HashMap">
 		UPDATE customer_order_details SET
-    		order_detail_status = #{order_detail_status} 
+    		order_detail_status = #{order_detail_status},
+    		order_complete_qty = order_complete_qty + #{input_qty}
     	where
     		order_detail_num = #{order_detail_num}
 	</update>

@@ -56,7 +56,7 @@ function requestCompletionBtn() {
 }
 
 function qtyHandler(obj) {
-	let qty = $("input[name='order_request_qty']").val();
+	let qty = $(obj).attr("data-order-request-qty");
 	
 	if(parseInt(obj.value) > qty) {
 		obj.value = "";
@@ -69,8 +69,8 @@ function truncate() {
 	if (element) {
 		let text = element.innerText;
 
-		if (text.length > 18) {
-			element.innerText = text.slice(0, 18) + '...';
+		if (text.length > 14) {
+			element.innerText = text.slice(0, 14) + '...';
 		}
 	}
 }

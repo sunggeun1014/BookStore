@@ -102,10 +102,10 @@
 }
 .checkbox-column, .checkbox-data { width: 3%; }
 .no-column, .no-data { width: 7%; }
-.book-title-column, .book-title-data { width: 22%; }
+.book-title-column, .book-title-data { width: 21%; }
 .isbn-column, .isbn-data { width: 12%; }
 .price-column, .price-data { width: 10%; }
-.qty-column, .qty-data { width: 9%; }
+.qty-column, .qty-data { width: 7%; }
 
 .book-title-data > span {
 	white-space: nowrap;
@@ -113,8 +113,9 @@
 	text-overflow: ellipsis;
 }
 
-.request-qty-column, .request-qty-data { width: 10%; }
+.request-qty-column, .request-qty-data { width: 7%; }
 .input-qty-column, .input-qty-data { width: 6%; }
+.complete-qty-column, .complete-qty-data { width: 7%; }
 .input-qty-data > span, .input-qty-data > span > input { width: 100%; text-align: center; padding: 0; }
 
 .purchase-column, .purchase-data { width: 12%; }

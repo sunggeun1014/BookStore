@@ -16,6 +16,8 @@ public class UserCustomerOrderWithDetailsDTO {
     private String order_delivery_status;
     private Integer order_price_total;
     private Integer order_qty_total;
+    private Integer order_detail_num;
     
-
+    private Integer cancellationAmount;
+    private Integer refundAmount;
 }

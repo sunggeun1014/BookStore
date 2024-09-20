@@ -12,10 +12,10 @@
 	</div>
 	<div class="order-info-area">
 		<div class="request-date">
-			<span th:text="${#dates.format(cancleList[0].order_purchase_date, 'yyyy.MM.dd')}"></span>
+			<span th:if="${!#lists.isEmpty(cancleList)}" th:text="${#dates.format(cancleList[0].order_purchase_date, 'yyyy.MM.dd')}"></span>
 		</div>
 		<div class="request-order-num">
-			<span th:text="'주문번호 ' + ${cancleList[0].order_num}"></span>
+			<span th:if="${!#lists.isEmpty(cancleList)}" th:text="'주문번호 ' + ${cancleList[0].order_num}"></span>
 		</div>
 	</div>
 	<div class="page-sub-title">
@@ -24,9 +24,13 @@
 	<div th:each="detail : ${cancleList}">
 		<div class="cancle-book-detail">
 			<div>
-				<img th:src="'/images/books/' + ${detail.book_thumbnail_changed != null ? detail.book_thumbnail_changed : '/images/books/noimg.png'}" alt="책 이미지" width="80" height="114">
+				<img th:src="'/images/books/' + ${detail.book_thumbnail_changed != null ? detail.book_thumbnail_changed : 'noimg.png'}" alt="책 이미지" width="80" height="114">
 			</div>
 			<div class="book-info">
+				<input type="hidden" name="order_num" th:value="${detail.order_num}">
+				<input type="hidden" name="order_detail_num" th:value="${detail.order_detail_num}">
+				<input type="hidden" name="order_detail_qty" th:value="${detail.order_detail_qty}">
+				
 				<div>
 					<span class="book-name" th:text="${detail.book_name}"></span>
 				</div>
@@ -88,8 +92,8 @@
 		</div>
 	</div>
 	<div class="btn-area">
-		<button class="cancle-btn" onclick="orderCancleBtn(this)" th:data-order-num="${cancleList[0].order_num}">취소신청</button>
-		<button class="back-btn" onclick="location.href='#'">이전으로</button>
+		<button class="cancle-btn" onclick="orderCancleBtn()">취소신청</button>
+		<button class="back-btn" onclick="location.href='/user/mypage/orderList'">이전으로</button>
 	</div>
 </div>
 

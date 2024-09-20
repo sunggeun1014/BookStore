@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/common/layout/myPageLayout}"
+      layout:fragment="Content">
+
+	<link rel="stylesheet" href="/user/mypage/purchase_cancle/css/cancleCompletion.css">
+<div>
+	<div class="page-title">
+		<span>취소상세</span>
+	</div>
+	<div class="order-info-area">
+		<div class="request-date">
+			<span th:if="${!#lists.isEmpty(cancleList)}" th:text="${#dates.format(cancleList[0].order_purchase_date, 'yyyy.MM.dd')}"></span>
+		</div>
+		<div class="request-order-num">
+			<span th:if="${!#lists.isEmpty(cancleList)}" th:text="'주문번호 ' + ${cancleList[0].order_num}"></span>
+		</div>
+	</div>
+	<div class="page-sub-title">
+		<span>취소상품</span>
+	</div>
+	<div th:each="detail : ${cancleList}">
+		<div class="cancle-book-detail">
+			<div>
+				<img th:src="'/images/books/' + ${detail.book_thumbnail_changed != null ? detail.book_thumbnail_changed : 'noimg.png'}" alt="책 이미지" width="80" height="114">
+			</div>
+			<div class="book-info">
+				<div>
+					<span class="book-name" th:text="${detail.book_name}"></span>
+				</div>
+				<div>
+					<span class="purchase-qty" th:text="'수량: ' + ${detail.order_detail_qty} + '개'"></span>
+				</div>
+			</div>
+			<div>
+				<span class="book-price" th:text="${#numbers.formatInteger(detail.order_detail_price, 0, 'COMMA')} + '원'"></span>
+			</div>	
+			<div>
+				<span class="order_status" th:text="${detail.order_detail_status}"></span>
+			</div>	
+		</div>
+	</div>
+	<div class="refund-area">
+		<div>
+			<span class="refund-title">환불정보</span>
+		</div>
+		<div class="refund-info-area">
+			<div class="refund-price-area">
+				<span>환불금액</span>
+				<span th:text="${#numbers.formatInteger(refund.refundAmount, 0, 'COMMA') + '원'}"></span>
+			</div>
+			<div class="cancle-price-area">
+				<span>취소금액</span>
+				<span th:text="${#numbers.formatInteger(refund.cancellationAmount, 0, 'COMMA')} + '원'"></span>
+			</div>
+		</div>	
+	</div>
+	<div class="btn-area">
+		<button class="cancle-btn" onclick="location.href='/user/mypage/orderList'">주문/배송 목록</button>
+	</div>
+	<div class="refund-guide-area">
+		<div class="refund-guide-title">
+			<span>환불안내</span>
+		</div>
+		<div>
+			<span class="guide-lines-content">주문건의 전체취소/품절/반품 발생시 상품에 사용된 금권 모두 환불됩니다.</span>
+		</div>
+		<div>
+			<span class="guide-lines-content">주문건의 부분취소/품절/반품 발생시 상품에 사용된 금권을 제외한 나머지 금액이 환불됩니다.</span>
+		</div>
+		<div>
+			<span class="guide-lines-content">상품취소 시 취소수수료가 부과될 경우 환불될 금액에서 차감 후 나머지 금액을 환불 해 드립니다.</span>
+		</div>
+		<div>
+			<span class="guide-lines-content">신용카드,계좌이체,휴대폰(당월승인에 한함)의 경우 결제취소됩니다.</span>
+		</div>
+		<div>
+			<span class="guide-lines-content">카드이용 후 취소요청 시 카드사 정책에 따라 환불기간 소요될 수 있습니다.</span>
+		</div>
+	</div>
+</div>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="/user/mypage/purchase_cancle/js/cancleCompletion.js"></script>
+</html>

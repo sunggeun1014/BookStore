@@ -43,9 +43,9 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
         return counts;
     }
 	
-	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum) {
+    public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String memberId) {
 		try {
-			return orderRequestRepository.getOrderCancleList(orderNum);
+			return orderRequestRepository.getOrderCancleList(orderNum, memberId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,18 +53,31 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 		return null;
 	}
 
-	@Override
+    @Override
 	@Transactional
-	public int orderCancle(Integer orderNum) {
+	public int orderCancle(List<UserCustomerOrderWithDetailsDTO> list) {
 		int result = 0;
 		
 		try {
-			result = orderRequestRepository.orderCancle(orderNum);
+			for(UserCustomerOrderWithDetailsDTO dto : list) {
+				result += orderRequestRepository.orderCancle(dto);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return result;
+	}
+
+    @Override
+	public UserCustomerOrderWithDetailsDTO getRefundInfo(Integer orderNum) {
+		try {
+			return orderRequestRepository.getRefundInfo(orderNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }
