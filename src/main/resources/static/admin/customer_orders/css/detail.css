@@ -7,10 +7,6 @@
 	color: #000000;
 }
 
-.white-frame {
-	padding: 14px 19px;	
-}
-
 .order-num-area {
 	margin-bottom: 5px;	
 }
@@ -47,8 +43,14 @@
 	margin-right: 80px;	
 }
 
+.order-person-info {
+	color: #666;
+}
+
 .request-info-area {
 	display: flex;
+	align-items: center;
+	height: 60px;
 	padding: 12px;
 	border-bottom: 1px solid #D8D8D8;
 }

@@ -6,7 +6,7 @@
     layout:fragment="Content">
 	<link rel="stylesheet" href="/admin/customer_orders/css/detail.css">
 	<!-- Bulma CSS -->
-	<link rel="stylesheet" href="/admin/customer_orders/css/detail.css">
+<!--	<link rel="stylesheet" href="/admin/customer_orders/css/detail.css">-->
 
 <div>
 	<button class="back-btn" onclick="location.href='/admin/customerOrders/list'">
@@ -18,7 +18,7 @@
 			<span class="search-list-title">주문번호: [[${detail.order_num}]]</span>
 		</div>
 		<div>
-			<span>주문자: [[${detail.member_name}]]</span>
+			<span class="order-person-info">주문자: [[${detail.member_name}]] / [[${detail.member_phoneno}]]</span>
 		</div>
 		<div class="order-info-container">
 			<div class="order-info">
@@ -38,13 +38,28 @@
 				</div>
 			</div>		
 			<div class="order-info">
-				<div>
-					<div class="info-column">
-						<span>전화번호</span>
+<!--				<div>-->
+<!--					<div class="info-column">-->
+<!--						<span>전화번호</span>-->
+<!--					</div>-->
+<!--					<span>[[${detail.member_phoneno}]]</span>-->
+<!--				</div>-->
+
+				<div class="info-area-flex">
+					<div class="info-column-area">
+						<div class="info-column">
+							<span>받는사람</span>
+						</div>
+						<span th:text="${detail.recipient_name != null ? detail.recipient_name : detail.member_name}"></span>
 					</div>
-					<span>[[${detail.member_phoneno}]]</span>
+					<div class="info-column-area">
+						<div class="info-column">
+							<span>전화번호</span>
+						</div>
+						<span th:text="${detail.recipient_phoneNo != null ? detail.recipient_phoneNo : detail.member_phoneno}"></span>
+					</div>
 				</div>
-			</div>		
+			</div>
 			<div class="order-info">
 				<div>
 					<div class="info-column">
@@ -58,7 +73,7 @@
 					<div class="info-column">
 						<span>출입방법</span>
 					</div>
-					<span>[[${detail.common_ent_pw}]]</span>
+					<span th:text="${detail.common_ent_pw != null ? detail.common_ent_pw : '자유출입'}"></span>
 				</div>
 			</div>		
 		</div>
@@ -69,6 +84,18 @@
 				<span class="search-list-title">반품요청 정보</span>
 			</div>
 			<div>
+				<div class="request-info-area">
+					<div class="info-column">
+						<span>보내는사람</span>
+					</div>
+					<span th:text="${detail.retrieve_name != null ? detail.retrieve_name : detail.member_name}"></span>
+				</div>
+				<div class="request-info-area">
+					<div class="info-column">
+						<span>전화번호</span>
+					</div>
+					<span th:text="${detail.recipient_phoneNo != null ? detail.recipient_phoneNo : detail.member_phoneno}"></span>
+				</div>
 				<div class="request-info-area">
 					<div class="info-column">
 						<span>회수지</span>
