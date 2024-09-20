@@ -47,6 +47,8 @@
       <typeAlias type="com.ezen.bookstore.user.mypage.review.dto.UserBookReviewDTO" alias="BookReview"/>
       <typeAlias type="com.ezen.bookstore.user.mypage.inquiries.dto.UserInquiriesDTO" alias="userInquiries"/>
       <typeAlias type="com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO" alias="customerOrderWithDetails"/>
+      <typeAlias type="com.ezen.bookstore.user.mypage.notice.dto.UserNoticesDTO" alias="userNotice"/>
+      
    </typeAliases>
 
 </configuration>
