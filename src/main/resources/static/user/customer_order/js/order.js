@@ -1,15 +1,25 @@
 function agreeClickHandler() {
-    const agreeContent = document.querySelectorAll('.agree-content');
+    const agreeTitles = document.querySelectorAll('.agree-title');
+    const agreeTexts = document.querySelectorAll('.agree-content');
 
-    agreeContent.forEach(content => {
-        content.addEventListener('click', () => {
-            agreeContent.forEach(otherContent =>
-                otherContent !== content && otherContent.classList.remove('active')
-            );
-            content.classList.toggle('active');
+    agreeTitles.forEach((title, index) => {
+        title.addEventListener('click', function () {
+            const text = agreeTexts[index]; // Get the corresponding text element
+            const isActive = title.classList.contains('active');
+
+            agreeTitles.forEach((otherTitle, i) => {
+                otherTitle.classList.remove('active');
+                agreeTexts[i].classList.remove('on');
+            });
+
+            if (!isActive) {
+                title.classList.add('active');
+                text.classList.add('on');
+            }
         });
     });
 }
+
 
 function showDoorPWInput() {
     const doorPW = document.querySelector("#door-pw");
@@ -140,12 +150,50 @@ function showModal() {
     }
 }
 
+function goToOrder() {
+    const payBtn = document.getElementById("pay-btn");
+    const entPwInput = document.getElementById("common_ent_pw");
+    const errorMsg = document.querySelector(".error-message")
+
+    // 보낼 데이타들
+    const orderPerson = document.querySelector("")
+
+    entPwInput.addEventListener('keyup', function () {
+        entPwInput.classList.remove("error")
+        errorMsg.style.display = 'none';
+    })
+
+    payBtn.addEventListener('click', function () {
+        if (entPwInput.value === '' || entPwInput.value.includes("")) {
+            entPwInput.classList.add("error")
+            errorMsg.textContent = '⚠️ 공동현관 비밀번호를 입력하세요'
+            return
+        }
+        const data = {
+
+        }
+        $.ajax({
+            url: '/user/api/payment',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function () {
+                console.log("결제 됐따")
+            },
+            error: function () {
+                console.log("결제 시르패!")
+            }
+        })
+    })
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     showDoorPWInput();
     agreeClickHandler();
     showEditAddrModal();
     inputAddr();
     toggleProductList();
+    goToOrder();
 });
 
 window.onload = function () {

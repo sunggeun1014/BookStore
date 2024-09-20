@@ -175,3 +175,45 @@ function datepicker(start, end) {
     });
 
 }
+
+function drawNoResult(parentEl, msg, additionalSpans = []) {
+    const parentElement = document.querySelector(`${parentEl}`);
+
+    const resultWrap = document.createElement("div")
+    const p = document.createElement("p")
+    const titleText = document.createElement("span")
+
+    resultWrap.classList.add("result-wrap")
+
+    p.textContent = "!";
+    titleText.textContent = `${msg}`
+
+    resultWrap.appendChild(p);
+    resultWrap.appendChild(titleText);
+
+    additionalSpans.forEach(text => {
+        const newSpan = document.createElement("span")
+        newSpan.textContent = text;
+        resultWrap.appendChild(newSpan);
+    })
+
+    parentElement.appendChild(resultWrap)
+}
+
+function drawNoResultDefault(parentEl, msg) {
+    const parentElement = document.querySelector(`${parentEl}`)
+
+    const resultWrap = document.createElement("div")
+    const p = document.createElement("p")
+    const titleText = document.createElement("span")
+
+    resultWrap.classList.add("result-wrap")
+
+    p.textContent = "!";
+    titleText.textContent = `${msg}`
+
+    resultWrap.appendChild(p);
+    resultWrap.appendChild(titleText);
+
+    parentElement.appendChild(resultWrap)
+}
