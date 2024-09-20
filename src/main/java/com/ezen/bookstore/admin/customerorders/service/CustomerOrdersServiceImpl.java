@@ -89,6 +89,10 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 	@Override
 	public void orderStatusUpdate(CustomerOrdersListDTO list, int order_num, String order_selected_status, String manager_id) {
 		try {
+			if(order_selected_status.equals("05") || order_selected_status.equals("06")) {
+				cor.orderPaymentUpdate(order_num);
+			}
+			
 			for(int i = 0; i < list.getOrder_detail_num().size(); i++) {
 				String isbn = list.getBook_isbn().get(i);
 				String bookTitle = list.getBook_name().get(i);
