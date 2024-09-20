@@ -43,6 +43,12 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
         return counts;
     }
 	
+    @Override
+    public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum) {
+        return orderRequestRepository.getOrderDetail(orderNum);
+    }
+    
+    
     public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String memberId) {
 		try {
 			return orderRequestRepository.getOrderCancleList(orderNum, memberId);

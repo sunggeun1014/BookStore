@@ -20,4 +20,9 @@ public class UserCustomerOrderWithDetailsDTO {
     
     private Integer cancellationAmount;
     private Integer refundAmount;
+    
+    private String recipient_name;
+    private String recipient_phoneno;
+    private String order_addr;
+    private String order_addr_detail;
 }

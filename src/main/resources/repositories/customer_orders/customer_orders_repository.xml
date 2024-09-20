@@ -169,7 +169,6 @@
 		    cod.order_detail_price,
 		    cod.order_detail_qty,
 		    cod.order_detail_price * cod.order_detail_qty AS order_price_sum,
-		    cod.order_complete_qty,
 		    cod.order_request_qty,
 	    	CASE
 		        WHEN cod.order_detail_status = '01' THEN

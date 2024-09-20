@@ -47,8 +47,15 @@ public class UserOrderRequestController {
 		
 		return "/user/mypage/customer_order/orderList";
 	}
-
 	
+	@GetMapping("/orderDetail")
+	public String myOrderDetail(Model model, Integer orderNum) {
+		UserCustomerOrderWithDetailsDTO orderDetails = orderRequestService.getOrderDetail(orderNum);
+		model.addAttribute("orderDetails", orderDetails);
+
+	    return "/user/mypage/customer_order/orderDetail";
+	}
+
     @GetMapping("/cancleList")
     public String purchaseCancleForm(Model model, Integer orderNum, HttpSession session) {
     	model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id())); 
