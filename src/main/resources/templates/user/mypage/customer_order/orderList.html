@@ -30,24 +30,24 @@
 	    		<span class="box-title">주문내역</span>
 	    	</div>
 	    	<div class="order-history-box">
-	    		<span class="history-val">0</span>
+	    		<span class="history-val" th:text="${deliveryStatusCount['배송전']}"></span>
 	    		<span class="history-status">배송전</span>
 	    	</div>
 	    	<div class="order-history-box">
-	    		<span class="history-val">0</span>
+	    		<span class="history-val" th:text="${deliveryStatusCount['배송중']}"></span>
 	    		<span class="history-status">배송중</span>
 	    	</div>
 	    	<div class="order-history-box">
-	    		<span class="history-val">0</span>
+	    		<span class="history-val" th:text="${deliveryStatusCount['배송완료']}"></span>
 	    		<span class="history-status">배송완료</span>
 	    	</div>
 	    	<div class="order-history-box">
-	    		<span class="history-val">0</span>
+	    		<span class="history-val" th:text="${orderStatusCount['취소요청']} + ${orderStatusCount['취소완료']}"></span>
 	    		<span class="history-status">취소</span>
 	    	</div>
 	    	<div class="order-history-box">
-	    		<span class="history-val">0</span>
-	    		<span class="history-status">교환반품</span>
+	    		<span class="history-val" th:text="${orderStatusCount['반품요청']} + ${orderStatusCount['반품완료']} + ${orderStatusCount['교환완료']}"></span>
+	    		<span class="history-status">교환/반품</span>
 	    	</div>
 	    </div>
 		<div class="order-history-table">
@@ -71,21 +71,23 @@
 						<img class="book-thumbnail" th:src="'/images/books/' + ${item.book_thumbnail_changed != null ? item.book_thumbnail_changed : '/images/books/noimg.png'}" alt="책 이미지">
 					</div>
 					<div class="book-info">
-						<span class="book-name" th:text="${item.book_name}"></span>
-						<span class="purchase-qty" th:text="'외 ' + ${item.order_qty_total - 1} + '개'"></span>
-					</div>
+				        <span class="book-name" 
+				              th:class="${item.order_qty_total == 1} ? 'single-order' : ''"
+				              th:text="${item.book_name}"></span>
+				        <span class="purchase-qty" th:if="${item.order_qty_total > 1}" th:text="'외 ' + ${item.order_qty_total - 1} + '개'"></span>
+				    </div>
 				</div>
 				<div class="history-table-item order-price">
 			<span class="total-price" th:text="${#numbers.formatInteger(item.order_price_total, 0, 'COMMA')} + '원'"></span>
 				</div>
 				<div class="history-table-item order-status">
-					<span class="order_payment_status" th:text="${item.order_payment_status}"></span>
+					<span class="order_detail_status" th:text="${item.order_detail_status}"></span>
 				</div>
 				<div class="history-table-item delivery-status">
 					<span class="order_delivery_status" th:text="${item.order_delivery_status}"></span>
-				</div>
-				<div class="history-table-item request-button">
-					<button class="default-btn border return-cancel-btn">반품</button>
+					<div class="history-table-item request-button" th:if="${item.order_delivery_status == '배송전'}">
+					    <button class="default-btn border return-cancel-btn">취소</button>
+					</div>
 				</div>
 			</div>
 		</div>

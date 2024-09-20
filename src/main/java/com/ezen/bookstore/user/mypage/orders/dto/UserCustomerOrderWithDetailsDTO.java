@@ -12,8 +12,10 @@ public class UserCustomerOrderWithDetailsDTO {
     private String book_name;
     private Integer order_detail_qty;
     private Integer order_detail_price;
-    private String order_payment_status;
+    private String order_detail_status;
     private String order_delivery_status;
     private Integer order_price_total;
     private Integer order_qty_total;
+    
+
 }

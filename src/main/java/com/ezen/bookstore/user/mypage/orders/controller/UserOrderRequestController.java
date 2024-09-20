@@ -1,6 +1,7 @@
 package com.ezen.bookstore.user.mypage.orders.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,11 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezen.bookstore.commons.SessionUtils;
-import com.ezen.bookstore.user.cart.dto.UserCartDTO;
 import com.ezen.bookstore.user.commons.UserSessionInfo;
 import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO;
 import com.ezen.bookstore.user.mypage.orders.service.UserOrderRequestService;
-import com.ezen.bookstore.user.payment.dto.UserCustomerOrderDetailsDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,8 +34,17 @@ public class UserOrderRequestController {
         
 		List<UserCustomerOrderWithDetailsDTO> orderList = orderRequestService.getOrderList(memberId);
 		model.addAttribute("orderList",orderList);
+		
+		Map<String, Integer> orderStatusCount = orderRequestService.getOrderStatusCounts(memberId);
+		model.addAttribute("orderStatusCount", orderStatusCount);
+		
+		Map<String, Integer> deliveryStatusCount = orderRequestService.getDeliveryStatusCounts(memberId);
+		model.addAttribute("deliveryStatusCount", deliveryStatusCount);
+		
+		
 		return "/user/mypage/customer_order/orderList";
 	}
+
 	
     @GetMapping("/cancleList")
     public String purchaseCancleForm(Model model, Integer orderNum) {

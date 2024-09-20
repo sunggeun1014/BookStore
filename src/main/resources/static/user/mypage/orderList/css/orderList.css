@@ -1,6 +1,6 @@
 .sub-info-bg {
 	display: flex;
-	gap: 20px;
+	gap: 10px;
 	align-items: center;
 }
 
@@ -18,7 +18,7 @@
 	padding: 20px 0;
 	background-color: #fff;
 	border: 1px solid #c0c0c0;
-	border-radius: 16px;
+	border-radius: 10px;
 	box-sizing: border-box;
 	flex-direction: row;
 	align-items: center;
@@ -73,9 +73,9 @@
 .order-history-table-header, .order-history-table-list {
 	display: flex;
 	flex-direction: row;
-	gap: 15px;
 	text-align: center;
-	padding-left: 10px;
+	padding: 0 25px;
+	justify-content: space-between;
 	align-items: center;
 }
 
@@ -86,28 +86,28 @@
 }
 
 .order-history-table-list {
-	height: 100px;
+	height: 120px;
 	color: #000000;
 	font-size: 14px;
+	border-bottom: 1px solid #c0c0c0;
 }
 
-.order-date, .order-price, .order-status, .delivery-status {
+.order-history-table-list:last-child {
+	border: none;
+}
+
+.order-date, .order-num, .order-price, .order-status, .delivery-status {
 	width: 100px;
 }
 
-.order-num {
-	width: 125px;
-}
-
 .order-content {
-	width: 210px;
+	width: 280px;
 }
 
 .history-table-item.order-content {
 	display: flex;
 	align-items: center;
-	text-align: start;
-	gap: 10px;
+	justify-content: space-between;
 	cursor: pointer;
 }
 
@@ -116,10 +116,31 @@
 	cursor: pointer;
 }
 
+.book-info {
+	width: 200px;
+	display: flex;
+	gap: 5px;
+	display: flex;
+}
+
 .book-thumbnail {
 	max-width: none;
-	width: 50px;
-	height: 70px;
+	width: 65px;
+	height: 90px;
+}
+
+.book-name {
+	max-width: 150px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.single-order {
+	width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .return-cancel-btn {
@@ -128,4 +149,9 @@
 	border-radius: 5px;
 	font-size: 14px;
 	font-weight: 500;
+	margin-top: 10px;
+}
+
+.result-wrap {
+    border: none;
 }

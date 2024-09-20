@@ -22,12 +22,15 @@
 		    END 
 		    	AS order_delivery_status,
 			CASE
-		    WHEN co.order_payment_status = '01' THEN '결제완료'
-		    WHEN co.order_payment_status = '02' THEN '환불완료'
+			
+		    WHEN od.order_detail_status = '01' THEN '주문완료'
+		    WHEN od.order_detail_status = '02' THEN '취소요청'
+		    WHEN od.order_detail_status = '04' THEN '반품요청'
+		    WHEN od.order_detail_status = '05' THEN '취소완료'
+		    WHEN od.order_detail_status = '06' THEN '교환완료'
+		    WHEN od.order_detail_status = '07' THEN '반품완료'
 		    END 
-		    	AS order_payment_status
-<!-- 			co.order_payment_status,
-			co.order_delivery_status -->
+		    	AS order_detail_status
 		FROM
 			customer_orders co
 			LEFT JOIN customer_order_details od ON co.order_num = od.order_num
@@ -39,8 +42,28 @@
 	        co.order_purchase_date,
 	        b.book_thumbnail_changed,
 	        b.book_name,
-	        co.order_payment_status,
+	        od.order_detail_status,
 	        co.order_delivery_status
+	</select>
+	
+	<select id="countByOrderStatus" parameterType="Map" resultType="Integer">
+	    SELECT 
+	    	COUNT(*)
+	    FROM 
+	    	customer_orders co
+	    JOIN
+	    	customer_order_details od ON co.order_num = od.order_num
+	    WHERE 
+	    	member_id = #{memberId} AND order_detail_status = #{status}
+	</select>
+	
+	<select id="countByDeliveryStatus" parameterType="Map" resultType="Integer">
+	    SELECT 
+	    	COUNT(*)
+	    FROM 
+	    	customer_orders
+	    WHERE 
+	    	member_id = #{memberId} AND order_delivery_status = #{status}
 	</select>
 	
 
