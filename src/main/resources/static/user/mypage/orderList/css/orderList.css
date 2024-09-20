@@ -6,6 +6,7 @@
 
 .date-picker-title {
 	font-weight: 600;
+	margin-right: 30px;
 }
 
 #searchBtn {
@@ -25,8 +26,8 @@
 }
 
 .order-history-box-title {
-	width: 120px;
-	margin: 0 20px;
+	width: 100px;
+	margin: 0 30px;
 	font-weight: 600;
 }
 
@@ -74,7 +75,7 @@
 	flex-direction: row;
 	gap: 15px;
 	text-align: center;
-	padding: 0 10px;
+	padding-left: 10px;
 	align-items: center;
 }
 
@@ -99,16 +100,30 @@
 }
 
 .order-content {
-	width: 200px;
+	width: 210px;
 }
 
 .history-table-item.order-content {
 	display: flex;
-	justify-content: center;
+	align-items: center;
+	text-align: start;
+	gap: 10px;
+	cursor: pointer;
+}
+
+.history-table-item.order-num:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.book-thumbnail {
+	max-width: none;
+	width: 50px;
+	height: 70px;
 }
 
 .return-cancel-btn {
-	width: 65px;
+	width: 60px;
 	height: 30px;
 	border-radius: 5px;
 	font-size: 14px;

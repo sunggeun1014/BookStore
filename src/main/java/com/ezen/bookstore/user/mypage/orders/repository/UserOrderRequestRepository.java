@@ -15,6 +15,11 @@ public class UserOrderRequestRepository {
 
 	private final SqlSessionTemplate sql;
 		
+	
+	public List<UserCustomerOrderWithDetailsDTO> getOrderList(String memberId) {
+		return sql.selectList("UserOrderRequest.orderList", memberId);
+		
+	};
 	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum) {
 		return sql.selectList("UserOrderRequest.cancleList", orderNum);
 	}

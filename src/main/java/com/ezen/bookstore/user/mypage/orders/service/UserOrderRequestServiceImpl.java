@@ -16,6 +16,10 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 	
 	private final UserOrderRequestRepository orderRequestRepository;
 	
+	public List<UserCustomerOrderWithDetailsDTO> getOrderList(String memberId) {
+		return orderRequestRepository.getOrderList(memberId);
+	}
+	
 	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum) {
 		try {
 			return orderRequestRepository.getOrderCancleList(orderNum);
