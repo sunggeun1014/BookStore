@@ -93,11 +93,21 @@
     border-radius: 5px;
 }
 
+.input-wrap #common_ent_pw.error {
+    border: 1px solid #E54F53;
+}
+
+.error-message {
+    margin-top: 10px;
+    color: #E54F53;
+    font-size: 14px;
+}
+
 .input-wrap #common_ent_pw:focus {
     border-color: #666;
 }
 
-.input-wrap > p {
+.input-wrap > p:last-child {
     margin-top: 5px;
     font-size: 12px;
     color: #666;
@@ -247,40 +257,71 @@
     margin-bottom: 20px;
 }
 
-.agree-content {
-    padding: 20px 10px;
-    border-top: 1px solid #c0c0c0;
-    border-bottom: 1px solid #c0c0c0;
-    cursor: pointer;
-}
-
-.agree-content.product {
-    border: 0;
-}
-
 .agree-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 20px 10px;
+    border-bottom: 1px solid #c0c0c0;
+    cursor: pointer;
 }
 
-.agree-text {
+.agree-title.active {
+    border-bottom: 0;
+}
+
+.agree-title.active .agree-arrow {
+    transform: rotate(180deg);
+}
+
+.agree-content {
     display: none;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 5px;
-    color: #666;
-    background-color: #F4F4F4;
-    line-height: 20px;
-    font-size: 15px;
+    padding: 0 10px 20px;
+    border-bottom: 1px solid #c0c0c0;
 }
 
-.agree-content.active .agree-text {
+.agree-content.on {
     display: block;
 }
 
-.agree-content.active .agree-arrow {
-    transform: rotate(180deg);
+.agree-inner {
+    max-height: 120px;
+    margin-top: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #F4F4F4;
+    overflow: hidden;
+}
+
+.agree-content.on .agree-inner {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.agree-inner::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+}
+.agree-inner::-webkit-scrollbar-track { /* 스크롤 바 배경 */
+    height: 90%;
+    background-color: transparent; /*스크롤 바 배경 색상*/
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    background-clip: content-box;
+}
+
+.agree-inner::-webkit-scrollbar-thumb {  /* 스크롤바 막대 */
+    height: 10%;
+    background-clip: padding-box;
+    border: 2px solid transparent; /*스크롤 바 양옆 여백*/
+    border-radius: 8px;
+    background-color: #ccc; /*스크롤 바 색상*/
+}
+
+.agree-text {
+    color: #666;
+    line-height: 20px;
+    font-size: 15px;
+    pointer-events: none;
 }
 
 /* 주소변경 모달 */
