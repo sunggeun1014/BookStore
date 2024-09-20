@@ -38,13 +38,6 @@
 				</div>
 			</div>		
 			<div class="order-info">
-<!--				<div>-->
-<!--					<div class="info-column">-->
-<!--						<span>전화번호</span>-->
-<!--					</div>-->
-<!--					<span>[[${detail.member_phoneno}]]</span>-->
-<!--				</div>-->
-
 				<div class="info-area-flex">
 					<div class="info-column-area">
 						<div class="info-column">
@@ -73,7 +66,7 @@
 					<div class="info-column">
 						<span>출입방법</span>
 					</div>
-					<span th:text="${detail.common_ent_pw != null ? detail.common_ent_pw : '자유출입'}"></span>
+					<span th:text="${detail.common_ent_pw != null ? detail.common_ent_pw : '자유출입가능'}"></span>
 				</div>
 			</div>		
 		</div>
@@ -101,6 +94,12 @@
 						<span>회수지</span>
 					</div>
 					<span>[[${detail.retrieve_addr}]] [[${detail.retrieve_addr_detail}]]</span>
+				</div>
+				<div class="request-info-area">
+					<div class="info-column">
+						<span>출입방법</span>
+					</div>
+					<span th:text="${detail.retrieve_common_cnt_pw != null ? detail.retrieve_common_cnt_pw : '자유출입가능'}"></span>
 				</div>
 			</div>
 		</div>

@@ -21,6 +21,7 @@ public class CustomerOrdersDTO {
 	private String retrieve_addr_detail;
 	private String retrieve_name;
 	private String retrieve_phoneNo;
+	private String retrieve_common_cnt_pw;
 	
 	private Integer order_detail_num;       
 	private Integer order_detail_qty;       
