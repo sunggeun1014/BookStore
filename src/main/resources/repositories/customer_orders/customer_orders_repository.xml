@@ -132,6 +132,7 @@
 		    co.retrieve_addr_detail,
 			co.retrieve_name,
 			co.retrieve_phoneNo,
+			co.retrieve_common_cnt_pw,
 		    m.member_name,
 		    m.member_email,
 		    m.member_phoneno,
@@ -154,6 +155,7 @@
 		    co.retrieve_addr_detail,
 			co.retrieve_name,
 			co.retrieve_phoneNo,
+			co.retrieve_common_cnt_pw,
 		    m.member_name,
 		    m.member_email,
 		    m.member_phoneno
