@@ -13,11 +13,45 @@
 		FROM
 			notices
 		WHERE
-			notice_visible != '01'
+			notice_visible != '02'
 		ORDER BY 
 			notice_write_date DESC	
 	</select>
 
+	<select id="getNoticesDetail" parameterType="userNotice" resultType="userNotice">
+		SELECT
+			notice_num,
+			notice_title,
+			notice_visible,
+			notice_content,
+			manager_id,
+			notice_write_date,
+			notice_start_date,
+			notice_end_date
+		FROM
+			notices
+		WHERE
+			notice_num = #{notice_num}
+		
+	</select>
+	
+	<select id="getPreviousNotice" parameterType="int" resultType="userNotice">
+        SELECT * FROM (
+            SELECT * FROM notices
+            WHERE notice_num &lt; #{noticeNum}
+            AND notice_visible != '02'
+            ORDER BY notice_num DESC
+        ) WHERE ROWNUM = 1
+    </select>
+
+    <select id="getNextNotice" parameterType="int" resultType="userNotice">
+        SELECT * FROM (
+            SELECT * FROM notices
+            WHERE notice_num &gt; #{noticeNum}
+            AND notice_visible != '02'
+            ORDER BY notice_num ASC
+        ) WHERE ROWNUM = 1
+    </select>
 
 
 
