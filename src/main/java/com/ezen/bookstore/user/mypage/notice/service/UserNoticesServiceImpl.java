@@ -25,4 +25,21 @@ public class UserNoticesServiceImpl implements UserNoticesService{
 	public List<UserNoticesDTO> getNoticeList(UserNoticesDTO userNoticesDTO) {		
 		return noticesMapper.getNoticesList(userNoticesDTO);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public UserNoticesDTO getNoticesDeatil(Integer noticeNum) {
+		return noticesMapper.getNoticesDetail(noticeNum);
+		
+	}
+
+	@Override
+	public UserNoticesDTO getPreviousNoticeByNumber(Integer noticeNum) {
+		return noticesMapper.getPreviousNotice(noticeNum);
+	}
+
+	@Override
+	public UserNoticesDTO getNextNoticeByNumber(Integer noticeNum) {
+		return noticesMapper.getNextNotice(noticeNum);
+	}
 }
