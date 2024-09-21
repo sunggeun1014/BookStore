@@ -63,8 +63,8 @@
 				<div class="history-table-item order-date">
 					<span th:text="${#dates.format(item.order_purchase_date, 'yyyy.MM.dd')}"></span>
 				</div>
-				<div class="history-table-item order-num">
-					<span th:text="${item.order_num}"></span>
+				<div class="history-table-item order-num" >
+					<a th:href="@{/user/mypage/orderDetail(orderNum=${item.order_num})}" th:text="${item.order_num}"></a>
 				</div>
 				<div class="history-table-item order-content">
 					<div class="img-wrap">

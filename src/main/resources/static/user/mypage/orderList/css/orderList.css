@@ -29,6 +29,7 @@
 	width: 100px;
 	margin: 0 30px;
 	font-weight: 600;
+	cursor: pointer;
 }
 
 .order-history-box {
@@ -56,6 +57,7 @@
 	font-size: 20px;
 	font-weight: 700;
 	margin-bottom: 8px;
+	cursor: pointer;
 }
 
 .history-status {

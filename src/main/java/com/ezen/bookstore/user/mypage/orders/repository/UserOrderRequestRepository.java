@@ -37,6 +37,9 @@ public class UserOrderRequestRepository {
     	return sql.selectOne("UserOrderRequest.countByDeliveryStatus", params);
     }
 	
+	public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum) {
+		return sql.selectOne("UserOrderRequest.getOrderDetail", orderNum);
+	}
 	
 	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String memberId) {
 		Map<String, Object> map = new HashMap<>();
@@ -60,4 +63,5 @@ public class UserOrderRequestRepository {
 	public UserCustomerOrderWithDetailsDTO getRefundInfo(Integer orderNum) {
 		return sql.selectOne("UserOrderRequest.getRefundInfo", orderNum);
 	}
+	
 }

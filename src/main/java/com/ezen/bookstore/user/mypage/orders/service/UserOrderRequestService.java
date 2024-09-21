@@ -17,4 +17,6 @@ public interface UserOrderRequestService {
 	public int orderCancle(List<UserCustomerOrderWithDetailsDTO> list); 
 	
     public UserCustomerOrderWithDetailsDTO getRefundInfo(Integer orderNum);
+
+	public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum);
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.commons.SessionUtils;
@@ -16,9 +17,12 @@ import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO
 import com.ezen.bookstore.user.mypage.orders.service.UserOrderRequestService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RequestMapping("/user/mypage")
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 @Controller
 public class UserOrderRequestController {
@@ -47,8 +51,17 @@ public class UserOrderRequestController {
 		
 		return "/user/mypage/customer_order/orderList";
 	}
-
 	
+	@GetMapping("/orderDetail")
+	public String myOrderDetail(Model model, @RequestParam("orderNum") Integer orderNum) {
+		String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
+		
+		UserCustomerOrderWithDetailsDTO orderDetails = orderRequestService.getOrderDetail(orderNum);
+		model.addAttribute("orderDetails", orderDetails);
+
+	    return "/user/mypage/customer_order/orderDetail";
+	}
+
     @GetMapping("/cancleList")
     public String purchaseCancleForm(Model model, Integer orderNum, HttpSession session) {
     	model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id())); 
