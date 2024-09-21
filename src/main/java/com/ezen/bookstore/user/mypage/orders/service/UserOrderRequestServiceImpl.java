@@ -45,9 +45,14 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 	
     @Override
     public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum) {
-        return orderRequestRepository.getOrderDetail(orderNum);
-    }
-    
+		try {
+			return orderRequestRepository.getOrderDetail(orderNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
     
     public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String memberId) {
 		try {

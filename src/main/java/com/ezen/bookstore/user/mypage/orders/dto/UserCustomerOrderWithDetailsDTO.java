@@ -17,12 +17,15 @@ public class UserCustomerOrderWithDetailsDTO {
     private Integer order_price_total;
     private Integer order_qty_total;
     private Integer order_detail_num;
-    
+
     private Integer cancellationAmount;
     private Integer refundAmount;
+
     
-    private String recipient_name;
-    private String recipient_phoneno;
+    private String member_phoneno;
+    private String member_name;
+    private String recipient_name;     
+    private String recipient_phoneno; 
     private String order_addr;
     private String order_addr_detail;
 }

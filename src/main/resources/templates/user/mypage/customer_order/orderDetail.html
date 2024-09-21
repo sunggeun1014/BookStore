@@ -1,26 +1,38 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/user/common/layout/myPageLayout}"
-      layout:fragment="Content">
-      
-<link rel="stylesheet" href="/user/mypage/orderList/css/orderDetail.css"/>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/user/common/layout/myPageLayout}" layout:fragment="Content">
+
+<link rel="stylesheet" href="/user/mypage/orderList/css/orderDetail.css" />
 <div class="content">
 	<div class="myinfo-content">
 		<div class="myinfo-title">주문/배송 상세</div>
 		<div class="sub-info-bg order-date-num">
 			<div>
-				<span class="order-purchase-date">2024.09.21</span>	
+				<span class="order-purchase-date" th:text="${#dates.format(orderDetails.order_purchase_date, 'yyyy.MM.dd')}"></span>
 			</div>
 			<div class="order-num-wrap">
-				<span>주문번호</span>
-				<div class="order-num">50000000</div>
+				<span>주문번호:</span>
+				<div class="order-num" th:text="${orderDetails.order_num}"></div>
 			</div>
 		</div>
-		
 
-	
+		<!--  
+		<div class="order-details">
+			<h3>주문 내용</h3>
+			<div class="order-items" th:each="item : ${orderDetails.items}">
+				<div class="order-item">
+					<img class="book-thumbnail" th:src="'/images/books/' + ${item.book_thumbnail_changed != null ? item.book_thumbnail_changed : 'noimg.png'}" alt="책 이미지">
+					<div class="book-info">
+						<span class="book-name" th:text="${item.book_name}"></span> <span class="purchase-qty" th:text="'수량: ' + ${item.order_detail_qty}"></span> <span class="order-price" th:text="${#numbers.formatInteger(item.order_detail_price * item.order_detail_qty, 0, 'COMMA')} + '원'"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="order-status">
+			<h3>주문 상태</h3>
+			<span th:text="${orderDetails.order_status}"></span>
+		</div>
+-->
+
 	</div>
 </div>
 </html>
