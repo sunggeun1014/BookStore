@@ -70,12 +70,12 @@
 					<div class="img-wrap">
 						<img class="book-thumbnail" th:src="'/images/books/' + ${item.book_thumbnail_changed != null ? item.book_thumbnail_changed : '/images/books/noimg.png'}" alt="책 이미지">
 					</div>
-					<div class="book-info">
+					 <a th:href="@{/user/mypage/orderDetail(orderNum=${item.order_num})}" class="book-info">
 				        <span class="book-name" 
 				              th:class="${item.order_qty_total == 1} ? 'single-order' : ''"
 				              th:text="${item.book_name}"></span>
 				        <span class="purchase-qty" th:if="${item.order_qty_total > 1}" th:text="'외 ' + ${item.order_qty_total - 1} + '개'"></span>
-				    </div>
+					 </a>
 				</div>
 				<div class="history-table-item order-price">
 			<span class="total-price" th:text="${#numbers.formatInteger(item.order_price_total, 0, 'COMMA')} + '원'"></span>
