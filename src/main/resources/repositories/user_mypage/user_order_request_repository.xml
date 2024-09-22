@@ -116,6 +116,8 @@
 	    cod.order_detail_num,
 	    cod.order_detail_qty,
 	    cod.order_detail_price,
+   	    cod.order_request_qty,
+    	cod.order_complete_qty,
 	    CASE
 	    	WHEN cod.order_detail_status = '01' THEN '주문완료'
 	    	WHEN cod.order_detail_status = '02' THEN '취소요청'
@@ -154,7 +156,8 @@
 	<select id="getRefundInfo" parameterType="Integer" resultType="customerOrderWithDetails">
 		SELECT 
 		    SUM(CASE WHEN cod.order_detail_status = '05' THEN cod.order_detail_price * cod.order_complete_qty ELSE 0 END) AS refundAmount,
-		    SUM(CASE WHEN cod.order_detail_status = '05' or cod.order_detail_status = '02' THEN cod.order_detail_price * cod.order_request_qty ELSE 0 END) AS cancellationAmount
+		    SUM(CASE WHEN cod.order_detail_status = '05' or cod.order_detail_status = '02' THEN cod.order_detail_price * cod.order_request_qty ELSE 0 END) AS cancellationAmount,
+		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total
 		FROM customer_orders co
 			LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
 		WHERE co.order_num = #{order_num}
