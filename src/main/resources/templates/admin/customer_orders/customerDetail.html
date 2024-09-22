@@ -178,7 +178,7 @@
 						<span th:text="${info.order_complete_qty <= 0 ? '-' : info.order_complete_qty + '개'}"></span>
 					</div>
 					<div class="input-qty-data">
-						<span><input type="number" name="input_qty" id="input_qty" oninput="qtyHandler(this);" th:value="${info.order_request_qty - info.order_complete_qty}" th:data-order-request-qty="${info.order_request_qty - info.order_complete_qty}"/></span>
+						<span><input type="text" th:value="${info.order_request_qty != null ? info.order_request_qty : 0} - ${info.order_complete_qty != null ? info.order_complete_qty : 0}" /></span>
 					</div>
 					<div class="purchase-data" >
 						<span th:text="${#numbers.formatInteger(info.order_price_sum, 0, 'COMMA')} + '원'"></span>

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class CustomerOrdersDTO {
-	private Integer order_num;        
+	private Integer order_num;
 	private String order_addr;
 	private String order_addr_detail;
 	private String recipient_name;

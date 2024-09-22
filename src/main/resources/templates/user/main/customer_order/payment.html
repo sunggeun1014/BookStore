@@ -88,6 +88,7 @@
                             </div>
                             <input type="text" name="order_addr_detail" id="edit-addr-detail"
                                    th:value="${memberDTO.member_detail_addr}">
+                            <p class="edit-error"></p>
                         </div>
                     </div>
                     <button class="default-btn" id="confirm-btn">확인</button>
@@ -118,7 +119,7 @@
                         <p>원</p>
                     </div>
                 </div>
-                <button class="default-btn" id="pay-btn" th:disabled="${orderCartItems == null && orderItems == null}">
+                <button class="default-btn" id="pay-btn" th:disabled="${combinedItems == null}">
                     결제하기
                 </button>
             </div>
@@ -138,11 +139,12 @@
                 <i class="fa-solid fa-angle-down product-info-arrow"></i>
             </div>
             <div class="list-wrap">
-                <div class="result-wrap" th:if="${orderItems == null && orderCartItems == null}">
+                <div class="result-wrap" th:if="${combinedItems == null}">
                     <p>!</p>
                     <span>상품이 없습니다</span>
                 </div>
-                <div class="product-list" th:each="item : ${orderItems}">
+                <div class="product-list" th:each="item : ${combinedItems}">
+                    <input type="hidden" name="order_name" id="order_name" th:data-order-name="${combinedItems[0].book_name} + ' 외 ' + ${itemsCnt - 1} +'권'">
                     <input type="hidden" name="book_isbn" class="order-book-isbn" th:data-isbn="${item.book_isbn}">
                     <div class="list-left">
                         <div class="img-wrap">
@@ -158,26 +160,6 @@
                         </div>
                         <div class="book-price">
                             <p th:text="${#numbers.formatInteger(item.book_price, 0, 'COMMA')}"></p>
-                            <p>원</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-list" th:each="cartitem : ${orderCartItems}">
-                    <input type="hidden" name="book_isbn" class="order-book-isbn" th:data-isbn="${cartitem.book_isbn}">
-                    <div class="list-left">
-                        <div class="img-wrap">
-                            <img th:src="${cartitem.book_thumbnail_changed != null ? '/images/books/' + cartitem.book_thumbnail_changed : '/images/books/noimg.png'}"
-                                 alt="책사진">
-                        </div>
-                        <p class="book-name" th:text="${cartitem.book_name}"></p>
-                    </div>
-                    <div class="list-right">
-                        <div class="books-cnt">
-                            <p th:text="${cartitem.cart_purchase_qty}"></p>
-                            <p>개</p>
-                        </div>
-                        <div class="book-price">
-                            <p th:text="${#numbers.formatInteger(cartitem.book_price, 0, 'COMMA')}"></p>
                             <p>원</p>
                         </div>
                     </div>
@@ -206,7 +188,7 @@
             <div class="agree-content">
                 <div class="agree-inner">
                     <div class="agree-text">
-                        수집하는 개인정보의 항목 <br>
+                        <strong>수집하는 개인정보의 항목</strong> <br>
                         <br>
                         ① 교보문고는 구매, 원활한 고객상담, 각종 서비스의 제공을 위해 주문 이용 시 아래와 같은 개인정보를 수집하고 있습니다.<br>
                         <br>
@@ -274,9 +256,12 @@
 </div>
 
 <!-- 결제api -->
-<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<!--<script src="https://cdn.iamport.kr/v1/iamport.js"></script>-->
+<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+
+
 <!-- 카카오주소   -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/user/customer_order/js/order.js"></script>
-<script src="/user/customer_order/js/payment.js"></script>
+<!--<script src="/user/customer_order/js/payment.js"></script>-->
 </html>
