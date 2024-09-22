@@ -46,21 +46,26 @@ public class UserOrderRequestController {
 		return "/user/mypage/customer_order/orderDetail";
 	}
 
-	@GetMapping("/cancleList")
-	public String purchaseCancleForm(Model model, Integer orderNum, HttpSession session) {
-		model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum,
-				((UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
-
-		return "/user/mypage/customer_order/cancleList";
-	}
-
-	@GetMapping("/cancleCompletion")
-	public String purchaseCancleCompletionForm(Model model, Integer orderNum, HttpSession session) {
-		model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum,
-				((UserMembersDTO) session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
-		model.addAttribute("refund", orderRequestService.getRefundInfo(orderNum));
-
-		return "/user/mypage/customer_order/cancleCompletion";
-	}
-
+    @GetMapping("/cancleList")
+    public String purchaseCancleForm(Model model, Integer orderNum, HttpSession session) {
+    	model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id())); 
+    	
+    	return "/user/mypage/customer_order/cancleList";
+    }
+    
+    @GetMapping("/cancleCompletion")
+    public String purchaseCancleCompletionForm(Model model, Integer orderNum, HttpSession session) {
+        model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
+        model.addAttribute("refund", orderRequestService.getRefundInfo(orderNum));
+        
+        return "/user/mypage/customer_order/cancleCompletion";
+    }
+    
+    @GetMapping("/returnRequest")
+    public String returnRequestForm(Model model, Integer orderNum, HttpSession session) {
+    	model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
+    	model.addAttribute("refund", orderRequestService.getRefundInfo(orderNum));
+    	
+    	return "/user/mypage/customer_order/returnRequest";
+    }
 }

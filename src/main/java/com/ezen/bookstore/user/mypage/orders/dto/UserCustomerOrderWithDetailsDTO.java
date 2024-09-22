@@ -20,7 +20,9 @@ public class UserCustomerOrderWithDetailsDTO {
 
     private Integer cancellationAmount;
     private Integer refundAmount;
-
+    
+    private Integer order_request_qty;
+    private Integer order_complete_qty;
     
     private String member_phoneno;
     private String member_name;
