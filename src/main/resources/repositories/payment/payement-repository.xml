@@ -41,4 +41,46 @@
         END;
     ]]>
     </insert>
+
+    <select id="getOrderDetail" resultType="userOrders" parameterType="java.util.HashMap">
+        SELECT
+        COUNT(co.order_num) AS order_cnt,
+        co.order_num,
+        co.member_id,
+        co.order_addr,
+        co.order_addr_detail,
+        co.recipient_name,
+        co.recipient_phoneNo,
+        m.member_name,
+        m.member_phoneno,
+        NVL(SUM(cod.order_detail_price * cod.order_detail_qty), 0) AS order_price_total
+        FROM
+        customer_orders        co
+        LEFT JOIN members                m ON co.member_id = m.member_id
+        LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
+        WHERE
+        co.order_num = #{order_num} AND m.member_id = #{member_id}
+        GROUP BY
+        co.order_num,
+        co.member_id,
+        co.order_addr,
+        co.order_addr_detail,
+        co.recipient_name,
+        co.recipient_phoneNo,
+        m.member_name,
+        m.member_phoneno
+    </select>
+
+    <select id="OrderDetail" resultType="UserOrderDetails" parameterType="int">
+        SELECT
+        b.book_thumbnail_changed,
+        b.book_name,
+        cod.order_detail_price,
+        cod.order_detail_qty
+        FROM
+        customer_order_details cod
+        LEFT JOIN books                  b ON cod.book_isbn = b.book_isbn
+        WHERE
+        cod.order_num = #{order_num}
+    </select>
 </mapper>

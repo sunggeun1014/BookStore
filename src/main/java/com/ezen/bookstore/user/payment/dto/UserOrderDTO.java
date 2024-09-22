@@ -5,7 +5,8 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public class UserCustomerOrdersDTO {
+public class UserOrderDTO {
+    private Integer order_cnt;
     private Integer order_num;
     private String order_addr;
     private String order_addr_detail;
@@ -14,7 +15,10 @@ public class UserCustomerOrdersDTO {
     private String order_payment_status;
     private Timestamp order_purchase_date;
     private Timestamp order_modify_date;
+    private String recipient_name;
+    private String recipient_phoneNo;
     private String member_id;
-    private String retrieve_addr;
-    private String retrieve_addr_detail;
+    private String member_name;
+    private String member_phoneno;
+    private Integer order_price_total;
 }

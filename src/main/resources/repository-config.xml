@@ -42,7 +42,10 @@
       <typeAlias type="com.ezen.bookstore.user.cart.dto.UserCartDTO" alias="userCart"/>
 
 	  <typeAlias type="com.ezen.bookstore.user.members.dto.UserMembersDTO" alias="userMembers"/>
-	  
+
+      <typeAlias type="com.ezen.bookstore.user.payment.dto.UserOrderDTO" alias="userOrders"/>
+      <typeAlias type="com.ezen.bookstore.user.payment.dto.UserOrderDetailsDTO" alias="UserOrderDetails"/>
+
       <typeAlias type="com.ezen.bookstore.user.bookcategory.dto.UserBookCategoryDTO" alias="userCategory"/>
       <typeAlias type="com.ezen.bookstore.user.mypage.review.dto.UserBookReviewDTO" alias="BookReview"/>
       <typeAlias type="com.ezen.bookstore.user.mypage.inquiries.dto.UserInquiriesDTO" alias="userInquiries"/>

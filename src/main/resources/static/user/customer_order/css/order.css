@@ -383,6 +383,16 @@
     pointer-events: none;
 }
 
+.edit-error {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #E54F53;
+}
+
+#edit-addr-detail.error {
+    border: 1px solid #E54F53;
+}
+
 .edit-subtitle { font-weight: 700; }
 
 .modal-head {

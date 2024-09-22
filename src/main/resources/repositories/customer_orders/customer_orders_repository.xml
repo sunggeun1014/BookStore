@@ -202,5 +202,4 @@
     	where
     		order_detail_num = #{order_detail_num}
 	</update>
-	
 </mapper>
