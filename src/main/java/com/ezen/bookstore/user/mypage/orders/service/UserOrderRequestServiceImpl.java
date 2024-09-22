@@ -7,37 +7,47 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ezen.bookstore.commons.SessionUtils;
+import com.ezen.bookstore.user.commons.UserSessionInfo;
 import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO;
 import com.ezen.bookstore.user.mypage.orders.repository.UserOrderRequestRepository;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
 @RequiredArgsConstructor
 public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 	
 	private final UserOrderRequestRepository orderRequestRepository;
 	
-	public List<UserCustomerOrderWithDetailsDTO> getOrderList(String memberId) {
-		return orderRequestRepository.getOrderList(memberId);
+	@Override
+	public List<UserCustomerOrderWithDetailsDTO> getOrderList() {
+        String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
+        return orderRequestRepository.getOrderList(memberId);
 	}
 	
     @Override
-    public Map<String, Integer> getOrderStatusCounts(String memberId) {
+    public Map<String, Integer> getOrderStatusCounts() {
+        String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
         Map<String, Integer> counts = new HashMap<>();
-     // 주문 상태 카운트
-        counts.put("취소요청", orderRequestRepository.countByOrderStatus(memberId, "02")); // 취소 요청
-        counts.put("반품요청", orderRequestRepository.countByOrderStatus(memberId, "04")); // 반품 요청
-        counts.put("취소완료", orderRequestRepository.countByOrderStatus(memberId, "05")); // 취소 완료
-        counts.put("교환완료", orderRequestRepository.countByOrderStatus(memberId, "06")); // 교환 완료
-        counts.put("반품완료", orderRequestRepository.countByOrderStatus(memberId, "07")); // 반품 완료
+
+        counts.put("취소요청", orderRequestRepository.countByOrderStatus(memberId, "02")); 
+        counts.put("반품요청", orderRequestRepository.countByOrderStatus(memberId, "04")); 
+        counts.put("취소완료", orderRequestRepository.countByOrderStatus(memberId, "05")); 
+        counts.put("교환완료", orderRequestRepository.countByOrderStatus(memberId, "06")); 
+        counts.put("반품완료", orderRequestRepository.countByOrderStatus(memberId, "07")); 
         return counts;
     }
 
     @Override
-    public Map<String, Integer> getDeliveryStatusCounts(String memberId) {
-        Map<String, Integer> counts = new HashMap<>();
-        counts.put("배송전", orderRequestRepository.countByDeliveryStatus(memberId, "01"));
+    public Map<String, Integer> getDeliveryStatusCounts() {
+    	String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
+    	Map<String, Integer> counts = new HashMap<>();
+        
+    	counts.put("배송전", orderRequestRepository.countByDeliveryStatus(memberId, "01"));
         counts.put("배송중", orderRequestRepository.countByDeliveryStatus(memberId, "02"));
         counts.put("배송완료", orderRequestRepository.countByDeliveryStatus(memberId, "03"));
         return counts;
