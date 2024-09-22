@@ -12,13 +12,13 @@ import com.ezen.bookstore.user.mypage.orders.service.UserOrderRequestService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/user/mypage")
+@RequestMapping("/user/mypage/")
 @RequiredArgsConstructor
 @RestController
 public class UserOrderRequestRestController {
 	
 	private final UserOrderRequestService orderRequestService;
-
+	
     @PutMapping("/orderCancle")
     public int orderCancle(@RequestBody List<UserCustomerOrderWithDetailsDTO> list) {
     	return orderRequestService.orderCancle(list);

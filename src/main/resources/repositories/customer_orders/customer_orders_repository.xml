@@ -202,4 +202,13 @@
     	where
     		order_detail_num = #{order_detail_num}
 	</update>
+
+	<update id="orderPaymentUpdate" parameterType="Integer">
+		UPDATE customer_orders
+		SET
+		    order_payment_status = '02'
+		WHERE
+		    order_num = #{order_num}
+	</update>
+
 </mapper>

@@ -52,5 +52,8 @@ public class CustomerOrdersRepository {
 		return sql.update("CustomerOrders.orderStatusUpdate", map);
 	}
 	
+	public void orderPaymentUpdate(int order_num) {
+		sql.update("CustomerOrders.orderPaymentUpdate", order_num);
+	}
 
 }
