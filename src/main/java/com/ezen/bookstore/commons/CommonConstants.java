@@ -11,4 +11,9 @@ public class CommonConstants {
     		"010", "011", "016", "017", "018", "019" 
     };
     
+    public static final String[] INQUIRY_TYPE = {
+    		"상품문의", "배송문의", "결제문의", "취소문의", "교환문의",
+    		"반품문의", "기타"
+    };
+    
 }

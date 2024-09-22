@@ -32,4 +32,9 @@ public class UserInquiriesServiceImpl implements UserInquiriesService {
 	public void deleteInquiry(Integer inquiry_num) {
 		userInquiriesMapper.deleteInquiry(inquiry_num);
 	}
+	
+	@Override
+	public List<UserInquiriesDTO> searchOrderList() {
+		return userInquiriesMapper.getOrderList(SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID));
+	}
 }

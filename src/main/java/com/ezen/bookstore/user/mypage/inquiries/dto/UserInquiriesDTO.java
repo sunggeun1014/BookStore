@@ -1,6 +1,7 @@
 package com.ezen.bookstore.user.mypage.inquiries.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -16,16 +17,19 @@ public class UserInquiriesDTO {
 	Timestamp inquiry_write_date;
 	String inquiry_answer_status;
 	String inquiry_type;
-	
 	String inquiries_original;
 	String inquiries_changed;
 	Integer order_num;
+	Timestamp order_purchase_date;
 	Integer order_detail_num;
-	Integer order_qty;
+	Integer order_detail_qty;
 	
 	String answer_content;
 	Timestamp answer_write_date;
 	
 	Timestamp startDate;
 	Timestamp endDate;
+	
+	List<String> book_name;
+	
 }

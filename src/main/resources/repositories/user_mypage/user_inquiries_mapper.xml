@@ -41,7 +41,28 @@
         	inquiry_num = #{inquiry_num}
     </delete>
 
+	<resultMap id="OrderWithBooksResultMap" type="userInquiries">
+	    <id column="order_num" property="order_num" />
+	    <result column="order_purchase_date" property="order_purchase_date" />
+	    <collection property="book_name" ofType="string">
+	        <result column="book_name" />
+	    </collection>
+	</resultMap>
 
-
+	<select id="getOrderList" resultMap="OrderWithBooksResultMap" parameterType="String">
+	    SELECT DISTINCT
+	        o.order_num,
+	        o.order_purchase_date,
+	        b.book_name
+	    FROM 
+	        Customer_Orders o
+	    JOIN 
+	        Customer_Order_Details d ON o.order_num = d.order_num
+	    JOIN 
+	        Books b ON d.book_isbn = b.book_isbn
+	    WHERE 
+	        o.order_delivery_status = '01' 
+	        AND o.member_id = #{member_id}
+	</select>
 
 </mapper>

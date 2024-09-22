@@ -32,8 +32,12 @@ public class UserInquiriesRestController {
 		return ResponseEntity.ok(inquiries);
 	}
 	
+	@GetMapping("/search-order")
+	public List<UserInquiriesDTO> searchOrderList() {
+		return userInquiriesService.searchOrderList();
+	}
 	
-	// 문의 삭제 메서드
+	
     @DeleteMapping("/delete/{inquiry_num}")
     public ResponseEntity<?> deleteInquiry(@PathVariable Integer inquiry_num) {
         try {
