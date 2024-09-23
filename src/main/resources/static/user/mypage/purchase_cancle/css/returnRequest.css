@@ -143,10 +143,6 @@
 	line-height: 1;
 }
 
-.modal-text > p > span {
-	font-weight: bold;
-}
-
 .check-btn {
     display: flex;
     flex-direction: column;
@@ -277,14 +273,156 @@
 
 .name-area {
 	display: flex;
+	position: relative;
+	gap: 50px;
 }
 
 .name {
     line-height: 25px;
-    margin-right: 50px;
 }
 
 .user-info-font {
 	font-size: 16px;
 	color: #000000;
+}
+
+.info-change-modal {
+	position: absolute;
+	right: -450px;
+	z-index: 1000;
+	width: 550px;
+	height: 552px;
+	border: solid 1px #C0C0C0;
+	border-radius: 10px;
+	padding: 25px 20px;
+	background-color: #FFFFFF;
+}
+
+.info-change-title {
+	display: flex;
+	justify-content: space-between;
+	font-size: 20px;
+	font-weight: bold;
+	color: #000000;
+	padding-bottom: 15px;
+	border-bottom: solid 1px #C0C0C0;
+	margin-bottom: 20px;
+}
+
+.info-sub-title {
+	width: 100px;
+	height: 40px;
+	font-size: 16px;
+	color: #000000;
+	font-weight: bold;
+	margin-right: 50px;
+}
+
+.info-input-area {
+	display: flex;
+	line-height: 40px;
+	margin-bottom: 15px;
+}
+
+.info-input-box {
+	width: 350px;
+	border: 1px solid #C0C0C0;
+	border-radius: 5px;
+	font-size: 16px;
+	padding: 0 10px;
+}
+
+.info-addr-input-box {
+	width: 260px;
+	border: 1px solid #C0C0C0;
+	border-radius: 5px;
+	font-size: 16px;
+	padding: 0 10px;
+}
+
+.info-addr-area {
+	display: flex;
+}
+
+.info-addr-input-area {
+	margin: 0 10px 15px 0;
+}
+
+.common-entranc-title-area {
+	font-size: 18px;
+	font-weight: bold;
+	color: #000000;
+	margin-bottom: 5px;
+}
+
+.common-entranc-content-area {
+	display: flex;
+	height: 30px;
+}
+
+.common-entranc-radio-area {
+	display: flex;
+}
+
+.common-entranc-radio {
+	margin-right: 20px;
+}
+
+.flex-direction {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.common-entranc-radio-name-area {
+	margin-right: 40px;
+	font-size: 16px;
+	color: #000000;
+}
+
+.common-entrance-pw {
+	height: 40px;
+	width: 350px;
+	font-size: 14px;
+}
+
+.common-entrance-pw-area {
+	margin: 10px 0 6px 0;
+}
+
+.common-entrance-precautions-area {
+	font-size: 12px;
+	color: #666666;
+}
+
+.info-change-btn-area {
+	margin-top: 45px;
+	text-align: center;
+}
+
+.close-btn-area {
+	width: 18px;
+	height: 18px;
+	color: #666666;
+}
+
+.close-btn-area {
+	cursor: pointer;
+}
+
+.close-btn {
+	content: url("/user/common/imgs/close-btn.jpg");
+}
+
+.common-entrance-area {
+	margin-top: 14px;
+}
+
+.modal-font-bold {
+	display: block;
+	font-weight: bold;
+}
+
+.modal-font-size {
+	font-size: 14px;
 }

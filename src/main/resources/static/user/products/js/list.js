@@ -106,6 +106,6 @@ function basketProcess(data) {
 		  	}
 		});
 	} else {
-		getCheckModal("장바구니에 담으려면 최소한 하나의 상품을 선택해야 합니다.");	
+		getCheckModal("장바구니에 담으려면 최소 1개의 상품을 선택해야 합니다.");	
 	}
 }

@@ -30,4 +30,12 @@ public class UserCustomerOrderWithDetailsDTO {
     private String recipient_phoneno; 
     private String order_addr;
     private String order_addr_detail;
+    
+    private String retrieve_name;
+    private String retrieve_addr;
+    private String retrieve_addr_detail;
+    private String retrieve_phoneNo;
+    private String common_ent_pw;
+    private String retrieve_common_cnt_pw;
+    
 }

@@ -13,5 +13,5 @@ public interface UserOrderRequestService {
 	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String member_id);
 	public int orderCancle(List<UserCustomerOrderWithDetailsDTO> list); 
     public UserCustomerOrderWithDetailsDTO getRefundInfo(Integer orderNum);
-
+    public int returnRequest(Map<String, Object> data);
 }

@@ -1,7 +1,9 @@
 package com.ezen.bookstore.user.mypage.orders.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,4 +26,8 @@ public class UserOrderRequestRestController {
     	return orderRequestService.orderCancle(list);
     }
     
+    @PostMapping("/returnRequest")
+    public int returnRequest(@RequestBody Map<String, Object> data) {
+    	return orderRequestService.returnRequest(data);
+    }
 }
