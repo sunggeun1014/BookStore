@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ManagersDTO implements Serializable {
+public class AdminManagersDTO implements Serializable {
 	
 	private static final long serialVersionUID = 7548312854200448283L;
 	

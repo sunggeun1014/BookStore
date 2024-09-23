@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersListDTO;
 import com.ezen.bookstore.admin.customerorders.service.CustomerOrdersService;
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
+import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.commons.SearchCondition;
 
@@ -53,12 +53,12 @@ public class CustomerOrdersRestController {
     
     @PostMapping(value = "/deliveryRequest")
     public int deliveryRequest(@RequestBody List<Integer> order_nums, HttpSession session) {
-    	return cos.deliveryRequestSave(order_nums, ((ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
+    	return cos.deliveryRequestSave(order_nums, ((AdminManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
     }
 
     @PostMapping(value = "/orderStatusUpdate")
     public String orderStatusUpdate(@ModelAttribute CustomerOrdersListDTO list, int order_num, String order_selected_status, HttpSession session) {
-    	cos.orderStatusUpdate(list, order_num, order_selected_status, ((ManagersDTO)session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
+    	cos.orderStatusUpdate(list, order_num, order_selected_status, ((AdminManagersDTO)session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
     	
     	return "/admin/customerOrders/detail?order_num=" + order_num;
     }

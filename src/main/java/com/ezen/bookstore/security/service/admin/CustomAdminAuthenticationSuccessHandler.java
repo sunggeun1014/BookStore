@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
+import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
 import com.ezen.bookstore.commons.AccountManagement;
 
 import jakarta.servlet.ServletException;
@@ -23,7 +23,7 @@ public class CustomAdminAuthenticationSuccessHandler implements AuthenticationSu
 		
 		CustomAdminDetails adminDetails = (CustomAdminDetails) authentication.getPrincipal();
 		
-        ManagersDTO managersDTO = adminDetails.getManagersDTO();
+        AdminManagersDTO managersDTO = adminDetails.getManagersDTO();
         managersDTO.setManager_pw(null);
                 
         session.setMaxInactiveInterval(60*60);

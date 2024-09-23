@@ -35,13 +35,11 @@ document.getElementById('kakao_login_btn').addEventListener('click', function() 
                 url: '/v2/user/me',
                 success: function(response) {
                     const kakaoId = response.id; // 카카오에서 받은 고유 ID
-                    const email = response.kakao_account.email; // 카카오에서 받은 이메일
-
+					
                     // 숨겨진 input 필드에 kakao ID 저장
                     document.getElementById('kakao_login_cd').value = kakaoId;
 
-                    // 값 확인용 log
-                    console.log('카카오 로그인 성공! ID:', kakaoId, '이메일:', email);
+                    
                     
                     let kakaoCheckbox = document.querySelector('.check-box.kakao');
                     if (kakaoCheckbox) {
