@@ -20,29 +20,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
-import com.ezen.bookstore.admin.managers.service.MgrService;
-import com.ezen.bookstore.commons.CommonConstants;
+import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
+import com.ezen.bookstore.admin.managers.service.AdminMgrServiceImpl;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 @Controller
 @RequestMapping("/admin/managers")
-public class MgrController {
-	private final MgrService mgrService;
-	
-	@GetMapping("/managers")
-	public String managers() {
-		return "admin/managers/managers";
-	}
+public class AdminMgrRestController {
+	AdminMgrServiceImpl mgrService;
 	
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, Object> tableData(){
-		List<ManagersDTO> tables = mgrService.list();
+		List<AdminManagersDTO> tables = mgrService.list();
 		
 		Map<String, Object> response = new HashMap<>();
 		response.put("data", tables);
@@ -54,7 +51,7 @@ public class MgrController {
 	
 	@PostMapping("/details")
 	public String showMemberDetails(@RequestParam("manager_id") String managerID, Model model) {
-	    ManagersDTO managerDetails = mgrService.detailList(managerID);
+	    AdminManagersDTO managerDetails = mgrService.detailList(managerID);
 	    
 	    String[] emailParts = managerDetails.getManager_email().split("@");
 	    String emailUser = emailParts[0];
@@ -106,17 +103,9 @@ public class MgrController {
 	    return ResponseEntity.ok(response);
 	}
 	
-	@GetMapping("/register")
-	public String getRegisterForm(Model model) {
-		String[] emailDomainList = CommonConstants.EMAIL_DOMAINS;
-		
-		model.addAttribute("emailDomainList", emailDomainList);
-		
-		return "admin/managers/managerReg";
-	}
 	
 	@PostMapping("/join")
-	public String joinProccess(@ModelAttribute ManagersDTO managersDTO, 
+	public String joinProccess(@ModelAttribute AdminManagersDTO managersDTO, 
 					            @RequestParam("emailUser") String emailUser, 
 					            @RequestParam("emailDomain") String emailDomain,
 					            @RequestParam("countryNum") String countryNum,
@@ -138,5 +127,5 @@ public class MgrController {
 		
 		return "redirect:/admin/managers/managers";
 	}
-
+	
 }

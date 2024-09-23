@@ -106,7 +106,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/oauth2/authorization/**", "/login/oauth2/code/**").permitAll() // 여기를 전역적으로 허용
                 .requestMatchers("/images/**").permitAll()
-                .requestMatchers("/user/mypage").hasAuthority("ROLE_USER")
+                .requestMatchers("/user/mypage/**", "/user/cart/**").hasAuthority("ROLE_USER")
                 .anyRequest().permitAll()
             )
             .oauth2Login(oauth2 -> oauth2

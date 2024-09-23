@@ -59,3 +59,7 @@
 .confirm-container {
 	display: flex;
 }
+
+.modal-content {
+    margin: 20% auto;
+}

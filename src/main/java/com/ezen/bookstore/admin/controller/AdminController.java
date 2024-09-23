@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ezen.bookstore.admin.home.service.HomeService;
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
-import com.ezen.bookstore.admin.managers.service.MgrService;
+import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
+import com.ezen.bookstore.admin.managers.service.AdminMgrServiceImpl;
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.commons.CommonConstants;
 
@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class AdminController {
 	
-	private final MgrService mgrService;
+	private final AdminMgrServiceImpl mgrService;
 	private final HomeService homeService;
 	
 	@GetMapping("/login")
@@ -73,8 +73,8 @@ public class AdminController {
 	    
 	    String[] emailDomainList = CommonConstants.EMAIL_DOMAINS;
 
-	    ManagersDTO sessionDTO = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
-	    ManagersDTO managerDetails = mgrService.detailList(sessionDTO.getManager_id()); 
+	    AdminManagersDTO sessionDTO = (AdminManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
+	    AdminManagersDTO managerDetails = mgrService.detailList(sessionDTO.getManager_id()); 
 
 	    String[] emailParts = managerDetails.getManager_email().split("@");
 	    String emailUser = emailParts[0];
@@ -109,7 +109,7 @@ public class AdminController {
 
 	
 	@PostMapping("/myinfo/update")
-    public String updateMyInfo(@ModelAttribute("managers") ManagersDTO managersDTO,
+    public String updateMyInfo(@ModelAttribute("managers") AdminManagersDTO managersDTO,
                                @RequestParam MultipartFile profileImage) {
 		try {
 			mgrService.updateManager(managersDTO, profileImage);

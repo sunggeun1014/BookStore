@@ -17,7 +17,7 @@
     
       <typeAlias type="com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO" alias="customerOrders"/>
       <typeAlias type="com.ezen.bookstore.commons.SearchCondition" alias="condition"/>
-      <typeAlias type="com.ezen.bookstore.admin.members.dto.MembersDTO" alias="member"/>
+      <typeAlias type="com.ezen.bookstore.admin.members.dto.AdminMembersDTO" alias="member"/>
       <typeAlias type="com.ezen.bookstore.admin.reviews.dto.ReviewsDTO" alias="reviews"/>
 
       <typeAlias type="com.ezen.bookstore.admin.products.dto.ProductsDTO" alias="products"/>
@@ -25,7 +25,7 @@
       <typeAlias type="com.ezen.bookstore.admin.products.dto.InventoryDTO" alias="inventory"/>
 	  <typeAlias type="com.ezen.bookstore.admin.warehouse.dto.WarehouseDTO" alias="warehouse"/>
 		
-      <typeAlias type="com.ezen.bookstore.admin.managers.dto.ManagersDTO" alias="manager"/>
+      <typeAlias type="com.ezen.bookstore.admin.managers.dto.AdminManagersDTO" alias="manager"/>
       <typeAlias type="com.ezen.bookstore.admin.banners.dto.BannersDTO" alias="banners"/>      
       <typeAlias type="com.ezen.bookstore.admin.inquiries.dto.InquiriesDTO" alias="inquiries"/>
       <typeAlias type="com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO" alias="supplierOrders"/>      

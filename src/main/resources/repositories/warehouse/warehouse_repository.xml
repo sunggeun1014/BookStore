@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Warehouse">
+<mapper namespace="com.ezen.bookstore.admin.warehouse.mapper.WarehouseMapper">
 	
-	<select id="getAll" resultType="warehouse">	
+	<select id="getWarehouseList" resultType="warehouse">	
 		SELECT
 			inv_isbn,
 			inv_title,
@@ -15,7 +15,7 @@
 			inventory			
 	</select>
 	
-	<select id="getDetail" parameterType="String" resultType="warehouse">
+	<select id="getStockDetails" parameterType="String" resultType="warehouse">
 		SELECT
 			inv_isbn,
 			inv_title,
@@ -26,7 +26,7 @@
 		WHERE inv_isbn = #{invIsbn}			
 	</select>
 	
-	<select id="getZoneNum" parameterType="String" resultType="warehouse">
+	<select id="getZoneNumList" parameterType="String" resultType="warehouse">
 		SELECT
 			zone_num
 		FROM 

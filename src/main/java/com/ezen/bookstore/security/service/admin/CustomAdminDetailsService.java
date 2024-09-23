@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
+import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
 import com.ezen.bookstore.security.mapper.AdminMapper;
 
 @Service
@@ -26,7 +26,7 @@ public class CustomAdminDetailsService implements UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ManagersDTO manager = adminMapper.loadAdminByUsername(username);
+        AdminManagersDTO manager = adminMapper.loadAdminByUsername(username);
         if (manager == null) {
             throw new UsernameNotFoundException("아이디를 찾을 수 없습니다.");
         }
@@ -39,7 +39,7 @@ public class CustomAdminDetailsService implements UserDetailsService {
         return new CustomAdminDetails(manager, getAuthorities(manager));
     }
     
-    private Collection<? extends GrantedAuthority> getAuthorities(ManagersDTO manager) {
+    private Collection<? extends GrantedAuthority> getAuthorities(AdminManagersDTO manager) {
         // manager_dept가 02인 경우 ROLE_USER 권한 부여
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }

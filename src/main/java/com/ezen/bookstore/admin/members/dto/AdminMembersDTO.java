@@ -1,17 +1,18 @@
-package com.ezen.bookstore.user.members.dto;
+package com.ezen.bookstore.admin.members.dto;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
-public class UserMembersDTO implements Serializable {
-
-	private static final long serialVersionUID = 5367377147011094324L;
+public class AdminMembersDTO implements Serializable {
+	
+	private static final long serialVersionUID = -1624856185684629891L;
 	
 	String member_id;
 	String member_pw;
@@ -19,8 +20,10 @@ public class UserMembersDTO implements Serializable {
 	String member_email;
 	String member_phoneNo;
 	String member_addr;
-	String member_detail_addr;	
-	Timestamp member_date;
+	String member_detail_addr;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	Date member_date;
 	String naver_login_cd;
 	String kakao_login_cd;	
 

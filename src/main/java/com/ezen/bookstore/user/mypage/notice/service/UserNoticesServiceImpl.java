@@ -34,11 +34,13 @@ public class UserNoticesServiceImpl implements UserNoticesService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public UserNoticesDTO getPreviousNoticeByNumber(Integer noticeNum) {
 		return noticesMapper.getPreviousNotice(noticeNum);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public UserNoticesDTO getNextNoticeByNumber(Integer noticeNum) {
 		return noticesMapper.getNextNotice(noticeNum);
 	}
