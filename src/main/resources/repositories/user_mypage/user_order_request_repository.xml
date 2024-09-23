@@ -163,10 +163,53 @@
 		SELECT 
 		    SUM(CASE WHEN cod.order_detail_status = '05' THEN cod.order_detail_price * cod.order_complete_qty ELSE 0 END) AS refundAmount,
 		    SUM(CASE WHEN cod.order_detail_status = '05' or cod.order_detail_status = '02' THEN cod.order_detail_price * cod.order_request_qty ELSE 0 END) AS cancellationAmount,
-		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total
+		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total,
+		    co.recipient_name,
+		    co.recipient_phoneNo,
+		    co.order_addr,
+		    co.order_addr_detail,
+		    co.retrieve_name,
+		    co.retrieve_addr,
+		    co.retrieve_addr_detail,
+		    co.retrieve_phoneNo,
+		    co.common_ent_pw,
+		    co.retrieve_common_cnt_pw
 		FROM customer_orders co
 			LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
 		WHERE co.order_num = #{order_num}
+		GROUP BY
+		    co.recipient_name,
+		    co.recipient_phoneNo,
+		    co.order_addr,
+		    co.order_addr_detail,
+		    co.retrieve_name,
+		    co.retrieve_addr,
+		    co.retrieve_addr_detail,
+		    co.retrieve_phoneNo,
+		    co.common_ent_pw,
+		    co.retrieve_common_cnt_pw
 	</select>
+	
+	<update id="returnRequest" parameterType="java.util.Map">
+		UPDATE customer_order_details
+		SET
+		    order_request_qty = order_request_qty + #{order_request_qty},
+		    order_detail_status = '04'
+		WHERE
+		    order_detail_num = #{order_detail_num}
+	</update>
+	
+	<update id="returnRequestInfoUpdate" parameterType="java.util.Map">
+		UPDATE customer_orders
+		SET
+		    retrieve_addr = #{retrieve_addr},
+		    retrieve_addr_detail = #{retrieve_addr_detail},
+		    retrieve_name = #{retrieve_name},
+		    retrieve_phoneno = #{retrieve_phoneNo},
+		    retrieve_common_cnt_pw = #{common_ent_pw},
+		    order_modify_date = current_timestamp
+		WHERE
+		    order_num = #{order_num}
+	</update>
 	
 </mapper>

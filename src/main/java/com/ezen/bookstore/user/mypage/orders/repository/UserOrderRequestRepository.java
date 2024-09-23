@@ -64,4 +64,12 @@ public class UserOrderRequestRepository {
 		return sql.selectOne("UserOrderRequest.getRefundInfo", orderNum);
 	}
 	
+	public int returnRequest(Map<String, Integer> map) {
+		return sql.update("UserOrderRequest.returnRequest", map);
+	}
+	
+	public void returnRequestInfoUpdate(Map<String, String> info) {
+		sql.update("UserOrderRequest.returnRequestInfoUpdate", info);
+	}
+	
 }

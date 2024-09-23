@@ -91,4 +91,24 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 		return null;
 	}
 
+	@Override
+	@Transactional
+	public int returnRequest(Map<String, Object> data) {
+		int result = 0;
+		List<Map<String, Integer>> list = (List<Map<String, Integer>>) data.get("list");
+		Map<String, String> info = (Map<String, String>) data.get("dto");
+		
+		try {
+			for(Map<String, Integer> map : list) {
+				result += orderRequestRepository.returnRequest(map);
+			}
+			
+			orderRequestRepository.returnRequestInfoUpdate(info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
 }
