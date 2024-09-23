@@ -71,7 +71,8 @@ $(document).ready(function () {
                         let inquiryTypeFormatted = formatInquiryType(inquiry.inquiry_type);
 						let answerDateFormatted = inquiry.answer_write_date ? formatDate(inquiry.answer_write_date) : '';
 						
-						let imagePath = `/images/inquiries/${inquiry.inquiries_changed}.jpg`;
+						
+						let imagePath = `/images/inquiries/${inquiry.inquiries_changed}`;
 					    const defaultImagePath = '/user/common/imgs/book-default-img.png';
                         
 						
@@ -80,7 +81,7 @@ $(document).ready(function () {
 						
 						let imageHtml = inquiry.inquiries_changed ? `
 						       <div class="image-container">
-						           <img alt="사진" class="styled-image" src="${imagePath}" onerror="this.src='${defaultImagePath}'">
+						           <img alt="사진" class="styled-image" src="${imagePath}"  onerror="this.src='${defaultImagePath}'">
 						       </div>` : '';
 						   
                         
@@ -103,7 +104,6 @@ $(document).ready(function () {
                                 </div>
                             </div>
                            
-                            <!-- 문의 내용 -->
                             <div class="inquiry-detail-info" style="display:none;">
                                 <div class="inquiry-detail-content">
 									<div>
@@ -116,7 +116,6 @@ $(document).ready(function () {
                                 </div>
                            	</div>
 							
-	                        <!-- 답변 내용 -->
 	                        ${inquiry.answer_content ? `
 	                        <div class="inquiry-answer-info" style="display: none;">
 	                           <div class="inquiry-answer-content">
@@ -211,7 +210,7 @@ $(document).ready(function () {
 
     function deleteInquiry(inquiry_num) {
         $.ajax({
-            url: `/user/mypage/inquiries/delete/${inquiry_num}`,
+            url: `/user/mypage/inquiries-page/delete/${inquiry_num}`,
             method: 'DELETE',
             success: function () {
                 getCheckModal('문의가 삭제되었습니다.');

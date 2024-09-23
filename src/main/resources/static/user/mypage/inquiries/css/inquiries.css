@@ -101,12 +101,6 @@
 
 .styled-image {
     width: 100px;
-    height: 100px;
-    object-fit: cover;
+    height: 136px;
     border-radius: 10px;
-}
-
-.inquiries-container {
-	border-top: 1px solid #000000;
-	padding: 20px;
 }
