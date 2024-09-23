@@ -224,17 +224,17 @@ function goToOrder() {
 
         const data = {
             paymentId: paymentId,
-            merchant_uid: tempOrderNum,
-            orderName: orderName,
-            amount: totalAmount,
-            tempOrderNum: tempOrderNum,
+            // merchant_uid: tempOrderNum,
+            // orderName: orderName,
+            // amount: totalAmount,
+            // tempOrderNum: tempOrderNum,
         }
 
         if (response.code != null) {
             return console.log('결제오류발생', response.message);
         } else {
             $.ajax({
-                url: `/user/order/complete`,
+                url: `/user/order/payment${paymentId}`,
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(data),

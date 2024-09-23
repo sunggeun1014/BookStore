@@ -21,6 +21,19 @@
     font-weight: 700;
 }
 
+.user-profile-wrap .img-wrap {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #6c6c6c;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.user-profile-wrap .user-img {
+    width: 100%;
+    height: 100%;
+}
+
 #myprofile-wrap .fa-circle-user {
     font-size: 48px;
     background-color: #fff;

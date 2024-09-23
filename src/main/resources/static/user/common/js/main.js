@@ -1,4 +1,7 @@
-showSideMenu();
+window.onload = function () {
+    showSideMenu();
+    getProfileImg();
+}
 
 // 마이페이지 사이드메뉴
 function showSideMenu() {
@@ -20,6 +23,18 @@ function showSideMenu() {
         });
     });
 }
+
+function getProfileImg() {
+    const imgs = ['홍길동.png', '고길동.jpg'];
+
+    const randomIndex = Math.floor(Math.random() * imgs.length);
+
+    const randomImg = imgs[randomIndex];
+
+    const userImg = document.querySelector(".user-img");
+    userImg.setAttribute("src", `/user/common/imgs/${randomImg}`);
+}
+
 
 function getConfirmModal(msg, func) {
     let divArea = $("<div id='myModal' class='modal' style='display : block;'></div>");
