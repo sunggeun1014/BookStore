@@ -1,252 +1,407 @@
 $(document).ready(function () {
-	const maxByteLength  = 1000;
-	
+	const maxByteLength = 500;
+
 	
 	function getByteLength(str) {
-	    let byteLength = 0;
-	    for (let i = 0; i < str.length; i++) {
-	        let charCode = str.charCodeAt(i);
-	        if (charCode <= 0x007F) {
-	            byteLength += 1;
-	        } else if (charCode <= 0x07FF) {
-	            byteLength += 2;
-	        } else {
-	            byteLength += 3;
-	        }
-	    }
-	    return byteLength;
+		let byteLength = 0;
+		for (let i = 0; i < str.length; i++) {
+			let charCode = str.charCodeAt(i);
+			if (charCode <= 0x007F) {
+				byteLength += 1;
+			} else if (charCode <= 0x07FF) {
+				byteLength += 2;
+			} else {
+				byteLength += 3;
+			}
+		}
+		return byteLength;
 	}
 	
 	
-	$("#inquiryContent").on("input", function () {
-	    let textarea = $(this);
-	    let content = textarea.val();
-	    let byteLength = getByteLength(content);
+	$("#inquiryContent").on("input", function (e) {
+		let textarea = $(this);
+		let content = textarea.val();
+		let byteLength = getByteLength(content);
 
-	    if (byteLength > maxByteLength) {
-	        while (getByteLength(content) > maxByteLength) {
-	            content = content.substring(0, content.length - 1);
-	        }
-	        textarea.val(content);  
-	    }
+		if (byteLength > maxByteLength) {
+			while (getByteLength(content) > maxByteLength) {
+				content = content.substring(0, content.length - 1);
+			}
+			textarea.val(content);
+		}
 
-	    $("#charCount").text(getByteLength(textarea.val()));
+		$("#charCount").text(getByteLength(textarea.val()));
 	});
 	
+	$("form").on("submit", function(e){
+		let title = $("#inquiryTitle").val();
+		let content = $("#inquiryContent").val();
+		
+		if (!title) {
+			getErrorModal("제목을 입력해주세요");
+			$("#inquiryTitle").focus(); 
+			e.preventDefault();
+			return;
+		}
+		
+		if (!content) {
+			getErrorModal("문의 내용을 입력해주세요");
+			$("#inquiryContent").focus(); 
+			e.preventDefault();
+			return;
+		}
+	});
 	
 });
+
+
 function openOrderProduct() {
 	$.ajax({
-       url: '/user/mypage/inquiries-page/search-order',
-       method: 'GET',
-       success: function (response) {
-           const orderList = response; // 서버에서 받아온 주문 데이터
-           
-           // 주문 상품 선택 모달 생성
-           createOrderModal(orderList);
-       },
-       error: function () {
-           alert("주문 데이터를 불러오는 중 오류가 발생했습니다.");
-       }
-   });
+		url: '/user/mypage/inquiries-page/search-order',
+		method: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify({ startDate: null, endDate: null }),
+		success: function (response) {
+			const orderList = response; 
+			createOrderModal(orderList);
+		},
+		error: function () {
+			getErrorModal("주문 데이터를 불러오는 중 오류가 발생했습니다.");
+			return;
+		}
+	});
 }
+
 
 function createOrderModal(orderList) {
-    // 모달 생성
-    let divArea = $("<div id='myModal' class='modal' style='display: block;'></div>");
-    let contentArea = $("<div class='inquiry-modal-content'></div>");
+	
+	let divArea = $("<div id='myModal' class='modal' style='display: block;'></div>");
+	let contentArea = $("<div class='inquiry-modal-content'></div>");
 	let headArea = $("<div></div>");
-	let headButtonArea = $(`<div class='head-button-area'>
-	                            <button>최근 1개월</button>
-								<button>최근 2개월</button>
-								<button>최근 3개월</button>
-						  </div>`);
-    let messageArea = $("<div class='inquiry-modal-text'><h3>주문상품 선택</h3></div>");
-    let modalFotter = $("<div class='modal-footer'></div>");
-    let btnArea = $("<button id='confirm-select' class='modal-btn confirm'>선택완료</button>"); 
+	let headButtonArea = $(`
+		<div class='head-button-area'>
+			<button class='custom-clicked-btn' data-period='1month'>최근 1개월</button>
+			<button class='custom-btn' data-period='2months'>최근 2개월</button>
+			<button class='custom-btn' data-period='3months'>최근 3개월</button>
+			<button class='custom-btn' data-period='all'>전체</button>
+		</div>
+	`);
+	let messageArea = $("<div class='inquiry-modal-text'><h3>주문상품 선택</h3><button id='cancel-btn' class='cancel-btn-img'></button></div>");
+	let modalFotter = $("<div class='custom-modal-footer'></div>");
+	let btnArea = $("<button id='confirm-select' class='custom-modal-btn confirm'>선택완료</button>");
 
-    // 주문 리스트 영역
-    let orderArea = $("<div class='order-list'></div>");
+	
+	let orderArea = $("<div class='order-list'></div>");
 
-    // 주문 내역 리스트 생성
-    orderList.forEach(order => {
-		let formattedDate = formatDate(order.order_purchase_date);
-		const bookNames = order.book_name || []; // 책 이름 리스트
-        let hasMultipleBooks = bookNames.length > 1; // 책이 여러 권인지 확인
+	
+	function populateOrderList(orderList) {
+	    orderArea.empty(); 
 
-        // 주문 항목 생성 (책이 한 권이든 여러 권이든 radio 버튼 사용)
-        let orderItem = $(`<div class='order-item'>
-						       <div class="flex-center">
-							       <p class="sub-title-font">${formattedDate}</p>
-								   <span class="btn-spacebetween">|</span>
-								   <p>주문번호 ${order.order_num}</p>
-							   </div>
-							   <div class="flex-center between">
-							   	   <div class="flex-center" style="gap: 5px;">
-			                           <input type='radio' name='order' value='${order.order_num}' data-qty='${order.order_detail_qty}' />
-			                           <label>${bookNames.length > 0 ? bookNames[0] : '책 정보 없음'} ${hasMultipleBooks ? `외 ${bookNames.length - 1}건` : ''}</label>
-								   </div>
-								   ${hasMultipleBooks ? `<i class="icon-arrow-off" onclick="toggleOrderDetails(this, '${order.order_num}')"></i>` : ''}
-							   </div>
-							   ${hasMultipleBooks ? `
-							   <!-- 주문 상세 정보가 표시될 영역 (초기에 숨김 처리) -->
-   							   <div class="order-details" id="order-details-${order.order_num}" style="display: none;">
-								   	${bookNames.map((book, index) => `
-	                                  <div>
-	                                      <input type='checkbox' class="check-box" id='book-${order.order_num}-${index}' data-order-num='${order.order_num}' data-qty='${order.order_detail_qty}' />
-	                                      <label for='book-${order.order_num}-${index}'>책: ${book}</label>
-	                                  </div>
-	                                `).join('')}
-   							   </div>
-							   ` : ''}
-                           </div>`);
+	    orderList.forEach(order => {
+	        let formattedDate = formatDate(order.order_purchase_date);
+	        const books = order.books || []; 
+	        let hasMultipleBooks = books.length > 1;
 
-        orderArea.append(orderItem);
-    });
+	        
+			let orderItem = $(`
+			    <div class='order-item'>
+			        <div class="flex-center">
+			            <p class="sub-title-font">${formattedDate}</p>
+			            <span class="btn-spacebetween">|</span>
+			            <p>주문번호 ${order.order_num}</p>
+			        </div>
+			        <div class="flex-center between" style="margin-bottom: 10px;">
+			            <div class="flex-center" style="gap: 5px;">
+			                <input type='radio' name='order' value='${order.order_num}' 
+			                    data-order-detail-num='${books.length > 0 ? books[0].order_detail_num : ''}' 
+			                    data-qty='${books.length > 0 ? books[0].order_detail_qty : ''}' 
+			                    onclick="handleRadioClick('${order.order_num}')"/>
+			                <label>${books.length > 0 ? books[0].book_name : '책 정보 없음'} ${hasMultipleBooks ? `외 ${books.length - 1}건` : ''}</label>
+			            </div>
+			            ${hasMultipleBooks ? `<i class="icon-arrow-off" id="order-arrow-${order.order_num}" onclick="toggleOrderDetails(this, '${order.order_num}')"></i>` : ''}
+			        </div>
+			        ${hasMultipleBooks ? `
+			            <div class="order-details" id="order-details-${order.order_num}" style="display: none;">
+			                ${books.map((book, index) => `
+			                    <div class='flex-center' style="gap: 5px; margin: 5px; 10px 0px 10px 0px">
+			                        <input type='checkbox' class="check-box" id='book-${order.order_num}-${index}' 
+			                            data-order-num='${order.order_num}' 
+			                            data-order-detail-num='${book.order_detail_num}' 
+			                            data-qty='${book.order_detail_qty}' 
+			                            onclick="handleCheckboxClick('${order.order_num}', this)"/>
+			                        <label for='book-${order.order_num}-${index}'></label>
+			                        <p>${book.book_name}</p>
+			                    </div>
+			                `).join('')}
+			            </div>
+			        ` : ''}
+			    </div>
+			`);
 
-    // 모달에 요소 추가
+	        orderArea.append(orderItem);
+	    });
+	}
+
+	populateOrderList(orderList); 
+
+	
 	headArea.append(messageArea);
 	headArea.append(headButtonArea);
-    contentArea.append(headArea);
-    contentArea.append(orderArea);
-    modalFotter.append(btnArea);
-    contentArea.append(modalFotter);
-    divArea.append(contentArea);
+	contentArea.append(headArea);
+	contentArea.append(orderArea);
+	modalFotter.append(btnArea);
+	contentArea.append(modalFotter);
+	divArea.append(contentArea);
 
-    // 모달을 body에 추가
-    $("body").append(divArea);
+	
+	$("body").append(divArea);
 
-    // 선택 완료 시
-    $(".modal-btn.confirm").on("click", function() {
-        const selectedOrder = $("input[name='order']:checked"); // 선택된 주문
+	
+	$('.head-button-area').on('click', 'button', function () {
+		let period = $(this).data('period');
+		setButtonStyles(this);
 
-        if (selectedOrder.length) {
-            const orderNumber = selectedOrder.val();
-            const orderQty = selectedOrder.data('qty');
+		let startDate, endDate;
+		let now = new Date();
 
-            // 주문번호를 특정 위치에 반영
-            $("#order-number").text(orderNumber);
+		if (period === '1month') {
+			let oneMonthAgo = new Date();
+			oneMonthAgo.setMonth(now.getMonth() - 1); 
+			startDate = formatDateForDB(oneMonthAgo, 'start');
+			endDate = formatDateForDB(new Date(), 'end');
+		} else if (period === '2months') {
+			let twoMonthsAgo = new Date();
+			twoMonthsAgo.setMonth(now.getMonth() - 2); 전
+			startDate = formatDateForDB(twoMonthsAgo, 'start');
+			endDate = formatDateForDB(new Date(), 'end');
+		} else if (period === '3months') {
+			let threeMonthsAgo = new Date();
+			threeMonthsAgo.setMonth(now.getMonth() - 3); 
+			startDate = formatDateForDB(threeMonthsAgo, 'start');
+			endDate = formatDateForDB(new Date(), 'end');
+		} else {
+			startDate = "";
+			endDate = "";
+		}
 
-            // 선택된 주문에 따라 수량의 최대값 설정
-            $("#quantity").attr("max", orderQty);
+		
+		$.ajax({
+			url: '/user/mypage/inquiries-page/search-order',
+			method: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify({ startDate: startDate, endDate: endDate }),
+			success: function (response) {
+				populateOrderList(response); 
+			},
+			error: function () {
+				getErrorModal("주문 데이터를 불러오는 중 오류가 발생했습니다.");
+				return;
+			}
+		});
+	});
 
-            // 모달 제거
-            divArea.remove(); 
-        } else {
-            alert("주문을 선택해주세요.");
-        }
-    });
+	
+	function setOrderDetails(orderNumber, orderDetailNumber, maxQty) {
+	    
+	    $("#order-number-display").text(orderNumber);
+	    $("#order-detail-number-display").text(orderDetailNumber); 
+
+	    
+	    $("#quantity").attr("max", maxQty || 1);
+
+	   
+	    $("#order-number").val(orderNumber);
+	    $("#order-detail-number").val(orderDetailNumber); 
+	}
+
+	
+	$(".custom-modal-btn.confirm").on("click", function () {
+	    let selectedOrder = $("input[name='order']:checked"); 
+	    let selectedBook = $("input.check-box:checked").first(); 
+	    
+	    if (selectedOrder.length && !selectedBook.length) {
+	        
+	        let orderNumber = selectedOrder.val();
+	        let orderDetailNumber = selectedOrder.data('orderDetailNum');
+	        let orderQty = selectedOrder.data('qty');
+
+	        setOrderDetails(orderNumber, orderDetailNumber, orderQty); 
+	    } else if (selectedOrder.length && selectedBook.length) {
+			
+	        let orderNumber = selectedBook.data('orderNum');
+	        let orderDetailNumber = selectedBook.data('orderDetailNum');
+	        let bookQty = selectedBook.data('qty');
+
+	        setOrderDetails(orderNumber, orderDetailNumber, bookQty);
+	    }
+
+	    divArea.remove();
+		const isExchangeInquiry = inquiryTypeSelect.value === '05'; // 교환문의인지 확인
+		const quantitySection = document.getElementById('quantitySection'); // 수량 조절 영역
+		quantitySection.style.display = isExchangeInquiry ? 'flex' : 'none';
+		$(".order-summary").css("display", "flex");
+	});
+	
+	$("#cancel-btn").on("click", function() {
+		divArea.remove();
+	});
 }
-function toggleOrderDetails(iconElement, orderNum) {
-    const detailsSection = $(`#order-details-${orderNum}`);
-    const radioButton = $(`input[name='order'][value='${orderNum}']`); // 해당하는 라디오 버튼
-    const isOpen = detailsSection.is(':visible');
 
-    if (isOpen) {
-        // 주문 상세 정보 숨기기
-        detailsSection.slideUp();
-        $(iconElement).removeClass('icon-arrow-on').addClass('icon-arrow-off'); // 아이콘 변경
+
+function changeQty(delta) {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value);
+    const max = parseInt(quantityInput.max); 
+    const min = 1; 
+    
+    let newValue = currentValue + delta;
+
+    if (newValue < min) {
+        newValue = min;
+    }
+
+    if (newValue > max) {
+        newValue = max;
+		getErrorModal("최초 주문수량을 넘길 수 없습니다")
+    }
+
+    quantityInput.value = newValue;
+}
+
+
+
+function formatDateForDB(date, type) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const day = String(d.getDate()).padStart(2, '0');
+    
+    return type === 'start' ? `${year}-${month}-${day} 00:00:00` : `${year}-${month}-${day} 23:59:59`;
+}
+
+
+
+function setButtonStyles(clickedButton) {
+	$('.head-button-area button').removeClass('custom-clicked-btn').addClass('custom-btn');
+	$(clickedButton).removeClass('custom-btn').addClass('custom-clicked-btn');
+}
+
+
+
+function toggleOrderDetails(element, orderNum) {
+	
+	resetSelections();
+	
+    const detailsElement = document.getElementById(`order-details-${orderNum}`);
+    const radioInput = document.querySelector(`input[name='order'][value='${orderNum}']`);
+    
+    if (detailsElement.style.display === 'none' || detailsElement.style.display === '') {
+        detailsElement.style.display = 'block';
+        element.classList.add('icon-arrow-on');
+        element.classList.remove('icon-arrow-off');
+        
+        if (radioInput && !radioInput.checked) {
+            radioInput.checked = true;
+        }
+		
     } else {
-        // 주문 상세 정보 표시
-        detailsSection.slideDown();
-        $(iconElement).removeClass('icon-arrow-off').addClass('icon-arrow-on'); // 아이콘 변경
-
-        // 해당하는 라디오 버튼을 체크
-        radioButton.prop('checked', true);
+        detailsElement.style.display = 'none';
+        element.classList.add('icon-arrow-off');
+        element.classList.remove('icon-arrow-on');
+		
+        if (radioInput && radioInput.checked) {
+            radioInput.checked = false;
+        }
     }
 }
 
-// 라디오 버튼 클릭 시 주문 상세 정보 토글
-$(document).on('change', "input[name='order']", function() {
-    const orderNum = $(this).val(); // 선택된 주문번호
-    const iconElement = $(`i[onclick="toggleOrderDetails(this, '${orderNum}')"]`); // 아이콘 엘리먼트 찾기
 
-    // 주문 상세 정보 토글 함수 호출
-    toggleOrderDetails(iconElement, orderNum);
-});
+
+function handleRadioClick(orderNum) {
+    resetSelections();
+
+    const radioInput = document.querySelector(`input[name='order'][value='${orderNum}']`);
+
+    if (radioInput) {
+        radioInput.checked = true; 
+    }
+
+    const arrowIcon = document.querySelector(`#order-arrow-${orderNum}`);
+    if (arrowIcon) {
+        toggleOrderDetails(arrowIcon, orderNum);
+    }
+}
+
+function resetSelections() {
+    $('input[name="order"]').prop('checked', false);  
+    $('.check-box').prop('checked', false); 
+
+    $('.order-details').hide();
+    $('.icon-arrow-on').addClass('icon-arrow-off').removeClass('icon-arrow-on');
+}
+
+function handleCheckboxClick(orderNum, currentCheckbox) {
+    const checkboxes = document.querySelectorAll(`input.check-box[data-order-num='${orderNum}']`);
+    checkboxes.forEach(checkbox => {
+        if (checkbox !== currentCheckbox) {
+            checkbox.checked = false;
+        }
+    });
+
+}
+
+
 
 
 function toggleInquiryProduct() {
 	const inquiryTypeSelect = document.getElementById('inquiryTypeSelect');
-    const isTypeSelected = !!inquiryTypeSelect.value;
-    const isExchangeInquiry = inquiryTypeSelect.value === '교환문의'; // 교환문의인지 확인
+	const isTypeSelected = !!inquiryTypeSelect.value;
+	
+	const fields = ['inquiryTitle', 'inquiryContent', 'inquiryEmail'].map(id => document.getElementById(id));
+	const sections = ['inquiryProduct', 'inquiryProductQty'].map(id => document.getElementById(id));
 
-    const fields = ['inquiryTitle', 'inquiryContent', 'inquiryEmail'].map(id => document.getElementById(id));
-    const sections = ['inquiryProduct', 'inquiryProductQty'].map(id => document.getElementById(id));
-    const quantitySection = document.getElementById('quantitySection'); // 수량 조절 영역
+	fields.forEach(field => {
+		field.readOnly = !isTypeSelected;
+		field.style.pointerEvents = isTypeSelected ? 'auto' : 'none';
+		field.style.backgroundColor = isTypeSelected ? '' : '#EBECF0';
+		
+		if (!isTypeSelected) {
+			field.value = '';  
+		}
+	});
 
-    fields.forEach(field => {
-        field.readOnly = !isTypeSelected;
-        field.style.pointerEvents = isTypeSelected ? 'auto' : 'none';
-        field.style.backgroundColor = isTypeSelected ? '' : '#EBECF0';
-        
-        if (!isTypeSelected) {
-            field.value = '';  
-        }
-    });
-
-    sections.forEach(section => section.style.display = isTypeSelected ? 'block' : 'none');
-
-    const imageUpload = document.getElementById('image-upload');
+	sections.forEach(section => section.style.display = isTypeSelected ? 'block' : 'none');
+	
+	const imageUpload = document.getElementById('image-upload');
 	const preview = document.getElementById('preview');
-    imageUpload.disabled = !isTypeSelected;
+	imageUpload.disabled = !isTypeSelected;
 
-    if (!isTypeSelected) {
-        preview.src = '';
-    }
-
-    quantitySection.style.display = isExchangeInquiry ? 'block' : 'none';
+	if (!isTypeSelected) {
+		preview.src = '';
+	}
+	
 }
 
 function previewImage(event) {
-    const fileInput = document.getElementById('image-upload');
-    const previewImage = document.getElementById('preview');
-	
-    const file = fileInput.files[0];
-	const uploadStatus = document.getElementById('upload-status');
-	
-    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-
-    if (file && !allowedExtensions.exec(file.name)) {
-        getCheckModal('JPG, PNG, GIF 파일만 업로드 가능합니다.');
-        fileInput.value = '';
-        return;
-    }
+    const file = event.target.files[0];
 
     if (file) {
         const reader = new FileReader();
+
         reader.onload = function(e) {
-            previewImage.src = e.target.result; 
-			previewImage.style.display = 'block';
-			uploadStatus.textContent = '사진첨부 1';
+            const preview = document.getElementById('preview');
+            preview.src = e.target.result;
+            preview.style.display = 'block'; 
         };
-        reader.readAsDataURL(file);
-    } else {
-		previewImage.style.display = 'none';
-		uploadStatus.textContent = '사진첨부 0';
-	}
-}
 
-function changeQty(change) {
-    const quantityInput = document.getElementById('quantity');
-    let currentValue = parseInt(quantityInput.value);
-
-    if (isNaN(currentValue)) {
-        currentValue = 0; 
-    }
-
-    const newValue = currentValue + change;
-    
-    if (newValue >= 0 && newValue <= 999) {
-        quantityInput.value = newValue;
+        reader.readAsDataURL(file); 
     }
 }
-
 
 function formatDate(timestamp) {
-    var date = new Date(timestamp);
-    var year = date.getFullYear();
-    var month = (date.getMonth() + 1).toString().padStart(2, '0');
-    var day = date.getDate().toString().padStart(2, '0');
+    let date = new Date(timestamp);
+    let year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
     return `${year}.${month}.${day}`;
 }

@@ -1,5 +1,8 @@
 package com.ezen.bookstore.commons;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class CommonConstants {
 	
 	public static final String[] EMAIL_DOMAINS = { 
@@ -11,9 +14,15 @@ public class CommonConstants {
     		"010", "011", "016", "017", "018", "019" 
     };
     
-    public static final String[] INQUIRY_TYPE = {
-    		"상품문의", "배송문의", "결제문의", "취소문의", "교환문의",
-    		"반품문의", "기타"
-    };
-    
+    public static final Map<String, String> INQUIRY_TYPE = new LinkedHashMap<>();
+
+    static {
+        INQUIRY_TYPE.put("01", "상품문의");
+        INQUIRY_TYPE.put("02", "배송문의");
+        INQUIRY_TYPE.put("03", "결제문의");
+        INQUIRY_TYPE.put("04", "취소문의");
+        INQUIRY_TYPE.put("05", "교환문의");
+        INQUIRY_TYPE.put("06", "반품문의");
+        INQUIRY_TYPE.put("07", "기타");
+    }
 }

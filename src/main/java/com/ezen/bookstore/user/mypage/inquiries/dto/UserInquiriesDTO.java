@@ -3,6 +3,8 @@ package com.ezen.bookstore.user.mypage.inquiries.dto;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -27,9 +29,13 @@ public class UserInquiriesDTO {
 	String answer_content;
 	Timestamp answer_write_date;
 	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Timestamp startDate;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Timestamp endDate;
 	
-	List<String> book_name;
+	String book_name;
+	
+	List<UserInquiriesBookDTO> books;
 	
 }

@@ -24,14 +24,13 @@
             inquiries_answer ia ON i.inquiry_num = ia.inquiry_num
         WHERE 
             1=1
-        <!-- 상태 필터링 -->
-        <if test="inquiry_answer_status != null and inquiry_answer_status != ''">
-            AND i.inquiry_answer_status = #{inquiry_answer_status}
-        </if>
-        <if test="startDate != null and endDate != null">
-		    AND i.inquiry_write_date BETWEEN #{startDate} AND #{endDate}
-		</if>
-		AND i.member_id = #{member_id}
+	        <if test="inquiry_answer_status != null and inquiry_answer_status != ''">
+	            AND i.inquiry_answer_status = #{inquiry_answer_status}
+	        </if>
+	        <if test="startDate != null and endDate != null">
+			    AND i.inquiry_write_date BETWEEN #{startDate} AND #{endDate}
+			</if>
+			AND i.member_id = #{member_id}
     </select>
 
 	<delete id="deleteInquiry" parameterType="Integer">
@@ -44,16 +43,20 @@
 	<resultMap id="OrderWithBooksResultMap" type="userInquiries">
 	    <id column="order_num" property="order_num" />
 	    <result column="order_purchase_date" property="order_purchase_date" />
-	    <collection property="book_name" ofType="string">
-	        <result column="book_name" />
+	    <collection property="books" ofType="com.ezen.bookstore.user.mypage.inquiries.dto.UserInquiriesBookDTO">
+	        <result column="book_name" property="book_name"/>
+			<result column="order_detail_num" property="order_detail_num" />
+			<result column="order_detail_qty" property="order_detail_qty" />
 	    </collection>
 	</resultMap>
 
-	<select id="getOrderList" resultMap="OrderWithBooksResultMap" parameterType="String">
+	<select id="getOrderList" resultMap="OrderWithBooksResultMap" parameterType="userInquiries">
 	    SELECT DISTINCT
 	        o.order_num,
 	        o.order_purchase_date,
-	        b.book_name
+	        b.book_name,
+	        d.order_detail_num,
+	        d.order_detail_qty
 	    FROM 
 	        Customer_Orders o
 	    JOIN 
@@ -61,8 +64,37 @@
 	    JOIN 
 	        Books b ON d.book_isbn = b.book_isbn
 	    WHERE 
-	        o.order_delivery_status = '01' 
-	        AND o.member_id = #{member_id}
+	        o.member_id = #{member_id}
+	        <if test="startDate != null and endDate != null">
+		    	AND o.order_purchase_date BETWEEN #{startDate} AND #{endDate}
+			</if> 
 	</select>
+	
+	<insert id="registerInquiry" parameterType="userInquiries">
+    INSERT INTO inquiries (
+        inquiry_num,
+        inquiry_title,
+        inquiry_content,
+        member_id,
+        inquiry_type,
+        order_num,
+        order_detail_num,
+        order_qty
+        <if test="inquiries_original != null">, inquiries_original</if>
+        <if test="inquiries_changed != null">, inquiries_changed</if>
+    )
+    VALUES (
+        INQUIRIES_SEQ.NEXTVAL,
+        #{inquiry_title},
+        #{inquiry_content},
+        #{member_id},
+        #{inquiry_type},
+        #{order_num},
+        #{order_detail_num},
+        NVL(#{order_detail_qty}, 0)
+        <if test="inquiries_original != null">, #{inquiries_original, jdbcType=VARCHAR}</if>
+        <if test="inquiries_changed != null">, #{inquiries_changed, jdbcType=VARCHAR}</if>
+    )
+	</insert>
 
 </mapper>
