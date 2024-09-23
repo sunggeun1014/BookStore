@@ -14,7 +14,7 @@ public interface PaymentService {
 
     public UserOrderDTO getOrder(int order_num, String member_id);
     public List<UserOrderDetailsDTO> getOrderDetail(int order_num);
-    public PaymentRequestDTO processPayment(PaymentRequestDTO paymentRequestDTO) throws IamportResponseException;
+//    public PaymentRequestDTO processPayment(PaymentRequestDTO paymentRequestDTO) throws IamportResponseException;
     public void verifyPayment(String paymentId) throws Exception;
 
 }

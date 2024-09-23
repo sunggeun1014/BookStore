@@ -5,9 +5,7 @@ import com.ezen.bookstore.user.payment.dto.PaymentRequestDTO;
 import com.ezen.bookstore.user.payment.dto.UserOrderDTO;
 import com.ezen.bookstore.user.payment.dto.UserOrderDetailsDTO;
 import com.ezen.bookstore.user.payment.repository.PaymentRepository;
-import com.siot.IamportRestClient.Iamport;
 import com.siot.IamportRestClient.IamportClient;
-import com.siot.IamportRestClient.IamportPaycoClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
@@ -19,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @Slf4j
@@ -53,13 +54,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentRequestDTO processPayment(PaymentRequestDTO paymentRequestDTO) throws IamportResponseException {
-
-
-        return paymentRequestDTO;
-    }
-
-    @Override
     public void verifyPayment(String paymentId) throws Exception {
 
         // 결제내역 단건조회 api 호출
@@ -71,7 +65,7 @@ public class PaymentServiceImpl implements PaymentService {
         HttpEntity<String> entity = new HttpEntity<>(connectAPI.getHeaders());
 
         try {
-            IamportResponse<Payment> response = restTemplate.postForObject(url, entity, IamportResponse.class);
+            IamportResponse<Payment> response = restTemplate.getForObject(url, IamportResponse.class, entity);
             log.info("API 응답: {}", response);
 
         } catch (HttpServerErrorException e) {
