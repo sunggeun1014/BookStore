@@ -7,8 +7,7 @@ import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO
 
 public interface UserOrderRequestService {
 	public List<UserCustomerOrderWithDetailsDTO> getOrderList();
-	public Map<String, Integer> getOrderStatusCounts();
-	public Map<String, Integer> getDeliveryStatusCounts();
+	public Map<String, Integer> getStatusCounts();
 	public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum);
 	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String member_id);
 	public int orderCancle(List<UserCustomerOrderWithDetailsDTO> list); 

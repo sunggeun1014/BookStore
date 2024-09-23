@@ -1,8 +1,5 @@
 package com.ezen.bookstore.user.mypage.orders.controller;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
-import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO;
 import com.ezen.bookstore.user.mypage.orders.service.UserOrderRequestService;
 
 import jakarta.servlet.http.HttpSession;
@@ -25,24 +21,13 @@ public class UserOrderRequestController {
 	private final UserOrderRequestService orderRequestService;
 
 	@GetMapping("/orderList")
-	public String myOrderPage(Model model) {
-		List<UserCustomerOrderWithDetailsDTO> orderList = orderRequestService.getOrderList();
-		model.addAttribute("orderList", orderList);
-
-		Map<String, Integer> orderStatusCount = orderRequestService.getOrderStatusCounts();
-		model.addAttribute("orderStatusCount", orderStatusCount);
-
-		Map<String, Integer> deliveryStatusCount = orderRequestService.getDeliveryStatusCounts();
-		model.addAttribute("deliveryStatusCount", deliveryStatusCount);
-
+	public String myOrderPage() {
 		return "/user/mypage/customer_order/orderList";
 	}
 
 	@GetMapping("/orderDetail")
-	public String myOrderDetail(Model model, @RequestParam("orderNum") Integer orderNum) {
-		UserCustomerOrderWithDetailsDTO orderDetails = orderRequestService.getOrderDetail(orderNum);
-		model.addAttribute("orderDetails", orderDetails);
-
+	public String myOrderDetail(@RequestParam("orderNum") Integer orderNum, Model model) {
+		model.addAttribute("orderDetails", orderRequestService.getOrderDetail(orderNum));
 		return "/user/mypage/customer_order/orderDetail";
 	}
 

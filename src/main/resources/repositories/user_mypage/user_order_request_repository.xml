@@ -85,6 +85,11 @@
                 WHEN cod.order_detail_status = '06' THEN '교환완료'
                 WHEN cod.order_detail_status = '07' THEN '반품완료'
             END AS order_detail_status,
+            CASE
+                WHEN co.order_delivery_status = '01' THEN '배송전'
+                WHEN co.order_delivery_status = '02' THEN '배송중'
+                WHEN co.order_delivery_status = '03' THEN '배송완료'
+            END AS order_delivery_status,
             SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total
         FROM 
             customer_orders co
@@ -103,6 +108,7 @@
             co.order_addr, 
             co.order_addr_detail, 
             cod.order_detail_status,
+            co.order_delivery_status,
             COALESCE(co.recipient_name, m.member_name),
             COALESCE(co.recipient_phoneno, m.member_phoneno)
 </select>
