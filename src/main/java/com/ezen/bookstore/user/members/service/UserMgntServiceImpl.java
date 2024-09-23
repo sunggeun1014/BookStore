@@ -35,9 +35,9 @@ public class UserMgntServiceImpl implements UserMgntService {
     }
     
     @Override
-    @Transactional(readOnly = true)
     public boolean isMemberIdAvailable(String memberId) {
-        return userMgntMapper.findById(memberId);
+    	int count = userMgntMapper.findById(memberId);
+        return count == 0;
     }
     
     @Override

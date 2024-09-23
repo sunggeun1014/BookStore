@@ -82,8 +82,10 @@
 	    )
 	</insert>
 	
-	<select id="findById" parameterType="String" resultType="userMembers">
-    	SELECT * FROM members WHERE member_id = #{member_id}
+	<select id="findById" parameterType="String" resultType="int">
+	    SELECT COUNT(*)
+	    FROM members 
+	    WHERE member_id = #{member_id}
 	</select>
 	
 	<select id="getBasketCount" resultType="Integer" parameterType="String">
