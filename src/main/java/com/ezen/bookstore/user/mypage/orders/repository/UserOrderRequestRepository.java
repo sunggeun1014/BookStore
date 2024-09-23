@@ -38,8 +38,8 @@ public class UserOrderRequestRepository {
     }
 	
 	public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum) {
-		return sql.selectOne("UserOrderRequest.getOrderDetail", orderNum);
-	}
+		return sql.selectOne("UserOrderRequest.getOrderDetail", orderNum);	
+    }
 	
 	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String memberId) {
 		Map<String, Object> map = new HashMap<>();
