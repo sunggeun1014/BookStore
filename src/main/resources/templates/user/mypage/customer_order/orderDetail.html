@@ -28,7 +28,13 @@
 							<span class="book-name" th:text="${detail.book_name}"></span> <span class="purchase-qty" th:text="'수량: ' + ${detail.order_detail_qty} + '개'"></span>
 						</div>
 						<div class="order-price-status">
-							<span class="order-price" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.order_detail_qty, 0, 'COMMA')} + '원'"></span> <span class="order-status" th:text="${orderDetails.order_detail_status}"></span>
+							<span class="order-price" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.order_detail_qty, 0, 'COMMA')} + '원'"></span> 
+							<span class="order-status" th:text="${orderDetails.order_delivery_status}"></span>
+							<button id="returnButton" class="default-btn border return-cancel-btn" 
+								th:if="${orderDetails.order_delivery_status == '배송중' || orderDetails.order_delivery_status == '배송완료'}">반품</button>
+    						<button id="cancelReturnButton" class="default-btn border return-cancel-btn" 
+        						th:if="${orderDetails.order_detail_status == '반품 요청'}">반품 취소</button>
+						
 						</div>
 					</div>
 				</div>
