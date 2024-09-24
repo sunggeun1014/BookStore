@@ -7,10 +7,8 @@ import com.ezen.bookstore.user.payment.repository.PaymentRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,15 +26,8 @@ import java.util.Map;
 @Service
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
-    private final RestTemplate restTemplate;
     private HttpClient httpClient;
     private final ObjectMapper mapper;
-
-//    @Value("${import.api.key}")
-//    private String apiKey;
-//
-//    @Value("${import.api.secret}")
-//    private String apiSecret;
 
     @Value("${import.v2.api}")
     private String apiSecret;
@@ -47,9 +38,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Value("${import.id}")
     private String iamId;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, RestTemplate restTemplate, ObjectMapper mapper) {
+    public PaymentServiceImpl(PaymentRepository paymentRepository, ObjectMapper mapper) {
         this.paymentRepository = paymentRepository;
-        this.restTemplate = restTemplate;
         this.mapper = mapper;
         this.httpClient = HttpClient.newHttpClient(); // HttpClient 초기화
     }
@@ -64,7 +54,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public String getToken(String apiKey) throws IOException, InterruptedException {
+    public String getToken() throws IOException, InterruptedException {
+        log.info("토큰요청시작");
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.portone.io/login/api-secret"))
                 .header("Content-Type", "application/json")
@@ -73,16 +64,24 @@ public class PaymentServiceImpl implements PaymentService {
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        log.info("토큰: {}", response.body());
+
         return parseTokenFromResponse(response.body());
     }
 
     private String parseTokenFromResponse(String response) throws JsonProcessingException {
         JsonNode node = mapper.readTree(response);
-        return node.get("accessToken").asText();
+        String accessToken = node.get("accessToken").asText();
+
+        log.info("Access Token 파싱 완료: {}", accessToken);
+
+        return accessToken;
     }
 
     @Override
     public String registerPayment(String paymentId, PaymentRequestDTO paymentRequestDTO) throws IOException, InterruptedException {
+        log.info("결제 등록 요청 시작... Payment ID: {}", paymentId);
+
         Map<String, Object> data = new HashMap<>();
         data.put("storeId", storeId);
         data.put("paymentId", paymentId);
@@ -90,6 +89,8 @@ public class PaymentServiceImpl implements PaymentService {
         data.put("currency", "KRW");
 
         String requestBody = mapper.writeValueAsString(data);
+        log.info("결제 등록 요청 본문: {}", requestBody);
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.portone.io/payments/" + paymentId + "/pre-register"))
                 .header("Content-Type", "application/json")
@@ -105,6 +106,8 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public boolean verifyPayment(String paymentId, String token) throws Exception {
+        log.info("결제 검증 요청 시작... Payment ID: {}", paymentId);
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.portone.io/payments/" + paymentId))
                 .header("Content-Type", "application/json")
@@ -117,6 +120,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         JsonNode jsonResponse = mapper.readTree(response.body());
         String status = jsonResponse.get("status").asText();
+        log.info("결제 상태 확인: {}", status);
 
         // 결제 상태가 'PAID'일 때만 true 반환
         return "PAID".equals(status);

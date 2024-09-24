@@ -32,7 +32,7 @@ public class PaymentRestController {
         try {
             String paymentId = paymentRequestDTO.getPaymentId();
             // 1. 토큰 받기
-            String token = paymentService.getToken(paymentId);
+            String token = paymentService.getToken();
 
             // 2. 결제 사전 등록
             paymentService.registerPayment(paymentId, paymentRequestDTO);

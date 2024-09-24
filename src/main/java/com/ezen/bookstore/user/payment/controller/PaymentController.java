@@ -48,7 +48,7 @@ public class PaymentController {
         Integer totalPrice = 0;
 
         log.info("받은 목록: {}", items);
-        log.info("받은 카드목록: {}", cartItems);
+        log.info("받은 카트목록: {}", cartItems);
         log.info("받은 타입: {}", purchaseType);
 
         List<OrderItemDTO> combinedItems = new ArrayList<>();
@@ -77,39 +77,5 @@ public class PaymentController {
 
         return "/user/main/customer_order/payment";
     }
-
-//    @PostMapping("/order/complete")
-//    public ResponseEntity<Object> paymentPrepare(@RequestBody PaymentRequestDTO paymentRequestDTO) {
-//        log.info("결제 요청 수신: {}", paymentRequestDTO);
-//        try {
-//            paymentService.processPayment(paymentRequestDTO);
-//        } catch (IamportResponseException e) {
-//            log.info("결제오류: {}", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 요청 처리 중 오류 발생");
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        return ResponseEntity.ok().build();
-//    }
-
-//    @PostMapping("/order/payment")
-//    public ResponseEntity<Object> paymentPrepare(@RequestBody Map<String, String> requestBody) {
-//        String paymentId = requestBody.get("paymentId");
-//        if (paymentId == null || paymentId.isEmpty()) {
-//            return ResponseEntity.badRequest().body("Missing paymentId");
-//        }
-//
-//        try {
-//            paymentService.verifyPayment(paymentId);
-//        } catch (IamportResponseException | IOException e) {
-//            log.info("결제오류: {}", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 요청 처리 중 오류 발생");
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        return ResponseEntity.ok().build();
-//    }
 
 }
