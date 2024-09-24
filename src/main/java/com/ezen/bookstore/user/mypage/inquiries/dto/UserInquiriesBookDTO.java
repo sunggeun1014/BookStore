@@ -10,4 +10,5 @@ public class UserInquiriesBookDTO {
 	String book_name;
 	Integer order_detail_num;
 	Integer order_detail_qty;
+	Integer order_request_qty;
 }

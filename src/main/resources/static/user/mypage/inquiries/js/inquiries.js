@@ -111,7 +111,7 @@ $(document).ready(function () {
 									</div>
 									${imageHtml}
 									<div class="inquiry-detail-action">
-	                                	<button class="delete-btn" data-num="${inquiry.inquiry_num}">삭제</button>
+	                                	<button class="delete-btn" data-num="${inquiry.inquiry_num}" data-order-detail-num="${inquiry.order_detail_num}">삭제</button>
 									</div>
                                 </div>
                            	</div>
@@ -154,8 +154,10 @@ $(document).ready(function () {
                     
                     $('.delete-btn').on('click', function () {
                         let inquiryNum = $(this).data('num');
+						let orderDetailNum = $(this).data('orderDetailNum');
+						
 						getConfirmModal('정말로 삭제하시겠습니까?', function () {
-					        deleteInquiry(inquiryNum); 
+					        deleteInquiry(inquiryNum, orderDetailNum); 
 					    });
                     });
                 }
@@ -208,10 +210,11 @@ $(document).ready(function () {
         return `${year}.${month}.${day}`;
     }
 
-    function deleteInquiry(inquiry_num) {
+    function deleteInquiry(inquiry_num, order_detail_num) {
         $.ajax({
             url: `/user/mypage/inquiries-page/delete/${inquiry_num}`,
             method: 'DELETE',
+			data: { order_detail_num: order_detail_num },
             success: function () {
                 getCheckModal('문의가 삭제되었습니다.');
                 loadInquiries();

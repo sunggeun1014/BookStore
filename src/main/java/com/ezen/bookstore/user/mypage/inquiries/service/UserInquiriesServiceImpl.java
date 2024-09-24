@@ -33,8 +33,10 @@ public class UserInquiriesServiceImpl implements UserInquiriesService {
 	}
 	
 	@Override
-	public void deleteInquiry(Integer inquiry_num) {
-		userInquiriesMapper.deleteInquiry(inquiry_num);
+	public void deleteInquiry(Integer inquiry_num, Integer order_detail_num) {
+		if (userInquiriesMapper.deleteInquiry(inquiry_num) > 0) {
+			userInquiriesMapper.resetRequestQty(order_detail_num);
+		}
 	}
 	
 	@Override
@@ -60,6 +62,9 @@ public class UserInquiriesServiceImpl implements UserInquiriesService {
 			inquiriesDTO.setInquiries_changed(null);
 		}
 		
-		userInquiriesMapper.registerInquiry(inquiriesDTO);
+		if (userInquiriesMapper.registerInquiry(inquiriesDTO) > 0 && inquiriesDTO.getOrder_request_qty() > 0) {
+			
+			userInquiriesMapper.updateRequest(inquiriesDTO);
+		}
 	}
 }
