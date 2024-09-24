@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		if (cartNums.length > 0) {
 			const requestData = { cartNums: cartNums };
-			getConfirmModal('선택한 상품을 삭제하시겠습니까?', function() {
+			getConfirmModal('선택한 상품을 삭제하시겠습니까?', '', function() {
 				$.ajax({
 					url: '/user/cart/delete',
 					method: 'POST',
@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			});
 
 			if (selectedItems.length > 0) {
-				getConfirmModal(`${selectedItems.length}개의 상품을 주문하시겠습니까?`,'', function() {
+				getConfirmModal(`${selectedItems.length}개의 상품을 주문하시겠습니까?`, '', function() {
 					$.ajax({
 						url: '/user/cart/order',
 						method: 'POST',

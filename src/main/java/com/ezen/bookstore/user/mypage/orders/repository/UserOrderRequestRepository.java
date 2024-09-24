@@ -37,8 +37,8 @@ public class UserOrderRequestRepository {
     	return sql.selectOne("UserOrderRequest.countByDeliveryStatus", params);
     }
 	
-	public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum) {
-		return sql.selectOne("UserOrderRequest.getOrderDetail", orderNum);	
+    public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum) {
+        return sql.selectOne("UserOrderRequest.getOrderDetail", orderNum);
     }
 	
 	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String memberId) {
