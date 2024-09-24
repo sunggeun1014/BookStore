@@ -25,7 +25,7 @@ public class UserInquiriesDTO {
 	Timestamp order_purchase_date;
 	Integer order_detail_num;
 	Integer order_detail_qty;
-	
+	Integer order_request_qty;
 	String answer_content;
 	Timestamp answer_write_date;
 	

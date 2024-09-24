@@ -46,9 +46,10 @@ public class UserInquiriesRestController {
 	
 	
     @DeleteMapping("/delete/{inquiry_num}")
-    public ResponseEntity<?> deleteInquiry(@PathVariable Integer inquiry_num) {
+    public ResponseEntity<?> deleteInquiry(@PathVariable Integer inquiry_num,
+    									   @RequestParam Integer order_detail_num) {
         try {
-        	userInquiriesService.deleteInquiry(inquiry_num);
+        	userInquiriesService.deleteInquiry(inquiry_num, order_detail_num);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

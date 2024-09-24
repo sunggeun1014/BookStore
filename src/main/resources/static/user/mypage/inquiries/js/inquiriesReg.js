@@ -114,7 +114,7 @@ function createOrderModal(orderList) {
 			            <div class="flex-center" style="gap: 5px;">
 			                <input type='radio' name='order' value='${order.order_num}' 
 			                    data-order-detail-num='${books.length > 0 ? books[0].order_detail_num : ''}' 
-			                    data-qty='${books.length > 0 ? books[0].order_detail_qty : ''}' 
+			                    data-qty='${books.length > 0 ? books[0].order_detail_qty - books[0].order_request_qty : ''}' 
 			                    onclick="handleRadioClick('${order.order_num}')"/>
 			                <label>${books.length > 0 ? books[0].book_name : '책 정보 없음'} ${hasMultipleBooks ? `외 ${books.length - 1}건` : ''}</label>
 			            </div>
@@ -127,7 +127,7 @@ function createOrderModal(orderList) {
 			                        <input type='checkbox' class="check-box" id='book-${order.order_num}-${index}' 
 			                            data-order-num='${order.order_num}' 
 			                            data-order-detail-num='${book.order_detail_num}' 
-			                            data-qty='${book.order_detail_qty}' 
+			                            data-qty='${book.order_detail_qty - book.order_request_qty}' 
 			                            onclick="handleCheckboxClick('${order.order_num}', this)"/>
 			                        <label for='book-${order.order_num}-${index}'></label>
 			                        <p>${book.book_name}</p>
@@ -206,8 +206,7 @@ function createOrderModal(orderList) {
 	    $("#order-number-display").text(orderNumber);
 	    $("#order-detail-number-display").text(orderDetailNumber); 
 
-	    
-	    $("#quantity").attr("max", maxQty || 1);
+	    $("#quantity").attr("max", maxQty);
 
 	   
 	    $("#order-number").val(orderNumber);
@@ -218,26 +217,40 @@ function createOrderModal(orderList) {
 	$(".custom-modal-btn.confirm").on("click", function () {
 	    let selectedOrder = $("input[name='order']:checked"); 
 	    let selectedBook = $("input.check-box:checked").first(); 
-	    
+		let isExchangeInquiry = inquiryTypeSelect.value === '05';
+		
 	    if (selectedOrder.length && !selectedBook.length) {
 	        
 	        let orderNumber = selectedOrder.val();
 	        let orderDetailNumber = selectedOrder.data('orderDetailNum');
 	        let orderQty = selectedOrder.data('qty');
 
-	        setOrderDetails(orderNumber, orderDetailNumber, orderQty); 
+			
+			if (orderQty <= 0 && isExchangeInquiry) {
+				getErrorModal("해당 주문은 이미 모두 교환 요청 상태입니다.다른 문의 유형을 선택해주세요");
+				return;
+			}
+			
+	        setOrderDetails(orderNumber, orderDetailNumber, orderQty);
+			 
 	    } else if (selectedOrder.length && selectedBook.length) {
 			
 	        let orderNumber = selectedBook.data('orderNum');
 	        let orderDetailNumber = selectedBook.data('orderDetailNum');
 	        let bookQty = selectedBook.data('qty');
-
+			
+			
+			if (bookQty <= 0 && isExchangeInquiry) {
+				getErrorModal("해당 주문은 이미 모두 교환 요청 상태입니다.다른 문의 유형을 선택해주세요");
+				return;
+			}
+			
 	        setOrderDetails(orderNumber, orderDetailNumber, bookQty);
 	    }
-
+		
 	    divArea.remove();
-		const isExchangeInquiry = inquiryTypeSelect.value === '05'; // 교환문의인지 확인
-		const quantitySection = document.getElementById('quantitySection'); // 수량 조절 영역
+		
+		let quantitySection = document.getElementById('quantitySection'); 
 		quantitySection.style.display = isExchangeInquiry ? 'flex' : 'none';
 		$(".order-summary").css("display", "flex");
 	});
@@ -273,7 +286,7 @@ function changeQty(delta) {
 function formatDateForDB(date, type) {
     const d = new Date(date);
     const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const month = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
     
     return type === 'start' ? `${year}-${month}-${day} 00:00:00` : `${year}-${month}-${day} 23:59:59`;
