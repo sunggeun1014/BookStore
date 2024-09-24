@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				});
 			});
 		} else {
-			getCheckModal('삭제할 상품을 선택해주세요.');
+			getErrorModal('삭제할 상품을 선택해주세요.');
 		}
 	});
 

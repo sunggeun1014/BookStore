@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	deleteBtn.addEventListener('click', function() {
-		getConfirmModal('정말로 탈퇴하시겠습니까?', function() {
+		getConfirmModal('정말로 탈퇴하시겠습니까?','', function() {
 			// 탈퇴 요청
 			fetch('/user/mypage/delete', {
 				method: 'POST'

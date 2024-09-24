@@ -36,11 +36,11 @@ function getProfileImg() {
 }
 
 
-function getConfirmModal(msg, func) {
+function getConfirmModal(msg1,msg2,func) {
     let divArea = $("<div id='myModal' class='modal' style='display : block;'></div>");
     let contentArea = $("<div class='modal-content'></div>");
 
-    let messageArea = $(`<div class='modal-text'><p>${msg}</p></div>`);
+    let messageArea = $(`<div class='modal-text'><p>${msg1}</p><p>${msg2}</p></div>`);
     let modalFotter = $(`<div class='modal-footer'></div>`)
     let btnArea = $("<button id='confirm-delete' class='modal-btn confirm'>확인</button><button id='cancel-delete' class='modal-btn cancel'>취소</button>");
 

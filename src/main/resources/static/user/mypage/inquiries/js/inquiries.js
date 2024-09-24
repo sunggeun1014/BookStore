@@ -156,7 +156,7 @@ $(document).ready(function () {
                         let inquiryNum = $(this).data('num');
 						let orderDetailNum = $(this).data('orderDetailNum');
 						
-						getConfirmModal('정말로 삭제하시겠습니까?', function () {
+						getConfirmModal('정말로 삭제하시겠습니까?','', function () {
 					        deleteInquiry(inquiryNum, orderDetailNum); 
 					    });
                     });

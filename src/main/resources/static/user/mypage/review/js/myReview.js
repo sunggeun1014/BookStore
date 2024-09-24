@@ -244,7 +244,7 @@ $(document).ready(function () {
     }
 
     function deleteReview(reviewNum) {
-		getConfirmModal("정말로 이 리뷰를 삭제하시겠습니까?", function() {
+		getConfirmModal("정말로 이 리뷰를 삭제하시겠습니까?",'', function() {
 		       $.ajax({
 		           url: `/user/mypage/my-reviews-page/delete-review/${reviewNum}`,
 		           method: 'DELETE',
