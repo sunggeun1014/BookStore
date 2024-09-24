@@ -124,6 +124,7 @@
 	    cod.order_detail_price,
    	    cod.order_request_qty,
     	cod.order_complete_qty,
+    	cod.book_isbn,
 	    CASE
 	    	WHEN cod.order_detail_status = '01' THEN '주문완료'
 	    	WHEN cod.order_detail_status = '02' THEN '취소요청'

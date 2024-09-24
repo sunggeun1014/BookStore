@@ -35,14 +35,14 @@
 			    <label th:for="${detail.order_detail_num}"></label>
 			</div>
 			<div class="book-image-area">
-				<img th:src="'/images/books/' + ${detail.book_thumbnail_changed != null ? detail.book_thumbnail_changed : 'noimg.png'}" alt="책 이미지" width="80" height="114">
+				<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><img th:src="'/images/books/' + ${detail.book_thumbnail_changed != null ? detail.book_thumbnail_changed : 'noimg.png'}" alt="책 이미지" width="80" height="114"></a>
 			</div>
 			<div class="book-info">
 				<input type="hidden" name="order_num" th:value="${detail.order_num}">
 				<input type="hidden" name="order_detail_num" th:value="${detail.order_detail_num}">
 				
 				<div>
-					<span class="book-name" th:text="${detail.book_name}"></span>
+					<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><span class="book-name" th:text="${detail.book_name}"></span></a>
 				</div>
 				<div>
 					<span class="purchase-qty" th:text="'주문수량: ' + ${detail.order_detail_qty} + '개'"></span>
@@ -90,7 +90,7 @@
 								<span>회수지 정보 변경</span>
 							</div>
 							<div class="close-btn-area">
-								<span class="close-btn">X</span>
+								<span class="close-btn"></span>
 							</div>
 						</div>
 						<div class="info-input-area">

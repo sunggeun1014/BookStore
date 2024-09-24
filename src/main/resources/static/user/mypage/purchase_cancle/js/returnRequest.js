@@ -1,12 +1,11 @@
 $(document).ready(function() {
 	$("#selected-all").on("change", function() {
 		$(".check-box").prop("checked", $(this).prop("checked"));
-		
 	});
 	
 	$(".check-box").on("change", function() {
 	    calculateTotalAmount();
-		selectedCountChange()
+		selectedCountChange();
 	});
 	
 	$("#info-change-btn").on("click", function() {
@@ -87,7 +86,9 @@ function initRefundModal() {
 		$("#common-entrance-on").prop("checked", true);
 		$("#modal-user-common-entrance-pw").val(commonEntPw);
 	} else {
+		$("#modal-user-common-entrance-pw").css({ "display": "none" });
 		$("#common-entrance-off").prop("checked", true);
+		$("#modal-user-common-entrance-pw").val("");
 	}
 }
 

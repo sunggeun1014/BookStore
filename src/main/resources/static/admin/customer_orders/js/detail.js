@@ -16,7 +16,7 @@ function requestCompletionBtn() {
 	$("input[name='order_selected_status']").val($("#request-select-area").val());
 
 	const selectedRows = $("#table-form .row-checkbox:checked").closest('.table-data-area');
-
+	
 	const form = $("#submit-form");
 	
 	let check = true;
@@ -55,14 +55,15 @@ function requestCompletionBtn() {
 	}
 }
 
-function qtyHandler(obj) {
-	let qty = $(obj).attr("data-order-request-qty");
+function inputNumberMax(obj) {
+	const maxNum = parseInt($(obj).attr("data-detail_qty"));
+	const inputNum = parseInt($(obj).val());
 	
-	if(parseInt(obj.value) > qty) {
-		obj.value = "";
-	}
-	
+	if(inputNum > maxNum) {
+		obj.value = maxNum;
+	} 
 }
+	
 
 function truncate() {
 	const elements = document.querySelectorAll(".book-title-data > span");
