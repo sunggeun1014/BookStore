@@ -162,24 +162,24 @@ function showModal() {
     }
 }
 
-let lastDate = "";
-let orderTurn = 0;
-const date = new Date();
-const year = date.getFullYear();
-const month = String(date.getMonth() + 1).padStart(2, "0");
-const day = String(date.getDate()).padStart(2, "0");
-let orderDate = year + month + day;
-
-function createTempOrderNum() {
-    if (lastDate !== orderDate) {
-        lastDate = orderDate;
-        orderTurn = 0;
-    }
-
-    orderNum = `${orderDate}-${String(++orderTurn).padStart(4, "0")}`;
-
-    return orderNum;
-}
+// let lastDate = "";
+// let orderTurn = 0;
+// const date = new Date();
+// const year = date.getFullYear();
+// const month = String(date.getMonth() + 1).padStart(2, "0");
+// const day = String(date.getDate()).padStart(2, "0");
+// let orderDate = year + month + day;
+//
+// function createTempOrderNum() {
+//     if (lastDate !== orderDate) {
+//         lastDate = orderDate;
+//         orderTurn = 0;
+//     }
+//
+//     orderNum = `${orderDate}-${String(++orderTurn).padStart(4, "0")}`;
+//
+//     return orderNum;
+// }
 
 function goToOrder() {
     const payBtn = document.getElementById("pay-btn");
@@ -191,7 +191,9 @@ function goToOrder() {
         errorMsg.style.display = 'none';
     })
 
-    const tempOrderNum = createTempOrderNum();
+    // const tempOrderNum = createTempOrderNum();
+    const memberCheck = document.getElementById("member-check")
+    const memberId = memberCheck.getAttribute("data-member")
     const deliverName = document.getElementById("deliver-name").textContent;
     const deliverNumber = document.getElementById("deliver-number").textContent;
     const addr = document.getElementById("deliver-addr").textContent;
@@ -211,9 +213,15 @@ function goToOrder() {
             errorMsg.textContent = '⚠️ 공동현관 비밀번호를 입력하세요'
             return
         }
+
+        const customerInfo = {
+            customerId: memberId,
+        }
+
         const data = {
             paymentId: paymentId,
             totalAmount: totalAmount,
+            customerId: memberId,
         };
 
         PortOne.requestPayment({
@@ -221,6 +229,7 @@ function goToOrder() {
             channelKey: "channel-key-db630549-a619-4ab8-8739-466edb7307c6",
             paymentId: paymentId,
             orderName: orderName,
+            customer: customerInfo,
             totalAmount: totalAmount,
             payMethod: "CARD",
             currency: "CURRENCY_KRW"
@@ -234,17 +243,25 @@ function goToOrder() {
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
-                success: function (response) {
-                    if (response === 200) {
-                        console.log('결제 성공')
-                    } else if (response === 400) {
-                        console.log('요청오류')
-                    } else if (response === 401) {
-                        console.log('인증오류')
+                success: function (response, status, xhr) {
+                    const statusCode = xhr.status; // 상태 코드를 가져옵니다.
+
+                    if (statusCode === 200) {
+                        console.log('결제 성공', statusCode);
+                    } else if (statusCode === 400) {
+                        console.log('요청 오류', statusCode);
+                    } else if (statusCode === 401) {
+                        console.log('인증 오류', statusCode);
+                    } else if (statusCode === 403) {
+                        console.log('결제거절', statusCode)
+                    } else if (statusCode === 409) {
+                        console.log('이미결제', statusCode)
+                    } else {
+                        console.log('기타 오류: ' + statusCode);
                     }
                 },
-                error: function () {
-                    console.log('결제실패')
+                error: function (xhr, status, error) {
+                    console.log('AJAX 호출 중 오류 발생: ' + error);
                 }
             })
         }).catch(error => {

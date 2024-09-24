@@ -11,7 +11,7 @@ public interface PaymentService {
 
     public UserOrderDTO getOrder(int order_num, String member_id);
     public List<UserOrderDetailsDTO> getOrderDetail(int order_num);
-    public String getToken (String apiKey) throws Exception;
+    public String getToken () throws Exception;
     public String registerPayment (String paymentId, PaymentRequestDTO paymentRequestDTO) throws IOException, InterruptedException;
     public boolean verifyPayment (String paymentId, String token) throws Exception;
 

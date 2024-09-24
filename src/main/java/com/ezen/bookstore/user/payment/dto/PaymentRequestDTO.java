@@ -6,6 +6,7 @@ import lombok.Data;
 public class PaymentRequestDTO {
     private String paymentId;
     private String storeId;
+    private String customerId;
     private String orderName;
     private Integer totalAmount;
 }
