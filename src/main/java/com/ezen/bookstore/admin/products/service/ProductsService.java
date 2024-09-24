@@ -81,7 +81,6 @@ public class ProductsService {
 
     public void insertBook(ProductsDTO productsDTO) throws IOException {
         MultipartFile thumbnailImg = productsDTO.getThumbnail_img_file();
-//        ProductsDTO DTO = productRepository.getBookDetail(productsDTO.getBook_isbn());
 
         // 재고정보에서 isbn 가져오기
         InventoryDTO inventoryDTO = productRepository.getInvISBN(productsDTO.getBook_isbn());

@@ -2,23 +2,23 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="HeaderFragment">
 <!-- header 설정 -->
 
-
+<div class="header-top">
+    <div class="header-top-inner">
+        <div id="loginMenu" class="top-menu-wrap">
+            <a href="/user/login" class="top-menu-link">로그인</a>
+            <a href="/user/cart/list" class="top-menu-link">장바구니</a>
+            <a href="/user/mypage/inquiries-page" class="top-menu-link">1:1문의</a>
+        </div>
+        <div id="userMenu" class="top-menu-wrap" style="display: none;">
+            <a href="/user/logout" class="top-menu-link">로그아웃</a>
+            <a href="/user/mypage/orderList" class="top-menu-link">마이페이지</a>
+            <a href="/user/cart/list" class="top-menu-link">장바구니</a>
+            <a href="/user/mypage/inquiries-page" class="top-menu-link">1:1문의</a>
+        </div>
+    </div>
+</div>
 <!-- 메인 헤더 -->
 <div class="header-inner">
-    <div class="header-top">
-	    <div id="loginMenu" class="top-menu-wrap">
-	        <a href="/user/login" class="top-menu-link">로그인</a>
-	      	<a href="/user/cart/list" class="top-menu-link">장바구니</a>
-	   		<a href="/user/mypage/inquiries-page" class="top-menu-link">1:1문의</a>
-	    </div>
-	    <div id="userMenu" class="top-menu-wrap" style="display: none;">
-	        <a href="/user/logout" class="top-menu-link">로그아웃</a>
-	        <a href="/user/mypage/orderList" class="top-menu-link">마이페이지</a>
-		    <a href="/user/cart/list" class="top-menu-link">장바구니</a>
-		    <a href="/user/mypage/inquiries-page" class="top-menu-link">1:1문의</a>
-	    </div>
-    </div>
-
     <div class="header-center">
         <div class="logo-searchbar">
             <a href="/user/main"> <img src="/user/common/imgs/web-header-logo.svg" alt="로고" class="logo-img">

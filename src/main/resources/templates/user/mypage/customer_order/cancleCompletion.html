@@ -31,7 +31,8 @@
 					<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><span class="book-name" th:text="${detail.book_name}"></span></a>
 				</div>
 				<div>
-					<span class="purchase-qty" th:text="'수량: ' + ${detail.order_detail_qty} + '개'"></span>
+					<span class="purchase-qty" th:text="'수량: ' + ${detail.order_request_qty} + '개'" th:if="${detail.order_detail_status == '취소요청'}"></span>
+					<span class="purchase-qty" th:text="'수량: ' + ${detail.order_complete_qty} + '개'" th:if="${detail.order_detail_status != '취소요청'}"></span>
 				</div>
 			</div>
 			<div>
@@ -48,12 +49,12 @@
 		</div>
 		<div class="refund-info-area">
 			<div class="refund-price-area">
-				<span>환불금액</span>
-				<span th:text="${#numbers.formatInteger(refund.refundAmount, 0, 'COMMA') + '원'}"></span>
-			</div>
-			<div class="cancle-price-area">
 				<span>취소금액</span>
 				<span th:text="${#numbers.formatInteger(refund.cancellationAmount, 0, 'COMMA')} + '원'"></span>
+			</div>
+			<div class="cancle-price-area">
+				<span>환불금액</span>
+				<span th:text="${#numbers.formatInteger(refund.refundAmount, 0, 'COMMA') + '원'}"></span>				
 			</div>
 		</div>	
 	</div>

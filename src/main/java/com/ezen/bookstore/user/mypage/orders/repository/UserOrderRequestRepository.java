@@ -37,8 +37,8 @@ public class UserOrderRequestRepository {
     	return sql.selectOne("UserOrderRequest.countByDeliveryStatus", params);
     }
 	
-    public List<UserCustomerOrderWithDetailsDTO> getOrderDetail(Integer orderNum) {
-        return sql.selectList("UserOrderRequest.getOrderDetail", orderNum);
+    public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum) {
+        return sql.selectOne("UserOrderRequest.getOrderDetail", orderNum);
     }
 	
 	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String memberId) {
@@ -48,6 +48,24 @@ public class UserOrderRequestRepository {
 		map.put("memberId", memberId);
 		
 		return sql.selectList("UserOrderRequest.cancleList", map);
+	}
+	
+	public List<UserCustomerOrderWithDetailsDTO> getOrderReturnList(Integer orderNum, String memberId) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("orderNum", orderNum);
+		map.put("memberId", memberId);
+		
+		return sql.selectList("UserOrderRequest.returnList", map);
+	}
+	
+	public List<UserCustomerOrderWithDetailsDTO> getOrderRequestList(Integer orderNum, String memberId) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("orderNum", orderNum);
+		map.put("memberId", memberId);
+		
+		return sql.selectList("UserOrderRequest.orderRequestList", map);
 	}
 	
 	public int orderCancle(UserCustomerOrderWithDetailsDTO dto) {
@@ -62,6 +80,10 @@ public class UserOrderRequestRepository {
 	
 	public UserCustomerOrderWithDetailsDTO getRefundInfo(Integer orderNum) {
 		return sql.selectOne("UserOrderRequest.getRefundInfo", orderNum);
+	}
+	
+	public UserCustomerOrderWithDetailsDTO getReturnRefundInfo(Integer orderNum) {
+		return sql.selectOne("UserOrderRequest.getReturnRefundInfo", orderNum);
 	}
 	
 	public int returnRequest(Map<String, Integer> map) {

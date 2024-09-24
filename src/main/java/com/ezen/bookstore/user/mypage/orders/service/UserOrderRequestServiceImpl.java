@@ -50,7 +50,7 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
     }
 
 	@Override
-	public List<UserCustomerOrderWithDetailsDTO> getOrderDetail(Integer orderNum) {
+	public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum) {
 		return orderRequestRepository.getOrderDetail(orderNum);
 	}
 
@@ -61,6 +61,26 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 			e.printStackTrace();
 		}
 
+		return null;
+	}
+	
+	public List<UserCustomerOrderWithDetailsDTO> getOrderReturnList(Integer orderNum, String memberId) {
+		try {
+			return orderRequestRepository.getOrderReturnList(orderNum, memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public List<UserCustomerOrderWithDetailsDTO> getOrderRequestList(Integer orderNum, String memberId) {
+		try {
+			return orderRequestRepository.getOrderRequestList(orderNum, memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
@@ -88,6 +108,17 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 			e.printStackTrace();
 		}
 
+		return null;
+	}
+	
+	@Override
+	public UserCustomerOrderWithDetailsDTO getReturnRefundInfo(Integer orderNum) {
+		try {
+			return orderRequestRepository.getReturnRefundInfo(orderNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
