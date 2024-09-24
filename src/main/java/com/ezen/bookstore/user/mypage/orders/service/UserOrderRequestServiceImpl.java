@@ -50,7 +50,7 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
     }
 
 	@Override
-	public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum) {
+	public List<UserCustomerOrderWithDetailsDTO> getOrderDetail(Integer orderNum) {
 		return orderRequestRepository.getOrderDetail(orderNum);
 	}
 

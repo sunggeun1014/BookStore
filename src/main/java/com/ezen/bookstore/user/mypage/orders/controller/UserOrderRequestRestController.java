@@ -3,6 +3,7 @@ package com.ezen.bookstore.user.mypage.orders.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO;
 import com.ezen.bookstore.user.mypage.orders.service.UserOrderRequestService;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/user/mypage/")
@@ -22,14 +22,15 @@ import lombok.RequiredArgsConstructor;
 public class UserOrderRequestRestController {
 	
 	private final UserOrderRequestService orderRequestService;
-	
-    @GetMapping("/orderListData") 
-    public List<UserCustomerOrderWithDetailsDTO> getOrderList() {
-        return orderRequestService.getOrderList();
-    }
+
+//	@GetMapping("/orderListData")
+//	public ResponseEntity<List<UserCustomerOrderWithDetailsDTO>> getOrderList() {
+//	    List<UserCustomerOrderWithDetailsDTO> orderList = orderRequestService.getOrderList();
+//	    return ResponseEntity.ok(orderList);
+//	}
 	
     @GetMapping("/statusCounts")
-    public Map<String, Integer> getStatusCounts(HttpSession session) {
+    public Map<String, Integer> getStatusCounts() {
         return orderRequestService.getStatusCounts();
     }
 
