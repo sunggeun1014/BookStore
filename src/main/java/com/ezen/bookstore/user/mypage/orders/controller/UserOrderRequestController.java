@@ -33,7 +33,7 @@ public class UserOrderRequestController {
 
     @GetMapping("/cancleList")
     public String purchaseCancleForm(Model model, Integer orderNum, HttpSession session) {
-    	model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id())); 
+    	model.addAttribute("cancleList", orderRequestService.getOrderRequestList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id())); 
     	
     	return "/user/mypage/customer_order/cancleList";
     }
@@ -48,9 +48,17 @@ public class UserOrderRequestController {
     
     @GetMapping("/returnRequest")
     public String returnRequestForm(Model model, Integer orderNum, HttpSession session) {
-    	model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
+    	model.addAttribute("cancleList", orderRequestService.getOrderRequestList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
     	model.addAttribute("refund", orderRequestService.getRefundInfo(orderNum));
     	
     	return "/user/mypage/customer_order/returnRequest";
+    }
+    
+    @GetMapping("/returnDetail")
+    public String returnDetail(Model model, Integer orderNum, HttpSession session) {
+    	model.addAttribute("cancleList", orderRequestService.getOrderReturnList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
+    	model.addAttribute("refund", orderRequestService.getReturnRefundInfo(orderNum));
+    	
+    	return "/user/mypage/customer_order/returnDetail";
     }
 }

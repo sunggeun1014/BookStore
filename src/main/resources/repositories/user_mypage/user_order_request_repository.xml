@@ -111,7 +111,7 @@
             co.order_delivery_status,
             COALESCE(co.recipient_name, m.member_name),
             COALESCE(co.recipient_phoneno, m.member_phoneno)
-</select>
+	</select>
 
 	<select id="cancleList" parameterType="java.util.HashMap" resultType="customerOrderWithDetails">
 		SELECT
@@ -140,7 +140,67 @@
 	    LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
 	    LEFT JOIN books                  b ON cod.book_isbn = b.book_isbn
 	WHERE
-	    co.order_num = #{orderNum} AND co.member_id = #{memberId}
+	    co.order_num = #{orderNum} AND co.member_id = #{memberId} AND cod.order_detail_status in ('02', '05')
+	</select>
+	
+	<select id="returnList" parameterType="java.util.HashMap" resultType="customerOrderWithDetails">
+		SELECT
+	    co.order_num,
+	    co.order_purchase_date,
+	    b.book_thumbnail_changed,
+	    b.book_name,
+	    cod.order_detail_num,
+	    cod.order_detail_qty,
+	    cod.order_detail_price,
+   	    cod.order_request_qty,
+    	cod.order_complete_qty,
+    	cod.book_isbn,
+	    CASE
+	    	WHEN cod.order_detail_status = '01' THEN '주문완료'
+	    	WHEN cod.order_detail_status = '02' THEN '취소요청'
+	    	WHEN cod.order_detail_status = '03' THEN '교환요청'
+	    	WHEN cod.order_detail_status = '04' THEN '반품요청'
+	    	WHEN cod.order_detail_status = '05' THEN '취소완료'
+	    	WHEN cod.order_detail_status = '06' THEN '교환완료'
+	    	WHEN cod.order_detail_status = '07' THEN '반품완료'
+	    	WHEN cod.order_detail_status = '08' THEN '처리불가'
+	    END AS order_detail_status
+	FROM
+	    customer_orders co
+	    LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
+	    LEFT JOIN books                  b ON cod.book_isbn = b.book_isbn
+	WHERE
+	    co.order_num = #{orderNum} AND co.member_id = #{memberId} AND cod.order_detail_status in ('04', '07')
+	</select>
+	
+	<select id="orderRequestList" parameterType="java.util.HashMap" resultType="customerOrderWithDetails">
+		SELECT
+	    co.order_num,
+	    co.order_purchase_date,
+	    b.book_thumbnail_changed,
+	    b.book_name,
+	    cod.order_detail_num,
+	    cod.order_detail_qty,
+	    cod.order_detail_price,
+   	    cod.order_request_qty,
+    	cod.order_complete_qty,
+    	cod.book_isbn,
+	    CASE
+	    	WHEN cod.order_detail_status = '01' THEN '주문완료'
+	    	WHEN cod.order_detail_status = '02' THEN '취소요청'
+	    	WHEN cod.order_detail_status = '03' THEN '교환요청'
+	    	WHEN cod.order_detail_status = '04' THEN '반품요청'
+	    	WHEN cod.order_detail_status = '05' THEN '취소완료'
+	    	WHEN cod.order_detail_status = '06' THEN '교환완료'
+	    	WHEN cod.order_detail_status = '07' THEN '반품완료'
+	    	WHEN cod.order_detail_status = '08' THEN '처리불가'
+	    END AS order_detail_status
+	FROM
+	    customer_orders co
+	    LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
+	    LEFT JOIN books                  b ON cod.book_isbn = b.book_isbn
+	WHERE
+	    co.order_num = #{orderNum} AND co.member_id = #{memberId} AND cod.order_detail_status = '01'
 	</select>
 	
 	<update id="orderDateModify" parameterType="Integer">
@@ -164,6 +224,37 @@
 		SELECT 
 		    SUM(CASE WHEN cod.order_detail_status = '05' THEN cod.order_detail_price * cod.order_complete_qty ELSE 0 END) AS refundAmount,
 		    SUM(CASE WHEN cod.order_detail_status = '05' or cod.order_detail_status = '02' THEN cod.order_detail_price * cod.order_request_qty ELSE 0 END) AS cancellationAmount,
+		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total,
+		    co.recipient_name,
+		    co.recipient_phoneNo,
+		    co.order_addr,
+		    co.order_addr_detail,
+		    co.retrieve_name,
+		    co.retrieve_addr,
+		    co.retrieve_addr_detail,
+		    co.retrieve_phoneNo,
+		    co.common_ent_pw,
+		    co.retrieve_common_cnt_pw
+		FROM customer_orders co
+			LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
+		WHERE co.order_num = #{order_num}
+		GROUP BY
+		    co.recipient_name,
+		    co.recipient_phoneNo,
+		    co.order_addr,
+		    co.order_addr_detail,
+		    co.retrieve_name,
+		    co.retrieve_addr,
+		    co.retrieve_addr_detail,
+		    co.retrieve_phoneNo,
+		    co.common_ent_pw,
+		    co.retrieve_common_cnt_pw
+	</select>
+	
+	<select id="getReturnRefundInfo" parameterType="Integer" resultType="customerOrderWithDetails">
+		SELECT 
+		    SUM(CASE WHEN cod.order_detail_status = '07' THEN cod.order_detail_price * cod.order_complete_qty ELSE 0 END) AS refundAmount,
+		    SUM(cod.order_detail_price * cod.order_detail_qty) AS cancellationAmount,
 		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total,
 		    co.recipient_name,
 		    co.recipient_phoneNo,

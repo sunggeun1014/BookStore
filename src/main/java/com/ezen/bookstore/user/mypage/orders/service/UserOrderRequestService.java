@@ -10,7 +10,10 @@ public interface UserOrderRequestService {
 	public Map<String, Integer> getStatusCounts();
 	public UserCustomerOrderWithDetailsDTO getOrderDetail(Integer orderNum);
 	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String member_id);
+	public List<UserCustomerOrderWithDetailsDTO> getOrderReturnList(Integer orderNum, String member_id);
+	public List<UserCustomerOrderWithDetailsDTO> getOrderRequestList(Integer orderNum, String member_id);
 	public int orderCancle(List<UserCustomerOrderWithDetailsDTO> list); 
     public UserCustomerOrderWithDetailsDTO getRefundInfo(Integer orderNum);
+    public UserCustomerOrderWithDetailsDTO getReturnRefundInfo(Integer orderNum);
     public int returnRequest(Map<String, Object> data);
 }
