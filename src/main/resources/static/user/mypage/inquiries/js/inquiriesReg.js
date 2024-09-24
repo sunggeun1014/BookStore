@@ -302,11 +302,11 @@ function setButtonStyles(clickedButton) {
 
 
 function toggleOrderDetails(element, orderNum) {
-	
-	resetSelections();
-	
-    const detailsElement = document.getElementById(`order-details-${orderNum}`);
-    const radioInput = document.querySelector(`input[name='order'][value='${orderNum}']`);
+    // 현재 클릭된 항목을 제외한 모든 선택을 해제
+    resetSelections(orderNum);
+    
+    let detailsElement = document.getElementById(`order-details-${orderNum}`);
+    let radioInput = document.querySelector(`input[name='order'][value='${orderNum}']`);
     
     if (detailsElement.style.display === 'none' || detailsElement.style.display === '') {
         detailsElement.style.display = 'block';
@@ -316,41 +316,55 @@ function toggleOrderDetails(element, orderNum) {
         if (radioInput && !radioInput.checked) {
             radioInput.checked = true;
         }
-		
     } else {
         detailsElement.style.display = 'none';
-        element.classList.add('icon-arrow-off');
         element.classList.remove('icon-arrow-on');
-		
+        element.classList.add('icon-arrow-off');
+        
         if (radioInput && radioInput.checked) {
             radioInput.checked = false;
         }
     }
 }
 
-
-
 function handleRadioClick(orderNum) {
-    resetSelections();
-
     const radioInput = document.querySelector(`input[name='order'][value='${orderNum}']`);
+    const arrowIcon = document.querySelector(`#order-arrow-${orderNum}`);
 
     if (radioInput) {
         radioInput.checked = true; 
     }
 
-    const arrowIcon = document.querySelector(`#order-arrow-${orderNum}`);
     if (arrowIcon) {
         toggleOrderDetails(arrowIcon, orderNum);
     }
 }
 
-function resetSelections() {
-    $('input[name="order"]').prop('checked', false);  
-    $('.check-box').prop('checked', false); 
+function resetSelections(excludeOrderNum) {
+    // 선택된 orderNum을 제외한 모든 세부 사항과 아이콘을 초기화
+    $('input[name="order"]').each(function() {
+        if (this.value != excludeOrderNum) {
+            $(this).prop('checked', false);
+        }
+    });
 
-    $('.order-details').hide();
-    $('.icon-arrow-on').addClass('icon-arrow-off').removeClass('icon-arrow-on');
+    $('.check-box').prop('checked', false);
+
+    // 선택된 세부 사항을 제외하고 나머지 숨기기
+    $('.order-details').each(function() {
+        const orderDetailsId = $(this).attr('id');
+        if (orderDetailsId !== `order-details-${excludeOrderNum}`) {
+            $(this).hide();
+        }
+    });
+
+    // 선택된 아이콘을 제외하고 나머지는 초기화
+    $('.icon-arrow-on').each(function() {
+        const arrowId = $(this).attr('id');
+        if (arrowId !== `order-arrow-${excludeOrderNum}`) {
+            $(this).addClass('icon-arrow-off').removeClass('icon-arrow-on');
+        }
+    });
 }
 
 function handleCheckboxClick(orderNum, currentCheckbox) {
