@@ -9,7 +9,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ezen.bookstore.admin.commons.AdminSessionInfo;
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
+import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
 import com.ezen.bookstore.user.commons.UserSessionInfo;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 
@@ -76,7 +76,7 @@ public class SessionUtils {
             return null;
         }
 
-        ManagersDTO dto = (ManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
+        AdminManagersDTO dto = (AdminManagersDTO) session.getAttribute(AccountManagement.MANAGER_INFO);
 
         if (dto == null) {
             return null;

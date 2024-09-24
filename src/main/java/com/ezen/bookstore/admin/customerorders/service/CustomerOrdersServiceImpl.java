@@ -11,7 +11,7 @@ import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersListDTO;
 import com.ezen.bookstore.admin.customerorders.repository.CustomerOrdersRepository;
 import com.ezen.bookstore.admin.inventorylog.repository.InventoryLogRepository;
-import com.ezen.bookstore.admin.warehouse.repository.WarehouseRepository;
+import com.ezen.bookstore.admin.warehouse.mapper.WarehouseRepository;
 import com.ezen.bookstore.commons.SearchCondition;
 
 import lombok.RequiredArgsConstructor;
@@ -122,21 +122,6 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 		
 	}
 
-	private String getStatus(String statusCd) {
-		Map<String, String> map = new HashMap<>();
-		
-		map.put("01", "주문완료");
-		map.put("02", "취소요청");
-		map.put("03", "교환요청");
-		map.put("04", "반품요청");
-		map.put("05", "취소완료");
-		map.put("06", "교환완료");
-		map.put("07", "반품완료");
-		map.put("08", "처리불가");
-		
-		return map.get(statusCd);
-	}
-	
 	private String getZone_num(String isbn) {
 		try {
 			return wr.getZoneNum(isbn);

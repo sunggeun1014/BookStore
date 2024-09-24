@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
+import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
 import com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO;
 import com.ezen.bookstore.admin.supplierorders.service.SupplierOrdersService;
 import com.ezen.bookstore.commons.AccountManagement;
@@ -51,7 +51,7 @@ public class SupplierOrdersRestController {
 
 	@PostMapping("/orderConfirm")
 	public void orderConfirm(@RequestBody List<SupplierOrdersDTO> list, HttpSession session) {
-		sos.orderConfirmInsert(list, ((ManagersDTO)session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
+		sos.orderConfirmInsert(list, ((AdminManagersDTO)session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
 		
 	}
 }

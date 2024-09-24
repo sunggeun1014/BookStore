@@ -1,8 +1,11 @@
 package com.ezen.bookstore.user.mypage.inquiries.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.ezen.bookstore.commons.CommonConstants;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +23,10 @@ public class UserInquiriesController {
 	}
 	
 	@GetMapping("/written-inquiries-page")
-	public String writtenInquiriesPage() {
+	public String writtenInquiriesPage(Model model) {
+		
+		model.addAttribute("inquiryType", CommonConstants.INQUIRY_TYPE);
+		
 		return "user/mypage/inquiries/inquiriesReg";
 	}
 }

@@ -60,14 +60,8 @@ input, select {
 	display: none;
 }
 
-.select-box {
-	display: flex;
-	align-items: center; /* 자식 요소들을 수직 중앙 정렬 */
-	position: relative; /* 필요 시 position relative 사용 */
-}
-
 .select-arrow-down {
-	margin-right: 7px; /* 선택 상자와 화살표 사이에 간격 추가 */
+	margin-right: 7px; 
 }
 
 select#emailUser, select#emailDomain {
@@ -89,34 +83,6 @@ select#countryNum {
 span.search-list-subject {
 	margin-left: 0px;
 	width: 106px;
-}
-
-select {
-	padding-right: 30px; /* 화살표를 위한 공간 확보 */
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-}
-
-.select-arrow-down {
-	position: absolute;
-    top: 50%;
-    right: 10px;
-    width: 0; 
-    height: 0; 
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid black;
-    pointer-events: none; /* 클릭을 차단하여 select와의 상호작용 방해를 방지 */
-    transform: translateY(-50%); /* 화살표 수직 정렬 */
-}
-
-.btn-box {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 20px;
-	margin-top: 30px;
 }
 
 .switch {

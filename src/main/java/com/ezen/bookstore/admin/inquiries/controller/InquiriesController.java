@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezen.bookstore.admin.inquiries.dto.InquiriesDTO;
 import com.ezen.bookstore.admin.inquiries.service.InquiriesService;
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
+import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
 import com.ezen.bookstore.commons.AccountManagement;
 
 import jakarta.servlet.http.HttpSession;

@@ -116,7 +116,7 @@ function submitHandler() {
         const memberID = getMemberID([cartBtn, buyNowBtn])
 
         if (memberID === null) {
-            getConfirmModal("로그인 하지 않으셨습니다. 로그인 페이지로 가시겠습니까?", function () {
+            getConfirmModal("로그인 하지 않으셨습니다.", "로그인 페이지로 가시겠습니까?", function () {
                 location.href = '/user/login'
             })
         } else {
@@ -137,12 +137,12 @@ function submitHandler() {
                     success: function (response) {
                         if (response === 1) {
                             console.log("장바구니에 이미 있다")
-                            getConfirmModal("장바구니에 이미 있는 상품입니다. 수량을 추가하여 장바구니에 추가 했습니다. 장바구니로 이동 하시겠습니까?", function () {
+                            getConfirmModal("장바구니에 이미 있는 상품으로 수량을 추가했습니다.","장바구니로 이동 하시겠습니까?", function () {
                                 location.href = '/user/cart/list'
                             })
                         } else {
                             console.log('ajax 성공')
-                            getConfirmModal("장바구니에 추가 되었습니다. 장바구니로 이동 하시겠습니까?", function () {
+                            getConfirmModal("장바구니에 추가 되었습니다.", "장바구니로 이동 하시겠습니까?", function () {
                                 location.href = '/user/cart/list'
                             })
                         }

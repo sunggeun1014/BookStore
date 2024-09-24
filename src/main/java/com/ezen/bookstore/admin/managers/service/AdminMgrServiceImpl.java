@@ -7,43 +7,54 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ezen.bookstore.admin.managers.dto.ManagersDTO;
-import com.ezen.bookstore.admin.managers.repository.MgrRepository;
+import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
+import com.ezen.bookstore.admin.managers.mapper.AdminMgrMapper;
 import com.ezen.bookstore.commons.FileManagement;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 @Transactional
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 @Service
-public class MgrService {
+public class AdminMgrServiceImpl implements AdminMgrService {
 	
-    private final MgrRepository mgrRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final FileManagement fileManagement;
-
-    @Transactional(readOnly = true)
-    public List<ManagersDTO> list() {
-    	
-        return mgrRepository.getMembers();
-    }
-
-    @Transactional(readOnly = true)
-    public ManagersDTO detailList(String managerId) {
-        return mgrRepository.getManagerDetails(managerId);
-    }
-
+    AdminMgrMapper adminMgrMapper;
+    PasswordEncoder passwordEncoder;
+    FileManagement fileManagement;
     
+    @Override
+    @Transactional(readOnly = true)
+    public List<AdminManagersDTO> list() {    	
+        return adminMgrMapper.getManagersList();
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public AdminManagersDTO detailList(String managerId) {
+        return adminMgrMapper.getManagerDetails(managerId);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isManagerIdAvailable(String managerId) {
+    	return adminMgrMapper.findById(managerId);
+    }
+
+    @Override
     public void changeDept(String managerId, String dept) {
         if (dept == null || dept.isEmpty()) {
             throw new IllegalArgumentException("리뷰 ID 목록이 비어 있습니다.");
         }
-        mgrRepository.changeAllByDept(managerId, dept);
+        adminMgrMapper.updateManagerDept(managerId, dept);
     }
-
-    public void joinProcess(ManagersDTO managersDTO, MultipartFile profileImage) {
+    
+    @Override
+    public void joinProcess(AdminManagersDTO managersDTO, MultipartFile profileImage) {
 	    if (!profileImage.isEmpty()) {
             try {
             	String originalFileName = profileImage.getOriginalFilename();
@@ -51,7 +62,6 @@ public class MgrService {
             	
             	FileManagement.saveImage(profileImage, newFileName, fileManagement.getProfilePath());
             	
-                // DTO에 파일 정보 설정
                 managersDTO.setManager_profile_original(originalFileName);
                 managersDTO.setManager_profile_changed(newFileName);
             } catch (Exception e) {
@@ -59,16 +69,15 @@ public class MgrService {
             }
         }
 	    
-        // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(managersDTO.getManager_pw());
         managersDTO.setManager_pw(encodedPassword);
         System.out.println(encodedPassword);
 
-        // 데이터베이스에 저장
-        mgrRepository.addManager(managersDTO);
+        adminMgrMapper.addManager(managersDTO);
     }
     
-    public void updateManager(ManagersDTO managersDTO, MultipartFile profileImage) {
+    @Override
+    public void updateManager(AdminManagersDTO managersDTO, MultipartFile profileImage) {
     	String password = managersDTO.getManager_pw();
     	
     	if (!password.isEmpty()) {
@@ -89,12 +98,7 @@ public class MgrService {
 	        }
 	      }
 
-          // 서비스 호출하여 데이터베이스 업데이트
-    	mgrRepository.updateManager(managersDTO);
+		adminMgrMapper.updateManager(managersDTO);
     }
     
-    @Transactional(readOnly = true)
-    public boolean isManagerIdAvailable(String managerId) {
-        return mgrRepository.findById(managerId);
-    }
 }

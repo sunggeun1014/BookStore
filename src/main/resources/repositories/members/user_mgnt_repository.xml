@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Members">
+<mapper namespace="com.ezen.bookstore.user.members.mapper.UserMgntMapper">
 	
 	<select id="getAll" resultType="member">
 		SELECT
@@ -82,8 +82,10 @@
 	    )
 	</insert>
 	
-	<select id="findById" parameterType="String" resultType="userMembers">
-    	SELECT * FROM members WHERE member_id = #{member_id}
+	<select id="findById" parameterType="String" resultType="int">
+	    SELECT COUNT(*)
+	    FROM members 
+	    WHERE member_id = #{member_id}
 	</select>
 	
 	<select id="getBasketCount" resultType="Integer" parameterType="String">
@@ -106,7 +108,7 @@
 	        AND member_email = #{member_email}
 	</select>
 	
-	<select id="verification" resultType="int" parameterType="userMembers">
+	<select id="memberVerification" resultType="int" parameterType="userMembers">
 	    SELECT 
 	        COUNT(*)
 	    FROM 
@@ -117,7 +119,7 @@
 	        AND member_id = #{member_id}
 	</select>
 	
-	<update id="updateMemberPw" parameterType="userMembers">
+	<update id="modifyMemberPw" parameterType="userMembers">
         UPDATE members
         SET 
         member_pw = #{member_pw}        

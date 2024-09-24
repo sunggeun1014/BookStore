@@ -1,8 +1,10 @@
 package com.ezen.bookstore.security.service.user;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -55,13 +57,24 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> extendedAttributes = new HashMap<>(attributes);
         extendedAttributes.put("userMembersDTO", user); 
 
+        SimpleGrantedAuthority roleUserAuthority = new SimpleGrantedAuthority("ROLE_USER");
+
+        
         // 카카오와 네이버에 따라 다른 리턴 처리
         if ("kakao".equals(registrationId)) {
-            return new DefaultOAuth2User(oAuth2User.getAuthorities(), extendedAttributes, "id");
+            return new DefaultOAuth2User(
+                Collections.singleton(roleUserAuthority), 
+                extendedAttributes,
+                "id"
+            );
         } else if ("naver".equals(registrationId)) {
-            return new DefaultOAuth2User(oAuth2User.getAuthorities(), extendedAttributes, "response");
+            return new DefaultOAuth2User(
+                Collections.singleton(roleUserAuthority),
+                extendedAttributes,
+                "response"
+            );
         } else {
-            throw new OAuth2AuthenticationException("지원하지 않는 OAuth2 서비스입니다.");
+            throw new OAuth2AuthenticationException("지원하지 않는 OAuth2 제공자입니다.");
         }
     }
 

@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				});
 			});
 		} else {
-			getCheckModal('삭제할 상품을 선택해주세요.');
+			getErrorModal('삭제할 상품을 선택해주세요.');
 		}
 	});
 
@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			});
 
 			if (selectedItems.length > 0) {
-				getConfirmModal(`${selectedItems.length}개의 상품을 주문하시겠습니까?`, function() {
+				getConfirmModal(`${selectedItems.length}개의 상품을 주문하시겠습니까?`,'', function() {
 					$.ajax({
 						url: '/user/cart/order',
 						method: 'POST',

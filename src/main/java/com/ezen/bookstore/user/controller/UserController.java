@@ -52,4 +52,24 @@ public class UserController {
 		String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
 		return memberId != null;
 	}
+	
+	@GetMapping("/privacy-policy")
+	public String privacyPolicyPage() {
+		return "user/main/footer_policy/privacy_policy";
+	}
+	
+	@GetMapping("/youth-policy")
+	public String youthPolicyPage() {
+		return "user/main/footer_policy/youth_policy";
+	}
+	
+	@GetMapping("/terms-policy")
+	public String termsePolicyPage() {
+		return "user/main/footer_policy/terms_policy";
+	}
+	
+	@GetMapping("/email-policy")
+	public String emailPolicyPage() {
+		return "user/main/footer_policy/email_policy";
+	}
 }

@@ -1,8 +1,46 @@
-function getConfirmModal(msg, func) {
+window.onload = function () {
+    showSideMenu();
+    getProfileImg();
+}
+
+// 마이페이지 사이드메뉴
+function showSideMenu() {
+    const menus = document.querySelectorAll(".sub-menu-list");
+
+    menus.forEach((list) => {
+        list.addEventListener("click", (e) => {
+            const menuText = list.querySelector(".sub-menu-list > a");
+
+            menuText.classList.add("on");
+
+            menus.forEach((otherList) => {
+                if (otherList !== list) {
+                    const otherText = otherList.querySelector(".sub-menu-list > a");
+
+                    otherText.classList.remove("on");
+                }
+            });
+        });
+    });
+}
+
+function getProfileImg() {
+    const imgs = ['홍길동.png', '고길동.jpg'];
+
+    const randomIndex = Math.floor(Math.random() * imgs.length);
+
+    const randomImg = imgs[randomIndex];
+
+    const userImg = document.querySelector(".user-img");
+    userImg.setAttribute("src", `/user/common/imgs/${randomImg}`);
+}
+
+
+function getConfirmModal(msg1,msg2,func) {
     let divArea = $("<div id='myModal' class='modal' style='display : block;'></div>");
     let contentArea = $("<div class='modal-content'></div>");
 
-    let messageArea = $(`<div class='modal-text'><p>${msg}</p></div>`);
+    let messageArea = $(`<div class='modal-text'><p>${msg1}</p><p>${msg2}</p></div>`);
     let modalFotter = $(`<div class='modal-footer'></div>`)
     let btnArea = $("<button id='confirm-delete' class='modal-btn confirm'>확인</button><button id='cancel-delete' class='modal-btn cancel'>취소</button>");
 
