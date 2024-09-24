@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -92,19 +93,23 @@ public class PaymentController {
 //        return ResponseEntity.ok().build();
 //    }
 
-    @GetMapping("/order/payment/{paymentId}")
-    public ResponseEntity<Object> paymentPrepare(@PathVariable("paymentId") String paymentId) {
-        try {
-            paymentService.verifyPayment(paymentId);
-        } catch (IamportResponseException | IOException e) {
-            log.info("결제오류: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 요청 처리 중 오류 발생");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return ResponseEntity.ok().build();
-    }
-
+//    @PostMapping("/order/payment")
+//    public ResponseEntity<Object> paymentPrepare(@RequestBody Map<String, String> requestBody) {
+//        String paymentId = requestBody.get("paymentId");
+//        if (paymentId == null || paymentId.isEmpty()) {
+//            return ResponseEntity.badRequest().body("Missing paymentId");
+//        }
+//
+//        try {
+//            paymentService.verifyPayment(paymentId);
+//        } catch (IamportResponseException | IOException e) {
+//            log.info("결제오류: {}", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 요청 처리 중 오류 발생");
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        return ResponseEntity.ok().build();
+//    }
 
 }

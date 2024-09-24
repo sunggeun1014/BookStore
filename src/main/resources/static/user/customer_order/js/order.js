@@ -211,8 +211,12 @@ function goToOrder() {
             errorMsg.textContent = '⚠️ 공동현관 비밀번호를 입력하세요'
             return
         }
+        const data = {
+            paymentId: paymentId,
+            totalAmount: totalAmount,
+        };
 
-        const response = PortOne.requestPayment({
+        PortOne.requestPayment({
             storeId: "store-5d54b2b0-bf88-45dd-8265-7018895b8a38",
             channelKey: "channel-key-db630549-a619-4ab8-8739-466edb7307c6",
             paymentId: paymentId,
@@ -220,37 +224,32 @@ function goToOrder() {
             totalAmount: totalAmount,
             payMethod: "CARD",
             currency: "CURRENCY_KRW"
-        })
-
-        const data = {
-            paymentId: paymentId,
-            // merchant_uid: tempOrderNum,
-            // orderName: orderName,
-            // amount: totalAmount,
-            // tempOrderNum: tempOrderNum,
-        }
-
-        if (response.code != null) {
-            return console.log('결제오류발생', response.message);
-        } else {
+        }).then(response => {
+            if (response.code != null) {
+                console.log('결제오류발생', response.message);
+                return;
+            }
             $.ajax({
-                url: `/user/order/payment${paymentId}`,
+                url: '/user/payment/request',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (response) {
-                    if (response.status === 200) {
-                        console.log("결제성공")
-                    } else {
-                        console.log("결제실패:", response.message || "알 수 없는 오류");
+                    if (response === 200) {
+                        console.log('결제 성공')
+                    } else if (response === 400) {
+                        console.log('요청오류')
+                    } else if (response === 401) {
+                        console.log('인증오류')
                     }
                 },
-                error: function (jqXHR) {
-                    console.log("AJAX 요청 실패:", jqXHR.status, jqXHR.responseText);
+                error: function () {
+                    console.log('결제실패')
                 }
             })
-
-        }
+        }).catch(error => {
+            console.log('결제 요청 중 오류:', error);
+        });
 
     })
 }

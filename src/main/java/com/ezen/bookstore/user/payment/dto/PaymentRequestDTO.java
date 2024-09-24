@@ -5,8 +5,7 @@ import lombok.Data;
 @Data
 public class PaymentRequestDTO {
     private String paymentId;
-    private String merchant_uid;
+    private String storeId;
     private String orderName;
-    private Integer amount;
-    private String status;
+    private Integer totalAmount;
 }
