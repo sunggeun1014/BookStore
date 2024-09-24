@@ -1,16 +1,15 @@
 # WHALEBOOKS - 온라인서점 사이트
 ![Frame 1000004773](https://github.com/user-attachments/assets/7fff0400-ff9d-4bce-9df7-70dd81db6f54)
 
-* 배포URL:
-* testID :
-* testPW :
+* 배포URL:<br>
+* testID :<br>
+* testPW :<br>
 
 ## 프로젝트 소개
-WHALE BOOKS는 온라인서점 사이트로 책을 판매하는 사이트 입니다.
+WHALE BOOKS는 온라인서점 사이트로 책을 판매하는 사이트 입니다.<br>
 가입된 회원만 도서를 구매할 수 있고, 책에 대한 리뷰를 작성할 수 있습니다.
 
 ## 팀원구성
-|:---------:|:---------:|:---------:|:---------:|:---------:|
 |손성근|김도현|홍기성|김시은|이혜진|
 |---------|---------|---------|---------|---------|
 |테스트1|테스트2|테스트3|
@@ -18,12 +17,12 @@ WHALE BOOKS는 온라인서점 사이트로 책을 판매하는 사이트 입니
 |테스트1|테스트2|테스트3|
 
 ## 1. 개발환경
-스프링부트 : html, css, javascript, java
-DB: 오라클
-버전 및 이슈관리 : Github, sourcetree
-협업 툴 : Discord, Notion
-서비스 배포 환경 :
-디자인 : Figma
+스프링부트 : html, css, javascript, java<br>
+DB: 오라클<br>
+버전 및 이슈관리 : Github, sourcetree<br>
+협업 툴 : Discord, Notion<br>
+서비스 배포 환경 :<br>
+디자인 : Figma<br>
 
 ## 2. 채택한 개발 기술과 브랜치 전략
 >> 수정해야함.
