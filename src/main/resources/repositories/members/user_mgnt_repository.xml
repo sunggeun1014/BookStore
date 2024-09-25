@@ -88,6 +88,18 @@
 	    WHERE member_id = #{member_id}
 	</select>
 	
+	<select id="findByKakaoId" parameterType="String" resultType="int">
+	    SELECT COUNT(*)
+	    FROM members 
+	    WHERE kakao_login_cd = #{kakao_login_cd}
+	</select>
+	
+	<select id="findByNaverId" parameterType="String" resultType="int">
+	    SELECT COUNT(*)
+	    FROM members 
+	    WHERE naver_login_cd = #{naver_login_cd}
+	</select>
+	
 	<select id="getBasketCount" resultType="Integer" parameterType="String">
 	    SELECT 
 	        COALESCE(SUM(cart_purchase_qty), 0)

@@ -35,11 +35,26 @@ public class UserMgntServiceImpl implements UserMgntService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public boolean isMemberIdAvailable(String memberId) {
     	int count = userMgntMapper.findById(memberId);
         return count == 0;
     }
     
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isKakaoIdAvailable(String kakaoId) {
+    	int count = userMgntMapper.findByKakaoId(kakaoId);
+        return count == 0;
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isNaverIdAvailable(String naverId) {
+    	int count = userMgntMapper.findByNaverId(naverId);
+        return count == 0;
+    }
+  
     @Override
     @Transactional(readOnly = true)
     public int getBasketCount(String member_id) {

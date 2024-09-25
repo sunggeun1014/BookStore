@@ -1,4 +1,6 @@
 // 카카오 주소 api
+
+
 window.onload = function() {
     let addressInput = document.getElementById("address_kakao");
 
@@ -23,10 +25,9 @@ window.onload = function() {
 };
 
 Kakao.init('4f23d110021dacd702bf22df50d94c73'); // 여기서 YOUR_KAKAO_APP_KEY는 카카오에서 발급받은 앱 키로 대체하세요
-console.log(Kakao.isInitialized()); // SDK 초기화가 제대로 되었는지 확인 (true가 나와야 함)
 
-document.getElementById('kakao_login_btn').addEventListener('click', function() {
-	event.preventDefault();  // 폼 전송 방지
+document.getElementById('kakao_login_btn').addEventListener('click', function(event) {
+    event.preventDefault();  // 폼 전송 방지
 
     Kakao.Auth.login({
         success: function(authObj) {
@@ -35,17 +36,33 @@ document.getElementById('kakao_login_btn').addEventListener('click', function() 
                 url: '/v2/user/me',
                 success: function(response) {
                     const kakaoId = response.id; // 카카오에서 받은 고유 ID
-					
-                    // 숨겨진 input 필드에 kakao ID 저장
-                    document.getElementById('kakao_login_cd').value = kakaoId;
 
-                    
-                    
-                    let kakaoCheckbox = document.querySelector('.check-box.kakao');
-                    if (kakaoCheckbox) {
-                        kakaoCheckbox.checked = true; 
-                    }
+                    // AJAX로 서버에 카카오 ID 중복 여부를 확인하는 요청 보내기
+                    fetch('/user/members/check-kakaoId', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            kakao_login_cd: kakaoId,
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.isAvailable) {
+                            // 카카오 로그인 성공 후, 중복 ID가 없는 경우 처리
+                            document.getElementById('kakao_login_cd').value = kakaoId;
 
+                            let kakaoCheckbox = document.querySelector('.check-box.kakao');
+                            if (kakaoCheckbox) {
+                                kakaoCheckbox.checked = true; 
+                            }
+                        } else {
+                            // 중복된 소셜 아이디가 있는 경우 모달 경고 띄우기
+                            getCheckModal('이미 등록된 카카오 계정입니다.');  // 경고 모달 띄우기
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
                 },
                 fail: function(error) {
                     console.log(error);
@@ -69,28 +86,65 @@ let naverLogin = new naver.LoginWithNaverId({
 naverLogin.init();
 
 // 로그인 성공 시 상태 확인 후 ID와 이메일 받아오기
-naverLogin.getLoginStatus(function(status) {
-    if (status) {
-        let naverId = naverLogin.user.getId();  // 네이버 유저의 고유 ID
-        let email = naverLogin.user.getEmail();  // 네이버 유저의 이메일
+document.getElementById('naverIdLogin').addEventListener('click', function(event) {
+	event.preventDefault(); 
 
-        // 값확인용 lgo
-        console.log('네이버 로그인 성공! ID:', naverId, '이메일:', email);
-
-        if (window.opener) {
-            window.opener.document.getElementById('naver_login_cd').value = naverId;  
-            let naverCheckbox = window.opener.document.querySelector('.check-box.naver');
-            if (naverCheckbox) {
-                naverCheckbox.checked = true;  
-            }
-            window.opener.console.log('부모 창으로 전달된 네이버 ID:', naverId);
-        }
-
-        window.close(); 
-    } else {
-        console.log('네이버 로그인 실패');
-    }
+	naverLogin.getLoginStatus(async function(status) {
+	    if (status) {
+	        let naverId = naverLogin.user.getId();  // 네이버 유저의 고유 ID
+	        let email = naverLogin.user.getEmail();  // 네이버 유저의 이메일
+	
+	        // 부모 창에 네이버 로그인 정보를 전달
+	        if (window.opener) {
+	            window.opener.document.getElementById('naver_login_cd').value = naverId;  
+	            let naverCheckbox = window.opener.document.querySelector('.check-box.naver');
+	            if (naverCheckbox) {
+	                naverCheckbox.checked = true;
+	            }
+	            window.opener.console.log('부모 창으로 전달된 네이버 ID:', naverId);
+	        }
+	
+	        // 팝업 창 닫기
+	        window.close();
+	    } else {
+	        console.log('네이버 로그인 실패');
+	    }
+	});
 });
+
+
+
+async function naverLoginTest(naverId) {
+    let result = false;
+
+    try {
+        let response = await fetch('/user/members/check-naverId', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                naver_login_cd: naverId,
+            }),
+        });
+
+        let data = await response.json();
+
+        if (data.isAvailable) {
+            // 중복된 ID가 없는 경우 처리
+            result = true;
+        } else {
+            // 중복된 ID가 있는 경우 경고 모달 띄우기
+            getCheckModal('이미 등록된 네이버 계정입니다.');
+            result = false;
+        }
+    } catch (error) {
+        console.error('Fetch 요청 오류:', error);
+    }
+    
+    return result;
+}
+
 
 $(document).ready(function() {
     let idCheckPassed = false;
@@ -112,15 +166,15 @@ $(document).ready(function() {
         let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|edu|gov|mil|co\.kr|ac\.kr|biz|info)$/;
         return emailPattern.test(email);
     }
-    // 전화번호 유효성 검사(010-XXXX-XXXX 형식만)
+    
     function validatePhoneNumber(phoneNumber) {
 	    let phonePattern = /^010-\d{4}-\d{4}$/;  
 	    return phonePattern.test(phoneNumber);  
 	}
 
-    // 전화번호 자동 포맷팅 함수
+     
     function formatPhoneNumber(phoneNumber) {
-        phoneNumber = phoneNumber.replace(/[^0-9]/g, '');  // 숫자 외에 다른 문자 제거
+        phoneNumber = phoneNumber.replace(/[^0-9]/g, '');   
         if (phoneNumber.length === 11) {
             return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
         } else if (phoneNumber.length === 10) {
@@ -129,7 +183,7 @@ $(document).ready(function() {
         return phoneNumber;
     }
 
-    // 전화번호 입력 시 실시간으로 하이픈 추가
+     
     $('#member_phoneNo').on('input', function() {
         this.value = formatPhoneNumber(this.value);
     });
@@ -137,16 +191,16 @@ $(document).ready(function() {
     $('#member_id').on('change', function() {
         let member_id = $('#member_id').val();
 
-        // ID 유효성 검사 먼저 수행
+         
         if (!validateId(member_id)) {
             $('#idCheckForm').show();
             idCheckPassed = false;
-            return;  // 유효하지 않은 경우 Ajax 요청 중단
+            return; 
         } else {
             $('#idCheckForm').hide();
         }
 
-        // 유효성 검사가 통과되면 Ajax 요청
+       
         $.ajax({
             url: '/user/members/checkId',
             type: 'POST',
@@ -156,8 +210,8 @@ $(document).ready(function() {
                 if(response.isAvailable) {
                     $('#idCheckForm').hide();
 					$('.form-item.id').removeClass('warning').css({
-					    "border-color": "#C0C0C0", // 경계선 색상을 빨간색으로 변경
-					    "z-index": "900",         // z-index를 높여서 앞으로 가져오기
+					    "border-color": "#C0C0C0", 
+					    "z-index": "900",          
 					    "color": "#C0C0C0"
 					}).addClass("nomal");
 					$('#member_id').css({
@@ -165,14 +219,14 @@ $(document).ready(function() {
 					});
                     idCheckPassed = true; 
                 } else {
-                    // ID 중복
+                     
                     $('.form-item.id').removeClass('nomal').css({
-					    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-					    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+					    "border-color": "#E54F53", 
+					    "z-index": "1000", 
 					    "color": "#E54F53"
 					}).addClass("warning");
 					$('#member_id').css({
-					    "color": "#E54F53"         // 입력 필드 안의 텍스트 색상을 빨간색으로 변경
+					    "color": "#E54F53"   
 					});
                     $('#idCheckForm').text('⚠아이디: 사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.').show();
                     
@@ -182,18 +236,18 @@ $(document).ready(function() {
         });
     });
 
-    // 각 필드에서 포인터가 떠날 때 유효성 검사 및 오류 메시지 숨기기
+     
     $('#member_id').on('blur', function() {
         let member_Id = $(this).val();
         if (validateId(member_Id)) {
             $('#idCheckForm').hide();  
             $('.form-item.id').removeClass('warning').css({
-			    "border-color": "#C0C0C0", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "900",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#C0C0C0",  
+			    "z-index": "900",          
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_id').removeClass('warning').addClass('nomal').css({
-        	    "color": "#7E7E7E"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#7E7E7E"          
         	});
         } else {
 			$('.form-item.id').removeClass('nomal').css({
@@ -202,7 +256,7 @@ $(document).ready(function() {
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_id').removeClass('nomal').addClass('warning').css({
-	            "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+	            "color": "#E54F53"          
 	        });
 			
 			$('#idCheckForm').text('⚠아이디: 사용할 수 없는 아이디입니다. 영문자와 숫자, 최소 5자 이상').show();  
@@ -213,56 +267,56 @@ $(document).ready(function() {
 	    let password = $('#member_pw').val();
 	    let confirmPassword = $(this).val();
 	
-	    // Validate password format first
+	     
 	    if (!validatePassword(password)) {
 			$('.form-item.pw').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53", 
+			    "z-index": "1000",         
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_pw').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"  
         	});
         	
 			$('.form-item.confirm-pw').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53",  
+			    "z-index": "1000",          
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_pw_check').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"          
         	});
         	
 	        $('#pwCheckForm').text('⚠비밀번호 : 특수문자, 영문자, 숫자 포함, 최소 8자').show(); 
 	        
 	    } else if (password !== confirmPassword) {
 			$('.form-item.confirm-pw').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53",  
+			    "z-index": "1000",          
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_pw_check').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"       
         	});
         	
 	        $('#pwCheckForm').text('⚠비밀번호 : 비밀번호가 일치하지 않습니다.').show();  
 	    } else {
 			$('.form-item.pw').removeClass('warning').css({
-			    "border-color": "#C0C0C0", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "900",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#C0C0C0", 
+			    "z-index": "900",          
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_pw').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#C0C0C0"  
         	});
         	
 			$('.form-item.confirm-pw').removeClass('warning').css({
-			    "border-color": "#C0C0C0", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "900",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#C0C0C0",  
+			    "z-index": "900",          
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_pw_check').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#C0C0C0"          
         	});
         	
 	        $('#pwCheckForm').hide();
@@ -275,23 +329,23 @@ $(document).ready(function() {
 		if(member_name.length > 0) {
 			$('#nameCheck').hide();
 			$('.form-item.name').removeClass('warning').css({
-			    "border-color": "#C0C0C0", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "900",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#C0C0C0",  
+			    "z-index": "900",          
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_name').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#C0C0C0"          
         	});
         	
 		} else {
 			$('#nameCheck').text('⚠이름: 필수 정보입니다.').show();
 			$('.form-item.name').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53", 
+			    "z-index": "1000",         
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_name').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53" 
         	});
 		}
 	});
@@ -301,23 +355,23 @@ $(document).ready(function() {
         if (validateEmail(member_email)) {
 	        $('#emailCheck').hide();
 	       	$('.form-item.email').removeClass('warning').css({
-			    "border-color": "#C0C0C0", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "900",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#C0C0C0", 
+			    "z-index": "900",  
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_email').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#C0C0C0"  
         	});
         	$('#sendBtn').css({"background-color": "#845EC2"}).prop("disabled", false);
 	    } else {
 	        $('#emailCheck').text("⚠이메일:이메일을 확인해 주세요.").show();
 	        $('.form-item.email').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53", 
+			    "z-index": "1000",  
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_email').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"      
         	});
         	$('#sendBtn').css({"background-color": "#CCCCCC"}).prop("disabled", true);
 
@@ -329,24 +383,24 @@ $(document).ready(function() {
     $('#member_phoneNo').on('input', function() {
         let phoneNo = $(this).val();
         if (validatePhoneNumber(phoneNo)) {
-            $('#phoneNumCheck').hide();  // 전화번호가 입력되었으면 오류 메시지를 숨김
+            $('#phoneNumCheck').hide(); 
             $('.form-item.phoneNo').removeClass('warning').css({
-			    "border-color": "#C0C0C0", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "900",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#C0C0C0", 
+			    "z-index": "900", 
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_phoneNo').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#C0C0C0"         
         	});
         } else {
 			$('#phoneNumCheck').text('⚠휴대전화번호: 휴대전화 정보를 확인해 주세요.').show();
 			$('.form-item.phoneNo').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53",
+			    "z-index": "1000",        
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_phoneNo').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"       
         	});
 		}
     });
@@ -354,25 +408,25 @@ $(document).ready(function() {
     $('#address_kakao').on('blur', function() {
         let member_addr = $(this).val();
         if (member_addr.length > 0) {
-            $('#addrCheck').hide();  // 주소가 입력되었으면 오류 메시지를 숨김
+            $('#addrCheck').hide(); 
             $('.form-item.addr').removeClass('warning').css({
-			    "border-color": "#C0C0C0", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "900",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#C0C0C0",
+			    "z-index": "900",         
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#address_kakao').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#C0C0C0"       
         	});
             
         }else {
 			$('#addrCheck').text('⚠주소 : 필수 정보입니다 입력해주세요.').show();
 			$('.form-item.addr').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53",
+			    "z-index": "1000",        
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#address_kakao').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"
         	});
 		}
         
@@ -381,24 +435,24 @@ $(document).ready(function() {
     $('#member_detail_addr').on('blur', function() {
         let member_detail_addr = $(this).val();
         if (member_detail_addr.length > 0) {
-            $('#detailAddrCheck').hide();  // 상세주소가 입력되었으면 오류 메시지를 숨김
+            $('#detailAddrCheck').hide();  
             $('.form-item.detail-addr').removeClass('warning').css({
-			    "border-color": "#C0C0C0", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "900",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#C0C0C0", 
+			    "z-index": "900",        
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_detail_addr').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#C0C0C0"     
         	});
         } else {
 			$('#detailAddrCheck').text('⚠상세주소 : 필수 정보입니다 입력해주세요.').show();
 			$('.form-item.detail-addr').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53", 
+			    "z-index": "1000",        
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_detail_addr').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"        
         	});
 		}
     });
@@ -416,7 +470,6 @@ $(document).ready(function() {
         let member_detail_addr = $('#member_detail_addr').val();
         let certifiedEmail = $('#emailVerificationStatus').val();
 
-        // 각 필드의 유효성 검사
         if (!validateId(member_id)) {
             $('#idCheckForm').text('⚠아이디: 필수 정보입니다 입력해주세요.').show();
             $('.form-item.id').removeClass('nomal').css({
@@ -425,55 +478,55 @@ $(document).ready(function() {
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_id').removeClass('nomal').addClass('warning').css({
-	            "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+	            "color": "#E54F53"        
 	        });
-            event.preventDefault();  // 폼 전송 방지
+            event.preventDefault(); 
         }
 
         if (!validatePassword(password)) {
             $('#pwCheckForm').text('⚠비밀번호: 필수 정보입니다 입력해주세요.').show();
             $('.form-item.pw').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53",
+			    "z-index": "1000",         
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_pw').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"        
         	});
         	
 			$('.form-item.confirm-pw').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53", 
+			    "z-index": "1000",        
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_pw_check').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"        
         	});
-            event.preventDefault();  // 폼 전송 방지
+            event.preventDefault(); 
         }
 
         if (password !== confirmPassword) {
             $('#pwCheckMiss').show();
             $('.form-item.confirm-pw').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53", 
+			    "z-index": "1000",       
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_pw_check').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"        
         	});
-            event.preventDefault();  // 폼 전송 방지
+            event.preventDefault(); 
         }
         
         if(member_name.length === 0) {
 			$('#nameCheck').text('⚠이름: 필수 정보입니다 입력해주세요.').show();
 			$('.form-item.name').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53", 
+			    "z-index": "1000",       
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_name').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"        
         	});
 			event.preventDefault();
 		}
@@ -481,61 +534,61 @@ $(document).ready(function() {
         if (member_phoneNo.length === 0 || !validatePhoneNumber(member_phoneNo)) {
             $('#phoneNumCheck').text('⚠휴대전화번호 : 필수 정보입니다 입력해주세요.').show();
             $('.form-item.phoneNo').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53", 
+			    "z-index": "1000",        
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_phoneNo').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"        
         	});
-            event.preventDefault();  // 폼 전송 방지
+            event.preventDefault();  
         }
 
         if (member_addr.length === 0) {
             $('#addrCheck').text('⚠주소 : 필수 정보입니다 입력해주세요.').show();
 			$('.form-item.addr').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53",
+			    "z-index": "1000",         
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#address_kakao').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"        
         	});
-            event.preventDefault();  // 폼 전송 방지
+            event.preventDefault(); 
         }
 
         if (member_detail_addr.length === 0) {
             $('#detailAddrCheck').text('⚠상세주소 : 필수 정보입니다 입력해주세요.').show();
 			$('.form-item.detail-addr').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53",
+			    "z-index": "1000",        
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_detail_addr').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"        
         	});
-            event.preventDefault();  // 폼 전송 방지
+            event.preventDefault(); 
         }
 
         if (!certifiedEmail) {
             $('#emailCheck').text('⚠이메일 : 이메일 인증을 진행해 주세요.').show();
             $('.form-item.email').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53", 
+			    "z-index": "1000",        
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#member_email').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"         
         	});
         	$('.form-item.email-confirm').removeClass('nomal').css({
-			    "border-color": "#E54F53", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "1000",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#E54F53", 
+			    "z-index": "1000",        
 			    "color": "#E54F53"
 			}).addClass("warning");
 			$('#number').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#E54F53"         
         	});
-            event.preventDefault();  // 폼 전송 방지
+            event.preventDefault();  
         }
     });
 });
@@ -558,11 +611,11 @@ function sendNumber() {
         success: function (data) {
             getCheckModal("인증번호가 발송되었습니다.");
             $('.default-btn.short').css({
-                "background-color": "white",  // 버튼 배경색을 회색으로 변경
+                "background-color": "white", 
                 "border" : "1px solid #845EC2",
                 "color": "#845EC2",
-                "width": "180px"              // 버튼 텍스트 색상 변경
-            }).prop("disabled", false).text("인증번호 재발송"); // 버튼 비활성화
+                "width": "180px"              
+            }).prop("disabled", false).text("인증번호 재발송"); 
         }
     });
 }
@@ -573,10 +626,10 @@ function confirmNumber() {
     let number = $("#number").val();
 
     $.ajax({
-        url: "/user/members/verify/check",  // 인증번호 확인 요청
+        url: "/user/members/verify/check",  
         type: "post",
         dataType: "json",
-        contentType: "application/json",  // JSON 데이터 전송
+        contentType: "application/json",  
         data: JSON.stringify({"to": email, "verifyCode": number}),  // 인증번호와 이메일을 함께 보냄
         success: function (data, status, xhr) {
 			$("#emailVerificationStatus").val("success");
@@ -584,12 +637,12 @@ function confirmNumber() {
             $('#certifiedEmailSuccess').show();
             $('#certifiedEmailFail').hide();
             $('.form-item.email-confirm').removeClass('warning').css({
-			    "border-color": "#C0C0C0", // 경계선 색상을 빨간색으로 변경
-			    "z-index": "900",         // z-index를 높여서 앞으로 가져오기
+			    "border-color": "#C0C0C0", 
+			    "z-index": "900",         
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#number').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"         // 입력 필드 텍스트 색상 변경
+        	    "color": "#C0C0C0"         
         	});
         },
         error: function(xhr, status, error) {

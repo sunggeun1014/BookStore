@@ -53,12 +53,36 @@ public class UserMgntRestController {
 	
 	@PostMapping("/checkId")
 	@ResponseBody
-	public ResponseEntity<Map<String, Boolean>> checkMemberId(@RequestBody Map<String, String> payload) {
-	    String memberId = payload.get("member_id");
+	public ResponseEntity<Map<String, Boolean>> checkMemberId(@RequestBody Map<String, String> idCheckRequest) {
+	    String memberId = idCheckRequest.get("member_id");
 	    boolean isAvailable = userMgntService.isMemberIdAvailable(memberId);
 	    
 	    Map<String, Boolean> response = new HashMap<>();
 	    response.put("isAvailable", isAvailable);
+	    
+	    return ResponseEntity.ok(response);
+	}
+	
+	@PostMapping("/check-kakaoId")
+	@ResponseBody
+	public ResponseEntity<Map<String, Boolean>> checkKakaoId(@RequestBody Map<String, String> kakaoIdCheckRequest){
+		String kakaoId = kakaoIdCheckRequest.get("kakao_login_cd");
+		boolean isAvailableKakao = userMgntService.isKakaoIdAvailable(kakaoId);
+		
+		Map<String, Boolean> response = new HashMap<>();
+	    response.put("isAvailable", isAvailableKakao);
+	    
+	    return ResponseEntity.ok(response);
+	}
+	
+	@PostMapping("/check-naverId")
+	@ResponseBody
+	public ResponseEntity<Map<String, Boolean>> checkNaverId(@RequestBody Map<String, String> naverIdCheckRequest){
+		String naverId = naverIdCheckRequest.get("naver_login_cd");
+		boolean isAvailableNaver = userMgntService.isNaverIdAvailable(naverId);
+		
+		Map<String, Boolean> response = new HashMap<>();
+	    response.put("isAvailable", isAvailableNaver);
 	    
 	    return ResponseEntity.ok(response);
 	}
