@@ -33,7 +33,6 @@ public class UserNoticeController {
 	    // 현재 공지사항 불러오기
 	    UserNoticesDTO currentNotice = userNoticesService.getNoticesDeatil(noticeNum);
 
-	    // 이전글, 다음글 계산하기
 	    // DB에서 현재 noticeNum보다 작은 번호 중 가장 큰 값을 가져와서 prevNotice로 사용
 	    UserNoticesDTO prevNotice = userNoticesService.getPreviousNoticeByNumber(noticeNum);
 	    
