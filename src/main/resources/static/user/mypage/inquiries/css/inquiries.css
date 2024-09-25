@@ -31,8 +31,12 @@
 
 
 .inquiry-title {
+	width: 300px;
 	font-size: 16px; 
 	font-weight: 600;
+ 	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .inquiry-status {

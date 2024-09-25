@@ -3,6 +3,7 @@ package com.ezen.bookstore.user.mypage.inquiries.controller;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,11 +34,18 @@ public class UserInquiriesRestController {
 	
 	UserInquiriesService userInquiriesService;
 	
-	@GetMapping("/search")
-	public ResponseEntity<List<UserInquiriesDTO>> searchInquiries(@ModelAttribute UserInquiriesDTO inquiriesDTO) {
-		List<UserInquiriesDTO> inquiries = userInquiriesService.searchInquiries(inquiriesDTO);
-		return ResponseEntity.ok(inquiries);
-	}
+	 @GetMapping("/search")
+	    public ResponseEntity<Map<String, Object>> getInquiries(
+	            @ModelAttribute UserInquiriesDTO inquiriesDTO,
+	            @RequestParam(value = "page", defaultValue = "1") int page,
+	            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+	        
+	        // 데이터 조회를 위한 서비스 호출
+	        Map<String, Object> inquiries = userInquiriesService.searchInquiries(inquiriesDTO, page, pageSize);
+
+	        // 데이터와 총 페이지 수를 프론트에 전달
+	        return ResponseEntity.ok(inquiries);
+	    }
 	
 	@PostMapping("/search-order")
 	public List<UserInquiriesDTO> searchOrderList(@RequestBody UserInquiriesDTO inquiriesDTO) {

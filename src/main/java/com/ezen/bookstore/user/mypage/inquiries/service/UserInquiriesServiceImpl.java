@@ -1,7 +1,9 @@
 package com.ezen.bookstore.user.mypage.inquiries.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +29,24 @@ public class UserInquiriesServiceImpl implements UserInquiriesService {
 	FileManagement fileManagement;
 	
 	@Override
-	public List<UserInquiriesDTO> searchInquiries(UserInquiriesDTO inquiriesDTO) {
+	public Map<String, Object> searchInquiries(UserInquiriesDTO inquiriesDTO, int page, int pageSize) {
 		inquiriesDTO.setMember_id(SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID));
-		return userInquiriesMapper.getInquiriesList(inquiriesDTO);
+		 int startRow = (page - 1) * pageSize + 1;
+        int endRow = page * pageSize;
+
+        // 조회된 데이터와 총 카운트 가져오기
+        List<UserInquiriesDTO> inquiriesList = userInquiriesMapper.getInquiriesList(inquiriesDTO, startRow, endRow);
+        int totalCount = userInquiriesMapper.getTotalCount(inquiriesDTO);
+
+        // 총 페이지 수 계산
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        // 데이터와 페이지 정보를 반환할 맵 생성
+        Map<String, Object> result = new HashMap<>();
+        result.put("inquiries", inquiriesList);
+        result.put("totalPages", totalPages);
+
+        return result;
 	}
 	
 	@Override

@@ -56,11 +56,18 @@ $(document).ready(function () {
 
 
 function openOrderProduct() {
+	let now = new Date();
+
+	let oneMonthAgo = new Date();
+	oneMonthAgo.setMonth(now.getMonth() - 1); 
+	let startDate = formatDateForDB(oneMonthAgo, 'start');
+	let endDate = formatDateForDB(new Date(), 'end');
+
 	$.ajax({
 		url: '/user/mypage/inquiries-page/search-order',
 		method: 'POST',
 		contentType: 'application/json',
-		data: JSON.stringify({ startDate: null, endDate: null }),
+		data: JSON.stringify({ startDate: startDate, endDate: endDate }),
 		success: function (response) {
 			const orderList = response; 
 			createOrderModal(orderList);
@@ -78,14 +85,6 @@ function createOrderModal(orderList) {
 	let divArea = $("<div id='myModal' class='modal' style='display: block;'></div>");
 	let contentArea = $("<div class='inquiry-modal-content'></div>");
 	let headArea = $("<div></div>");
-	let headButtonArea = $(`
-		<div class='head-button-area'>
-			<button class='custom-clicked-btn' data-period='1month'>최근 1개월</button>
-			<button class='custom-btn' data-period='2months'>최근 2개월</button>
-			<button class='custom-btn' data-period='3months'>최근 3개월</button>
-			<button class='custom-btn' data-period='all'>전체</button>
-		</div>
-	`);
 	let messageArea = $("<div class='inquiry-modal-text'><h3>주문상품 선택</h3><button id='cancel-btn' class='cancel-btn-img'></button></div>");
 	let modalFotter = $("<div class='custom-modal-footer'></div>");
 	let btnArea = $("<button id='confirm-select' class='custom-modal-btn confirm'>선택완료</button>");
@@ -146,7 +145,6 @@ function createOrderModal(orderList) {
 
 	
 	headArea.append(messageArea);
-	headArea.append(headButtonArea);
 	contentArea.append(headArea);
 	contentArea.append(orderArea);
 	modalFotter.append(btnArea);
@@ -157,49 +155,6 @@ function createOrderModal(orderList) {
 	$("body").append(divArea);
 
 	
-	$('.head-button-area').on('click', 'button', function () {
-		let period = $(this).data('period');
-		setButtonStyles(this);
-
-		let startDate, endDate;
-		let now = new Date();
-
-		if (period === '1month') {
-			let oneMonthAgo = new Date();
-			oneMonthAgo.setMonth(now.getMonth() - 1); 
-			startDate = formatDateForDB(oneMonthAgo, 'start');
-			endDate = formatDateForDB(new Date(), 'end');
-		} else if (period === '2months') {
-			let twoMonthsAgo = new Date();
-			twoMonthsAgo.setMonth(now.getMonth() - 2); 전
-			startDate = formatDateForDB(twoMonthsAgo, 'start');
-			endDate = formatDateForDB(new Date(), 'end');
-		} else if (period === '3months') {
-			let threeMonthsAgo = new Date();
-			threeMonthsAgo.setMonth(now.getMonth() - 3); 
-			startDate = formatDateForDB(threeMonthsAgo, 'start');
-			endDate = formatDateForDB(new Date(), 'end');
-		} else {
-			startDate = "";
-			endDate = "";
-		}
-
-		
-		$.ajax({
-			url: '/user/mypage/inquiries-page/search-order',
-			method: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify({ startDate: startDate, endDate: endDate }),
-			success: function (response) {
-				populateOrderList(response); 
-			},
-			error: function () {
-				getErrorModal("주문 데이터를 불러오는 중 오류가 발생했습니다.");
-				return;
-			}
-		});
-	});
-
 	
 	function setOrderDetails(orderNumber, orderDetailNumber, maxQty) {
 	    
@@ -302,12 +257,11 @@ function setButtonStyles(clickedButton) {
 
 
 function toggleOrderDetails(element, orderNum) {
-    // 현재 클릭된 항목을 제외한 모든 선택을 해제
     resetSelections(orderNum);
-    
+	
+	let radioInput = document.querySelector(`input[name='order'][value='${orderNum}']`);
     let detailsElement = document.getElementById(`order-details-${orderNum}`);
-    let radioInput = document.querySelector(`input[name='order'][value='${orderNum}']`);
-    
+	
     if (detailsElement.style.display === 'none' || detailsElement.style.display === '') {
         detailsElement.style.display = 'block';
         element.classList.add('icon-arrow-on');
@@ -318,47 +272,50 @@ function toggleOrderDetails(element, orderNum) {
         }
     } else {
         detailsElement.style.display = 'none';
-        element.classList.remove('icon-arrow-on');
-        element.classList.add('icon-arrow-off');
+        element.classList.add('icon-arrow-on');
+        element.classList.remove('icon-arrow-off');
         
         if (radioInput && radioInput.checked) {
             radioInput.checked = false;
         }
-    }
+    } 
+	
 }
 
 function handleRadioClick(orderNum) {
-    const radioInput = document.querySelector(`input[name='order'][value='${orderNum}']`);
-    const arrowIcon = document.querySelector(`#order-arrow-${orderNum}`);
-
+    let radioInput = document.querySelector(`input[name='order'][value='${orderNum}']`);
+    let arrowIcon = document.querySelector(`#order-arrow-${orderNum}`);
+	let allVisibleDetailsElements = Array.from(document.querySelectorAll('.order-details')).filter(el => {
+        return window.getComputedStyle(el).display === 'block';
+    });
+	
+	allVisibleDetailsElements.forEach((el) => {
+        el.style.display = 'none';
+    });
+	
     if (radioInput) {
-        radioInput.checked = true; 
-    }
+        radioInput.checked = true;
+		$('input[type=checkbox]').prop('checked', false);
+		let allArrows = document.querySelectorAll('.icon-arrow-on');
+		allArrows.forEach((arrow) => {
+			arrow.classList.remove('icon-arrow-on');
+			arrow.classList.add('icon-arrow-off');
+		});
 
+    }
+	
     if (arrowIcon) {
         toggleOrderDetails(arrowIcon, orderNum);
     }
 }
 
 function resetSelections(excludeOrderNum) {
-    // 선택된 orderNum을 제외한 모든 세부 사항과 아이콘을 초기화
     $('input[name="order"]').each(function() {
         if (this.value != excludeOrderNum) {
             $(this).prop('checked', false);
         }
     });
 
-    $('.check-box').prop('checked', false);
-
-    // 선택된 세부 사항을 제외하고 나머지 숨기기
-    $('.order-details').each(function() {
-        const orderDetailsId = $(this).attr('id');
-        if (orderDetailsId !== `order-details-${excludeOrderNum}`) {
-            $(this).hide();
-        }
-    });
-
-    // 선택된 아이콘을 제외하고 나머지는 초기화
     $('.icon-arrow-on').each(function() {
         const arrowId = $(this).attr('id');
         if (arrowId !== `order-arrow-${excludeOrderNum}`) {
@@ -404,7 +361,9 @@ function toggleInquiryProduct() {
 	imageUpload.disabled = !isTypeSelected;
 
 	if (!isTypeSelected) {
-		preview.src = '';
+		imageUpload.value = ''; 
+		preview.src = ''; 
+		preview.style.display = 'none';
 	}
 	
 }

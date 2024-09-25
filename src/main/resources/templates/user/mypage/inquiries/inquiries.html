@@ -5,6 +5,7 @@
       layout:decorate="~{/user/common/layout/myPageLayout}"
       layout:fragment="Content">
       
+      <link rel="stylesheet" href="/user/common/css/pagination.css" />
       <link rel="stylesheet" href="/user/mypage/inquiries/css/inquiries.css"/>
       
 <div class="content">
@@ -49,7 +50,11 @@
 	    <!-- 리스트 뽑아올 곳 -->
 	    <div id="inquiries-list"></div>
 	    
-	    
+	    <div id="pagination" class="page-area">
+			<i id="page-arrow-left" class="fa-solid fa-angle-left page-arrow"></i>
+			<button class="page-link"></button>
+			<i id="page-arrow-right" class="fa-solid fa-angle-right page-arrow"></i>
+		</div>
 	</div>
 </div>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
