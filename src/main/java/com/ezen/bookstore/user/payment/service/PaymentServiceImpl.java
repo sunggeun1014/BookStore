@@ -1,5 +1,6 @@
 package com.ezen.bookstore.user.payment.service;
 
+import com.ezen.bookstore.user.payment.dto.CompleteOrderDTO;
 import com.ezen.bookstore.user.payment.dto.PaymentRequestDTO;
 import com.ezen.bookstore.user.payment.dto.UserOrderDTO;
 import com.ezen.bookstore.user.payment.dto.UserOrderDetailsDTO;
@@ -8,15 +9,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,14 +81,14 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public String registerPayment(String paymentId, PaymentRequestDTO paymentRequestDTO) throws IOException, InterruptedException {
+    public String registerPayment(String paymentId, CompleteOrderDTO completeOrderDTO) throws IOException, InterruptedException {
         log.info("결제 등록 요청 시작... Payment ID: {}", paymentId);
 
         Map<String, Object> data = new HashMap<>();
-        data.put("storeId", storeId);
-        data.put("paymentId", paymentId);
-        data.put("totalAmount", paymentRequestDTO.getTotalAmount());
-        data.put("currency", "KRW");
+//        data.put("storeId", storeId);
+//        data.put("paymentId", paymentId);
+//        data.put("totalAmount", completeOrderDTO.getTotalAmount());
+//        data.put("currency", "KRW");
 
         String requestBody = mapper.writeValueAsString(data);
         log.info("결제 등록 요청 본문: {}", requestBody);
@@ -126,5 +128,16 @@ public class PaymentServiceImpl implements PaymentService {
         return "PAID".equals(status);
     }
 
-
+    @Override
+    public void insertOrder(CompleteOrderDTO completeOrderDTO) throws SQLException {
+        log.info("등록dto: {}", completeOrderDTO);
+        try {
+            log.info("insertOrder 호출됨");
+            paymentRepository.insertOrder(completeOrderDTO);
+        } catch (SQLException sqlException) {
+            log.error("SQL 오류 발생: 코드: {}, 메시지: {}", sqlException.getErrorCode(), sqlException.getMessage());
+        } catch (Exception e) {
+            log.error("오류?: {}", e.getMessage());
+        }
+    }
 }

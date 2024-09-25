@@ -192,8 +192,7 @@ function goToOrder() {
     })
 
     // const tempOrderNum = createTempOrderNum();
-    const memberCheck = document.getElementById("member-check")
-    const memberId = memberCheck.getAttribute("data-member")
+    const memberId = document.getElementById("member_id").value;
     const deliverName = document.getElementById("deliver-name").textContent;
     const deliverNumber = document.getElementById("deliver-number").textContent;
     const addr = document.getElementById("deliver-addr").textContent;
@@ -201,8 +200,24 @@ function goToOrder() {
     const totalAmount = parseInt(document.querySelector(".price > p:first-child").textContent.replace(/,/g, ''));
     const orderNameInput = document.getElementById("order_name")
     const orderName = orderNameInput.getAttribute("data-order-name")
-    // const paymentId = `payment-${crypto.randomUUID()}`;
     const paymentId = `${Date.now()}_${totalAmount}`
+
+    // 디테일 정보
+    const bookIsbns = document.querySelectorAll(".order-book-isbn");
+    const orderQtys = document.querySelectorAll(".order_detail_qty");
+    const orderPrices = document.querySelectorAll(".order_detail_price");
+
+    let details = [];
+
+    bookIsbns.forEach((isbn, index) => {
+        const detail = {
+            book_isbn: isbn.getAttribute("data-isbn"),
+            order_detail_qty: orderQtys[index].value,
+            order_detail_price: orderPrices[index].value
+        };
+        details.push(detail);
+    });
+
 
     payBtn.addEventListener('click', function (e) {
         const entPwInputValue = entPwInput.value.trim();
@@ -219,9 +234,14 @@ function goToOrder() {
         }
 
         const data = {
+            order_addr: addr,
+            order_addr_detail: addrDetail,
+            common_ent_pw: entPwInput.value,
+            recipient_name: deliverName,
+            recipient_phoneno: deliverNumber,
+            member_id: memberId,
             paymentId: paymentId,
-            totalAmount: totalAmount,
-            customerId: memberId,
+            orderDetail: details
         };
 
         PortOne.requestPayment({
@@ -244,7 +264,7 @@ function goToOrder() {
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (response, status, xhr) {
-                    const statusCode = xhr.status; // 상태 코드를 가져옵니다.
+                    const statusCode = xhr.status;
 
                     if (statusCode === 200) {
                         console.log('결제 성공', statusCode);
@@ -262,6 +282,8 @@ function goToOrder() {
                 },
                 error: function (xhr, status, error) {
                     console.log('AJAX 호출 중 오류 발생: ' + error);
+                    console.log('상태: ' + xhr.status);
+                    console.log('응답 본문: ' + xhr.responseText);
                 }
             })
         }).catch(error => {
