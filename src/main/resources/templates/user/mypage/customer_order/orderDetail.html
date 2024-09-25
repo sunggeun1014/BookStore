@@ -18,9 +18,29 @@
 		<div class="container">
 			<div class="order-items-box">
 				<div class="box-title-wrapper">
-					<h3 class="box-title">배송</h3>
-					<button id="cancelButton" class="default-btn border return-cancel-btn" th:if="${orderDetails.order_delivery_status == '배송전'}">취소</button>
+					<div class="box-title">
+						<h3>배송</h3>
+						<!-- 주문 상태가 취소 완료일 때 "취소된 주문" 표시 -->
+	        			<span th:if="${orderDetails.order_detail_status == '취소완료'}" class="canceled-label">- 취소된 주문</span>
+					</div>
+					
+					<!-- 배송전일때만 보이는 (주문)취소버튼 -->
+				    <button id="cancelButton" class="default-btn border return-cancel-btn" 
+				        th:if="${orderDetails.order_delivery_status == '배송전' && orderDetails.order_detail_status == '주문완료'}" 
+				        th:data-order-num="${orderDetails.order_num}" 
+				        onclick="location.href='/' + 'user/mypage/cancleList?orderNum=' + this.dataset.orderNum">취소
+				    </button>
+				    
+				    <!-- 주문 상태가 취소 요청 또는 취소 완료일 때 취소상세 버튼-->
+				    <button id="cancelDetailButton" class="small-btn detail" 
+				        th:if="${orderDetails.order_detail_status == '취소요청' || orderDetails.order_detail_status == '취소완료'}" 
+				        th:data-order-num="${orderDetails.order_num}"
+				        onclick="location.href='/' + 'user/mypage/cancleCompletion?orderNum=' + this.dataset.orderNum">
+				        취소상세
+				        <i class="fa-solid fa-angle-right"></i>
+				    </button>
 				</div>
+				
 				<div class="order-items" th:each="detail : ${orderDetails}">
 					<img class="book-thumbnail" th:src="'/images/books/' + ${detail.book_thumbnail_changed != null ? detail.book_thumbnail_changed : 'noimg.png'}" alt="책 이미지">
 					<div class="book-info">
@@ -29,11 +49,21 @@
 						</div>
 						<div class="order-price-status">
 							<span class="order-price" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.order_detail_qty, 0, 'COMMA')} + '원'"></span> 
-							<span class="order-status" th:text="${orderDetails.order_delivery_status}"></span>
+							
+							<!-- 주문 상태가 취소 요청 또는 취소 완료일 때 -->
+                            <span class="order-status" th:if="${orderDetails.order_detail_status == '취소요청' || orderDetails.order_detail_status == '취소완료'}" 
+                                  th:text="${orderDetails.order_detail_status}"></span>
+
+                            <!-- 배송 상태가 보이지 않도록 조건 추가 -->
+                            <span class="order-status" th:if="${orderDetails.order_detail_status != '취소요청' && orderDetails.order_detail_status != '취소완료'}" 
+                                  th:text="${orderDetails.order_delivery_status}"></span>
+							
 							<button id="returnButton" class="default-btn border return-cancel-btn" 
-								th:if="${orderDetails.order_delivery_status == '배송중' || orderDetails.order_delivery_status == '배송완료'}">반품</button>
+								th:if="${orderDetails.order_delivery_status == '배송중' || orderDetails.order_delivery_status == '배송완료'}"
+								th:data-order-num="${orderDetails.order_num}"
+						        onclick="location.href='/' + 'user/mypage/returnRequest?orderNum=' + this.dataset.orderNum">반품</button>
     						<button id="cancelReturnButton" class="default-btn border return-cancel-btn" 
-        						th:if="${orderDetails.order_detail_status == '반품 요청'}">반품 취소</button>
+        						th:if="${orderDetails.order_detail_status == '반품요청'}">반품 취소</button>
 						
 						</div>
 					</div>
@@ -44,7 +74,9 @@
 				<div class="delivery-info-wrap">
 					<span class="delivery-info-detail">기본정보</span>
 					<div class="recipient-info-wrap">
-						<span th:text="${orderDetails.recipient_name}"></span> <span th:text="${orderDetails.recipient_phoneno}"></span> <span th:text="${orderDetails.order_addr} + ' ' + ${orderDetails.order_addr_detail}"></span>
+						<span th:text="${orderDetails.recipient_name}"></span> 
+						<span th:text="${orderDetails.recipient_phoneno}"></span> 
+						<span th:text="${orderDetails.order_addr} + ' ' + ${orderDetails.order_addr_detail}"></span>
 					</div>
 				</div>
 			</div>

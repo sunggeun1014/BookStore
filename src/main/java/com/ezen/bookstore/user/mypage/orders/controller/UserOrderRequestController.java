@@ -1,5 +1,7 @@
 package com.ezen.bookstore.user.mypage.orders.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
+import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO;
 import com.ezen.bookstore.user.mypage.orders.service.UserOrderRequestService;
 
 import jakarta.servlet.http.HttpSession;
@@ -21,14 +24,15 @@ public class UserOrderRequestController {
 	private final UserOrderRequestService orderRequestService;
 
 	@GetMapping("/orderList")
-	public String myOrderPage() {
+	public String myOrderPage(Model model) {
+        model.addAttribute("orderList", orderRequestService.getOrderList());
 		return "/user/mypage/customer_order/orderList";
 	}
 
 	@GetMapping("/orderDetail")
 	public String myOrderDetail(@RequestParam("orderNum") Integer orderNum, Model model) {
-		model.addAttribute("orderDetails", orderRequestService.getOrderDetail(orderNum));
-		return "/user/mypage/customer_order/orderDetail";
+	    model.addAttribute("orderDetails", orderRequestService.getOrderDetail(orderNum));
+	    return "/user/mypage/customer_order/orderDetail";
 	}
 
     @GetMapping("/cancleList")

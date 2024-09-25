@@ -1,5 +1,8 @@
 $(document).ready(function () {
     
+	let currentPage = 1;
+	const pageSize = 10;
+	
     loadInquiries();
     
     
@@ -24,8 +27,9 @@ $(document).ready(function () {
 
         startDate = formatDateForDB(startDate, 'start');
         endDate = formatDateForDB(endDate, 'end');
-
-        loadInquiries(inquiry_answer_status, startDate, endDate);
+		
+		currentPage = 1;
+        loadInquiries(inquiry_answer_status, startDate, endDate, currentPage, pageSize);
     });
 
     
@@ -34,13 +38,17 @@ $(document).ready(function () {
         $(this).addClass('active');
         
         let inquiry_answer_status = $(this).data('status');
-        loadInquiries(inquiry_answer_status);
+		currentPage = 1; 
+        loadInquiries(inquiry_answer_status, '', '', currentPage, pageSize);
     });
 
     
-    function loadInquiries(inquiry_answer_status = '', startDate = '', endDate = '') {
+    function loadInquiries(inquiry_answer_status = '', startDate = '', endDate = '', page = 1, pageSize = 10) {
         let url = '/user/mypage/inquiries-page/search';
-        let requestData = {};
+		let requestData = {
+            page: page,
+            pageSize: pageSize
+        };
 
         if (startDate && endDate) {
             requestData.startDate = startDate;
@@ -49,8 +57,6 @@ $(document).ready(function () {
 
         if (inquiry_answer_status) {
             requestData.inquiry_answer_status = inquiry_answer_status;
-        } else {
-            requestData.inquiry_answer_status = '';
         }
 
         $.ajax({
@@ -58,15 +64,18 @@ $(document).ready(function () {
             method: 'GET',
             data: requestData,
             success: function (data) {
+				 
+				let inquiries = data.inquiries || [];
+				 
                 $('#inquiries-list').empty();
-                if (data.length === 0) {
+                if (inquiries.length === 0) {
                     $('.result-wrap').show();
                     $('#inquiries-list').hide();
                 } else {
                     $('.result-wrap').hide();
                     $('#inquiries-list').show();
 
-                    $.each(data, function (index, inquiry) {
+                    $.each(inquiries, function (index, inquiry) {
                         let writeDateFormatted = formatDate(inquiry.inquiry_write_date);
                         let inquiryTypeFormatted = formatInquiryType(inquiry.inquiry_type);
 						let answerDateFormatted = inquiry.answer_write_date ? formatDate(inquiry.answer_write_date) : '';
@@ -160,6 +169,8 @@ $(document).ready(function () {
 					        deleteInquiry(inquiryNum, orderDetailNum); 
 					    });
                     });
+					
+					updatePagination(data.totalPages, page);
                 }
             },
             error: function () {
@@ -168,7 +179,28 @@ $(document).ready(function () {
             }
         });
     }
-
+	
+	function updatePagination(totalPages, currentPage) {
+        $('#pagination').empty();
+		let pageArea = $('<div id="page-area" class="page-area"></div>')
+		let leftIcon = $('<i class="fa-solid fa-angle-left page-arrow"></i>')
+		let rightIcon = $('<i class="fa-solid fa-angle-right page-arrow"></i>')
+        for (let i = 1; i <= totalPages; i++) {
+            let pageButton = $('<span class="page-link link-on"></span>').text(i);
+            if (i === currentPage) {
+                pageButton.addClass('active');
+            }
+            pageButton.on('click', function () {
+				currentPage = i;  
+                loadInquiries('', '', '', i, pageSize);
+        });
+			pageArea.append(leftIcon);
+			pageArea.append(pageButton);
+			pageArea.append(rightIcon);
+            $('#pagination').append(pageArea);
+        }
+    }
+	
     function formatDateForDB(date, type) {
         let formattedDate = new Date(date).toISOString().split('T')[0];
         return type === 'start' ? formattedDate + ' 00:00:00' : formattedDate + ' 23:59:59';
