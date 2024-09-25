@@ -75,75 +75,15 @@ document.getElementById('kakao_login_btn').addEventListener('click', function(ev
     });
 });
 
+
 let naverLogin = new naver.LoginWithNaverId({
     clientId: 'sutMcxM8vDfiUuQgTc15',  // 네이버에서 발급받은 클라이언트 ID
-    callbackUrl: 'http://localhost:9080/user/members/join',  // 네이버에서 설정한 콜백 URL
+    callbackUrl: 'http://localhost:9080/user/members/naver/callback',  // 네이버에서 설정한 콜백 URL
     isPopup: true,  // 팝업 모드 사용
     loginButton: { color: 'green', type: 5, height: 45 }  // 로그인 버튼 스타일 설정
 });
-
-// 네이버 로그인 초기화
+//// 네이버 로그인 초기화
 naverLogin.init();
-
-// 로그인 성공 시 상태 확인 후 ID와 이메일 받아오기
-document.getElementById('naverIdLogin').addEventListener('click', function(event) {
-	event.preventDefault(); 
-
-	naverLogin.getLoginStatus(async function(status) {
-	    if (status) {
-	        let naverId = naverLogin.user.getId();  // 네이버 유저의 고유 ID
-	        let email = naverLogin.user.getEmail();  // 네이버 유저의 이메일
-	
-	        // 부모 창에 네이버 로그인 정보를 전달
-	        if (window.opener) {
-	            window.opener.document.getElementById('naver_login_cd').value = naverId;  
-	            let naverCheckbox = window.opener.document.querySelector('.check-box.naver');
-	            if (naverCheckbox) {
-	                naverCheckbox.checked = true;
-	            }
-	            window.opener.console.log('부모 창으로 전달된 네이버 ID:', naverId);
-	        }
-	
-	        // 팝업 창 닫기
-	        window.close();
-	    } else {
-	        console.log('네이버 로그인 실패');
-	    }
-	});
-});
-
-
-
-async function naverLoginTest(naverId) {
-    let result = false;
-
-    try {
-        let response = await fetch('/user/members/check-naverId', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                naver_login_cd: naverId,
-            }),
-        });
-
-        let data = await response.json();
-
-        if (data.isAvailable) {
-            // 중복된 ID가 없는 경우 처리
-            result = true;
-        } else {
-            // 중복된 ID가 있는 경우 경고 모달 띄우기
-            getCheckModal('이미 등록된 네이버 계정입니다.');
-            result = false;
-        }
-    } catch (error) {
-        console.error('Fetch 요청 오류:', error);
-    }
-    
-    return result;
-}
 
 
 $(document).ready(function() {

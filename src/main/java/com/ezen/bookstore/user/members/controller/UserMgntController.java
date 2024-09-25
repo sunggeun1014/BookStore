@@ -62,4 +62,8 @@ public class UserMgntController {
 	    return "user/members/showFindId";  
 	}
 	
+	@GetMapping("/naver/callback")
+	public String callbackmgntJoin() {			
+		return "user/registration/callback";
+	}
 }
