@@ -3,27 +3,36 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="OrderPayment">
-    <insert id="insertCustomerOrder">
+    <insert id="insertCustomerOrder" parameterType="CompleteOrder">
         <![CDATA[
         DECLARE
             v_order_num NUMBER;
+
         BEGIN
+            -- customer_orders 테이블에 삽입
             INSERT INTO customer_orders (
                 order_num,
                 order_addr,
                 order_addr_detail,
                 common_ent_pw,
-                member_id
+                recipient_name,
+                recipient_phoneno,
+                member_id,
+                paymentId
             ) VALUES (
-                CUSTOMER_ORDERS_SEQ.nextval,
+                customer_orders_seq.nextval,
                 #{orderAddr},
                 #{orderAddrDetail},
                 #{commonEntPw},
-                #{memberId}
+                #{recipientName},
+                #{recipientPhoneno},
+                #{memberId},
+                #{paymentId}
             )
-            RETURNING ORDER_NUM INTO v_order_num;
+            RETURNING order_num INTO v_order_num;
 
-            <foreach collection="orderDetails" item="detail" separator=";">
+            -- orderDetail 리스트의 각 항목에 대해 customer_order_details 테이블에 삽입
+            <foreach collection="orderDetail" item="detail" separator=";">
                 INSERT INTO customer_order_details (
                     order_detail_num,
                     order_detail_qty,
@@ -32,14 +41,15 @@
                     order_num
                 ) VALUES (
                     customer_orders_detail_seq.nextval,
-                    #{detail.orderDetailQty},
-                    #{detail.bookIsbn},
-                    #{detail.orderDetailPrice},
+                    #{detail.order_detail_qty},
+                    #{detail.book_isbn},
+                    #{detail.order_detail_price},
                     v_order_num
                 )
-            </foreach>
+            </foreach;
+
         END;
-    ]]>
+        ]]>
     </insert>
 
     <select id="getOrderDetail" resultType="userOrders" parameterType="java.util.HashMap">

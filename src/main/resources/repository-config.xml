@@ -45,6 +45,7 @@
 
       <typeAlias type="com.ezen.bookstore.user.payment.dto.UserOrderDTO" alias="userOrders"/>
       <typeAlias type="com.ezen.bookstore.user.payment.dto.UserOrderDetailsDTO" alias="UserOrderDetails"/>
+      <typeAlias type="com.ezen.bookstore.user.payment.dto.CompleteOrderDTO" alias="CompleteOrder"/>
 
       <typeAlias type="com.ezen.bookstore.user.bookcategory.dto.UserBookCategoryDTO" alias="userCategory"/>
       <typeAlias type="com.ezen.bookstore.user.mypage.review.dto.UserBookReviewDTO" alias="BookReview"/>

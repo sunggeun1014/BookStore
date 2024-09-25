@@ -1,17 +1,22 @@
 package com.ezen.bookstore.user.payment.repository;
 
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
+import com.ezen.bookstore.user.payment.dto.CompleteOrderDTO;
 import com.ezen.bookstore.user.payment.dto.UserOrderDTO;
 import com.ezen.bookstore.user.payment.dto.UserOrderDetailsDTO;
 import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
+import org.junit.Test;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class PaymentRepository {
@@ -28,4 +33,11 @@ public class PaymentRepository {
     public List<UserOrderDetailsDTO> getDetails(int order_num) {
         return sql.selectList("OrderPayment.OrderDetail", order_num);
     }
+
+    public void insertOrder(CompleteOrderDTO completeOrderDTO) throws SQLException {
+        log.info("주문 데이터: {}", completeOrderDTO);
+        sql.insert("OrderPayment.insertCustomerOrder", completeOrderDTO);
+        log.info("주문 삽입 완료");
+    }
+
 }

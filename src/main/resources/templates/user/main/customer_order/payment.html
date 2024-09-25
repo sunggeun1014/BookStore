@@ -27,6 +27,7 @@
                 <p class="sub-title">배송지 정보</p>
                 <div class="user-info">
                     <p id="deliver-name" th:text="${memberDTO.member_name}"></p>
+                    <input type="hidden" name="member_id" id="member_id" th:value="${memberDTO.member_id}">
                     <p id="deliver-number" th:text="${memberDTO.member_phoneNo}"></p>
                     <div class="addr-wrap">
                         <div class="addr-text">
@@ -68,11 +69,11 @@
                 <div class="addr-edit-wrap">
                     <div class="edit-input person-name">
                         <p class="edit-subtitle">받는 분</p>
-                        <input type="text" name="" id="edit-name" placeholder="이름" th:value="${memberDTO.member_name}">
+                        <input type="text" name="recipient_name" id="edit-name" placeholder="이름" th:value="${memberDTO.member_name}">
                     </div>
                     <div class="edit-input phone-number">
                         <p class="edit-subtitle">전화번호</p>
-                        <input type="text" name="" id="edit-number" placeholder="전화번호"
+                        <input type="text" name="recipient_phoneno" id="edit-number" placeholder="전화번호"
                                th:value="${memberDTO.member_phoneNo}"
                                oninput="hyphenTel(this)">
                     </div>
@@ -157,10 +158,12 @@
                     <div class="list-right">
                         <div class="books-cnt">
                             <p th:text="${item.cart_purchase_qty}"></p>
+                            <input type="hidden" name="order_detail_qty" class="order_detail_qty" th:value="${item.cart_purchase_qty}">
                             <p>개</p>
                         </div>
                         <div class="book-price">
                             <p th:text="${#numbers.formatInteger(item.book_price, 0, 'COMMA')}"></p>
+                            <input type="hidden" name="order_detail_price" class="order_detail_price" th:value="${item.book_price}">
                             <p>원</p>
                         </div>
                     </div>

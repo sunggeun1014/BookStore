@@ -3,25 +3,16 @@ package com.ezen.bookstore.user.payment.controller;
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 import com.ezen.bookstore.user.payment.dto.OrderItemDTO;
-import com.ezen.bookstore.user.payment.dto.PaymentRequestDTO;
 import com.ezen.bookstore.user.payment.service.PaymentService;
-import com.siot.IamportRestClient.IamportClient;
-import com.siot.IamportRestClient.exception.IamportResponseException;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 @Slf4j
