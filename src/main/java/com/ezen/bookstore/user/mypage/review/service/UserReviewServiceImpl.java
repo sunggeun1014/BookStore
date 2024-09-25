@@ -1,6 +1,8 @@
 package com.ezen.bookstore.user.mypage.review.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +26,38 @@ public class UserReviewServiceImpl implements UserReviewService {
 	
 	@Override
     @Transactional(readOnly = true)
-    public List<UserBookReviewDTO> getPendingReviews(UserBookReviewDTO userBookReviewDTO) {
+    public Map<String, Object> getPendingReviews(UserBookReviewDTO userBookReviewDTO, int page, int pageSize) {
 		userBookReviewDTO.setMember_id(SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID));
-        return reviewMapper.getPendingReviews(userBookReviewDTO);
+        int startRow = (page - 1) * pageSize + 1;
+        int endRow = page * pageSize;
+        
+        List<UserBookReviewDTO> bookReviewList = reviewMapper.getPendingReviews(userBookReviewDTO, startRow, endRow);
+		int totalCount = reviewMapper.getTotalPendingReviewsCount(userBookReviewDTO);
+		
+		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+		Map<String, Object> result = new HashMap<>();
+		result.put("reviews", bookReviewList);
+		result.put("totalPages", totalPages);
+		
+		return result;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserBookReviewDTO> getWrittenReviews(UserBookReviewDTO userBookReviewDTO) {
+    public Map<String, Object> getWrittenReviews(UserBookReviewDTO userBookReviewDTO, int page, int pageSize) {
 		userBookReviewDTO.setMember_id(SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID));
-        return reviewMapper.getWrittenReviews(userBookReviewDTO);
+        int startRow = (page - 1) * pageSize + 1;
+        int endRow = page * pageSize;
+        
+        List<UserBookReviewDTO> bookReviewList = reviewMapper.getWrittenReviews(userBookReviewDTO, startRow, endRow);
+        int totalCount = reviewMapper.getWrittenReviewsTotalCount(userBookReviewDTO);
+        
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+        Map<String, Object> result = new HashMap<>();
+		result.put("reviews", bookReviewList);
+		result.put("totalPages", totalPages);
+		
+		return result;
     }
 
     @Override

@@ -1,44 +1,46 @@
 $(document).ready(function () {
-    
-	loadBooks('pending');
-	
-	datepicker('startDate', 'endDate');
-   
-	 $('#searchBtn').on('click', function () {
-        var startDate = $('#startDate').val();
-        var endDate = $('#endDate').val();
 
-		if (!startDate && !endDate) {
-           getCheckModal('시작일 또는 종료일을 선택해주세요.');
-           return;
+    let currentPage = 1;
+    const pageSize = 10;
+
+    loadBooks('pending');
+
+    datepicker('startDate', 'endDate');
+
+    $('#searchBtn').on('click', function () {
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+
+        if (!startDate && !endDate) {
+            getCheckModal('시작일 또는 종료일을 선택해주세요.');
+            return;
         }
-		
-		if (!endDate) {
-            endDate = new Date();  // 현재 날짜
+
+        if (!endDate) {
+            endDate = new Date();
         } else {
             endDate = new Date(endDate);
         }
 
         if (!startDate) {
-            startDate = new Date('1970-01-01');  // 시작일이 없을 때는 과거의 임의 날짜로 설정
+            startDate = new Date('1970-01-01');
         } else {
             startDate = new Date(startDate);
         }
-		
-		
+
         startDate = formatDateForDB(startDate, 'start');
         endDate = formatDateForDB(endDate, 'end');
 
+		currentPage = 1;
         if ($('.tab-btn.active').text() === '리뷰를 기다리는 도서') {
-            loadBooks('pending', startDate, endDate);
+            loadBooks('pending');
         } else {
-            loadBooks('written', startDate, endDate);
+            loadBooks('written');
         }
     });
 
     $('.tab-btn').on('click', function () {
-       
-		$('.tab-btn').removeClass('active');
+        $('.tab-btn').removeClass('active');
         $(this).addClass('active');
 
         if ($(this).text() === '리뷰를 기다리는 도서') {
@@ -48,9 +50,12 @@ $(document).ready(function () {
         }
     });
 
-    function loadBooks(type, startDate = '', endDate = '') {
+    function loadBooks(type, currentPage = 1, pageSize = 10, startDate = '', endDate = '') {
         let url = '';
-        let requestData = {};
+        let requestData = {
+            page: currentPage,
+            pageSize: pageSize
+        };
 
         if (type === 'pending') {
             url = '/user/mypage/my-reviews-page/pending-reviews';
@@ -67,83 +72,142 @@ $(document).ready(function () {
             url: url,
             method: 'GET',
             data: requestData,
-            success: function (data) {
+            success: function (response) {
+                const data = response.reviews;
+                const totalPages = response.totalPages;
+
                 if (data.length === 0) {
                     $('.result-wrap').show();
                     $('#book-list').empty().hide();
+					updatePagination(0, 1);
                 } else {
                     $('.result-wrap').hide();
                     $('#book-list').empty().show();
-	
+
                     $.each(data, function (index, book) {
-                        var imageUrl = "/images/books/" + book.book_isbn + ".jpg";
-                        var purchaseDateFormatted = formatDate(book.order_purchase_date);
+                        let imageUrl = "/images/books/" + book.book_isbn + ".jpg";
+                        let purchaseDateFormatted = formatDate(book.order_purchase_date);
 
                         if (type === 'pending') {
-                            var bookHtml = `
+                            let bookHtml = `
                                 <div class="book-info">
-									<div class="book-wrap">
-	                                    <img src="${imageUrl}" alt="책 이미지">
-	                                    <div class="book-details">
-	                                        <span class="book-title">${book.book_name}</span>
-	                                        <span class="book-author">저자: ${book.book_author}</span>
-	                                        <span class="book-date">구매일: ${purchaseDateFormatted}</span>
-	                                    </div>
-									</div>
-                                <button class="default-btn border size-up review-btn" data-order-detail-num="${book.order_detail_num}">리뷰작성</button>
+                                    <div class="book-wrap">
+                                        <img src="${imageUrl}" alt="책 이미지">
+                                        <div class="book-details">
+                                            <span class="book-title">${book.book_name}</span>
+                                            <span class="book-author">저자: ${book.book_author}</span>
+                                            <span class="book-date">구매일: ${purchaseDateFormatted}</span>
+                                        </div>
+                                    </div>
+                                    <button class="default-btn border size-up review-btn" data-order-detail-num="${book.order_detail_num}">리뷰작성</button>
                                 </div>`;
                             $('#book-list').append(bookHtml);
-
                         } else if (type === 'written') {
-                            var starsHtml = '<span class="fas fa-star stars"></span>'.repeat(book.review_rating) +
+                            let starsHtml = '<span class="fas fa-star stars"></span>'.repeat(book.review_rating) +
                                 '<span class="far fa-star empty-stars"></span>'.repeat(5 - book.review_rating);
-                            var reviewDateFormatted = formatDate(book.review_write_date);
-                            var reviewHtml = `
-	                                <div class="review-container">
-	                                    <div class="book-info-wrapper">
-	                                        <img src="${imageUrl}" alt="책 이미지">
-	                                        <div class="book-title">${book.book_name}</div>
-	                                    </div>
-	                                    <div class="review-box">
-	                                        <div class="review-stars">${starsHtml}</div>
-	                                        <div class="review-date">${reviewDateFormatted}</div>
-	                                        <div class="review-content">${book.review_content}</div>
-	                                        <div class="review-actions">
-	                                            <button class="edit-review-btn" data-review-num="${book.review_num}">수정</button>
-	                                            <span class="btn-spacebetween">|</span>
-	                                            <button class="delete-review-btn" data-review-num="${book.review_num}">삭제</button>
-	                                        </div>
-	                                    </div>
-	                                </div>`;
+                            let reviewDateFormatted = formatDate(book.review_write_date);
+                            let reviewHtml = `
+                                <div class="review-container">
+                                    <div class="book-info-wrapper">
+                                        <img src="${imageUrl}" alt="책 이미지">
+                                        <div class="book-title">${book.book_name}</div>
+                                    </div>
+                                    <div class="review-box">
+                                        <div class="review-stars">${starsHtml}</div>
+                                        <div class="review-date">${reviewDateFormatted}</div>
+                                        <div class="review-content">${book.review_content}</div>
+                                        <div class="review-actions">
+                                            <button class="edit-review-btn" data-review-num="${book.review_num}">수정</button>
+                                            <span class="btn-spacebetween">|</span>
+                                            <button class="delete-review-btn" data-review-num="${book.review_num}">삭제</button>
+                                        </div>
+                                    </div>
+                                </div>`;
                             $('#book-list').append(reviewHtml);
                         }
                     });
 
                     if (type === 'pending') {
                         $('.review-btn').on('click', function () {
-                            var orderDetailNum = $(this).data('order-detail-num');
+                            let orderDetailNum = $(this).data('order-detail-num');
                             window.location.href = `/user/mypage/write-review?orderDetailNum=${orderDetailNum}`;
                         });
                     }
 
                     if (type === 'written') {
                         $('.edit-review-btn').on('click', function () {
-                            var reviewNum = $(this).data('review-num');
+                            let reviewNum = $(this).data('review-num');
                             editReview(reviewNum);
                         });
 
                         $('.delete-review-btn').on('click', function () {
-                            var reviewNum = $(this).data('review-num');
+                            let reviewNum = $(this).data('review-num');
                             deleteReview(reviewNum);
                         });
                     }
+
+                    updatePagination(totalPages, currentPage);
                 }
             },
             error: function () {
                 getCheckModal('책 목록을 불러오는 중 오류가 발생했습니다.');
-				return;
             }
         });
+    }
+
+    function updatePagination(totalPages, currentPage) {
+        
+		const maxPagesToShow = 5;
+		
+		$('#page-area').empty();
+		
+		let pageArea = $('#page-area');
+		
+		let leftIcon = $('<i class="fa-solid fa-angle-left page-arrow"></i>')
+		let rightIcon = $('<i class="fa-solid fa-angle-right page-arrow"></i>')
+		
+		if (currentPage === 1) {
+			leftIcon.addClass('arrow-disabled');
+		} else {
+			leftIcon.on('click', function (){
+				currentPage -= 1;
+				loadBooks($('.tab-btn.active').text() === '리뷰를 기다리는 도서' ? 'pending' : 'written');
+				updatePagination(totalPages, currentPage);
+			});
+		}
+		
+		pageArea.append(leftIcon);
+		
+		let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+		let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+		
+		if (endPage - startPage < maxPagesToShow - 1) {
+	        startPage = Math.max(1, endPage - maxPagesToShow + 1);
+	    }
+		
+		for (let i = 1; i <= totalPages; i++) {
+            let pageButton = $('<span class="page-link"></span>').text(i);
+            if (i === currentPage) {
+                pageButton.addClass('link-on');
+            }
+            pageButton.on('click', function () {
+				currentPage = i;  
+                loadBooks($('.tab-btn.active').text() === '리뷰를 기다리는 도서' ? 'pending' : 'written', i);
+        	});
+			pageArea.append(pageButton);
+        }
+
+		if (currentPage === totalPages) {
+	        rightIcon.addClass('arrow-disabled');
+	    } else {
+	        rightIcon.on('click', function () {
+	            currentPage += 1;
+	            loadBooks($('.tab-btn.active').text() === '리뷰를 기다리는 도서' ? 'pending' : 'written');
+	            updatePagination(totalPages, currentPage);
+	        });
+	    }
+		
+		pageArea.append(rightIcon);
     }
 
     function formatDateForDB(date, type) {

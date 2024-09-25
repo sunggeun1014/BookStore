@@ -71,6 +71,7 @@ $(document).ready(function () {
                 if (inquiries.length === 0) {
                     $('.result-wrap').show();
                     $('#inquiries-list').hide();
+					updatePagination(0, 1, inquiry_answer_status);
                 } else {
                     $('.result-wrap').hide();
                     $('#inquiries-list').show();
@@ -180,25 +181,59 @@ $(document).ready(function () {
         });
     }
 	
-	function updatePagination(totalPages, currentPage) {
-        $('#pagination').empty();
-		let pageArea = $('<div id="page-area" class="page-area"></div>')
+	function updatePagination(totalPages, currentPage, inquiry_answer_status = '') {
+		
+		const maxPagesToShow = 5;
+		
+        $('#page-area').empty();
+		
+		let pageArea = $('#page-area')
+		
 		let leftIcon = $('<i class="fa-solid fa-angle-left page-arrow"></i>')
 		let rightIcon = $('<i class="fa-solid fa-angle-right page-arrow"></i>')
+		
+		if (currentPage === 1) {
+			leftIcon.addClass('arrow-disable');
+		} else {
+			leftIcon.on('click', function (){
+				currentPage -= 1;
+				loadInquiries(inquiry_answer_status, '', '', currentPage, pageSize);
+				updatePagination(totalPages, currentPage, inquiry_answer_status);
+			});
+		}
+		
+		pageArea.append(leftIcon);
+		
+		let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+	    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+	    if (endPage - startPage < maxPagesToShow - 1) {
+	        startPage = Math.max(1, endPage - maxPagesToShow + 1);
+	    }
+		
         for (let i = 1; i <= totalPages; i++) {
-            let pageButton = $('<span class="page-link link-on"></span>').text(i);
+            let pageButton = $('<span class="page-link"></span>').text(i);
             if (i === currentPage) {
-                pageButton.addClass('active');
+                pageButton.addClass('link-on');
             }
             pageButton.on('click', function () {
 				currentPage = i;  
-                loadInquiries('', '', '', i, pageSize);
-        });
-			pageArea.append(leftIcon);
+                loadInquiries(inquiry_answer_status, '', '', i, pageSize);
+        	});
 			pageArea.append(pageButton);
-			pageArea.append(rightIcon);
-            $('#pagination').append(pageArea);
         }
+		
+		if (currentPage === totalPages) {
+	        rightIcon.addClass('arrow-disabled');
+	    } else {
+	        rightIcon.on('click', function () {
+	            currentPage += 1;
+	            loadInquiries(inquiry_answer_status, '', '', currentPage, pageSize);
+	            updatePagination(totalPages, currentPage, inquiry_answer_status);
+	        });
+	    }
+		
+		pageArea.append(rightIcon);
     }
 	
     function formatDateForDB(date, type) {

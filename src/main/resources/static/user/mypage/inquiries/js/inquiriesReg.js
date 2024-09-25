@@ -36,6 +36,14 @@ $(document).ready(function () {
 	$("form").on("submit", function(e){
 		let title = $("#inquiryTitle").val();
 		let content = $("#inquiryContent").val();
+		let orderNumer = $("#order-number").val();
+		
+		if (!orderNumer) {
+			getErrorModal("문의할 상품을 선택해주세요");
+			$("#order-number").focus();
+			e.preventDefault();
+			return;
+		}
 		
 		if (!title) {
 			getErrorModal("제목을 입력해주세요");

@@ -4,7 +4,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/user/common/layout/myPageLayout}"
       layout:fragment="Content">
-      
+
+      <link rel="stylesheet" href="/user/common/css/pagination.css" />
       <link rel="stylesheet" href="/user/mypage/review/css/review.css"/>
       
 <div class="content">
@@ -41,6 +42,7 @@
 	    <!-- 리스트 뽑아올 곳 -->
 		<div id="book-list"></div>
 		
+		<div id="page-area" class="page-area"></div>
 	</div>	    
 </div>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>

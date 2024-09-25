@@ -19,7 +19,7 @@
             i.order_qty,
             ia.answer_content,
             ia.answer_write_date,
-            ROW_NUMBER() OVER (ORDER BY i.inquiry_write_date ASC) AS row_num
+            ROW_NUMBER() OVER (ORDER BY i.inquiry_write_date DESC) AS row_num
         FROM 
             inquiries i
         LEFT JOIN 

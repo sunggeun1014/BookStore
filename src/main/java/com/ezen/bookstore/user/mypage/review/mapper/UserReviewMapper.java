@@ -9,8 +9,14 @@ import com.ezen.bookstore.user.mypage.review.dto.UserBookReviewDTO;
 
 @Mapper
 public interface UserReviewMapper {
-    List<UserBookReviewDTO> getPendingReviews(UserBookReviewDTO userBookReviewDTO);
-    List<UserBookReviewDTO> getWrittenReviews(UserBookReviewDTO userBookReviewDTO);
+    List<UserBookReviewDTO> getPendingReviews(@Param("bookReviewDTO") UserBookReviewDTO userBookReviewDTO, 
+    										  @Param("startRow") int startRow,
+    										  @Param("endRow") int endRow);
+    int getTotalPendingReviewsCount(UserBookReviewDTO userBookReviewDTO);
+    List<UserBookReviewDTO> getWrittenReviews(@Param("bookReviewDTO") UserBookReviewDTO userBookReviewDTO, 
+    		 								  @Param("startRow") int startRow,
+    		 								  @Param("endRow") int endRow);
+    int getWrittenReviewsTotalCount(UserBookReviewDTO userBookReviewDTO);
     UserBookReviewDTO getReviewByReviewNum(Integer reviewNum);
     void updateReview(@Param("reviewNum") Integer reviewNum, @Param("userBookReviewDTO") UserBookReviewDTO userBookReviewDTO);
     void deleteReview(@Param("reviewNum") Integer reviewNum);

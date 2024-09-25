@@ -1,12 +1,12 @@
 package com.ezen.bookstore.user.mypage.review.service;
 
-import java.util.List;
+import java.util.Map;
 
 import com.ezen.bookstore.user.mypage.review.dto.UserBookReviewDTO;
 
 public interface UserReviewService {
-	List<UserBookReviewDTO> getPendingReviews(UserBookReviewDTO userBookReviewDTO);
-    List<UserBookReviewDTO> getWrittenReviews(UserBookReviewDTO userBookReviewDTO);
+	Map<String, Object> getPendingReviews(UserBookReviewDTO userBookReviewDTO, int page, int pageSize);
+	Map<String, Object> getWrittenReviews(UserBookReviewDTO userBookReviewDTO, int page, int pageSize);
     UserBookReviewDTO getReviewByReviewNum(Integer reviewNum);
     void updateReview(Integer reviewNum, UserBookReviewDTO userBookReviewDTO);
     void deleteReview(Integer reviewNum);

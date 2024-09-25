@@ -28,10 +28,11 @@ public class UserInquiriesServiceImpl implements UserInquiriesService {
 	UserInquiriesMapper userInquiriesMapper;
 	FileManagement fileManagement;
 	
+	@Transactional(readOnly = true)
 	@Override
 	public Map<String, Object> searchInquiries(UserInquiriesDTO inquiriesDTO, int page, int pageSize) {
 		inquiriesDTO.setMember_id(SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID));
-		 int startRow = (page - 1) * pageSize + 1;
+		int startRow = (page - 1) * pageSize + 1;
         int endRow = page * pageSize;
 
         // 조회된 데이터와 총 카운트 가져오기
@@ -56,6 +57,7 @@ public class UserInquiriesServiceImpl implements UserInquiriesService {
 		}
 	}
 	
+	@Transactional(readOnly = true)
 	@Override
 	public List<UserInquiriesDTO> searchOrderList(UserInquiriesDTO inquiriesDTO) {
 		inquiriesDTO.setMember_id(SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID));
