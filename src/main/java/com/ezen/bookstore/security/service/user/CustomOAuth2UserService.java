@@ -50,7 +50,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // 사용자가 존재하지 않으면 예외 처리
         if (user == null) {
-            throw new OAuth2AuthenticationException("해당 사용자가 존재하지 않습니다.");
+            throw new AccountNotLinkedException("연동된 계정이 존재하지 않습니다.");
         }
 
         // 확장된 속성 추가

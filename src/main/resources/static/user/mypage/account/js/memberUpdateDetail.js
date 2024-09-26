@@ -94,6 +94,53 @@ document.getElementById("address_detail").addEventListener('focus', function() {
 	errorElement.style.display = "none";
 });
 
+$(document).ready(function () {
+	
+    initKakao();
+
+    $('#kakaoLogin').on('click', function (e) {
+        e.preventDefault(); 
+
+        if ($(this).is(':checked')) {
+			
+            getConfirmModal("카카오 연동을 실행하시겠습니까?", "", kakaoLogin);
+        } else {
+			
+            getConfirmModal("카카오 연동을 해지하시겠습니까?", "", kakaoUnlink); 
+        }
+    });
+});
+
+
+function openCustomNaverLoginPopup() {
+    var naverLoginUrl = 'https://nid.naver.com/nidlogin.login?oauth_token=kBgIZWFGAnrdUqdN1Z&consumer_key=sutMcxM8vDfiUuQgTc15&logintp=oauth2&nurl=https%3A%2F%2Fnid.naver.com%2Foauth2.0%2Fauthorize%3Fresponse_type%3Dtoken%26state%3Db20a2119-9c4e-41c0-b1ac-d184f6b3dfd2%26client_id%3DsutMcxM8vDfiUuQgTc15%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A9080%252Fuser%252Fmembers%252Fnaver%252Fcallback%26locale%3Dko_KR%26inapp_view%3D%26oauth_os%3D&locale=ko_KR&inapp_view=&svctype=';
+
+    // 팝업 창 열기
+    window.open(naverLoginUrl, 'NaverLoginPopup', 'width=500,height=600');
+}
+
+$(document).ready(function () {
+	
+    $('#naverLogin').on('click', function (e) {
+        e.preventDefault(); 
+
+        if ($(this).is(':checked')) {			
+            getConfirmModal("네이버 연동을 실행하시겠습니까?", "", openCustomNaverLoginPopup);
+            
+        } else {
+			
+            getConfirmModal("네이버 연동을 해지하시겠습니까?", "", naverUnlink); 
+        }
+    });
+});
+
+
+
+
+
+
+
+
 function validateForm() {
 	let isValid = true;
 	// 비밀번호 검증
@@ -218,7 +265,10 @@ function prepareSubmit() {
        member_phoneNo: fullPhone,
        member_pw: document.getElementById("input-pw").value,
        member_addr: address,
-       member_detail_addr: addressDetail
+       member_detail_addr: addressDetail,
+       kakao_login_cd: document.getElementById("kakao_login_cd").value,
+       naver_login_cd: document.getElementById("naver_login_cd").value,
+
    };
 
    fetch('/user/mypage/updatedata', {

@@ -55,9 +55,16 @@ function checkNaverIdAvailability(naverId) {
             if (window.opener) {
                 window.opener.document.getElementById('naver_login_cd').value = naverId; // 부모창에 값 설정
                 let naverCheckbox = window.opener.document.querySelector('.check-box.naver');
+                let naverInfoModifyCheckbox = window.opener.document.querySelector('#naverLogin');
+
                 if (naverCheckbox) {
                     naverCheckbox.checked = true; // 부모 창의 체크박스 체크
                 }
+                
+                // #naverLogin 처리
+				if (naverInfoModifyCheckbox) {
+				    naverInfoModifyCheckbox.checked = true;  // 체크박스를 체크 상태로 변경
+				}
                 window.opener.getCheckModal("연동이 완료되었습니다.");
 
             }
@@ -72,3 +79,4 @@ function checkNaverIdAvailability(naverId) {
         console.error('네이버 ID 중복 체크 중 오류 발생:', error);
     });
 }
+

@@ -17,6 +17,14 @@
 		SELECT member_pw FROM members WHERE member_id = #{member_id}
 	</select>
 	
+	<update id="unlinkKakaoCD" parameterType="userMembers">
+		UPDATE members
+	<set>
+		kakao_login_cd = #{kakao_login_cd}
+	</set>
+		WHERE member_id = #{member_id}
+	</update>
+	
 	
 	<update id="updateMemberInfo" parameterType="userMembers">
     	UPDATE members
@@ -35,8 +43,11 @@
                 member_addr = #{member_addr},
             </if>
             <if test="member_detail_addr != null and member_detail_addr != ''">
-                member_detail_addr = #{member_detail_addr}
+                member_detail_addr = #{member_detail_addr},
             </if>
+                naver_login_cd = #{naver_login_cd},
+                kakao_login_cd = #{kakao_login_cd}
+            
         </trim>
     </set>
 	    WHERE member_id = #{member_id}
@@ -47,8 +58,7 @@
 			members
 		WHERE
 			member_id = #{member_id}
-	
-	
+
 	</delete>
 	
 </mapper>
