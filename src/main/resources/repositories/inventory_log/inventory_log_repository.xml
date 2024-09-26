@@ -26,7 +26,7 @@
 			</if>
 			<if test="search_conditions != null and !search_conditions.equals('')">
 				<if test="word != null and !word.equals('')">
-					AND log_transaction_num = #{word}
+					AND log_transaction_num LIKE '%' || #{word} || '%'
 				</if>
 			</if>
 	</select>

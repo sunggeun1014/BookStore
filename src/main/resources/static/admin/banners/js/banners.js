@@ -9,7 +9,7 @@ $(document).ready(function() {
 				{ targets: '_all', orderable: false },
 			],
 
-			order: [[1, 'asc']], // 번호 오름차순에 따라 정렬
+			order: [[6, 'desc']], // 번호 오름차순에 따라 정렬
 			ajax: {
 				url: '/admin/banners/json',
 				dataSrc: function(json) {
@@ -27,8 +27,7 @@ $(document).ready(function() {
 					}
 				},
 				{
-					data: 'banner_num',
-					orderable: true,
+					data: null,
 					width: '20px',
 				},
 				{
@@ -108,8 +107,13 @@ $(document).ready(function() {
 				zeroRecords: "조회된 정보가 없습니다.",
 				emptyTable: "조회된 정보가 없습니다.",
 			},
-
 			rowCallback: function(row, data) {
+				let api = this.api();
+			    api.column(1, { page: 'current' }).nodes().each(function(cell, i) {
+			        let pageStart = api.settings()[0]._iDisplayStart;
+			        $(cell).html(pageStart + i + 1);
+			    });
+								
 				$(row).attr('data-id', data.banner_num); // 각 행에 고유 ID 설정
 
 				// 제목 컬럼의 링크 클릭 이벤트 추가
@@ -240,6 +244,8 @@ $(document).ready(function() {
 
 	// 검색 버튼 클릭 이벤트 핸들러
 	$('#searchButton').on('click', function() {
+		var searchValue = { '': '', '01': '배너', '02': '팝업' }[$('input[name="banner-position"]:checked').val()] || '';
+		table.column(3).search(searchValue).draw(); // 3은 banner_position 컬럼의 인덱스입니다.
 		table.columns(2).search($('#searchKeyword').val()).draw();
 	});
 
@@ -248,11 +254,6 @@ $(document).ready(function() {
 		if (event.key === 'Enter') {
 			$('#searchButton').click();
 		}
-	});
-
-	// 날짜 변경 시 테이블 다시 그리기
-	$('#startDate, #endDate').on('change', function() {
-		table.draw();
 	});
 
 	// 날짜 필터링 로직 추가
@@ -278,13 +279,6 @@ $(document).ready(function() {
 			return true;
 		}
 	);
-
-	// 라디오 버튼 필터링 이벤트
-	$('input[name="banner-position"]').on('change', function() {
-		var searchValue = { '': '', '01': '배너', '02': '팝업' }[$('input[name="banner-position"]:checked').val()] || '';
-		table.column(3).search(searchValue).draw(); // 3은 banner_position 컬럼의 인덱스입니다.
-	});
-
 
 	document.querySelectorAll('.input-box input').forEach(function(input) {
 		input.addEventListener('focus', function() {

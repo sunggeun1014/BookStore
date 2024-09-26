@@ -6,15 +6,11 @@ $(document).ready(function() {
 		table = $('#inquiries').DataTable({
 			order: [[4, 'desc']], // 기본적으로 문의 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
 			ajax: {
-				url: '/admin/inquiries/json',
-				dataSrc: function(json) {
-					$('#total-row').text('총 ' + json.size + '건');
-					return json.data;
-				}
+				url: '/admin/inquiries/json'
 			},
 			columns: [
 				{
-					data: 'inquiry_num',
+					data: null,
 					orderable: false
 				},
 				{
@@ -64,6 +60,17 @@ $(document).ready(function() {
 				infoEmpty: "조회된 정보가 없습니다.",
 				zeroRecords: "조회된 정보가 없습니다.",
 				emptyTable: "조회된 정보가 없습니다.",
+			},
+			drawCallback: function(settings) {
+			    let api = this.api();
+			    let filteredRecords = api.rows({ search: 'applied' }).count();
+
+			    $('#total-row').text('총 ' + filteredRecords + '건');
+
+			    api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
+			        let pageStart = api.settings()[0]._iDisplayStart;
+			        $(cell).html(pageStart + i + 1);
+			    });
 			},
 			rowCallback: function(row, data, index) {
 				// 화면에 표시되는 열을 1부터 시작하도록 변경
@@ -229,10 +236,7 @@ function resetFilters() {
 
 	$('input[name="order_status"]').prop('checked', false); // 모든 라디오 버튼 체크 해제
 	$('#order-status-all').prop('checked', true); // '전체' 상태로 체크
-
-
-	$('.date-option').prop('checked', false).removeClass('active');
-	$('.today').prop('checked', true).addClass('active');
+	$('.date-btn').removeClass("active");
 	
 	// DataTables 검색 및 필터링 초기화
 	table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화

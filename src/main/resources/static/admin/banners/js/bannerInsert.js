@@ -44,7 +44,7 @@ $(document).ready(function() {
 		e.preventDefault(); // 기본 폼 제출 동작 방지
 
 		if (validateForm()) {
-			getConfirmModal('등록이 완료되었습니다.', function() {
+			getConfirmModal('등록하시겠습니까?', function() {
 				$('form').off('submit').submit(); // 성공 시 폼 제출
 			});
 		} 

@@ -149,6 +149,8 @@ function resetBtn() {
 	$("#startDate").val("");
 	$("#endDate").val("");
 	$("#word").val("");
+	
+	table.ajax.reload();
 }
 
 function numberFormatter(number) {

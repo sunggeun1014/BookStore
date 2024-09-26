@@ -9,11 +9,7 @@ $(document).ready(function() {
 			],
 			order: [[3, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
 			ajax: {
-				url: '/admin/notice/json',
-				dataSrc: function(json) {
-					$('#total-row').text('총 ' + json.size + '건');
-					return json.data;
-				}
+				url: '/admin/notice/json'
 			},
 			columns: [
 				{
@@ -86,6 +82,17 @@ $(document).ready(function() {
 				infoEmpty: "조회된 정보가 없습니다.",
 				zeroRecords: "조회된 정보가 없습니다.",
 				emptyTable: "조회된 정보가 없습니다.",
+			},
+			drawCallback: function(settings) {
+			    let api = this.api();
+			    let filteredRecords = api.rows({ search: 'applied' }).count();
+
+			    $('#total-row').text('총 ' + filteredRecords + '건');
+
+			    api.column(1, { page: 'current' }).nodes().each(function(cell, i) {
+			        let pageStart = api.settings()[0]._iDisplayStart;
+			        $(cell).html(pageStart + i + 1);
+			    });
 			},
 			rowCallback: function(row, data, index) {
 				// 화면에 표시되는 열을 1부터 시작하도록 변경
@@ -185,7 +192,6 @@ $(document).ready(function() {
 			alert("삭제할 항목을 선택하세요.");
 			return;
 		}
-		console.log(selectedIds);
 		$.ajax({
 			url: '/admin/notice/delete',
 			type: 'POST',
@@ -216,10 +222,9 @@ $(document).ready(function() {
 
 	// 검색 필터 적용 함수
 	function applySearchFilter() {
-		var selectedColumn = $('#searchColumn').val(); // 선택한 열의 인덱스
 		var keyword = $('#searchKeyword').val(); // 입력된 검색어
 		// 선택한 열로 검색 필터를 적용
-		table.column(selectedColumn).search(keyword).draw();
+		table.column(2).search(keyword).draw();
 	}
 
 
@@ -342,7 +347,8 @@ function resetFilters() {
 	// 날짜 필터 초기화
 	$('#startDate').val('');
 	$('#endDate').val('');
-
+	$(".date-btn ").removeClass("active");
+	
 	// DataTables 검색 및 필터링 초기화
 	table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화
 

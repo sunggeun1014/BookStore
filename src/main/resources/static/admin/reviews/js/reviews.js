@@ -13,11 +13,7 @@ $(document).ready(function() {
 			],
 			order: [[6, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
 			ajax: {
-				url: '/admin/reviews/json',
-				dataSrc: function(json) {
-					$('#total-row').text('총 ' + json.size + '건');
-					return json.data;
-				}
+				url: '/admin/reviews/json'
 			},
 			columns: [
 				{
@@ -28,8 +24,8 @@ $(document).ready(function() {
 					orderable: false,
 				},
 				{
-					data: 'review_num', // 실제 데이터는 변경하지 않습니다.
-					orderable: true // 이 컬럼은 정렬 가능
+					data: null, // 실제 데이터는 변경하지 않습니다.
+					orderable: false // 이 컬럼은 정렬 가능
 				},
 				{
 					data: 'review_content',
@@ -89,6 +85,17 @@ $(document).ready(function() {
 				infoEmpty: "조회된 정보가 없습니다.",
 				zeroRecords: "조회된 정보가 없습니다.",
 				emptyTable: "조회된 정보가 없습니다.",
+			},
+			drawCallback: function(settings) {
+			    let api = this.api();
+			    let filteredRecords = api.rows({ search: 'applied' }).count();
+
+			    $('#total-row').text('총 ' + filteredRecords + '건');
+
+			    api.column(1, { page: 'current' }).nodes().each(function(cell, i) {
+			        let pageStart = api.settings()[0]._iDisplayStart;
+			        $(cell).html(pageStart + i + 1);
+			    });
 			},
 			rowCallback: function(row, data, index) {
 				// 화면에 표시되는 열을 1부터 시작하도록 변경
@@ -212,7 +219,7 @@ $(document).ready(function() {
 	function applySearchFilter() {
 		var selectedColumn = $('#searchColumn').val(); // 선택한 열의 인덱스
 		var keyword = $('#searchKeyword').val().trim(); // 입력된 검색어
-
+		
 		table.column(selectedColumn).search(keyword).draw();
 	}
 
@@ -319,9 +326,7 @@ function resetFilters() {
 	// 날짜 필터 초기화
 	$('#startDate').val('');
 	$('#endDate').val('');
-
-	$('.date-option').prop('checked', false).removeClass('active');
-	$('.today').prop('checked', true).addClass('active');
+	$('.date-btn').removeClass('active');
 
 	// DataTables 검색 및 필터링 초기화
 	table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화

@@ -181,9 +181,6 @@ $(document).ready(function() {
 			        $(cell).html(pageStart + i + 1);
 			    });
 			},
-            initComplete: function () {
-                console.log("테이블 초기화 완료")
-            },
             rowCallback: function(row, data) {
                 $(row).attr('data-id', data.book_isbn); // 각 행에 고유 ID 설정
 

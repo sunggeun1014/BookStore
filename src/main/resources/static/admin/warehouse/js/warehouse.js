@@ -4,11 +4,7 @@ $(document).ready(function() {
     table = $('#warehouse').DataTable({
 	ajax: {
 	    // 값을 받아오는 url, data타입 작성
-	    url: '/admin/warehouse/json',
-	    dataSrc: function(json) {
-	        $('#total-row').text('총 ' + json.size + '건');
-	        return json.data;
-	    }
+	    url: '/admin/warehouse/json'
 	},
 	
 	// 모든 컬럼을 가운데 정렬
@@ -66,7 +62,10 @@ $(document).ready(function() {
 	
 	drawCallback: function(settings) {
 	    // 페이지 내 항목의 순서 번호를 업데이트합니다.
-	    var api = this.api();
+	    let api = this.api();
+		let filteredRecords = api.rows({ search: 'applied' }).count();
+		
+		$('#total-row').text(`총 ${filteredRecords}건`);
 	    api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
 	        // 페이지의 첫 번째 항목 인덱스를 기준으로 순서 번호를 계산합니다.
 	        var pageStart = api.settings()[0]._iDisplayStart;
@@ -92,6 +91,27 @@ $(document).ready(function() {
     
     });
     
+	// 날짜 필터링 로직 추가
+	$.fn.dataTable.ext.search.push(
+	    function(settings, data, dataIndex) {
+	        var startDate = $('#startDate').val();
+	        var endDate = $('#endDate').val();
+	        var warehousingDate = data[4];
+	        
+	        // 날짜 형식을 Date 객체로 변환
+	        var start = startDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(startDate)) : null;
+	        var end = endDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(endDate)) : null;
+	        var manager = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(warehousingDate));
+
+	        if ((start === null && end === null) ||
+	            (start <= manager && (end === null || manager <= end))) {
+	            return true;
+	        }
+	        return false;
+	    }
+	);
+
+	
     $('#warehouse tbody').on('click', '.isbn-link', function(e) {
         e.preventDefault(); // 기본 링크 동작 방지
 
@@ -107,7 +127,8 @@ $(document).ready(function() {
         var selectedColumn = $('#searchColumn').val();
         var keyword = $('#searchKeyword').val();
         // 선택된 컬럼과 입력된 키워드로 필터링
-        table.column(selectedColumn).search(keyword).draw(); 
+		table.ajax.reload(); 
+        table.column(selectedColumn).search(keyword).draw();
     });
 
     // searchKeyword에서 Enter 키를 누를 때 searchButton 클릭 이벤트 실행
@@ -117,30 +138,6 @@ $(document).ready(function() {
         }
     });
 
-    $('#startDate, #endDate').on('change', function() {
-        table.draw(); // 날짜 변경 시 테이블 다시 그리기
-    });
-
-    // 날짜 필터링 로직 추가
-    $.fn.dataTable.ext.search.push(
-        function(settings, data, dataIndex) {
-            var startDate = $('#startDate').val();
-            var endDate = $('#endDate').val();
-            var warehousingDate = data[4];
-			
-            // 날짜 형식을 Date 객체로 변환
-            var start = startDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(startDate)) : null;
-            var end = endDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(endDate)) : null;
-            var manager = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(warehousingDate));
-
-            if ((start === null && end === null) ||
-                (start <= manager && (end === null || manager <= end))) {
-                return true;
-            }
-            return false;
-        }
-    );
-    
     document.querySelectorAll('.input-box input').forEach(function(input) {
         input.addEventListener('focus', function() {
             // Input 박스를 클릭하면 기존 값을 제거
@@ -182,10 +179,11 @@ function resetFilters() {
     // 날짜 필터 초기화
     $('#startDate').val('');
     $('#endDate').val('');
-
+	$(".date-btn").removeClass("active");
+	
     // DataTables 검색 및 필터링 초기화
     table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화
-
+	
     table.draw();
 }
 
