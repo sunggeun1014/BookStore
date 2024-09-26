@@ -20,6 +20,7 @@
             </div>
             <div class="complete-msg">
                 <p>주문이 완료되었습니다.</p>
+                <input type="hidden" name="order_num" id="order_num" th:value="${orderDetail.order_num}">
                 <p>주문번호 [[${orderDetail.order_num}]]</p>
             </div>
         </section>

@@ -26,13 +26,13 @@
             <div class="addr-info">
                 <p class="sub-title">배송지 정보</p>
                 <div class="user-info">
-                    <p id="deliver-name" th:text="${memberDTO.member_name}"></p>
+                    <p id="deliver-name">[[${memberDTO.member_name}]]</p>
                     <input type="hidden" name="member_id" id="member_id" th:value="${memberDTO.member_id}">
-                    <p id="deliver-number" th:text="${memberDTO.member_phoneNo}"></p>
+                    <p id="deliver-number">[[${memberDTO.member_phoneNo}]]</p>
                     <div class="addr-wrap">
                         <div class="addr-text">
-                            <p id="deliver-addr" th:text="${memberDTO.member_addr}"></p>
-                            <p id="deliver-addr-detail" th:text="${memberDTO.member_detail_addr}"></p>
+                            <p id="deliver-addr">[[${memberDTO.member_addr}]]</p>
+                            <p id="deliver-addr-detail">[[${memberDTO.member_detail_addr}]]</p>
                         </div>
                         <button class="default-btn border" id="edit-btn">변경</button>
                     </div>
@@ -145,6 +145,7 @@
                     <span>상품이 없습니다</span>
                 </div>
                 <div class="product-list" th:each="item : ${combinedItems}">
+                    <input type="hidden" name="cart_num" class="cart_num" th:value="${item.cart_num}">
                     <input type="hidden" name="order_name" id="order_name"
                            th:data-order-name="${itemsCnt == 1 ? combinedItems[0].book_name : combinedItems[0].book_name + ' 외 ' + (itemsCnt - 1) + '권'}">
                     <input type="hidden" name="book_isbn" class="order-book-isbn" th:data-isbn="${item.book_isbn}">

@@ -204,6 +204,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				const thumbnail = checkbox.getAttribute("data-thumbnail")
 				const qty = checkbox.closest('.cart-item').querySelector('.input-qty').value
 				const price = qty * checkbox.getAttribute("data-price")
+				const cartNum = checkbox.getAttribute('data-cart-num');
 
 				selectedItems.push({
 					book_isbn: bookIsbn,
@@ -211,6 +212,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					cart_purchase_qty: qty,
 					book_price: price,
 					book_thumbnail_changed: thumbnail,
+					cart_num: cartNum,
 				})
 			});
 

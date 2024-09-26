@@ -1,9 +1,6 @@
 package com.ezen.bookstore.user.payment.service;
 
-import com.ezen.bookstore.user.payment.dto.CompleteOrderDTO;
-import com.ezen.bookstore.user.payment.dto.PaymentRequestDTO;
-import com.ezen.bookstore.user.payment.dto.UserOrderDTO;
-import com.ezen.bookstore.user.payment.dto.UserOrderDetailsDTO;
+import com.ezen.bookstore.user.payment.dto.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,6 +13,6 @@ public interface PaymentService {
     public String getToken () throws Exception;
     public String registerPayment (String paymentId, CompleteOrderDTO completeOrderDTO) throws IOException, InterruptedException;
     public boolean verifyPayment (String paymentId, String token) throws Exception;
-    public void insertOrder (CompleteOrderDTO completeOrderDTO) throws SQLException;
-
+    public void insertOrder (CompleteOrderDTO completeOrderDTO, List<CompleteDetailDTO> completeDetailList) throws SQLException;
+    public void cancelPayment (String paymentId) throws Exception;
 }
