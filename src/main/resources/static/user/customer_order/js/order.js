@@ -45,6 +45,11 @@ const hyphenTel = (target) => {
         .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 }
 
+const deliverName = document.getElementById("deliver-name");
+const deliverNumber = document.getElementById("deliver-number");
+const deliverAddr = document.getElementById("deliver-addr");
+const deliverAddrDe = document.getElementById("deliver-addr-detail");
+
 function showEditAddrModal() {
     const editBtn = document.querySelector("#edit-btn");
     const closeBtn = document.querySelector("#close-btn");
@@ -56,12 +61,6 @@ function showEditAddrModal() {
     const editDetailAddrInput = document.getElementById("edit-addr-detail");
     const searchBtn = document.getElementById("search-btn");
     const addrBox = document.querySelector(".addr-input-box");
-    const deliverName = document.getElementById("deliver-name");
-    const deliverNumber = document.getElementById("deliver-number");
-    const deliverAddr = document.getElementById("deliver-addr");
-    const deliverAddrDe = document.getElementById("deliver-addr-detail");
-    const nameInput = document.getElementById("edit-name");
-    const numberInput = document.getElementById("edit-number");
     const errorMsg = document.querySelector(".edit-error");
 
     editBtn.addEventListener('click', function () {
@@ -123,12 +122,14 @@ function showEditAddrModal() {
             errorMsg.textContent = "⚠️ 유효한 주소를 입력하세요";
             return;
         }
+        const nameInput = document.getElementById("edit-name");
+        const numberInput = document.getElementById("edit-number");
 
         // 변경된 주소정보 업데이트
-        const newName = nameInput.value;
-        const newNumber = numberInput.value;
-        const newAddr = editAddInput.value;
-        const newAddrDetail = editDetailAddrInput.value;
+        let newName = nameInput.value;
+        let newNumber = numberInput.value;
+        let newAddr = editAddInput.value;
+        let newAddrDetail = editDetailAddrInput.value;
 
         deliverName.textContent = newName;
         deliverNumber.textContent = newNumber;
@@ -151,7 +152,7 @@ function toggleProductList() {
     })
 }
 
-function showModal() {
+function showLoginCheckModal() {
     const memberCheck = document.getElementById("member-check")
     let isLogin = memberCheck.getAttribute("data-member")
 
@@ -193,14 +194,11 @@ function goToOrder() {
 
     // const tempOrderNum = createTempOrderNum();
     const memberId = document.getElementById("member_id").value;
-    const deliverName = document.getElementById("deliver-name").textContent;
-    const deliverNumber = document.getElementById("deliver-number").textContent;
-    const addr = document.getElementById("deliver-addr").textContent;
-    const addrDetail = document.getElementById("deliver-addr-detail").textContent;
     const totalAmount = parseInt(document.querySelector(".price > p:first-child").textContent.replace(/,/g, ''));
     const orderNameInput = document.getElementById("order_name")
     const orderName = orderNameInput.getAttribute("data-order-name")
     const paymentId = `${Date.now()}_${totalAmount}`
+    const cartNums = document.querySelectorAll(".cart_num");
 
     // 디테일 정보
     const bookIsbns = document.querySelectorAll(".order-book-isbn");
@@ -218,10 +216,19 @@ function goToOrder() {
         details.push(detail);
     });
 
-
     payBtn.addEventListener('click', function (e) {
+        showLoginCheckModal();
+
         const entPwInputValue = entPwInput.value.trim();
         const isCommonDoor = document.getElementById("door-pw").checked;
+        const isFreeDoor = document.getElementById("door-free").checked;
+
+        let commonPW;
+        if (isFreeDoor) {
+            commonPW = '자유출입'
+        } else if (isCommonDoor) {
+            commonPW = entPwInputValue;
+        }
 
         if (isCommonDoor && entPwInputValue === "") {
             entPwInput.classList.add("error")
@@ -233,16 +240,27 @@ function goToOrder() {
             customerId: memberId,
         }
 
+        let cartNum = [];
+        cartNums.forEach(num => {
+            cartNum.push(num.value);
+        })
+
         const data = {
-            order_addr: addr,
-            order_addr_detail: addrDetail,
-            common_ent_pw: entPwInput.value,
-            recipient_name: deliverName,
-            recipient_phoneno: deliverNumber,
+            order_addr: deliverAddr.textContent,
+            order_addr_detail: deliverAddrDe.textContent,
+            common_ent_pw: commonPW,
             member_id: memberId,
+            recipient_name: deliverName.textContent,
+            recipient_phoneno: deliverNumber.textContent,
             paymentId: paymentId,
-            orderDetail: details
+            // cart_num: Array.isArray(cartNum) && cartNum.length > 0 ? cartNum : [], // 빈 배열로 초기화
+            orderDetails: details,
         };
+
+        // // cart_num이 비어있으면 아예 해당 속성을 제거
+        // if (cartNum && cartNum.length > 0) {
+        //     data.cart_num = cartNum; // 카트넘이 있을 경우만 추가
+        // }
 
         PortOne.requestPayment({
             storeId: "store-5d54b2b0-bf88-45dd-8265-7018895b8a38",
@@ -264,20 +282,13 @@ function goToOrder() {
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (response, status, xhr) {
-                    const statusCode = xhr.status;
-
-                    if (statusCode === 200) {
-                        console.log('결제 성공', statusCode);
-                    } else if (statusCode === 400) {
-                        console.log('요청 오류', statusCode);
-                    } else if (statusCode === 401) {
-                        console.log('인증 오류', statusCode);
-                    } else if (statusCode === 403) {
-                        console.log('결제거절', statusCode)
-                    } else if (statusCode === 409) {
-                        console.log('이미결제', statusCode)
+                    const jsonResponse = JSON.parse(response);
+                    console.log(jsonResponse.order_num)
+                    if (xhr.status === 200 && jsonResponse.order_num) {
+                        // 페이지 이동
+                        window.location.href = `/user/complete-order?order_num=${jsonResponse.order_num}&member_id=${memberId}`;
                     } else {
-                        console.log('기타 오류: ' + statusCode);
+                        console.log('결제 실패', xhr.status);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -289,6 +300,38 @@ function goToOrder() {
         }).catch(error => {
             console.log('결제 요청 중 오류:', error);
         });
+
+        // $.ajax({
+        //     url: '/user/payment/request',
+        //     method: 'POST',
+        //     contentType: 'application/json',
+        //     data: JSON.stringify(data),
+        //     success: function (response, status, xhr) {
+        //         const jsonResponse = JSON.parse(response); // JSON 문자열을 객체로 변환
+        //         const statusCode = xhr.status;
+        //         if (statusCode === 200) {
+        //             console.log('결제 성공', statusCode);
+        //             if (jsonResponse.order_num) {
+        //                 window.location.href = `/user/complete-order?order_num=${jsonResponse.order_num}&member_id=${memberId}`
+        //             }
+        //         } else if (statusCode === 400) {
+        //             console.log('요청 오류', statusCode);
+        //         } else if (statusCode === 401) {
+        //             console.log('인증 오류', statusCode);
+        //         } else if (statusCode === 403) {
+        //             console.log('결제거절', statusCode)
+        //         } else if (statusCode === 409) {
+        //             console.log('이미결제', statusCode)
+        //         } else {
+        //             console.log('기타 오류: ' + statusCode);
+        //         }
+        //     },
+        //     error: function (xhr, status, error) {
+        //         console.log('AJAX 호출 중 오류 발생: ' + error);
+        //         console.log('상태: ' + xhr.status);
+        //         console.log('응답 본문: ' + xhr.responseText);
+        //     }
+        // })
 
     })
 }
@@ -302,5 +345,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 window.onload = function () {
-    showModal();
+    showLoginCheckModal();
 }

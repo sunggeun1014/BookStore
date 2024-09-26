@@ -1,17 +1,14 @@
 package com.ezen.bookstore.user.payment.service;
 
-import com.ezen.bookstore.user.payment.dto.CompleteOrderDTO;
-import com.ezen.bookstore.user.payment.dto.PaymentRequestDTO;
-import com.ezen.bookstore.user.payment.dto.UserOrderDTO;
-import com.ezen.bookstore.user.payment.dto.UserOrderDetailsDTO;
+import com.ezen.bookstore.user.payment.dto.*;
 import com.ezen.bookstore.user.payment.repository.PaymentRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URI;
@@ -33,12 +30,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Value("${import.v2.api}")
     private String apiSecret;
-
-    @Value("${import.store.id}")
-    private String storeId;
-
-    @Value("${import.id}")
-    private String iamId;
 
     public PaymentServiceImpl(PaymentRepository paymentRepository, ObjectMapper mapper) {
         this.paymentRepository = paymentRepository;
@@ -128,16 +119,46 @@ public class PaymentServiceImpl implements PaymentService {
         return "PAID".equals(status);
     }
 
+    @Transactional
     @Override
-    public void insertOrder(CompleteOrderDTO completeOrderDTO) throws SQLException {
-        log.info("등록dto: {}", completeOrderDTO);
+    public void insertOrder(CompleteOrderDTO completeOrder, List<CompleteDetailDTO> completeDetailList) throws SQLException {
+        // 1. order 테이블에 주문 삽입
         try {
-            log.info("insertOrder 호출됨");
-            paymentRepository.insertOrder(completeOrderDTO);
-        } catch (SQLException sqlException) {
-            log.error("SQL 오류 발생: 코드: {}, 메시지: {}", sqlException.getErrorCode(), sqlException.getMessage());
-        } catch (Exception e) {
-            log.error("오류?: {}", e.getMessage());
+            log.info("주문 삽입 요청: {}", completeOrder);
+            paymentRepository.insertOrder(completeOrder);
+            log.info("주문 삽입 완료: order_num={}", completeOrder.getOrder_num());
+        } catch (SQLException e) {
+            log.error("주문 삽입 중 오류 발생: {}", e.getMessage());
+            throw e; // 예외를 상위 레이어에 전달
         }
+
+        // 2. 주문 상세 삽입
+        for (CompleteDetailDTO detail : completeDetailList) {
+            detail.setOrder_num(completeOrder.getOrder_num());
+            log.info("주문 상세 삽입 요청: {}", detail);
+            try {
+                paymentRepository.insertOrderDetail(detail);
+                log.info("주문 상세 삽입 완료: order_num={}, book_isbn={}", detail.getOrder_num(), detail.getBook_isbn());
+            } catch (SQLException e) {
+                log.error("주문 상세 삽입 중 오류 발생: {}", e.getMessage());
+                throw e; // 예외를 상위 레이어에 전달
+            }
+        }
+    }
+
+
+    @Override
+    public void cancelPayment(String paymentId) throws Exception {
+        log.info("결제 취소 요청: paymentId={}", paymentId);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.portone.io/payments/" + paymentId + "/cancel"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "PortOne " + apiSecret)
+                .method("POST", HttpRequest.BodyPublishers.ofString("{\"reason\":\"주문오류\"}"))
+                .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        response.body();
     }
 }

@@ -13,6 +13,7 @@ function toggleOrderList() {
 function moveOtherPage() {
     const goMain = document.getElementById("go-main")
     const goDetail = document.getElementById("go-detail")
+    const orderNum = document.getElementById("order_num").value
 
     function urlAction(btn, url) {
         btn.addEventListener("click", function () {
@@ -21,7 +22,7 @@ function moveOtherPage() {
     }
 
     urlAction(goMain, "/user/main")
-    // urlAction(goDetail, "")
+    urlAction(goDetail, `/user/mypage/orderDetail?orderNum=${orderNum}`)
 }
 
 

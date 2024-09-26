@@ -1,13 +1,11 @@
 package com.ezen.bookstore.user.payment.controller;
 
-import com.ezen.bookstore.user.payment.dto.CompleteOrderDTO;
-import com.ezen.bookstore.user.payment.dto.PaymentRequestDTO;
-import com.ezen.bookstore.user.payment.dto.UserOrderDetailsDTO;
-import com.ezen.bookstore.user.payment.service.PaymentService;
+import com.ezen.bookstore.user.cart.service.UserCartService;
+import com.ezen.bookstore.user.payment.dto.*;
 import com.ezen.bookstore.user.payment.service.PaymentServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,11 +25,24 @@ import java.sql.SQLException;
 public class PaymentRestController {
 
     private final PaymentServiceImpl paymentService;
+    private final UserCartService userCartService;
 
     @PostMapping("/request")
-    public ResponseEntity<String> handlePaymentRequest(@RequestBody CompleteOrderDTO completeOrderDTO) {
+    public ResponseEntity<String> handlePaymentRequest(@RequestBody OrderRequest orderRequest) {
         try {
-            String paymentId = completeOrderDTO.getPaymentId();
+            CompleteOrderDTO order = new CompleteOrderDTO();
+            order.setOrder_num(orderRequest.getOrder_num());
+            order.setOrder_addr(orderRequest.getOrder_addr());
+            order.setOrder_addr_detail(orderRequest.getOrder_addr_detail());
+            order.setCommon_ent_pw(orderRequest.getCommon_ent_pw());
+            order.setMember_id(orderRequest.getMember_id());
+            order.setRecipient_name(orderRequest.getRecipient_name());
+            order.setRecipient_phoneno(orderRequest.getRecipient_phoneno());
+            order.setPaymentId(orderRequest.getPaymentId());
+
+            List<CompleteDetailDTO> details = orderRequest.getOrderDetails();
+
+            String paymentId = order.getPaymentId();
             // 1. 토큰 받기
             String token = paymentService.getToken();
 
@@ -39,18 +52,45 @@ public class PaymentRestController {
             // 3. 결제검증
             boolean paymentSuccess = paymentService.verifyPayment(paymentId, token);
 
+            Map<String, Object> response = new HashMap<>();
+
+            // ObjectMapper를 사용하여 Map을 JSON 문자열로 변환
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonResponse = null;
+
             if (paymentSuccess) {
                 // 4. 결제 완료 처리
                 log.info("결제 성공, 주문 삽입 시작");
                 try {
-                    paymentService.insertOrder(completeOrderDTO);
+                    if (details.isEmpty()) {
+                        log.error("주문상세 null or 빈값");
+                        paymentService.cancelPayment(paymentId);
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문상세못찾음");
+                    }
+
+                    paymentService.insertOrder(order, details);
+                    response.put("order_num", order.getOrder_num());
+                    objectMapper.writeValueAsString(response);
+                    jsonResponse = objectMapper.writeValueAsString(response);
+
                 } catch (SQLException e) {
                     log.error("SQL 오류 발생: {}", e.getMessage());
+                    try {
+                        paymentService.cancelPayment(paymentId);
+                    } catch (Exception cancelEx) {
+                        log.error("결제취소오류: {}", cancelEx.getMessage());
+                    }
                 } catch (Exception e) {
                     log.error("주문 삽입 중 오류 발생: {}", e.getMessage());
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 삽입 중 오류 발생");
+                    try {
+                        paymentService.cancelPayment(paymentId);
+                    } catch (Exception cancelEx) {
+                        log.error("결제취소오류2: {}", cancelEx.getMessage());
+                    }
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 삽입 중 오류 발생, 결제취소");
                 }
-                return ResponseEntity.ok("결제 완료 성공");
+                log.info(jsonResponse);
+                return ResponseEntity.ok(jsonResponse);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 검증 실패");
             }

@@ -11,6 +11,8 @@ public class OrderItemDTO {
     private Integer book_price;
     private Integer cart_purchase_qty;
     private String book_thumbnail_changed;
+    private Integer cart_num;
+
     @Getter
     @Setter
     private boolean selected;

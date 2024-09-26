@@ -1,6 +1,7 @@
 package com.ezen.bookstore.user.payment.repository;
 
 import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
+import com.ezen.bookstore.user.payment.dto.CompleteDetailDTO;
 import com.ezen.bookstore.user.payment.dto.CompleteOrderDTO;
 import com.ezen.bookstore.user.payment.dto.UserOrderDTO;
 import com.ezen.bookstore.user.payment.dto.UserOrderDetailsDTO;
@@ -35,9 +36,12 @@ public class PaymentRepository {
     }
 
     public void insertOrder(CompleteOrderDTO completeOrderDTO) throws SQLException {
-        log.info("주문 데이터: {}", completeOrderDTO);
         sql.insert("OrderPayment.insertCustomerOrder", completeOrderDTO);
-        log.info("주문 삽입 완료");
+        log.info("주문 삽입 완료: {}", completeOrderDTO);
+    }
+
+    public void insertOrderDetail(CompleteDetailDTO completeDetailDTO) throws SQLException {
+        sql.insert("OrderPayment.insertOrderDetail", completeDetailDTO);
     }
 
 }

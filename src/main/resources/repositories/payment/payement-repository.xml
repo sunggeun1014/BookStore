@@ -4,52 +4,47 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="OrderPayment">
     <insert id="insertCustomerOrder" parameterType="CompleteOrder">
-        <![CDATA[
-        DECLARE
-            v_order_num NUMBER;
+        <selectKey keyProperty="order_num" resultType="Integer" order="BEFORE">
+            SELECT customer_orders_seq.nextval FROM dual
+        </selectKey>
+        INSERT INTO
+        customer_orders (
+        order_num,
+        order_addr,
+        order_addr_detail,
+        common_ent_pw,
+        member_id,
+        recipient_name,
+        recipient_phoneno,
+        paymentId
+        )
+        VALUES (
+        #{order_num},
+        #{order_addr, jdbcType=VARCHAR},
+        #{order_addr_detail, jdbcType=VARCHAR},
+        #{common_ent_pw, jdbcType=VARCHAR},
+        #{member_id, jdbcType=VARCHAR},
+        #{recipient_name, jdbcType=VARCHAR},
+        #{recipient_phoneno, jdbcType=VARCHAR},
+        #{paymentId, jdbcType=VARCHAR}
+        )
+    </insert>
 
-        BEGIN
-            -- customer_orders 테이블에 삽입
-            INSERT INTO customer_orders (
-                order_num,
-                order_addr,
-                order_addr_detail,
-                common_ent_pw,
-                recipient_name,
-                recipient_phoneno,
-                member_id,
-                paymentId
-            ) VALUES (
-                customer_orders_seq.nextval,
-                #{orderAddr},
-                #{orderAddrDetail},
-                #{commonEntPw},
-                #{recipientName},
-                #{recipientPhoneno},
-                #{memberId},
-                #{paymentId}
-            )
-            RETURNING order_num INTO v_order_num;
-
-            -- orderDetail 리스트의 각 항목에 대해 customer_order_details 테이블에 삽입
-            <foreach collection="orderDetail" item="detail" separator=";">
-                INSERT INTO customer_order_details (
-                    order_detail_num,
-                    order_detail_qty,
-                    book_isbn,
-                    order_detail_price,
-                    order_num
-                ) VALUES (
-                    customer_orders_detail_seq.nextval,
-                    #{detail.order_detail_qty},
-                    #{detail.book_isbn},
-                    #{detail.order_detail_price},
-                    v_order_num
-                )
-            </foreach;
-
-        END;
-        ]]>
+    <insert id="insertOrderDetail" parameterType="CompleteDetail">
+        INSERT INTO customer_order_details (
+        order_detail_num,
+        order_detail_qty,
+        order_num,
+        book_isbn,
+        order_detail_price
+        )
+        VALUES (
+        customer_orders_detail_seq.nextval,
+        #{order_detail_qty},
+        #{order_num},
+        #{book_isbn},
+        #{order_detail_price}
+        )
     </insert>
 
     <select id="getOrderDetail" resultType="userOrders" parameterType="java.util.HashMap">
