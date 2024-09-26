@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +73,7 @@ public class PaymentRestController {
                     objectMapper.writeValueAsString(response);
                     jsonResponse = objectMapper.writeValueAsString(response);
                     
+                    // 주문, 결제 완료 후 장바구니 삭제
                     if (orderRequest.getCart_num().get(0) != null) {                    	
                     	userCartService.deleteItemsByCartNums(orderRequest.getCart_num(), order.getMember_id());
                     }
