@@ -22,8 +22,15 @@ public class UserNoticesServiceImpl implements UserNoticesService{
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<UserNoticesDTO> getNoticeList(UserNoticesDTO userNoticesDTO) {		
-		return noticesMapper.getNoticesList(userNoticesDTO);
+	public List<UserNoticesDTO> getNoticeList(int page, int size, String keyword, UserNoticesDTO userNoticesDTO) {
+	    int startRow = page * size + 1;  
+	    int endRow = (page + 1) * size;  
+	    return noticesMapper.getNoticesListWithPaging(userNoticesDTO, startRow, endRow, "%" + keyword + "%"); // 검색어 전달
+	}
+
+	@Override
+	public int getTotalNoticesCount(String keyword) {
+	    return noticesMapper.getTotalNoticesCount("%" + keyword + "%"); 
 	}
 	
 	@Override
@@ -35,13 +42,14 @@ public class UserNoticesServiceImpl implements UserNoticesService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserNoticesDTO getPreviousNoticeByNumber(Integer noticeNum) {
-		return noticesMapper.getPreviousNotice(noticeNum);
+	public UserNoticesDTO getPreviousNoticeByNumber(Integer noticeNum, String keyword) {
+	    return noticesMapper.getPreviousNotice(noticeNum, "%" + keyword + "%");
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserNoticesDTO getNextNoticeByNumber(Integer noticeNum) {
-		return noticesMapper.getNextNotice(noticeNum);
+	public UserNoticesDTO getNextNoticeByNumber(Integer noticeNum, String keyword) {
+	    return noticesMapper.getNextNotice(noticeNum, "%" + keyword + "%");
 	}
+
 }

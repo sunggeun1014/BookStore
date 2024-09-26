@@ -9,9 +9,20 @@ import com.ezen.bookstore.user.mypage.notice.dto.UserNoticesDTO;
 
 @Mapper
 public interface UserNoticesMapper {
-	List<UserNoticesDTO> getNoticesList(UserNoticesDTO usernoticesDTO);
+	
+	List<UserNoticesDTO> getNoticesListWithPaging(@Param("dto") UserNoticesDTO userNoticesDTO,
+            @Param("startRow") int startRow,
+            @Param("endRow") int endRow,
+            @Param("keyword") String keyword); 
+
+	int getTotalNoticesCount(@Param("keyword") String keyword);
+
 	UserNoticesDTO getNoticesDetail(Integer noticeNum);
-    UserNoticesDTO getPreviousNotice(@Param("noticeNum") Integer noticeNum);
-    UserNoticesDTO getNextNotice(@Param("noticeNum") Integer noticeNum);
+	
+	UserNoticesDTO getPreviousNotice(@Param("noticeNum") Integer noticeNum,
+            @Param("keyword") String keyword);
+
+	UserNoticesDTO getNextNotice(@Param("noticeNum") Integer noticeNum,
+	        @Param("keyword") String keyword);
 
 }

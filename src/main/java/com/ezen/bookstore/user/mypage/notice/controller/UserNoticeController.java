@@ -27,24 +27,25 @@ public class UserNoticeController {
 	}
 	
 	@GetMapping("/notices-detail")
-	public String noticesDetailPage(
-	    @RequestParam("noticeNum") Integer noticeNum, Model model) {
+	public String getNoticeDetail(@RequestParam Integer noticeNum,
+	                              @RequestParam(required = false) String prevNoticeNum,
+	                              @RequestParam(required = false) String nextNoticeNum,
+	                              @RequestParam(required = false) String keyword, 
+	                              Model model) {
+		if (keyword == null) {
+	        keyword = "";  
+	    }
+	    UserNoticesDTO noticeDetail = userNoticesService.getNoticesDeatil(noticeNum);
+	    UserNoticesDTO previousNotice = userNoticesService.getPreviousNoticeByNumber(noticeNum, keyword);
+	    UserNoticesDTO nextNotice = userNoticesService.getNextNoticeByNumber(noticeNum, keyword);
 
-	    // 현재 공지사항 불러오기
-	    UserNoticesDTO currentNotice = userNoticesService.getNoticesDeatil(noticeNum);
-
-	    // DB에서 현재 noticeNum보다 작은 번호 중 가장 큰 값을 가져와서 prevNotice로 사용
-	    UserNoticesDTO prevNotice = userNoticesService.getPreviousNoticeByNumber(noticeNum);
-	    
-	    // DB에서 현재 noticeNum보다 큰 번호 중 가장 작은 값을 가져와서 nextNotice로 사용
-	    UserNoticesDTO nextNotice = userNoticesService.getNextNoticeByNumber(noticeNum);
-
-	    // 모델에 데이터 담기
-	    model.addAttribute("notice", currentNotice);
-	    model.addAttribute("prevNotice", prevNotice);
+	    model.addAttribute("notice", noticeDetail);
+	    model.addAttribute("prevNotice", previousNotice);
 	    model.addAttribute("nextNotice", nextNotice);
+	    model.addAttribute("keyword", keyword);  
 
 	    return "user/mypage/notices/notices-detail";
 	}
+
 
 }
