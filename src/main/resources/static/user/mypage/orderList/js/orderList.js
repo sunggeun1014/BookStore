@@ -3,9 +3,6 @@ $(document).ready(function() {
 
 	getStatusCounts();
 
-	
-//	getOrderList();
-
 	// 시작 날짜 선택 시 종료 날짜 초기화
 	$('#startDate').on('change', function() {
 		$('#endDate').val('');
@@ -139,52 +136,6 @@ function getStatusCounts() {
 		}
 	});
 }
-/*
-function getOrderList() {
-        $.ajax({
-            url: '/user/mypage/orderListdata',
-            method: 'GET',
-            success: function(data) {
-                renderOrderList(data);
-            },
-            error: function() {
-                console.error('주문 목록을 가져오는 데 실패했습니다.');
-            }
-        });
-    }
-
-    function renderOrderList(orderList) {
-        // 주문 목록을 HTML로 렌더링
-        orderList.forEach(item => {
-            const orderDate = new Date(item.order_purchase_date);
-            const formattedDate = `${orderDate.getFullYear()}.${('0' + (orderDate.getMonth() + 1)).slice(-2)}.${('0' + orderDate.getDate()).slice(-2)}`;
-            const orderItemHTML = `
-                <div class="order-history-table-list order-list">
-                    <div class="history-table-item order-date">
-                        <span>${formattedDate}</span>
-                    </div>
-                    <div class="history-table-item order-num">
-                        <a href="/user/mypage/orderDetail?orderNum=${item.order_num}">${item.order_num}</a>
-                    </div>
-                    <a href="/user/mypage/orderDetail?orderNum=${item.order_num}" class="history-table-item order-content">
-                        <span class="img-wrap">
-                            <img class="book-thumbnail" src="/images/books/${item.book_thumbnail_changed || 'noimg.png'}" alt="책 이미지">
-                        </span>
-                        <span class="book-info">
-                            <span class="book-name" ${item.order_qty_total === 1 ? 'class="single-order"' : ''}>${item.book_name}</span>
-                            ${item.order_qty_total > 1 ? `<span class="purchase-qty">외 ${item.order_qty_total - 1}개</span>` : ''}
-                        </span>
-                    </a>
-                    <div class="history-table-item order-price">${item.order_price_total}원</div>
-                    <div class="history-table-item order-status">${item.order_detail_status}</div>
-                    <div class="history-table-item delivery-status">
-                        <span>${item.order_delivery_status}</span>
-                    </div>
-                </div>`;
-            $('.order-history-container').append(orderItemHTML); // 주문 목록이 추가될 컨테이너 선택
-        });
-    }
-	*/
 
 function drawNoResultDefault(parentEl, msg) {
 	const parentElement = document.querySelector(`${parentEl}`);

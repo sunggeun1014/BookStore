@@ -22,12 +22,6 @@ import lombok.RequiredArgsConstructor;
 public class UserOrderRequestRestController {
 	
 	private final UserOrderRequestService orderRequestService;
-
-//	@GetMapping("/orderListData")
-//	public ResponseEntity<List<UserCustomerOrderWithDetailsDTO>> getOrderList() {
-//	    List<UserCustomerOrderWithDetailsDTO> orderList = orderRequestService.getOrderList();
-//	    return ResponseEntity.ok(orderList);
-//	}
 	
     @GetMapping("/statusCounts")
     public Map<String, Integer> getStatusCounts() {
