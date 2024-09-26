@@ -262,6 +262,8 @@ function goToOrder() {
         //     data.cart_num = cartNum; // 카트넘이 있을 경우만 추가
         // }
 
+        console.log(cartNum);
+
         PortOne.requestPayment({
             storeId: "store-5d54b2b0-bf88-45dd-8265-7018895b8a38",
             channelKey: "channel-key-db630549-a619-4ab8-8739-466edb7307c6",
@@ -300,38 +302,6 @@ function goToOrder() {
         }).catch(error => {
             console.log('결제 요청 중 오류:', error);
         });
-
-        // $.ajax({
-        //     url: '/user/payment/request',
-        //     method: 'POST',
-        //     contentType: 'application/json',
-        //     data: JSON.stringify(data),
-        //     success: function (response, status, xhr) {
-        //         const jsonResponse = JSON.parse(response); // JSON 문자열을 객체로 변환
-        //         const statusCode = xhr.status;
-        //         if (statusCode === 200) {
-        //             console.log('결제 성공', statusCode);
-        //             if (jsonResponse.order_num) {
-        //                 window.location.href = `/user/complete-order?order_num=${jsonResponse.order_num}&member_id=${memberId}`
-        //             }
-        //         } else if (statusCode === 400) {
-        //             console.log('요청 오류', statusCode);
-        //         } else if (statusCode === 401) {
-        //             console.log('인증 오류', statusCode);
-        //         } else if (statusCode === 403) {
-        //             console.log('결제거절', statusCode)
-        //         } else if (statusCode === 409) {
-        //             console.log('이미결제', statusCode)
-        //         } else {
-        //             console.log('기타 오류: ' + statusCode);
-        //         }
-        //     },
-        //     error: function (xhr, status, error) {
-        //         console.log('AJAX 호출 중 오류 발생: ' + error);
-        //         console.log('상태: ' + xhr.status);
-        //         console.log('응답 본문: ' + xhr.responseText);
-        //     }
-        // })
 
     })
 }

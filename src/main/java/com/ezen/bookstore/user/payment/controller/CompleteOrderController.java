@@ -1,9 +1,5 @@
 package com.ezen.bookstore.user.payment.controller;
 
-import com.ezen.bookstore.admin.customerorders.dto.CustomerOrdersDTO;
-import com.ezen.bookstore.admin.customerorders.service.CustomerOrdersService;
-import com.ezen.bookstore.commons.SessionUtils;
-import com.ezen.bookstore.user.commons.UserSessionInfo;
 import com.ezen.bookstore.user.payment.dto.UserOrderDTO;
 import com.ezen.bookstore.user.payment.dto.UserOrderDetailsDTO;
 import com.ezen.bookstore.user.payment.service.PaymentService;
