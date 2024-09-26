@@ -2,21 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ezen.bookstore.user.mypage.notice.mapper.UserNoticesMapper">
 	
-	<select id="getNoticesList" parameterType="userNotice" resultType="userNotice">
-		SELECT
-			notice_num,
-			notice_title,
-			notice_visible,
-			notice_write_date,
-			notice_start_date,
-			notice_end_date
-		FROM
-			notices
-		WHERE
-			notice_visible != '02'
-		ORDER BY 
-			notice_write_date DESC	
+	<select id="getNoticesListWithPaging" parameterType="map" resultType="userNotice">
+	    SELECT * FROM (
+	        SELECT 
+	            ROW_NUMBER() OVER (ORDER BY notice_write_date DESC) AS rnum, 
+	            notice_num, 
+	            notice_title, 
+	            notice_visible, 
+	            notice_write_date, 
+	            notice_start_date, 
+	            notice_end_date
+	        FROM 
+	            notices
+	        WHERE 
+	            notice_visible != '01'
+	            AND notice_title LIKE #{keyword}  
+	    ) 
+	    WHERE rnum BETWEEN #{startRow} AND #{endRow}
 	</select>
+	
+	<select id="getTotalNoticesCount" parameterType="string" resultType="int">
+	    SELECT COUNT(*)
+	    FROM notices
+	    WHERE notice_visible != '01'
+	    AND notice_title LIKE #{keyword} 
+	</select>
+
 
 	<select id="getNoticesDetail" parameterType="userNotice" resultType="userNotice">
 		SELECT
@@ -35,23 +46,33 @@
 		
 	</select>
 	
-	<select id="getPreviousNotice" parameterType="int" resultType="userNotice">
-        SELECT * FROM (
-            SELECT * FROM notices
-            WHERE notice_num &lt; #{noticeNum}
-            AND notice_visible != '02'
-            ORDER BY notice_num DESC
-        ) WHERE ROWNUM = 1
-    </select>
+	<select id="getPreviousNotice" parameterType="map" resultType="userNotice">
+	    SELECT * FROM (
+	        SELECT * FROM notices
+	        WHERE notice_num &lt; #{noticeNum}
+	        AND notice_visible != '01'
+	        <if test="keyword != null and keyword != ''">
+	            AND notice_title LIKE #{keyword}
+	        </if>
+	        ORDER BY notice_num DESC
+	    )
+	    WHERE ROWNUM = 1
+	</select>
 
-    <select id="getNextNotice" parameterType="int" resultType="userNotice">
-        SELECT * FROM (
-            SELECT * FROM notices
-            WHERE notice_num &gt; #{noticeNum}
-            AND notice_visible != '02'
-            ORDER BY notice_num ASC
-        ) WHERE ROWNUM = 1
-    </select>
+
+    <select id="getNextNotice" parameterType="map" resultType="userNotice">
+	    SELECT * FROM (
+	        SELECT * FROM notices
+	        WHERE notice_num > #{noticeNum}
+	        AND notice_visible != '01'
+	        <if test="keyword != null and keyword != ''">
+	            AND notice_title LIKE #{keyword}
+	        </if>
+	        ORDER BY notice_num ASC
+	    )
+	    WHERE ROWNUM = 1
+	</select>
+
 
 
 
