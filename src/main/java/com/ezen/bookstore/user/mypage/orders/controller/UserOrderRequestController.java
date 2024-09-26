@@ -31,7 +31,15 @@ public class UserOrderRequestController {
 
 	@GetMapping("/orderDetail")
 	public String myOrderDetail(@RequestParam("orderNum") Integer orderNum, Model model) {
-	    model.addAttribute("orderDetails", orderRequestService.getOrderDetail(orderNum));
+		UserCustomerOrderWithDetailsDTO orderDetails = orderRequestService.getOrderDetail(orderNum);
+		List<UserCustomerOrderWithDetailsDTO> detailList  = orderRequestService.getDetailItem(orderNum);
+		
+		System.out.println(detailList);
+		System.out.println(orderDetails);
+		
+		model.addAttribute("detailList", detailList);
+	    model.addAttribute("orderDetails", orderDetails);
+	    
 	    return "/user/mypage/customer_order/orderDetail";
 	}
 

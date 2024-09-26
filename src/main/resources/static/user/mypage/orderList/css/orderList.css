@@ -145,6 +145,12 @@
 	text-overflow: ellipsis;
 }
 
+
+.order-detail-status {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
 .return-cancel-btn {
 	width: 60px;
 	height: 30px;

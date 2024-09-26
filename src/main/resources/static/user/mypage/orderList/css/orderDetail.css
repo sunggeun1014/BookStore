@@ -39,8 +39,16 @@
 	gap: 5px;
 }
 
-.return-cancel-btn {
+.return-btn, .cancel-btn {
 	width: 60px;
+	height: 30px;
+	font-weight: 400;
+	font-size: 14px;
+	border-radius: 5px;
+}
+
+.return-cancel-btn {
+	width: 65px;
 	height: 30px;
 	font-weight: 400;
 	font-size: 14px;
@@ -65,6 +73,7 @@
 	flex-direction: row;
 	justify-content: space-between;
 	width: 100%;
+	align-items: center;
 }
 
 .book-name-qty {
@@ -85,9 +94,18 @@
 	gap: 50px;
 }
 
+.order-status-wrap {
+	display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    width: 65px;
+}
+
 .order-status {
 	color: #845EC2;
 	font-weight: 600;
+	font-size: 14px;
 }
 
 .delivery-info-title, .payment-info-title, .income-deduction-title {

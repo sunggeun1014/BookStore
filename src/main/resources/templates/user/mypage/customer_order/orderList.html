@@ -26,19 +26,24 @@
 				<span class="box-title">주문내역</span>
 			</div>
 			<div class="order-history-box">
-				<span class="history-val" id="before-delivery-count"></span> <span class="history-status">배송전</span>
+				<span class="history-val" id="before-delivery-count"></span> 
+				<span class="history-status">배송전</span>
 			</div>
 			<div class="order-history-box">
-				<span class="history-val" id="in-delivery-count"></span> <span class="history-status">배송중</span>
+				<span class="history-val" id="in-delivery-count"></span> 
+				<span class="history-status">배송중</span>
 			</div>
 			<div class="order-history-box">
-				<span class="history-val" id="delivered-count"></span> <span class="history-status">배송완료</span>
+				<span class="history-val" id="delivered-count"></span> 
+				<span class="history-status">배송완료</span>
 			</div>
 			<div class="order-history-box">
-				<span class="history-val" id="cancellation-count"></span> <span class="history-status">취소</span>
+				<span class="history-val" id="cancellation-count"></span> 
+				<span class="history-status">취소</span>
 			</div>
 			<div class="order-history-box">
-				<span class="history-val" id="exchange-return-count"></span> <span class="history-status">교환/반품</span>
+				<span class="history-val" id="exchange-return-count"></span>
+				<span class="history-status">교환/반품</span>
 			</div>
 		</div>
 		<div class="order-history-table">
@@ -50,26 +55,42 @@
 				<div class="history-table-column order-status">주문상태</div>
 				<div class="history-table-column delivery-status">배송상태</div>
 			</div>
+			
 			<div class="order-history-table-list order-list" th:each="item : ${orderList}">
+				
 				<div class="history-table-item order-date">
 					<span th:text="${#dates.format(item.order_purchase_date, 'yyyy.MM.dd')}"></span>
 				</div>
+				
 				<div class="history-table-item order-num">
 					<a th:href="@{/user/mypage/orderDetail(orderNum=${item.order_num})}" th:text="${item.order_num}"></a>
 				</div>
+				
 				<a th:href="@{/user/mypage/orderDetail(orderNum=${item.order_num})}" class="history-table-item order-content"> 
 					<span class="img-wrap"> 
 						<img class="book-thumbnail" th:src="'/images/books/' + ${item.book_thumbnail_changed != null ? item.book_thumbnail_changed : '/images/books/noimg.png'}" alt="책 이미지">
 					</span> 
 					<span class="book-info"> 
-						<span class="book-name" th:class="${item.order_qty_total == 1} ? 'single-order' : ''" th:text="${item.book_name}"></span> 
+						<span th:class="${item.order_qty_total == 1} ? 'single-order' : 'book-name'" th:text="${item.book_name}"></span> 
 						<span class="purchase-qty" th:if="${item.order_qty_total > 1}" th:text="'외 ' + ${item.order_qty_total - 1} + '개'"></span>
 					</span>
 				</a>
+				
 				<div class="history-table-item order-price" th:text="${#numbers.formatInteger(item.order_price_total, 0, 'COMMA')} + '원'"></div>
-				<div class="history-table-item order-status" th:text="${item.order_detail_status}"></div>
+				
+				<!-- 주문상태 -->
+				<div class="history-table-item order-status">
+					<!-- 취소완료일 때는 '주문취소'로 표시 -->
+					<span th:if="${item.order_detail_status == '취소완료'}" th:text="주문취소"></span>
+					
+    				<!-- 나머지 요청 상태는 그대로 표시 -->
+			    	<span th:if="${item.order_detail_status != '취소완료'}" th:text="${item.order_detail_status}"></span>
+				</div>
+				
+				
+				<!-- 배송상태 -->
 				<div class="history-table-item delivery-status">
-					<span class="order_delivery_status" th:text="${(item.order_detail_status == '취소요청' || item.order_detail_status == '취소완료' || item.order_detail_status == '교완료' || 
+					<span class="order_delivery_status" th:text="${(item.order_detail_status == '취소요청' || item.order_detail_status == '취소완료' || item.order_detail_status == '교환완료' || 
 						item.order_detail_status == '반품요청' || item.order_detail_status == '반품완료') ? '-' : item.order_delivery_status}"></span>
 					<div class="history-table-item request-button" th:if="${item.order_delivery_status == '배송전' && item.order_detail_status == '주문완료'}">
 						<button class="default-btn border return-cancel-btn" th:data-order-num="${item.order_num}" 
