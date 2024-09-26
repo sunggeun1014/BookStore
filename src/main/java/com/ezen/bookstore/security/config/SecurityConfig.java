@@ -125,6 +125,8 @@ public class SecurityConfig {
                     .userService(customOAuth2UserService)  
                 )
                 .successHandler(new CustomUserAuthenticationSuccessHandler())
+                .failureHandler(new CustomUserAuthenticationFailureHandler()) 
+
             )
             .formLogin(form -> form
                 .loginProcessingUrl("/user/loginProc")    

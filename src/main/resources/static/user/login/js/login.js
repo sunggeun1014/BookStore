@@ -26,7 +26,15 @@ $(document).ready(function() {
             console.log('아이디 저장 안함');
         }
     });
-
+	
+    const urlParams = new URLSearchParams(window.location.search);
+	    const accountNotLinkedError = urlParams.get('accountNotLinkedError'); // 파라미터 추출
+	
+	    // 파라미터가 존재할 경우, getcheckModal() 실행
+	    if (accountNotLinkedError) {
+	        getCheckModal(accountNotLinkedError);  // 파라미터 값을 모달에 전달
+    }
+	
     window.onload = function() {
         let savedId = localStorage.getItem('savedUserId');
         if (savedId) {
@@ -40,6 +48,12 @@ $(document).ready(function() {
             $('#loginBtn').prop("disabled", false); 
         } else {
             $('#loginBtn').prop("disabled", true);
+        }
+        
+        
+        if (window.location.search) {
+            const urlWithoutParams = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, urlWithoutParams);
         }
     };
 });

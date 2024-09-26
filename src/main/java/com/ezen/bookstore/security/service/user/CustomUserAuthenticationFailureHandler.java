@@ -24,6 +24,9 @@ public class CustomUserAuthenticationFailureHandler implements AuthenticationFai
 	        redirectUrl += "&usernameError=" + URLEncoder.encode("⚠아이디를 찾을 수 없습니다", "UTF-8");
 	    } else if (exception instanceof BadCredentialsException) {
 	        redirectUrl += "&passwordError=" + URLEncoder.encode("⚠아이디와 비밀번호를 확인해주세요.", "UTF-8");
+	    } else if (exception instanceof AccountNotLinkedException) {
+            redirectUrl += "&accountNotLinkedError=" + URLEncoder.encode("연동된 계정이 존재하지 않습니다.", "UTF-8");
+
 	    }
 
 	    response.sendRedirect(redirectUrl);

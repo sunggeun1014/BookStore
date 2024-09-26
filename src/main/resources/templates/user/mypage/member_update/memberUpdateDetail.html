@@ -7,6 +7,8 @@
       
       <link rel="stylesheet" href="/user/mypage/account/css/memberUpdate.css"/>
 	  <link rel="stylesheet" href="/user/mypage/account/css/memberUpdateDetail.css" />
+	  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	  <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 	
 <div class="content">
 	<h1 class="middle-font" style="margin-bottom: 40px;">회원정보수정</h1>
@@ -15,6 +17,7 @@
             <div style="margin-left: 50px;">
                 <span th:text="${userMembers.member_id}"></span>
             </div>
+            <input type="hidden" id="memberId" th:value="${userMembers.member_id}" />
         </div>
 
         <div class="info">
@@ -116,16 +119,19 @@
 					<div>
 						<span class="search-list-subject">네이버</span>
 						<label class="switch"> 
-							<input id="naverLogin" type="checkbox" th:checked="${userMembers.naver_login_cd != null and !userMembers.naver_login_cd.isEmpty()}" disabled/> 
+							<input id="naverLogin" type="checkbox" th:checked="${userMembers.naver_login_cd != null and !userMembers.naver_login_cd.isEmpty()}" /> 
 							<span class="slider naver"></span>
 						</label>
+						<input type="hidden" id="naver_login_cd" name="naver_login_cd" />
+						
 					</div>
 					<div>
 						<span class="search-list-subject">카카오</span>
 						<label class="switch"> 
-							<input id="kakaoLogin" type="checkbox" th:checked="${userMembers.kakao_login_cd != null and !userMembers.kakao_login_cd.isEmpty()}" disabled/>
+							<input id="kakaoLogin" type="checkbox" th:checked="${userMembers.kakao_login_cd != null and !userMembers.kakao_login_cd.isEmpty()}" />
 							<span class="slider kakao"></span>
 						</label>
+						<input type="hidden" id="kakao_login_cd" name="kakao_login_cd" />
 					</div>
 				</div>			
 			</div>
@@ -138,5 +144,7 @@
 </div>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script src="/user/mypage/account/js/memberUpdateDetail.js"></script>
+	<script src="/user/mypage/account/js/socialLoginManager.js"></script>
+	
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </html>
