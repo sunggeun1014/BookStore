@@ -133,6 +133,7 @@
 			co.retrieve_name,
 			co.retrieve_phoneNo,
 			co.retrieve_common_cnt_pw,
+			co.paymentId,
 		    m.member_name,
 		    m.member_email,
 		    m.member_phoneno,
@@ -156,6 +157,7 @@
 			co.retrieve_name,
 			co.retrieve_phoneNo,
 			co.retrieve_common_cnt_pw,
+			co.paymentId,
 		    m.member_name,
 		    m.member_email,
 		    m.member_phoneno

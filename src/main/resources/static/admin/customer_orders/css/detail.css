@@ -43,6 +43,17 @@
 	margin-right: 80px;	
 }
 
+.pay-info {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	margin-top: 10px;
+}
+
+.pay-info > span:first-child {
+	color: #2D2D2D;
+}
+
 .order-person-info {
 	color: #666;
 }

@@ -2,7 +2,8 @@ var table;
 $(document).ready(function() {
     // 테이블이 이미 초기화되어 있는지 확인
     if (!$.fn.DataTable.isDataTable('#product')) {
-        table = $('#product').DataTable({
+        table = $('#product').removeAttr('width').DataTable({
+            autoWidth: false,
             columnDefs:
                 [
                     { targets: 0, orderable: false }, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
@@ -10,7 +11,11 @@ $(document).ready(function() {
                     {
                         className: 'table-center',
                         targets: '_all'
-                    }
+                    },
+                    {
+                        width: '40px',
+                        targets: 0
+                    },
                 ],
             // order: [[8, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
             ajax: {

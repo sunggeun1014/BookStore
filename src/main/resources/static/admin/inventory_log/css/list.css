@@ -91,6 +91,7 @@ table.dataTable tbody tr {
 
 .data-count-area {
 	padding: 5px 0 10px 0;
+    margin-bottom: 20px;
 }
 
 .dt_data_text_center {
