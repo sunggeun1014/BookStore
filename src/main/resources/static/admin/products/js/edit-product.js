@@ -5,6 +5,8 @@ checkEditForm();
 
 previewImg();
 
+categoryCheck();
+
 function getCountryValue() {
     const countryRadio = document.querySelector('input[name="book_country_type"]:checked');
     return countryRadio ? countryRadio.value : null;
@@ -16,8 +18,16 @@ function getStateValue() {
 }
 
 function getCategoryValue() {
-    const categorySelect = document.querySelector('select[name="book_category"]');
-    return categorySelect ? categorySelect.value : null;
+	const bookCountryType = $("input[name='book_country_type']:checked").val();
+	
+	let result;
+	if(bookCountryType == '01') {
+		result = $("#national").val(); 
+	} else {
+		result = $("#foreign").val();
+	}
+	
+    return result;
 }
 
 function checkEditForm() {
@@ -105,7 +115,6 @@ function checkEditForm() {
             });
         } else {
             getErrorModal();
-            console.log("뭔 오류여")
         }
     });
 }
@@ -136,4 +145,18 @@ function previewImg() {
             reader.readAsDataURL(input.files[0]);
         }
     });
+}
+
+function categoryCheck() {
+	$("input[name='book_country_type']").on("change", function() {
+		if(this.value === '01') {
+			$("#national").css({ "display": "block" }); 
+			$("#foreign").css({ "display": "none" });
+			$(".default").prop("selected", true); 
+		} else {
+			$("#national").css({ "display": "none" }); 
+			$("#foreign").css({ "display": "block" });
+			$(".default").prop("selected", true);
+		} 
+	});
 }

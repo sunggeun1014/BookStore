@@ -71,20 +71,20 @@ public class ProductsController {
 
     @GetMapping("/editProduct")
     public String getBookDetail(@RequestParam("book_isbn") String bookISBN, Model model) {
-        if (bookISBN != null || bookISBN.isEmpty()) {
-            log.warn("isbn 못받아왔다");
-        }
         ProductsDTO productDetail = productService.detailList(bookISBN);
+        
         model.addAttribute("product_detail", productDetail);
+        model.addAttribute("book_category", productService.categoryList());
 
         return "admin/products/edit-product";
     }
 
     @PostMapping("/editProduct")
     public String editBookDetail(@RequestParam("book_isbn") String bookISBN, ProductsDTO productDTO) {
-
+    	
         productDTO.setBook_isbn(bookISBN);
-
+        productDTO.setBook_category(productDTO.getBook_category().replace(",", ""));
+        
         try {
             productService.updateBookInfo(productDTO);
         } catch (IOException e) {
@@ -116,6 +116,7 @@ public class ProductsController {
 
     @PostMapping("/addProduct")
     public String insertBook(@ModelAttribute ProductsDTO productDTO, Model model) throws IOException {
+    	productDTO.setBook_category(productDTO.getBook_category().replace(",", ""));
         productService.insertBook(productDTO);
 
         model.addAttribute("template", "/admin/products/product");
@@ -126,13 +127,15 @@ public class ProductsController {
     @PostMapping("/checkISBN")
     public ResponseEntity<Map<String, Object>> checkISBN(@RequestBody Map<String, String> request) {
         String bookISBN = request.get("book_isbn");
-        log.warn("Received ISBN: {}", bookISBN); // 디버깅용 로그
+        
         String exists = productService.existsIsbn(bookISBN);
         String deleteState = productService.deleteState(bookISBN);
+        boolean isInvIsbn = productService.isInvIsbn(bookISBN);
 
         Map<String, Object> response = new HashMap<>();
         response.put("exists", exists);
         response.put("deleteState", deleteState);
+        response.put("isInvIsbn", isInvIsbn);
 
         return ResponseEntity.ok(response);
     }

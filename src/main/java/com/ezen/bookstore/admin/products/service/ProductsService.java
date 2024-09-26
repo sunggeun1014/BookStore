@@ -144,5 +144,17 @@ public class ProductsService {
             e.printStackTrace();
         }
     }
+    
+    public boolean isInvIsbn(String bookISBN) {
+    	boolean result = false;
+    	
+    	try {
+			result = productRepository.isInvIsbn(bookISBN) != null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	return result;
+    }
 
 }

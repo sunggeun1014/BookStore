@@ -179,7 +179,7 @@ input[type=text]:not(.placeholder, .search-input, .input-price) {
 }
 
 /* 셀렉트박스 사이즈조정 */
-#select-lists {
+.select-lists {
     width: 160px;
 }
 .select-arrow-down {

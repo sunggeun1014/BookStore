@@ -67,17 +67,24 @@
             </p>
             <div class="filter-wrap">
                 <div class="radio-filter">
-                    <input type="radio" name="book_country_type" id="domestic" value="01"/>
+                    <input type="radio" name="book_country_type" id="domestic" value="01" checked/>
                     <label for="domestic">국내</label>
 
                     <input type="radio" name="book_country_type" id="overseas" value="02"/>
                     <label for="overseas">국외</label>
                 </div>
                 <div class="select-wrap">
-                    <select id="select-lists" name="book_category">
-                        <option value="">선택해주세요</option>
-                        <option th:each="val : ${book_category}" th:value="${val?.category_name}" th:text="${val?.category_name}"></option>
-                    </select>
+                	<select id="national" class="select-lists" name="book_category">
+			            <option class="default" value="">선택해주세요</option>
+			            <option th:each="val : ${book_category}" th:if="${val.category_country_type == '01'}" 
+			                    th:value="${val?.category_name}" th:text="${val?.category_name}" ></option>
+			        </select>
+			        
+			        <select id="foreign" class="select-lists" name="book_category" style="display: none;">
+			            <option class="default" value="">선택해주세요</option>
+			            <option th:each="val : ${book_category}" th:if="${val.category_country_type == '02'}" 
+			                    th:value="${val?.category_name}" th:text="${val?.category_name}" ></option>
+			        </select>
                     <div class="select-arrow-down"></div>
                 </div>
             </div>
@@ -110,7 +117,7 @@
                 <span class="important">*</span>
             </p>
             <div class="filter-wrap radio-filter">
-                <input type="radio" name="book_state" id="onsale" value="01"/>
+                <input type="radio" name="book_state" id="onsale" value="01" checked/>
                 <label for="onsale">판매중</label>
                 <input type="radio" name="book_state" id="stopsale" value="02"/>
                 <label for="stopsale">판매중지</label>

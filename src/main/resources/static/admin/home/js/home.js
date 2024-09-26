@@ -62,13 +62,20 @@ $(document).ready(function() {
                 {
                     data: 'answer_write_date',
                     render: function(data, type, row) {
-                        return data ? data : '-';
+						const date = new Date(data);
+                        return data ? date.toISOString().split('T')[0] : '-';
                     }
                 },
 
             ],
             "info": false,
             dom: 't',
+			columnDefs: [
+				{
+					targets:"_all" ,
+					orderable: false		
+				}
+			],
             language: {
                 searchPanes: {
                     i18n: {
@@ -92,7 +99,7 @@ $(document).ready(function() {
             "ordering": true,
             columnDefs:
                 [
-                    { targets: 0, orderable: false }, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
+                    { targets: "_all", orderable: false }, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
                     // 가운데정렬
                     {
                         className: 'table-center',

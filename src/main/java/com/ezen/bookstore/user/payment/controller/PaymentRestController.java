@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,10 @@ public class PaymentRestController {
                     response.put("order_num", order.getOrder_num());
                     objectMapper.writeValueAsString(response);
                     jsonResponse = objectMapper.writeValueAsString(response);
+                    
+                    if (orderRequest.getCart_num().get(0) != null) {                    	
+                    	userCartService.deleteItemsByCartNums(orderRequest.getCart_num(), order.getMember_id());
+                    }
 
                 } catch (SQLException e) {
                     log.error("SQL 오류 발생: {}", e.getMessage());

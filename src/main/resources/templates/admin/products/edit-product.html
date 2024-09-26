@@ -64,25 +64,32 @@
                 <span class="important">*</span>
             </p>
             <div class="filter-wrap">
-                <div class="radio-filter">
-                    <input type="radio" name="book_country_type" id="domestic" th:value="'01'"
-                           th:checked="${product_detail != null and product_detail.book_country_type == '01'}"/>
-                    <label for="domestic">국내</label>
-
-                    <input type="radio" name="book_country_type" id="overseas" th:value="'02'"
-                           th:checked="${product_detail != null and product_detail.book_country_type == '02'}"/>
-                    <label for="overseas">국외</label>
-                </div>
-                <div class="select-wrap">
-                    <select id="select-lists" name="book_category">
-                        <option th:value="${product_detail != null ? product_detail.book_category : ''}"
-                                th:text="${product_detail != null ? product_detail.book_category : ''}"
-                        ></option>
-                        <option th:each="val : ${book_category}" th:value="${val?.category_name}" th:text="${val?.category_name}"></option>
-                    </select>
-                    <div class="select-arrow-down"></div>
-                </div>
-            </div>
+			    <div class="radio-filter">
+			        <input type="radio" name="book_country_type" id="domestic" th:value="'01'"
+			               th:checked="${product_detail != null and product_detail.book_country_type == '01'}"/>
+			        <label for="domestic">국내</label>
+			
+			        <input type="radio" name="book_country_type" id="overseas" th:value="'02'"
+			               th:checked="${product_detail != null and product_detail.book_country_type == '02'}"/>
+			        <label for="overseas">국외</label>
+			    </div>
+			    <div class="select-wrap">
+			        <select id="national" class="select-lists" name="book_category" th:style="${product_detail == null or product_detail.book_country_type != '01' ? 'display: none;' : ''}">
+			            <option class="default" value="">선택해주세요</option>
+			            <option th:each="val : ${book_category}" th:if="${val.category_country_type == '01'}" 
+			                    th:value="${val?.category_name}" th:text="${val?.category_name}" 
+			                    th:selected="${product_detail.book_country_type == '01' and val.category_name == product_detail.book_category}"></option>
+			        </select>
+			        
+			        <select id="foreign" class="select-lists" name="book_category" th:style="${product_detail == null or product_detail.book_country_type != '02' ? 'display: none;' : ''}">
+			            <option class="default" value="">선택해주세요</option>
+			            <option th:each="val : ${book_category}" th:if="${val.category_country_type == '02'}" 
+			                    th:value="${val?.category_name}" th:text="${val?.category_name}" 
+			                    th:selected="${product_detail.book_country_type == '02' and val.category_name == product_detail.book_category}"></option>
+			        </select>
+			        <div class="select-arrow-down"></div>
+			    </div>
+			</div>
         </div>
         <div class="product-info">
             <div class="book-price">

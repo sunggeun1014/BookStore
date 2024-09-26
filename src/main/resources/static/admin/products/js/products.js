@@ -14,8 +14,8 @@ $(document).ready(function() {
                 ],
             // order: [[8, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
             ajax: {
-                url: '/admin/products/json',
                 dataSrc: 'data',
+                url: '/admin/products/json',
                 data: function (d) {
                     d.book_state = $('input[name="book_state"]:checked').val();
                 }
@@ -27,10 +27,11 @@ $(document).ready(function() {
                         return '<input type="checkbox" id="data-check" class="row-checkbox"><label for="data-check"></label>';
                     },
                     orderable: false,
-                },
-                {
-                    data: 'rownum'
-                },
+		        },
+				{ 
+					data: null,
+					orderable: false
+				},
                 // {
                 //     data: null,  // 이 컬럼은 데이터베이스에서 가져오는 데이터를 사용하지 않음
                 //     render: function(data, type, row, meta) {
@@ -164,17 +165,17 @@ $(document).ready(function() {
                 zeroRecords: "조회된 정보가 없습니다.",
                 emptyTable: "조회된 정보가 없습니다.",
             },
-            drawCallback: function (settings) {
-                if(table) {
-                    // const totalRecords = settings._isRecordTotal;
-                    const filteredrecored = table.rows({filter: 'applied'}).data().length;
+			drawCallback: function(settings) {
+			    let api = this.api();
+			    let filteredRecords = api.rows({ search: 'applied' }).count();
 
-                    // id가 totalcount인 엘리먼트에 텍스트 삽입
-                    $('#totalCount').text(`총 ${filteredrecored}건`)
-                } else {
-                    console.log("테이블 초기화 안됨")
-                }
-            },
+			    $('#totalCount').text(`총 ${filteredRecords}건`);
+
+			    api.column(1, { page: 'current' }).nodes().each(function(cell, i) {
+			        let pageStart = api.settings()[0]._iDisplayStart;
+			        $(cell).html(pageStart + i + 1);
+			    });
+			},
             initComplete: function () {
                 console.log("테이블 초기화 완료")
             },
@@ -189,11 +190,6 @@ $(document).ready(function() {
             }
         });
     }
-
-    // 판매중/판매중지 라디오버튼
-    $('input[name="book_state"]').on('change', function () {
-        table.ajax.reload(); // 필터 조건에 맞게 데이터를 다시 로드
-    });
 
 
     // 체크박스
@@ -256,8 +252,9 @@ $(document).ready(function() {
         }
 
         let keyword = $('#search-keyword').val();
-        // 선택된 컬럼과 입력된 키워드로 필터링
+		
         table.column(column).search(keyword).draw();
+		table.ajax.reload();
     });
 
 
@@ -288,12 +285,6 @@ $(document).ready(function() {
         }
         return true; // 날짜 필터가 없으면 모든 항목 표시
     });
-
-    // 날짜 변경 시 테이블 다시 그리기
-    $('#startDate, #endDate').on('change', function() {
-        table.draw();
-    });
-
 
     document.addEventListener("DOMContentLoaded", function() {
         const resetButton = document.getElementById('reset-button');
@@ -375,10 +366,12 @@ function resetFilters() {
     // 날짜 필터 초기화
     $('#startDate').val('');
     $('#endDate').val('');
-
+	$(".date-btn").removeClass("active")
+	$("#all").prop("checked", true);;
+	
     // DataTables 검색 및 필터링 초기화
     table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화
-
+	table.ajax.reload();
     table.draw();
 }
 

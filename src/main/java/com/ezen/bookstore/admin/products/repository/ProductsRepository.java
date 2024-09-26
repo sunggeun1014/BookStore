@@ -1,16 +1,18 @@
 package com.ezen.bookstore.admin.products.repository;
 
-import com.ezen.bookstore.admin.products.dto.CategoryDTO;
-import com.ezen.bookstore.admin.products.dto.InventoryDTO;
-import com.ezen.bookstore.admin.products.dto.ProductsDTO;
-import lombok.RequiredArgsConstructor;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.stereotype.Repository;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.ezen.bookstore.admin.products.dto.CategoryDTO;
+import com.ezen.bookstore.admin.products.dto.InventoryDTO;
+import com.ezen.bookstore.admin.products.dto.ProductsDTO;
+import com.ezen.bookstore.admin.warehouse.dto.WarehouseDTO;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Repository
@@ -75,6 +77,9 @@ public class ProductsRepository {
 
         sql.update("Products.deleteBook", params);
     }
-
+    
+    public WarehouseDTO isInvIsbn(String bookISBN) {
+    	return sql.selectOne("Warehouse.getInvBook", bookISBN);
+    }
 }
 

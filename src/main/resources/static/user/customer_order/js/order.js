@@ -253,7 +253,7 @@ function goToOrder() {
             recipient_name: deliverName.textContent,
             recipient_phoneno: deliverNumber.textContent,
             paymentId: paymentId,
-            // cart_num: Array.isArray(cartNum) && cartNum.length > 0 ? cartNum : [], // 빈 배열로 초기화
+            cart_num: Array.isArray(cartNum) && cartNum.length > 0 ? cartNum : [], // 빈 배열로 초기화
             orderDetails: details,
         };
 

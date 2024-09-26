@@ -89,7 +89,7 @@
 			</if>
 			<if test="search_conditions != null and !search_conditions.equals('')">
 				<if test="word != null and !word.equals('')">
-					AND order_num = #{word}
+					AND order_num LIKE '%' || #{word} || '%'
 				</if>
 			</if>
 		ORDER BY order_modify_date desc

@@ -49,6 +49,7 @@ input:checked + .slider:before {
 
 input.pw {
 	border: none;
+	padding-left: 0;
 }
 
 .info {
@@ -60,10 +61,6 @@ input.pw {
 .search-list-subject {
     margin-right: 10px; /* 텍스트와 입력 필드 사이 간격 */
     margin-left: 50px;
-}
-
-input.pw{
-	padding-bottom: 5px;
 }
 
 span.search-list-subject{

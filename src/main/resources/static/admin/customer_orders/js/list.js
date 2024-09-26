@@ -52,12 +52,17 @@ $(document).ready(function() {
 			},
 			{ data: 'order_status' },
 			{
-                data: 'order_modify_date',
-                render: function (data, type, row) {
-					const date = new Date(data);
-                    return row.order_purchase_date === data ? '-' : date.toISOString().split('T')[0];
-                }
-            }
+				data: 'order_modify_date',
+			    render: function(data, type, row) {
+			        const date = new Date(data);
+			        
+			        if (type === 'display') {
+			            return row.order_purchase_date === data ? '-' : date.toISOString().split('T')[0];
+			        }
+			        
+			        return data;
+			    }
+			}
 		],
 		columnDefs: [
 			{ targets: 0, orderable: false },
@@ -100,9 +105,9 @@ $(document).ready(function() {
 		    emptyTable: "조회된 정보가 없습니다.",
 		},
 		drawCallback: function(settings) {
-		    var api = this.api();
+		    let api = this.api();
 		    api.column(1, { page: 'current' }).nodes().each(function(cell, i) {
-		        var pageStart = api.settings()[0]._iDisplayStart;
+		        let pageStart = api.settings()[0]._iDisplayStart;
 		        $(cell).html(pageStart + i + 1);
 		    });
 		}
@@ -179,6 +184,8 @@ function resetBtn() {
 	$("#endDate").val("");
 	$("#order-status-all").prop("checked", true);
 	$("#word").val("");
+	
+	table.ajax.reload();
 }
 
 function numberFormatter(number) {

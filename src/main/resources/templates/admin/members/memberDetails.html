@@ -15,7 +15,7 @@
 	</div>
 	<div class="info">
 		<span class="search-list-subject">비밀번호</span> 
-		<input type="password" class="pw" th:value="${member_details.member_pw}" readonly>
+		<input type="password" class="pw" value="password" readonly>
 	</div>
 	<div class="info">
 		<span class="search-list-subject">이름</span> 
@@ -112,7 +112,7 @@
 	        new daum.Postcode({
 	            oncomplete: function(data) { //선택시 입력값 세팅
 	                document.getElementById("address_kakao").value = data.address; // 주소 넣기
-	                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+	                document.querySelector("input[name=member_detail_addr]").focus(); //상세입력 포커싱
 	            }
 	        }).open();
 	    });

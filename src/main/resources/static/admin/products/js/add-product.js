@@ -27,9 +27,6 @@ $(document).ready(function() {
             columns: [
                 {
                     data: null,  // 이 컬럼은 데이터베이스에서 가져오는 데이터를 사용하지 않음
-                    render: function(data, type, row, meta) {
-                        return meta.row + 1;  // meta.row는 0부터 시작하는 행 인덱스이므로 +1 해줌
-                    },
                     orderable: false,  // 이 컬럼에 대해 정렬을 비활성화
                 },
                 {
@@ -62,6 +59,13 @@ $(document).ready(function() {
                 zeroRecords: "조회된 정보가 없습니다.",
                 emptyTable: "조회된 정보가 없습니다.",
             },
+			drawCallback: function(settings) {
+			    let api = this.api();
+			    api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
+			        let pageStart = api.settings()[0]._iDisplayStart;
+			        $(cell).html(pageStart + i + 1);
+			    });
+			}
         });
     }
 
@@ -83,6 +87,9 @@ $(document).ready(function() {
 
     // 이미지 보이도록
     previewImg();
+	
+	// 카테고리 노출 세분화	
+	categoryCheck();
 });
 
 function searchWord() {
@@ -129,8 +136,16 @@ function getStateValue() {
 }
 
 function getCategoryValue() {
-    const categorySelect = document.querySelector('select[name="book_category"]');
-    return categorySelect ? categorySelect.value : null;
+	const bookCountryType = $("input[name='book_country_type']:checked").val();
+
+	let result;
+	if(bookCountryType == '01') {
+		result = $("#national").val(); 
+	} else {
+		result = $("#foreign").val();
+	}
+    
+    return result;
 }
 
 
@@ -173,6 +188,11 @@ function checkForm() {
                         inputISBN.focus();
                     }
                 } else {
+					if(!response.isInvIsbn) {
+						getCheckModal("해당 ISBN은 재고에 존재하지 않는 상품 입니다.", inputISBN);
+						return;
+					}
+					
                     // 중복되지 않은 경우 나머지 검사를 진행
                     if (inputName.value === "") {
                         getCheckModal("책 제목을 입력해주세요");
@@ -251,8 +271,7 @@ function checkForm() {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.error("AJAX Error: ", textStatus, errorThrown);
-                getErrorModal()
+                getErrorModal();
             }
         });
     });
@@ -351,7 +370,6 @@ function previewImg() {
             reader.onload = function(e) {
                 // 미리보기 이미지 설정
                 preview.src = e.target.result;
-                console.log(preview.src)
                 preview.style.display = 'block'; // 이미지 미리보기를 표시
                 icon.style.display = 'none'; // 아이콘 숨기기
             };
@@ -359,4 +377,16 @@ function previewImg() {
             reader.readAsDataURL(input.files[0]);
         }
     });
+}
+
+function categoryCheck() {
+	$("input[name='book_country_type']").on("change", function() {
+		if(this.value === '01') {
+			$("#national").css({ "display": "block" }); 
+			$("#foreign").css({ "display": "none" }); 
+		} else {
+			$("#national").css({ "display": "none" }); 
+			$("#foreign").css({ "display": "block" });
+		} 
+	});
 }

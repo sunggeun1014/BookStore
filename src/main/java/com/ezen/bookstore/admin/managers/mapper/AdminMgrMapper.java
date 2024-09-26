@@ -15,6 +15,6 @@ public interface AdminMgrMapper {
     void updateManagerDept(@Param("managerId") String managerId, @Param("dept") String dept);
     int addManager(AdminManagersDTO managersDTO);
     void updateManager(AdminManagersDTO managersDTO);
-    boolean findById(@Param("manager_Id") String managerId);
+    AdminManagersDTO findById(@Param("managerId") String managerId);
     
 }

@@ -143,7 +143,7 @@ $(document).ready(function() {
         } else if (!manager_dept) {
             getCheckModal("부서를 선택해주세요.");
             return;
-        } else if (!validateEmail(manager_emailUser)) {
+        } else if (!validateEmail(manager_emailUser) || $("#emailDomain").val() == null) {
             getCheckModal("이메일을 확인해주세요.");
             return;
         } else {

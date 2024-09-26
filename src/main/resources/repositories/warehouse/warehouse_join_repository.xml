@@ -20,4 +20,8 @@
 		WHERE inv_isbn = #{isbn}
 	</select>
 	
+	<select id="getInvBook" resultType="warehouse">
+		SELECT inv_isbn FROM inventory WHERE inv_isbn = #{bookISBN}
+	</select>
+	
 </mapper>

@@ -49,17 +49,15 @@ $(document).ready(function() {
                 }
             }
         ],
-        
-        drawCallback: function(settings) {
+		drawCallback: function(settings) {
+            // 페이지 내 항목의 순서 번호를 업데이트합니다.
             var api = this.api();
-            var startIndex = api.page.info().start; // 현재 페이지의 시작 인덱스를 가져옵니다.
-    
-            // 번호 열을 다시 설정합니다.
-            api.column(0, { search: 'applied', order: 'applied' }).nodes().each(function(cell, i) {
-                cell.innerHTML = startIndex + i + 1;  // 각 행에 번호를 설정합니다.
+            api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
+                // 페이지의 첫 번째 항목 인덱스를 기준으로 순서 번호를 계산합니다.
+                var pageStart = api.settings()[0]._iDisplayStart;
+                $(cell).html(pageStart + i + 1);
             });
-        },
-        
+        }, 
         "info": false, // 기본 정보 텍스트를 숨깁니다.
         lengthChange: false, // 페이지 길이 변경 옵션을 숨깁니다.
         dom: 'lrtip', // 기본 검색 필드를 숨깁니다.
@@ -181,6 +179,7 @@ function resetFilters() {
     // 날짜 필터를 초기화합니다.
     $('#startDate').val('');
     $('#endDate').val('');
+	$(".date-option").removeClass("active");
 
     // DataTables 검색 및 필터링을 초기화합니다.
     table.search('').columns().search('').draw();

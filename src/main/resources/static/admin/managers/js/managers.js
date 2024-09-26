@@ -296,6 +296,7 @@ function resetFilters() {
     // 날짜 필터 초기화
     $('#startDate').val('');
     $('#endDate').val('');
+	$(".date-option").removeClass("active");
 
     // DataTables 검색 및 필터링 초기화
     table.search('').columns().search('').draw(); // 검색어 및 모든 컬럼 필터 초기화

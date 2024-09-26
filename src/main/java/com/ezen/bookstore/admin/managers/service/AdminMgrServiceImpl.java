@@ -42,7 +42,8 @@ public class AdminMgrServiceImpl implements AdminMgrService {
     @Override
     @Transactional(readOnly = true)
     public boolean isManagerIdAvailable(String managerId) {
-    	return adminMgrMapper.findById(managerId);
+    	AdminManagersDTO dto = adminMgrMapper.findById(managerId);
+    	return dto == null;
     }
 
     @Override
