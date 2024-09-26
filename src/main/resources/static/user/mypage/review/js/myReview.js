@@ -171,7 +171,7 @@ $(document).ready(function () {
 		} else {
 			leftIcon.on('click', function (){
 				currentPage -= 1;
-				loadBooks($('.tab-btn.active').text() === '리뷰를 기다리는 도서' ? 'pending' : 'written');
+				loadBooks($('.tab-btn.active').text() === '리뷰를 기다리는 도서' ? 'pending' : 'written', currentPage);
 				updatePagination(totalPages, currentPage);
 			});
 		}
@@ -202,7 +202,7 @@ $(document).ready(function () {
 	    } else {
 	        rightIcon.on('click', function () {
 	            currentPage += 1;
-	            loadBooks($('.tab-btn.active').text() === '리뷰를 기다리는 도서' ? 'pending' : 'written');
+	            loadBooks($('.tab-btn.active').text() === '리뷰를 기다리는 도서' ? 'pending' : 'written', currentPage);
 	            updatePagination(totalPages, currentPage);
 	        });
 	    }
