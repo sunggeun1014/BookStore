@@ -3,7 +3,7 @@ window.onload = function() {
                new daum.Postcode({
                    oncomplete: function(data) {
                        document.getElementById("address_kakao").value = data.address;
-                       document.querySelector("input[name=address_detail]").focus();
+                       document.getElementById("manager_detail_addr").focus();
                    }
                }).open();
            });
