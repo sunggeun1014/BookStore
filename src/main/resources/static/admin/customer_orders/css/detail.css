@@ -18,7 +18,9 @@
 }
 
 .order-info {
-	padding: 20px;
+	height: 60px;
+	line-height: 60px;
+	padding-left: 20px;
 	border-bottom: 1px solid #D8D8D8;
 }
 
@@ -88,22 +90,19 @@
 	gap: 8px;
 }
 
-.table-column-area {
+.table-column-area, .table-data-area {
+	height: 50px;
 	display: flex;
 	text-align: center;
-	padding: 8px 8px;
-	border-top: solid 1px #D8D8D8;
+	padding: 17px 8px;
 	border-bottom: solid 1px #D8D8D8;
-	background-color: #FAFAFA;
-	line-height: 30px;
+	color: #7E7E7E;
 }
 
-.table-data-area {
-	display: flex;
-	text-align: center;
-	padding: 8px 8px;
-	border-bottom: solid 1px #D8D8D8;
-	line-height: 30px;
+.table-column-area {
+	border-top: solid 1px #D8D8D8;
+	background-color: #FAFAFA;
+	font-weight: 700;
 }
 
 .table-column-area > div, .table-column-area > div > span, .table-data-area > div, .table-data-area > div > span {

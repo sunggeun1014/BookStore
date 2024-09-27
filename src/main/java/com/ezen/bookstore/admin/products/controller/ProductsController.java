@@ -69,7 +69,7 @@ public class ProductsController {
         return response;
     }
 
-    @GetMapping("/editProduct")
+    @GetMapping("/detail")
     public String getBookDetail(@RequestParam("book_isbn") String bookISBN, Model model) {
         ProductsDTO productDetail = productService.detailList(bookISBN);
         
@@ -90,7 +90,7 @@ public class ProductsController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return "redirect:/admin/products/editProduct?book_isbn=" + bookISBN;
+        return "redirect:/admin/products/detail?book_isbn=" + bookISBN;
     }
 
     @GetMapping("/addProduct")

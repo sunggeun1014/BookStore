@@ -37,18 +37,11 @@ $(document).ready(function() {
 					data: null,
 					orderable: false
 				},
-                // {
-                //     data: null,  // 이 컬럼은 데이터베이스에서 가져오는 데이터를 사용하지 않음
-                //     render: function(data, type, row, meta) {
-                //         return meta.row + 1;  // meta.row는 0부터 시작하는 행 인덱스이므로 +1 해줌
-                //     },
-                //     orderable: false,  // 이 컬럼에 대해 정렬을 비활성화
-                // },
                 {
                     data: 'book_isbn',
                     render: function(data, type, row) {
-                        // const url = '/admin/products/editProduct&book_isbn=' + encodeURIComponent(data);
-                        return '<a href="#" class="book-isbn-link" data-isbn="' + data + '">' + data + '</a>';
+                        const url = '/admin/products/detail?book_isbn=' + encodeURIComponent(data);
+                        return '<a href=' + url + ' class="book-isbn-link" data-isbn="' + data + '">' + data + '</a>';
                     }
                 },
                 {
@@ -135,18 +128,6 @@ $(document).ready(function() {
                         return data; // 소팅을 위한 원본 형식 반환
                     }
                 },
-
-                // {
-                //     data: 'book_state',
-                //     render: function(data, type, row) {
-                //         const onClass = data === '01' ? ' on' : '';
-                //         const offClass = data === '02' ? ' off' : '';
-                //         return '<div class="status-btn-wrap">' +
-                //             '<button class="status-btn' + onClass + '">판매중</button>' +
-                //             '<button class="status-btn' + offClass + '">판매중지</button>' +
-                //             '</div>';
-                //     }
-                // }
                 {
                     data: 'book_state',
                     render: function(data, type, row) {
@@ -185,10 +166,10 @@ $(document).ready(function() {
                 $(row).attr('data-id', data.book_isbn); // 각 행에 고유 ID 설정
 
                 // 제목 컬럼의 링크 클릭 이벤트 추가
-                $(row).find('.book-isbn-link').on('click', function(event) {
-                    event.preventDefault(); // 링크 기본 동작 방지
-                    getToDetailPage(data); // 폼 생성 및 제출 함수 호출
-                });
+                // $(row).find('.book-isbn-link').on('click', function(event) {
+                //     event.preventDefault(); // 링크 기본 동작 방지
+                //     getToDetailPage(data); // 폼 생성 및 제출 함수 호출
+                // });
             }
         });
     }
@@ -385,39 +366,6 @@ function pickDateBtn() {
         btn.addEventListener("click", function () {
             dateBtns.forEach((btn) => btn.classList.remove("active"));
             this.classList.add("active");
-        });
-    });
-}
-
-function getToDetailPage(data) {
-    // 폼 생성
-    console.log(data);
-
-    var form = $('<form>', {
-        method: 'GET',
-        action: '/admin/products/editProduct'  // 서버의 상세 페이지 URL로 설정
-    });
-
-    // 데이터를 숨김 필드로 추가
-    form.append($('<input>', { type: 'hidden', name: 'book_isbn', value: data.book_isbn }));
-
-    // 폼을 body에 추가하고 제출
-    form.appendTo('body').submit();
-}
-
-// 보류
-function changeStateBtn() {
-    const statusBtns = document.querySelectorAll(".status-btn");
-
-    statusBtns.forEach((btn) => {
-        btn.addEventListener("click", function () {
-            const isActive = this.textContent === "판매중";
-
-            statusBtns.forEach((otherBtn) => {
-                otherBtn.classList.remove("on", "off");
-            });
-
-            this.classList.add(isActive ? "on" : "off");
         });
     });
 }

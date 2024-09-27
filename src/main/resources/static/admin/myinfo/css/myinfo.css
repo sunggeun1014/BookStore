@@ -3,6 +3,10 @@ input, select {
 	margin-left: 50px;
 }
 
+input:focus, select:focus {
+	border: 1px solid #666666;
+}
+
 .text-readonly {
 	margin-left: 50px;
 }

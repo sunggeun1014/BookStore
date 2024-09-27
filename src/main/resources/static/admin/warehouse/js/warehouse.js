@@ -46,16 +46,17 @@ $(document).ready(function() {
 	    { data: 'inv_qty' },
 	    {
 	        data: 'inv_registration_date',
-	        render: function(data, type) {
-	            // date값을 받아올때 -> YYYY-MM-DD HH:MM 식으로 포맷해서 출력해준다
-	            if (type === 'display' || type === 'filter') {
+			render: function(data, type) {
+				if (type === 'display' || type === 'filter') {
 					var date = new Date(data);
-					var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
-					
+					var year = date.getFullYear();
+					var month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+					var day = String(date.getDate()).padStart(2, '0');
+					var formattedDate = `${year}-${month}-${day}`;
 					return formattedDate;
-				} 		
+				}
 				return data;
-	        }
+			}
 	    },
 	  	{ data: 'zone_num' }
 	],

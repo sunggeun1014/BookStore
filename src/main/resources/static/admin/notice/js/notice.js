@@ -31,10 +31,13 @@ $(document).ready(function() {
 				},
 				{
 					data: 'notice_write_date',
-					render: function(data, type, row) {
+					render: function(data, type) {
 						if (type === 'display' || type === 'filter') {
 							var date = new Date(data);
-							var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+							var year = date.getFullYear();
+							var month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+							var day = String(date.getDate()).padStart(2, '0');
+							var formattedDate = `${year}-${month}-${day}`;
 							return formattedDate;
 						}
 						return data;
@@ -43,14 +46,25 @@ $(document).ready(function() {
 				{
 					data: null,
 					render: function(data, type, row) {
-						var startDate = new Date(row.notice_start_date);
-						var endDate = new Date(row.notice_end_date);
+						if (type === 'display' || type === 'filter') {
+							var startDate = new Date(row.notice_start_date);
+							var endDate = new Date(row.notice_end_date);
 
-						// ko-KR 형식으로 날짜 포맷팅
-						var formattedStartDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(startDate);
-						var formattedEndDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(endDate);
+							// 날짜만 추출 (시간은 00:00:00로 설정)
+							var startFormatted = [
+								startDate.getFullYear(),
+								String(startDate.getMonth() + 1).padStart(2, '0'),
+								String(startDate.getDate()).padStart(2, '0')
+							].join('-');
 
-						return formattedStartDate + ' ~ ' + formattedEndDate;
+							var endFormatted = [
+								endDate.getFullYear(),
+								String(endDate.getMonth() + 1).padStart(2, '0'),
+								String(endDate.getDate()).padStart(2, '0')
+							].join('-');
+							return startFormatted + ' ~ ' + endFormatted;
+						}
+						return '';
 					}
 				},
 				{
@@ -59,9 +73,9 @@ $(document).ready(function() {
 
 						if (type === 'display') {
 							if (data == '01') {
-								return "<span style='color: #E54F53;'>노출<span>"
+								return "<span style='color: #4777F6;'>노출<span>"
 							} else {
-								return "<span style='color: #10A142;'>비노출<span>"
+								return "<span>비노출<span>"
 							}
 
 						}

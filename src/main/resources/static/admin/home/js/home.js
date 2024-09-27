@@ -1,4 +1,3 @@
-
 var table;
 $(document).ready(function() {
     // 테이블이 이미 초기화되어 있는지 확인
@@ -23,7 +22,7 @@ $(document).ready(function() {
                         targets: 0
                     },
                 ],
-            order: [[0, 'asc']],
+            order: [[3, 'desc']],
             ajax: {
                 url: '/admin/home/inquiries/json',
                 dataSrc: 'data',
@@ -41,7 +40,9 @@ $(document).ready(function() {
                     width: '150px',
                     className: 'text-eclipse',
                     render: function(data, type, row) {
-                        return data.length > 10 ? data.slice(0, 10) + '...' : data.slice(0, 10);
+                        const inquiryNum = row.inquiry_num; // inquiry_num 가져오기
+                        const url = '/admin/inquiries/details?inquiry_num=' + encodeURIComponent(inquiryNum);
+                        return '<a href=' + url + ' class="book-title-link">' + data + '</a>';
                     }
                 },
                 {
@@ -49,24 +50,19 @@ $(document).ready(function() {
                     width: '80px'
                 },
                 {
-                    data: 'inquiry_answer_status',
-                    width: '80px',
-                    createdCell: function(td, cellData) {
-                        if (cellData === "미완료" || cellData === "완료") {
-                            $(td).addClass('text-color-orange');
-                        } else {
-                            $(td).addClass('text-color-green');
-                        }
-                    }
-                },
-                {
-                    data: 'answer_write_date',
+                    data: 'inquiry_write_date',
                     render: function(data, type, row) {
-						const date = new Date(data);
+                        const date = new Date(data);
                         return data ? date.toISOString().split('T')[0] : '-';
                     }
                 },
-
+                {
+                    data: 'inquiry_answer_status',
+                    render: function(data, type, row) {
+                        var color = data === '미완료' ? '#F69E47' : (data === '처리완료' ? '#10A142' : 'black');
+                        return '<span style="color: ' + color + ';">' + data + '</span>';
+                    }
+                },
             ],
             "info": false,
             dom: 't',
@@ -85,6 +81,14 @@ $(document).ready(function() {
                 infoEmpty: "조회된 정보가 없습니다.",
                 zeroRecords: "조회된 정보가 없습니다.",
                 emptyTable: "조회된 정보가 없습니다.",
+            },
+            rowCallback: function(row, data, index) {
+                // 화면에 표시되는 열을 1부터 시작하도록 변경
+                var pageInfo = table.page.info();
+                var rowIndex = pageInfo.start + index + 1;
+                $('td:eq(0)', row).html(rowIndex);
+
+                $(row).attr('data-id', data.inquiry_num); // 각 행에 고유 ID 설정
             },
         });
     }
@@ -110,12 +114,11 @@ $(document).ready(function() {
                         targets: 0
                     },
                 ],
-            order: [[0, 'asc']],
+            order: [[3, 'desc']],
             ajax: {
                 url: '/admin/home/stocks/json',
                 // dataSrc: 'data',
                 dataSrc: function (response) {
-                    console.log(response);
                     return response.data || [];
                 }
             },
@@ -129,6 +132,9 @@ $(document).ready(function() {
                 },
                 {
                     data: 'log_transaction_num',
+                    render: function(data, type, row) {
+                        return `<a href="/admin/inventoryLog/detail?log_transaction_num=${data}" class="order-detail-link">${data}</a>`;
+                    }
                 },
                 {
                     data: 'log_transaction_status',
@@ -160,6 +166,15 @@ $(document).ready(function() {
                 infoEmpty: "조회된 정보가 없습니다.",
                 zeroRecords: "조회된 정보가 없습니다.",
                 emptyTable: "조회된 정보가 없습니다.",
+            },
+
+            rowCallback: function(row, data, index) {
+                // 화면에 표시되는 열을 1부터 시작하도록 변경
+                var pageInfo = table.page.info();
+                var rowIndex = pageInfo.start + index + 1;
+                $('td:eq(0)', row).html(rowIndex);
+
+                // $(row).attr('data-id', data.inquiry_num); // 각 행에 고유 ID 설정
             },
         });
     }

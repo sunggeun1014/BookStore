@@ -47,7 +47,7 @@ public class InquiriesController {
 		return response;
 	}
 
-	@PostMapping("/details")
+	@GetMapping("/details")
 	public String showInquiriesDetails(@RequestParam("inquiry_num") Integer inquiryNum, Model model) {
 		InquiriesDTO tables = iqs.getDetailList(inquiryNum);
 		

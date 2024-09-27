@@ -42,12 +42,16 @@ $(document).ready(function() {
                 render: function(data, type) {
                     if (type === 'display' || type === 'filter') {
                         var date = new Date(data);
-                        var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+                        var year = date.getFullYear();
+                        var month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+                        var day = String(date.getDate()).padStart(2, '0');
+                        var formattedDate = `${year}-${month}-${day}`;
                         return formattedDate;
-                    }       
+                    }
                     return data;
                 }
             }
+
         ],
 		drawCallback: function(settings) {
             // 페이지 내 항목의 순서 번호를 업데이트합니다.

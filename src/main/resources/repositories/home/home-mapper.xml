@@ -16,11 +16,14 @@
     </select>
 
     <select id="getTodayOrder" resultType="int">
-        SELECT count(*)
+        SELECT COUNT(*)
         FROM customer_orders
-        WHERE ORDER_PAYMENT_STATUS = '01' AND order_purchase_date BETWEEN TRUNC(SYSDATE)
-        AND TRUNC(SYSDATE) + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        WHERE ORDER_PAYMENT_STATUS = '01'
+        AND order_purchase_date BETWEEN
+        TRUNC(FROM_TZ(CAST(SYSDATE AS TIMESTAMP), 'UTC') AT TIME ZONE 'Asia/Seoul')
+        AND TRUNC(FROM_TZ(CAST(SYSDATE AS TIMESTAMP), 'UTC') AT TIME ZONE 'Asia/Seoul') + INTERVAL '1' DAY - INTERVAL '1' SECOND
     </select>
+
 
     <select id="getTodaySales" resultType="int">
         SELECT SUM(cod.order_detail_price)
@@ -28,8 +31,11 @@
         INNER JOIN customer_orders co
         ON cod.order_num = co.order_num
         WHERE cod.order_detail_status = '01'
-        AND TRUNC(co.order_purchase_date) = TRUNC(SYSDATE)
+        AND co.order_purchase_date BETWEEN
+        TRUNC(FROM_TZ(CAST(SYSDATE AS TIMESTAMP), 'UTC') AT TIME ZONE 'Asia/Seoul')
+        AND TRUNC(FROM_TZ(CAST(SYSDATE AS TIMESTAMP), 'UTC') AT TIME ZONE 'Asia/Seoul') + INTERVAL '1' DAY - INTERVAL '1' SECOND
     </select>
+
 
     <!-- 배송전(주문) -->
     <select id="getAllOrders" resultType="int">
