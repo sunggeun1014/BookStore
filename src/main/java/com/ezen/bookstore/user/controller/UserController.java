@@ -25,7 +25,7 @@ public class UserController {
 	private final UserMainService userMainService;
 
 	@GetMapping("/login")
-	public String login(Model model) {
+	public String login() {
 		return "/user/login/login";
 	}
 

@@ -21,15 +21,28 @@ public class CustomAdminAuthenticationSuccessHandler implements AuthenticationSu
 		
 		HttpSession session = request.getSession(true);
 		
-		CustomAdminDetails adminDetails = (CustomAdminDetails) authentication.getPrincipal();
-		
+		CustomAdminDetails adminDetails = (CustomAdminDetails) authentication.getPrincipal();		
         AdminManagersDTO managersDTO = adminDetails.getManagersDTO();
         managersDTO.setManager_pw(null);
                 
         session.setMaxInactiveInterval(60*60);
         session.setAttribute(AccountManagement.MANAGER_INFO, managersDTO);
         
-        response.sendRedirect("/admin/index");
+        String requestURI = request.getRequestURI();
+        String redirectUrl;
+        
+        if (requestURI.startsWith("/admin")) {
+        	
+            redirectUrl = "/admin/index";
+        } else if (requestURI.startsWith("/mobile/admin")) {
+        	
+            redirectUrl = "/mobile/admin/index";
+        } else {
+            // 기본 리다이렉트 경로 (예상치 못한 경로일 경우)
+            redirectUrl = "/admin/index";
+        }
+
+        response.sendRedirect(redirectUrl);
 
 	}
 
