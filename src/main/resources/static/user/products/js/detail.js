@@ -116,7 +116,7 @@ function submitHandler() {
         const memberID = getMemberID([cartBtn, buyNowBtn])
 
         if (memberID === null) {
-            getConfirmModal("로그인 하지 않으셨습니다.", "로그인 페이지로 가시겠습니까?", function () {
+            getConfirmModal("로그인 하지 않으셨습니다.", "로그인 페이지로 이동 하시겠습니까?", function () {
                 location.href = '/user/login'
             })
         } else {
@@ -195,7 +195,7 @@ function refundInfoHandler() {
     function handleClick(button, action) {
         button.addEventListener("click", function () {
             if (memberID === null) {
-                getConfirmModal("로그인 하지 않으셨습니다. 로그인 페이지로 이동하시겠습니까?", function () {
+                getConfirmModal("로그인 하지 않으셨습니다.", "로그인 페이지로 이동하시겠습니까?", function () {
                     location.href = '/user/login';
                 });
             } else {
