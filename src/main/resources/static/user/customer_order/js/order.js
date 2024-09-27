@@ -110,6 +110,18 @@ function showEditAddrModal() {
 
     confirmBtn.addEventListener("click", function () {
         const detailAddrValue = editDetailAddrInput.value.trim();
+		
+		if(!$("#edit-name").val()) {
+			$("#edit-name").addClass("error");
+			errorMsg.textContent = "⚠️ 이름을 입력하세요";
+			return;
+		}
+		
+		if(!$("#edit-number").val()) {
+			$("#edit-number").addClass("error");
+			errorMsg.textContent = "⚠️ 전화번호를 입력하세요";
+			return;
+		}
 
         if (detailAddrValue === "") {
             editDetailAddrInput.classList.add("error");
@@ -204,7 +216,7 @@ function goToOrder() {
     const bookIsbns = document.querySelectorAll(".order-book-isbn");
     const orderQtys = document.querySelectorAll(".order_detail_qty");
     const orderPrices = document.querySelectorAll(".order_detail_price");
-
+	
     let details = [];
 
     bookIsbns.forEach((isbn, index) => {

@@ -71,11 +71,11 @@
 
                 <form id="add-form" th:if="${bookDetail.book_state == '01'}">
                     <input type="hidden" name="book_isbn" id="book_isbn" th:value="${bookDetail.book_isbn}">
-                    <input type="hidden" name="book_isbn" id="book_name" th:value="${bookDetail.book_name}">
-                    <input type="hidden" name="book_isbn" id="book_thumbnail_changed"
+                    <input type="hidden" name="book_name" id="book_name" th:value="${bookDetail.book_name}">
+                    <input type="hidden" name="book_thumbnail_changed" id="book_thumbnail_changed"
                            th:value="${bookDetail.book_thumbnail_changed}">
-                    <input type="hidden" name="cart_purchase_qty" id="cart_purchase_qty" value="">
-                    <input type="hidden" name="book_price" id="book_price" value="">
+                    <input type="hidden" name="cart_purchase_qty" id="cart_purchase_qty">
+                    <input type="hidden" name="book_price" id="book_price" th:value="${bookDetail.book_price}">
                     <div class="order-btn-wrap">
                         <button class="default-btn border" id="cart-btn" data-action="cart"
                                 th:data-memberid="${member_id}">장바구니

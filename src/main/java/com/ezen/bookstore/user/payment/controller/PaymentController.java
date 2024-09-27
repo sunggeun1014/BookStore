@@ -54,7 +54,7 @@ public class PaymentController {
         if (!combinedItems.isEmpty()) {
             for (OrderItemDTO item : combinedItems) {
                 totalItems += item.getCart_purchase_qty();
-                totalPrice += item.getBook_price();
+                totalPrice += item.getCart_purchase_qty() * item.getBook_price();
             }
 
             model.addAttribute("combinedItems", combinedItems);

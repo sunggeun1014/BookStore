@@ -111,6 +111,7 @@ function submitHandler() {
 
     addForm.addEventListener("submit", function (e) {
         e.preventDefault();
+		
         const action = e.submitter.getAttribute("data-action")
 
         const memberID = getMemberID([cartBtn, buyNowBtn])
@@ -121,7 +122,6 @@ function submitHandler() {
             })
         } else {
             cartQtyInput.value = getTotalQty;
-            bookPriceInput.value = getTotalPrice;
 
             if (action === 'cart') {
                 const data = [{

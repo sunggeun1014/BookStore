@@ -58,7 +58,7 @@
         co.recipient_phoneNo,
         m.member_name,
         m.member_phoneno,
-        NVL(SUM(cod.order_detail_price), 0) AS order_price_total
+        NVL(SUM(cod.order_detail_price * cod.order_detail_qty), 0) AS order_price_total
         FROM
         customer_orders        co
         LEFT JOIN members                m ON co.member_id = m.member_id

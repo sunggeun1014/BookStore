@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				const bookName = checkbox.getAttribute("data-name")
 				const thumbnail = checkbox.getAttribute("data-thumbnail")
 				const qty = checkbox.closest('.cart-item').querySelector('.input-qty').value
-				const price = qty * checkbox.getAttribute("data-price")
+				const price = checkbox.getAttribute("data-price")
 				const cartNum = checkbox.getAttribute('data-cart-num');
 
 				selectedItems.push({

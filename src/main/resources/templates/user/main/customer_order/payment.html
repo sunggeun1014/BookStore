@@ -163,7 +163,7 @@
                             <p>개</p>
                         </div>
                         <div class="book-price">
-                            <p th:text="${#numbers.formatInteger(item.book_price, 0, 'COMMA')}"></p>
+                            <p th:text="${#numbers.formatInteger(item.book_price * item.cart_purchase_qty, 0, 'COMMA')}"></p>
                             <input type="hidden" name="order_detail_price" class="order_detail_price" th:value="${item.book_price}">
                             <p>원</p>
                         </div>
