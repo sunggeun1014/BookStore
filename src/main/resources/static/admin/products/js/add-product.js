@@ -1,5 +1,5 @@
 var table;
-$(document).ready(function() {
+$(document).ready(function () {
     // 테이블이 이미 초기화되어 있는지 확인
     if (!$.fn.DataTable.isDataTable('#inventory')) {
         table = $('#inventory').removeAttr('width').DataTable({
@@ -8,7 +8,7 @@ $(document).ready(function() {
             "paging": true,
             columnDefs:
                 [
-                    { targets: 0, orderable: false }, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
+                    {targets: 0, orderable: false}, // 첫 번째 컬럼(체크박스 컬럼)에서 정렬 비활성화
                     // 가운데정렬
                     {
                         className: 'table-center',
@@ -59,13 +59,13 @@ $(document).ready(function() {
                 zeroRecords: "조회된 정보가 없습니다.",
                 emptyTable: "조회된 정보가 없습니다.",
             },
-			drawCallback: function(settings) {
-			    let api = this.api();
-			    api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
-			        let pageStart = api.settings()[0]._iDisplayStart;
-			        $(cell).html(pageStart + i + 1);
-			    });
-			}
+            drawCallback: function (settings) {
+                let api = this.api();
+                api.column(0, {page: 'current'}).nodes().each(function (cell, i) {
+                    let pageStart = api.settings()[0]._iDisplayStart;
+                    $(cell).html(pageStart + i + 1);
+                });
+            }
         });
     }
 
@@ -74,7 +74,7 @@ $(document).ready(function() {
 
 
     // 책 검색 입력 필드에 입력 시 실시간으로 테이블 검색 필터링 적용
-    searchWord();
+    // searchWord();
 
     // 날짜선택
     datepicker("singleDate");
@@ -87,29 +87,16 @@ $(document).ready(function() {
 
     // 이미지 보이도록
     previewImg();
-	
-	// 카테고리 노출 세분화	
-	categoryCheck();
+
+    // 카테고리 노출 세분화
+    categoryCheck();
 });
-
-function searchWord() {
-    $('#search-keyword').on('keyup', function() {
-        var value = this.value;
-
-        // 입력된 값이 숫자로만 이루어져 있으면 ISBN으로 검색
-        if ($.isNumeric(value)) {
-            table.column(1).search(value).draw();  // 1번 컬럼인 ISBN 열에서 검색
-        } else {
-            // 숫자가 아니면 제목 열에서 검색
-            table.column(2).search(value).draw();  // 2번 컬럼인 제목 열에서 검색
-        }
-    });
-}
 
 let selectedISBN = null;
 let invQty = null;
+
 function getBookInfo() {
-    $('#inventory tbody').on('click', 'tr', function() {
+    $('#inventory tbody').on('click', 'tr', function () {
         var data = table.row(this).data(); // 클릭한 행의 데이터 가져오기
 
         // inv_isbn과 inv_title을 각각 input에 채워 넣음
@@ -136,15 +123,15 @@ function getStateValue() {
 }
 
 function getCategoryValue() {
-	const bookCountryType = $("input[name='book_country_type']:checked").val();
+    const bookCountryType = $("input[name='book_country_type']:checked").val();
 
-	let result;
-	if(bookCountryType == '01') {
-		result = $("#national").val(); 
-	} else {
-		result = $("#foreign").val();
-	}
-    
+    let result;
+    if (bookCountryType == '01') {
+        result = $("#national").val();
+    } else {
+        result = $("#foreign").val();
+    }
+
     return result;
 }
 
@@ -161,7 +148,7 @@ function checkForm() {
     const inputFile = document.querySelector("#input-file");
     const inputIntro = document.querySelector("#book_intro");
 
-    addForm.addEventListener("submit", function(event) {
+    addForm.addEventListener("submit", function (event) {
         event.preventDefault(); // 폼 제출 중단
 
         if (inputISBN.value === "") {
@@ -174,8 +161,8 @@ function checkForm() {
             url: '/admin/products/checkISBN',  // 서버의 ISBN 중복 체크 엔드포인트
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ book_isbn: inputISBN.value }),
-            success: function(response) {
+            data: JSON.stringify({book_isbn: inputISBN.value}),
+            success: function (response) {
                 if (response.exists) {
                     if (response.deleteState === '02') {
                         getConfirmModal("숨김 처리된 ISBN입니다. 수정 페이지로 돌아가시겠습니까?", function () {
@@ -188,11 +175,11 @@ function checkForm() {
                         inputISBN.focus();
                     }
                 } else {
-					if(!response.isInvIsbn) {
-						getCheckModal("해당 ISBN은 재고에 존재하지 않는 상품 입니다.", inputISBN);
-						return;
-					}
-					
+                    if (!response.isInvIsbn) {
+                        getCheckModal("해당 ISBN은 재고에 존재하지 않는 상품 입니다.", inputISBN);
+                        return;
+                    }
+
                     // 중복되지 않은 경우 나머지 검사를 진행
                     if (inputName.value === "") {
                         getCheckModal("책 제목을 입력해주세요");
@@ -265,19 +252,17 @@ function checkForm() {
                         return;
                     }
 
-                    getConfirmModal("등록하시겠습니까?", function() {
+                    getConfirmModal("등록하시겠습니까?", function () {
                         addForm.submit();
                     });
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 getErrorModal();
             }
         });
     });
 }
-
-
 
 
 let scrollPosition = 0;
@@ -296,22 +281,44 @@ function enableScroll() {
     window.scrollTo(0, scrollPosition);
 }
 
+function searchWord() {
+    $('#search-keyword').on('keypress', function () {
+        searchHandler(this.value)
+    });
 
-function showInvenList() {
-    const searchInput = document.querySelector(".search-input")
-    const bookModal = document.querySelector("#search-book-modal")
-    const closeBtn = document.querySelector("#close-btn")
+    $('#searchButton').on('click', function () {
+        searchHandler($('#search-keyword').val())
+    })
 
-    // 검색창 입력(keyup) 시 모달 자동 표시
-    searchInput.addEventListener("keyup", function () {
-        const inputValue = searchInput.value.trim();
-
-        // 입력된 값이 있을 때 모달이 뜨도록 설정
-        if (inputValue.length > 0 && !bookModal.classList.contains("on")) {
-            bookModal.classList.add("on");
-            disableScroll();
+    function searchHandler(value) {
+        // 검색어 없으면 전체 검색
+        if (value.trim() === "") {
+            table.search('').draw();
         }
 
+        if ($.isNumeric(value)) {
+            table.column(1).search(value).draw();  // ISBN 검색
+        } else {
+            // 숫자가 아니면 제목 열에서 검색
+            table.column(2).search(value).draw();  // 제목 검색
+        }
+    }
+}
+
+
+function showInvenList() {
+    const searchBox = document.querySelector(".search-container")
+    const searchInput = document.getElementById("search-keyword")
+    const bookModal = document.querySelector("#search-book-modal")
+    const closeBtn = document.querySelector("#close-btn")
+    const searchButton = document.getElementById("searchButton");
+    const inputValue = searchInput.value.trim();
+
+    searchBox.addEventListener("click", function () {
+        bookModal.classList.add("on");
+        disableScroll();
+
+        searchWord();
         // DataTables 검색 기능 호출 (검색어에 해당하는 항목을 필터링)
         table.search(inputValue).draw();
     });
@@ -330,17 +337,17 @@ function datepicker(elementId) {
         enableTime: false,
         defaultDate: null,
         allowInput: true,
-        onValueUpdate: function(selectedDates, dateStr, instance) {
+        onValueUpdate: function (selectedDates, dateStr, instance) {
             // When a date is selected, we validate the format
             validateDateInput(dateInput, dateStr);
         }
     });
 
     // 사용자가 input에 데이트값을 입혁할 때 정규표현식 체크
-    dateInput.addEventListener('input', function() {
+    dateInput.addEventListener('input', function () {
         validateDateInput(dateInput, dateInput.value);
     });
-    dateInput.addEventListener('blur', function() {
+    dateInput.addEventListener('blur', function () {
         validateDateInput(dateInput, dateInput.value);
     });
 }
@@ -367,7 +374,7 @@ function previewImg() {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
 
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 // 미리보기 이미지 설정
                 preview.src = e.target.result;
                 preview.style.display = 'block'; // 이미지 미리보기를 표시
@@ -380,13 +387,13 @@ function previewImg() {
 }
 
 function categoryCheck() {
-	$("input[name='book_country_type']").on("change", function() {
-		if(this.value === '01') {
-			$("#national").css({ "display": "block" }); 
-			$("#foreign").css({ "display": "none" }); 
-		} else {
-			$("#national").css({ "display": "none" }); 
-			$("#foreign").css({ "display": "block" });
-		} 
-	});
+    $("input[name='book_country_type']").on("change", function () {
+        if (this.value === '01') {
+            $("#national").css({"display": "block"});
+            $("#foreign").css({"display": "none"});
+        } else {
+            $("#national").css({"display": "none"});
+            $("#foreign").css({"display": "block"});
+        }
+    });
 }
