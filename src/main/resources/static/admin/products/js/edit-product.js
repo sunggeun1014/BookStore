@@ -114,7 +114,7 @@ function checkEditForm() {
                 editForm.submit(); // 폼 제출
             });
         } else {
-            getErrorModal();
+            getErrorModal("ERROR");
         }
     });
 }

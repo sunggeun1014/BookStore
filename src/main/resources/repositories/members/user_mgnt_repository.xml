@@ -102,7 +102,7 @@
 	
 	<select id="getBasketCount" resultType="Integer" parameterType="String">
 	    SELECT 
-	        COALESCE(SUM(cart_purchase_qty), 0)
+	        COALESCE(COUNT(*), 0)
 	    FROM 
 	        orders_cart
 	    WHERE 

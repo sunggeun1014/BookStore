@@ -102,9 +102,11 @@
 					  </div>
 				    <div class="product-img-area">
 				        <a th:href="'/user/products/detail?book_isbn=' + ${product.book_isbn}"><img class="product-image" th:src="@{/images/books/{image}(image=${product.book_thumbnail_changed != null ? product.book_thumbnail_changed : 'noimg.png'})}" alt="책 이미지"></a>
+				        <input type="hidden" id="book_thumbnail_changed" th:value="${product.book_thumbnail_changed}">
 				    </div>
 				    <div class="product-info-area">
 				        <div class="book-name"><a th:href="'/user/products/detail?book_isbn=' + ${product.book_isbn}" th:text="${product.book_name}"></a></div>
+				        <input type="hidden" id="book_name" th:value="${product.book_name}">
 				        <div class="book-author">
 				        	<span th:text="${product.book_author}"></span>
 				        	<span>저자(글)</span>
@@ -112,6 +114,7 @@
 				        <div th:text="${product.book_publisher} + ' · ' + ${#dates.format(product.book_publish_date, 'yyyy-MM-dd')}" class="book-publisher">
 				        </div>
 				        <div th:text="${#numbers.formatInteger(product.book_price, 0, 'COMMA')} + ' 원'" class="book-price"></div>
+				        <input type="hidden" id="book_price" th:value="${product.book_price}">
 				        <div>
 				        	<i class="raing-ico"></i>
 				        	<span th:text="${product.reviews_rating_avg}" class="reviews_rating_avg"></span>
@@ -120,7 +123,7 @@
 				    </div>
 				    <div class="product-btn-area" th:if="${product.book_state == '01' && product.book_qty > 0}">
 				        <div class="purchase-btn-area">
-				            <button class="purchase-btn btn-default">바로구매</button>
+				            <button class="purchase-btn btn-default" onclick="buyNowBtn(this);">바로구매</button>
 				        </div>
 				        <div>
 							<button class="basket-btn btn-default" th:data-value="${product.book_isbn}" onclick="basket(this);">장바구니</button>

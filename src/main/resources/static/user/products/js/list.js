@@ -91,9 +91,19 @@ function basketList() {
 }
 
 function basketProcess(data) {
+	const loginId = $("#member-login-user-id").val();
+
+	if(!loginId) {
+		getConfirmModal("로그인 하지 않으셨습니다.", "로그인 페이지로 가시겠습니까?", function() {
+			location.href = "/user/login";
+		});
+		
+		return;
+	}
+		
 	if(data.length > 0) {
 		$.ajax({
-			url: "/user/productsRest/productBasketSave",
+			url: "/user/productsRest/productBasketSaveMulti",
 			method: "POST",
 			contentType: 'application/json',
 			data: JSON.stringify(data),
@@ -102,10 +112,35 @@ function basketProcess(data) {
 				getCheckModal(`장바구니에 상품이 추가되었습니다.`);
 			},
 			error: function() {
-				getErrorModal();
+				getErrorModal("ERROR");
 		  	}
 		});
 	} else {
-		getCheckModal("장바구니에 담으려면 최소 1개의 상품을 선택해야 합니다.");	
+		getCheckModal("장바구니에 담으려면 최소 1개의 상품을 선택해 주세요.");	
 	}
 }
+
+function buyNowBtn(obj) {
+	const row = $(obj).closest(".product-list-area");
+	
+	const orderData = [{
+            book_isbn: $(row).find("#check-btn").val(),
+            cart_purchase_qty: 1,
+            book_price: $(row).find("#book_price").val(),
+            book_name: $(row).find("#book_name").val(),
+            book_thumbnail_changed: $(row).find("#book_thumbnail_changed").val()
+        }];
+		
+    $.ajax({
+        url: '/user/productsRest/instantBuy',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(orderData),
+        success: function () {
+            location.href = '/user/order';
+        },
+        error: function () {
+            getErrorModal("ERROR");
+        }
+    });
+} 

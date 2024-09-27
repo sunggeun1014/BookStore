@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			$(".cart-qty p").text(response);
 		},
 		error: function() {
-			getErrorModal();
+			getErrorModal("ERROR");
 		}
 	});
 

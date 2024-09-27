@@ -135,7 +135,7 @@ function submitHandler() {
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     success: function (response) {
-                        if (response === 1) {
+                        if (response === -1) {
                             console.log("장바구니에 이미 있다")
                             getConfirmModal("장바구니에 이미 있는 상품으로 수량을 추가했습니다.","장바구니로 이동 하시겠습니까?", function () {
                                 location.href = '/user/cart/list'

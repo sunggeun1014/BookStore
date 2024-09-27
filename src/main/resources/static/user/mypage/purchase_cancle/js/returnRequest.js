@@ -216,7 +216,7 @@ function orderCancleBtn() {
 				}
 			},
 			error: function() {
-				getErrorModal();
+				getErrorModal("ERROR");
 			}
 		});
 	}

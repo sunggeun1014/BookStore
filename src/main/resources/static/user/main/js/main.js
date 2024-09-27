@@ -101,7 +101,7 @@ function updateHeaderBasketCount() {
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.error('장바구니 갯수 업데이트 오류:', textStatus, errorThrown);
-			getErrorModal();
+			getErrorModal("ERROR");
 		}
 	});
 }

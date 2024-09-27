@@ -20,10 +20,16 @@ public class UserOrdersCartServiceImpl implements UserOrdersCartService {
 		int result = 0;
 		
 		try {
-			result += ordersCartRepository.getBasketCount(member_id);
 			for(UserCartDTO dto : list) {
-				result += ordersCartRepository.productBasketInsert(dto, member_id);
+				List<UserCartDTO> newDto = ordersCartRepository.getProductBasket(dto, member_id);
+				
+				if(newDto.isEmpty()) {
+					ordersCartRepository.productBasketInsert(dto, member_id);
+				} else {
+					ordersCartRepository.productBasketUpdate(dto, member_id, newDto.get(0).getCart_num());
+				}
 			}
+			result = ordersCartRepository.getBasketCount(member_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
