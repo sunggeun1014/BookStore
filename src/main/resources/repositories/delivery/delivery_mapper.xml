@@ -2,16 +2,26 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ezen.bookstore.mobile.mapper.DeliveryMapper">
+<mapper namespace="com.ezen.bookstore.mobile.home.mapper.DeliveryMapper">
 	<select id="getRequestList" resultType="deliveryDTO">
 		SELECT 
-			request_num,
-			request_date,
-			manager_id
-		FROM
-			delivery_request
-		WHERE
-			request_end_date IS NULL
-	
+		    dr.request_num, 
+		    dr.request_date,
+		    drd.request_detail_num, 
+		    drd.order_num, 
+		    SUM(cod.order_detail_qty) AS total_order_qty
+		FROM 
+		    delivery_request dr
+		JOIN 
+		    delivery_request_detail drd ON dr.request_num = drd.request_num
+		JOIN 
+		    customer_order_details cod ON drd.order_num = cod.order_num
+		WHERE 
+		    dr.request_end_date IS NULL
+		GROUP BY 
+		    dr.request_num, dr.request_date, drd.request_detail_num, drd.order_num
+		ORDER BY 
+			dr.request_date ASC
+    
 	</select>
 </mapper>

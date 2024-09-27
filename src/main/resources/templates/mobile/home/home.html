@@ -11,23 +11,23 @@
 	    <p class="sub-title">입/출고</p>
 	    
 	    <div class="enter-menu">
-	        <div class="left-wrap">
+	        <div class="left-wrap" onclick="">
 	            <svg data-slot="icon" fill="none" stroke-width="2" stroke="currentColor" viewBox="-5 -5 35 35" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 	                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"></path>
 	            </svg>
 	            <p>입고하기</p>
+		        <i class="fa-solid fa-angle-right" aria-hidden="true"></i>
 	        </div>
-	        <i class="fa-solid fa-angle-right" aria-hidden="true"></i>
 	    </div>
 	    
 	    <div class="enter-menu">
-	        <div class="left-wrap">
+	        <div class="left-wrap" onclick="">
 	            <svg data-slot="icon" fill="none" stroke-width="2" stroke="currentColor" viewBox="-5 -5 35 35" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 	                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"></path>
 	            </svg>
 	            <p>출고하기</p>
+		        <i class="fa-solid fa-angle-right" aria-hidden="true"></i>
 	        </div>
-	        <i class="fa-solid fa-angle-right" aria-hidden="true"></i>
 	    </div>
 	</div>
 	
@@ -39,7 +39,7 @@
 				<p class="content-sub-txt">요청날짜: <span th:text="${#dates.format(item.request_date, 'yyyy-MM-dd')}"></span></p>
 			</div>
 			<div style="text-align: end;">
-				<p class="content-text"><span th:text="${item.request_detail_num}"></span></p>
+				<p class="content-text">총 <span th:text="${item.request_detail_num} + 권"></span></p>
 			</div>
 		</div>
 		

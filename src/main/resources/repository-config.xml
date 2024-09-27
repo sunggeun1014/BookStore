@@ -55,7 +55,7 @@
       <typeAlias type="com.ezen.bookstore.user.mypage.notice.dto.UserNoticesDTO" alias="userNotice"/>
       
       
-      <typeAlias type="com.ezen.bookstore.mobile.dto.DeliveryDTO" alias="deliveryDTO"/>
+      <typeAlias type="com.ezen.bookstore.mobile.home.dto.DeliveryDTO" alias="deliveryDTO"/>
    </typeAliases>
 
 </configuration>

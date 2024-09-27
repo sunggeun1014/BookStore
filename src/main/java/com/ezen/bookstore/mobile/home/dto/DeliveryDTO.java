@@ -1,4 +1,4 @@
-package com.ezen.bookstore.mobile.dto;
+package com.ezen.bookstore.mobile.home.dto;
 
 import java.sql.Timestamp;
 
@@ -18,4 +18,5 @@ public class DeliveryDTO {
 	Integer request_detail_num;
 	Integer order_num;
 	Integer order_detail_qty;
+	Integer total_order_qty;
 }
