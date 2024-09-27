@@ -44,8 +44,8 @@ function calculateTotalAmount() {
 		
 		if(isChecked) {
 			const quantity = parseInt($(this).find(".input-count input").val()) || 0;
-            const price = parseInt($(this).find(".book-price").text().replace(/[^0-9]/g, "")) || 0;
-
+			const price = parseInt($(this).find(".book-price").attr("data-detail-price"));
+			
    			totalAmount += quantity * price;
 		}
     });

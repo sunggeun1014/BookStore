@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			<div>
-				<span class="book-price" th:text="${#numbers.formatInteger(detail.order_detail_price, 0, 'COMMA')} + '원'"></span>
+				<span class="book-price" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.order_detail_qty, 0, 'COMMA')} + '원'"></span>
 			</div>		
 		</div>
 	</div>
