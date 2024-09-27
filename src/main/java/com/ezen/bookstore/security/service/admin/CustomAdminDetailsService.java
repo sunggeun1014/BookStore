@@ -1,6 +1,7 @@
 package com.ezen.bookstore.security.service.admin;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -36,20 +37,24 @@ public class CustomAdminDetailsService implements UserDetailsService {
         }
 
         // 사용자 권한 부여 (manager_dept에 따라 부여)
-        Collection<? extends GrantedAuthority> authorities;
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+
+        String requestURI = request.getRequestURI();
         
-        if ("02".equals(manager.getManager_dept())) {
-            authorities = getOperatorAuthorities(manager); // 관리자 권한
-        } else if ("01".equals(manager.getManager_dept())) {
-            authorities = getWorkerAuthorities(manager); // 직원 권한
-        } else {
-            throw new UsernameNotFoundException("잘못된 권한을 가진 사용자입니다.");
+        if(requestURI.startsWith("/mobile/admin/login")) {
+        	if("01".equals(manager.getManager_dept())) {
+                authorities.addAll(getWorkerAuthorities(manager));  
+        	}
+        } else if(requestURI.startsWith("/admin/login")) {
+        	if("02".equals(manager.getManager_dept())) {
+                authorities.addAll(getWorkerAuthorities(manager)); 
+                authorities.addAll(getOperatorAuthorities(manager));  
+        	}
         }
-
+        
         return new CustomAdminDetails(manager, authorities);
+
     }
-
-
 
     // ROLE_OPERATOR 권한 부여
     private Collection<? extends GrantedAuthority> getOperatorAuthorities(AdminManagersDTO manager) {
