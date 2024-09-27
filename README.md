@@ -10,7 +10,8 @@ WHALE BOOKS는 온라인서점 사이트로 책을 판매하는 사이트 입니
 |:---------:|:---------:|:---------:|:---------:|:---------:|
 
 ## 개발환경
-스프링부트 : html, css, javascript, java<br>
+html, css, javascript, JQuery, java<br>
+Spring Boot, My Batis, Thymeleaf<br>
 DB: 오라클<br>
 버전 및 이슈관리 : Github, sourcetree<br>
 협업 툴 : Discord, Notion<br>
