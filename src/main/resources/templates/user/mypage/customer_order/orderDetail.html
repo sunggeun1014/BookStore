@@ -46,10 +46,12 @@
 				</div>
 				
 				<div class="order-items" th:each="item : ${detailList}">
+				<a th:href="'/user/products/detail?book_isbn=' + ${item.book_isbn}">
 					<img class="book-thumbnail" th:src="${item.book_thumbnail_changed != null ? '/images/books/' + item.book_thumbnail_changed : '/images/books/noimg.png'}" alt="책 이미지">
+					</a>
 					<div class="book-info">
 						<div class="book-name-qty">
-							<span class="book-name" th:text="${item.book_name}"></span> 
+							<a th:href="'/user/products/detail?book_isbn=' + ${item.book_isbn}"><span class="book-name" th:text="${item.book_name}"></span></a>
 							<span class="purchase-qty" th:text="'수량: ' + ${item.order_detail_qty} + '개'"></span>
 						</div>
 						<div class="order-price-status">
@@ -62,7 +64,7 @@
 	                            <button id="cancelReturnButton" class="default-btn border return-cancel-btn" th:if="${item.order_detail_status == '반품요청'}">반품취소</button>
 	                            <button id="returnDetailButton" class="small-btn detail" th:if="${item.order_detail_status == '반품완료'}"
 	        						th:data-order-num="${orderDetails.order_num}"
-								    onclick="location.href='/' + 'user/mypage/cancleCompletion?orderNum=' + this.dataset.orderNum">반품상세
+								    onclick="location.href='/' + 'user/mypage/returnDetail?orderNum=' + this.dataset.orderNum">반품상세
 	        						<i class="fa-solid fa-angle-right"></i>
 	        					</button>							
 							

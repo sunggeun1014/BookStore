@@ -76,7 +76,7 @@ $(document).ready(function() {
 			var orderDate = new Date(orderDateText);
 			var orderStatus = $(this).find('.order-status span').text();
 			var deliveryStatus = $(this).find('.delivery-status span').text();
-
+			
 			if (startDate) {
 				var start = new Date(startDate);
 				start.setHours(0, 0, 0, 0);
@@ -92,10 +92,23 @@ $(document).ready(function() {
 					return;
 				}
 			}
-
-			if (selectedStatus && !(orderStatus === selectedStatus || deliveryStatus === selectedStatus)) {
-				return;
-			}
+			// 필터링 로직
+	        if (selectedStatus === '배송전' || selectedStatus === '배송중' || selectedStatus === '배송완료') {
+	            // 배송 상태가 선택된 경우
+	            if (deliveryStatus !== selectedStatus) {
+	                return;
+	            }
+	        } else if (selectedStatus === '취소') {
+	            // 주문 상태가 '취소'일 경우
+	            if (!(orderStatus === '취소요청' || orderStatus === '주문취소')) {
+	                return;
+	            }
+	        } else if (selectedStatus === '교환' || selectedStatus === '반품') {
+	            // 교환/반품 상태일 경우
+	            if (!(orderStatus === '반품요청' || orderStatus === '반품완료' || orderStatus === '교환요청' || orderStatus === '교환완료')) {
+	                return;
+	            }
+	        }
 
 			$(this).show();
 			hasOrders = true;
@@ -119,6 +132,7 @@ $(document).ready(function() {
 	}
 });
 
+
 // 주문/배송상태 카운트
 function getStatusCounts() {
 	$.ajax({
@@ -135,22 +149,4 @@ function getStatusCounts() {
 			console.error('상태 카운트를 가져오는 데 실패했습니다.');
 		}
 	});
-}
-
-function drawNoResultDefault(parentEl, msg) {
-	const parentElement = document.querySelector(`${parentEl}`);
-
-	const resultWrap = document.createElement("div");
-	const p = document.createElement("p");
-	const titleText = document.createElement("span");
-
-	resultWrap.classList.add("result-wrap");
-
-	p.textContent = "!";
-	titleText.textContent = `${msg}`;
-
-	resultWrap.appendChild(p);
-	resultWrap.appendChild(titleText);
-
-	parentElement.appendChild(resultWrap);
 }

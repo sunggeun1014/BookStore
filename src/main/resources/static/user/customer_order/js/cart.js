@@ -145,7 +145,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 	updateTotal();
-
+	
+	if (cartItems.length === 0) {
+	        drawNoResultDefault('.cart-items', '장바구니에 아이템이 없습니다.');
+	    }
 
 	// 전체 선택 체크박스 클릭 시 처리
 	selectAllCheckbox.addEventListener('change', function() {
