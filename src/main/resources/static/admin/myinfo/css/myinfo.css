@@ -124,3 +124,7 @@ select#deptName {
 	gap: 20px;
 	margin-top: 30px;
 }
+
+#address_kakao {
+	cursor: pointer;
+}

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ezen.bookstore.admin.home.service.HomeService;
 import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
+import com.ezen.bookstore.admin.managers.mapper.AdminMgrMapper;
 import com.ezen.bookstore.admin.managers.service.AdminMgrServiceImpl;
 import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.commons.CommonConstants;
@@ -35,6 +36,7 @@ public class AdminController {
 	
 	private final AdminMgrServiceImpl mgrService;
 	private final HomeService homeService;
+	private final AdminMgrMapper adminMgrMapper;
 	
 	@GetMapping("/login")
     public String login() {
@@ -110,9 +112,12 @@ public class AdminController {
 	
 	@PostMapping("/myinfo/update")
     public String updateMyInfo(@ModelAttribute("managers") AdminManagersDTO managersDTO,
-                               @RequestParam MultipartFile profileImage) {
+                               @RequestParam MultipartFile profileImage, HttpSession session) {
 		try {
 			mgrService.updateManager(managersDTO, profileImage);
+			AdminManagersDTO newManagersDTO = adminMgrMapper.getManagerDetails(((AdminManagersDTO)session.getAttribute(AccountManagement.MANAGER_INFO)).getManager_id());
+			
+			session.setAttribute(AccountManagement.MANAGER_INFO, newManagersDTO);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "redirect:/admin/myinfo";
