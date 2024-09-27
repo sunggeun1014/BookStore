@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.bookstore.mobile.home.service.DeliveryService;
 
@@ -32,4 +33,10 @@ public class MobileController {
 		return "mobile/home/home";
     }
 	
+	@GetMapping("/delivery-detail")
+	public String orderDetailPage(@RequestParam("orderNum") Integer orderNum,
+								  Model model) {
+		
+		return "mobile/home/delivery_detail";
+	}
 }
