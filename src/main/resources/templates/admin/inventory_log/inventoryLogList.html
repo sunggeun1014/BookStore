@@ -8,58 +8,50 @@
 	<!-- DatePicker -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<link rel="stylesheet" href="/admin/inventory_log/css/list.css">
-	
-<!--    &lt;!&ndash; Bulma CSS &ndash;&gt;-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.1/css/bulma.min.css">-->
-<!--    -->
+
 	<div class="filter-container white-frame">
 		<div class="header">
 			<h1 class="search-list-title">발주내역</h1>
 		</div>
-	
-		<div class="filter-container white-frame">
-			<div class="content">
-				<div class="search-filter">
-					<div class="filter-group">
-						<span class="search-list-subject">조회기간</span>
-						<div class="date-picker">
-							<div class="input-date-box">
-								<input type="text" id="startDate" class="placeholder startDate"
-									placeholder="YYYY-MM-DD" />
-									<i class="fa-solid fa-calendar-days"></i>
-							</div>
-							<div class="calendar-slash">-</div>
-							<div class="input-date-box">
-								<input type="text" id="endDate" class="placeholder endDate"
-									placeholder="YYYY-MM-DD" />
-								<i class="fa-solid fa-calendar-days"></i>
-							</div>
+		<div class="content">
+			<div class="search-filter">
+				<div class="filter-group">
+					<span class="search-list-subject">조회기간</span>
+					<div class="date-picker">
+						<div class="input-date-box">
+							<input type="text" id="startDate" class="placeholder startDate"
+								   placeholder="YYYY-MM-DD" />
+							<i class="fa-solid fa-calendar-days"></i>
 						</div>
-						<div class="date-options date-pick-btn">
-							<button class="date-option today today-btn date-btn" onclick="setDateOption(0, this)">오늘</button>
-							<button class="date-option week-btn date-btn" onclick="setDateOption(7, this)">1주일</button>
-							<button class="date-option month-btn date-btn" onclick="setDateOption(30, this)">1개월</button>
-							<button class="date-option year-btn date-btn" onclick="setDateOption(365, this)">1년</button>
+						<div class="calendar-slash">-</div>
+						<div class="input-date-box">
+							<input type="text" id="endDate" class="placeholder endDate"
+								   placeholder="YYYY-MM-DD" />
+							<i class="fa-solid fa-calendar-days"></i>
 						</div>
 					</div>
-				</div>
-				<div class="search-bar-group">
-					<div class="search-list-subject">검색어</div>
-					<div class="select-wrap">
-						<select id="searchColumn" class="select">
-							<option value="log_transaction_num">입출고번호</option>
-						</select>
-						<div class="select-arrow-down"></div>
+					<div class="date-options date-pick-btn">
+						<button class="date-option today today-btn date-btn" onclick="setDateOption(0, this)">오늘</button>
+						<button class="date-option week-btn date-btn" onclick="setDateOption(7, this)">1주일</button>
+						<button class="date-option month-btn date-btn" onclick="setDateOption(30, this)">1개월</button>
+						<button class="date-option year-btn date-btn" onclick="setDateOption(365, this)">1년</button>
 					</div>
-					
-				    <div class="search-container">
-	      				<input type="number" name="word" id="word" class="searchKeyword search-input" placeholder="조회할 입출고번호 입력" />
-	      				<button id="searchButton"><span class="material-symbols-outlined">search</span></button>	
-	    			</div>
 				</div>
-				<div class="reset-button">
-					<button id="reset-button" onclick="resetBtn();">초기화</button>
+			</div>
+			<div class="search-bar-group">
+				<div class="search-list-subject">검색어</div>
+				<div class="select-wrap">
+					<select id="searchColumn" class="select">
+						<option value="log_transaction_num">입출고번호</option>
+					</select>
+					<div class="select-arrow-down"></div>
 				</div>
+
+				<div class="search-container">
+					<input type="number" name="word" id="word" class="searchKeyword search-input" placeholder="조회할 입출고번호 입력" />
+					<button id="searchButton"><span class="material-symbols-outlined">search</span></button>
+				</div>
+				<button id="reset-button" onclick="resetBtn();">초기화</button>
 			</div>
 		</div>
 	</div>

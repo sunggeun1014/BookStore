@@ -210,6 +210,7 @@ input[type='radio']:checked {
 input:focus, select:focus {
 	outline: none;
 	box-shadow: none;
+	border: 1px solid #666;
 }
 
 input[type=text], input[type="number"], input[type="password"], select {
@@ -400,13 +401,9 @@ input[type='number'] {
 .white-frame {
 	width: 100%;
 	margin-bottom: 20px;
-	padding: 20px 25px;
+	padding: 25px 25px 30px;
 	background-color: #fff;
 	border-radius: 20px;
-}
-
-.filter-container {
-	margin-bottom: 20px;
 }
 
 /* 폰트스타일 */
@@ -467,6 +464,26 @@ input[type='number'] {
 }
 
 /* 불마 테이블 변경 */
+.pagination-list {
+	justify-content: center;
+}
+
+/* 페이지네이션 버튼 */
+.dt-paging {
+	margin-top: 45px;
+}
+.pagination-link.is-current, .pagination-link.is-selected {
+	background-color: #4777F6;
+	border: none;
+}
+.pagination-link:hover, .pagination-next:hover, .pagination-previous:hover {
+	border: 1px solid #c0c0c0;
+}
+
+.table tbody tr:last-child td, .table tbody tr:last-child th {
+	border-bottom: 1px solid #D8D8D8;
+}
+
 .table thead {
 	height: 50px;
 	background-color: #FAFAFA;
@@ -498,6 +515,7 @@ table td:not([align]), table th:not([align]) {
 .table td > a {
 	color: #7E7E7E;
 	cursor: pointer;
+	text-decoration: underline;
 }
 
 .dt-empty {

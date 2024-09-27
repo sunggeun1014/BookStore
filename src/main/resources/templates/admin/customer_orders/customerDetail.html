@@ -15,7 +15,7 @@
     </button>
     <div class="table-container white-frame">
         <div class="order-num-area">
-            <span class="search-list-title">주문번호: [[${detail.order_num}]]</span>
+            <span class="search-list-title" th:text="'주문번호 [' + ${detail.order_num} + ']'"></span>
         </div>
         <div class="pay-info">
             <span th:text="'결제번호: ' + ${detail.paymentId != null ? detail.paymentId : '0'}"></span>

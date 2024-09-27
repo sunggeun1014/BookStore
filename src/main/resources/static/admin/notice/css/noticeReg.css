@@ -37,11 +37,11 @@
 	border-radius: 5px;
 	background-color: #fdfdfd;
 	overflow-y: auto;
-	font-size: 18px;
 }
 
 .editor:focus {
 	outline: none;
+	border: 1px solid #000000;
 }
 
 .editor.dragover {
@@ -51,4 +51,14 @@
 
 #notice-title {
 	width: 500px;
+}
+
+#notice-title:focus {
+	border: 1px solid #666;
+}
+
+.radio-filter {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }

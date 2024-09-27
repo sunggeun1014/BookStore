@@ -86,7 +86,7 @@ $(document).ready(function() {
 				    if (cellData === "변경요청") {
 				        $(td).addClass('text-color-red');
 				    } else if(cellData === "처리완료") {
-				        $(td).addClass('text-color-green');
+				        $(td).addClass('text-color-blue');
 					}
 				}
 			}
@@ -127,6 +127,54 @@ $(document).ready(function() {
 			filter();
 		}
 	})
+
+	// 체크박스
+	$('#select-all').on('click', function() {
+		var rows = $('#banners').DataTable().rows({ 'search': 'applied' }).nodes();
+		$('input[type="checkbox"]', rows).prop('checked', this.checked);
+	});
+
+
+	// 개별 선택
+	$('#banners tbody').on('change', '.row-checkbox', function() {
+		const $row = $(this).closest('tr'); // 체크박스가 있는 행을 선택
+
+		if (this.checked) {
+			$row.addClass('selected-row'); // 배경색을 변경할 클래스 추가
+		} else {
+			$row.removeClass('selected-row'); // 배경색을 변경할 클래스 제거
+		}
+
+		// 전체 체크박스와 개별 체크박스의 선택 상태를 비교하여 '전체 선택' 체크박스 상태를 업데이트
+		if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
+			$('#select-all').prop('checked', true);
+		} else {
+			$('#select-all').prop('checked', false);
+		}
+
+	});
+
+	// '전체 선택' 체크박스의 상태 변경 시
+	$('#select-all').on('change', function() {
+		const isChecked = $(this).prop('checked'); // '전체 선택' 체크박스의 상태
+
+		// 모든 개별 체크박스를 '전체 선택'의 상태에 맞춰 변경
+		$('.row-checkbox').prop('checked', isChecked);
+
+		// 각 행에 대해 배경색을 업데이트
+		if (isChecked) {
+			$('#customer-orders-table tbody tr').addClass('selected-row'); // 모든 행에 배경색 클래스 추가
+		} else {
+			$('#customer-orders-table tbody tr').removeClass('selected-row'); // 모든 행에서 배경색 클래스 제거
+		}
+	});
+
+	// 페이지 변경 시 체크박스 초기화
+	table.on('draw', function() {
+		$('#select-all').prop('checked', false); // 전체 체크박스 초기화
+		$('.row-checkbox').prop('checked', false); // 개별 체크박스 초기화
+		$('#customer-orders-table tbody tr').removeClass('selected-row'); // 선택된 행의 배경색 초기화
+	});
 	
 	datepicker("startDate", "endDate");
 	checkboxHandler();

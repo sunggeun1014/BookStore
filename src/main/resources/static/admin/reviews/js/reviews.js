@@ -28,6 +28,16 @@ $(document).ready(function() {
 					orderable: false // 이 컬럼은 정렬 가능
 				},
 				{
+					data: 'book_name',
+					className: 'text-ellipsis',
+					render: function(data) {
+						const editText = data.length > 14 ? data.substring(0, 14) + '...' : data.substring(0, 14) + '...';
+
+						return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + editText + '</a>';
+					},
+				},
+				{ data: 'book_isbn' },
+				{
 					data: 'review_content',
 					className: 'text-ellipsis',
 					render: function(data) {
@@ -38,23 +48,16 @@ $(document).ready(function() {
 						}
 					}
 				},
-				{
-					data: 'book_name',
-					className: 'text-ellipsis',
-					render: function(data) {
-						const editText = data.length > 10 ? data.substring(0, 10) + '...' : data.substring(0, 10) + '...';
-
-						return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + editText + '</a>';
-					},
-				},
-				{ data: 'book_isbn' },
 				{ data: 'member_id' },
 				{
 					data: 'review_write_date',
 					render: function(data, type) {
 						if (type === 'display' || type === 'filter') {
 							var date = new Date(data);
-							var formattedDate = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+							var year = date.getFullYear();
+							var month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+							var day = String(date.getDate()).padStart(2, '0');
+							var formattedDate = `${year}-${month}-${day}`;
 							return formattedDate;
 						}
 						return data;

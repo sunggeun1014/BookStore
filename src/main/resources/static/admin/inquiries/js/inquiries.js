@@ -16,16 +16,26 @@ $(document).ready(function() {
 				{
 					data: 'inquiry_title',
 					render: function(data, type, row) {
-						return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
+						const inquiryNum = row.inquiry_num; // inquiry_num 가져오기
+						const url = '/admin/inquiries/details?inquiry_num=' + encodeURIComponent(inquiryNum);
+						return '<a href=' + url + ' class="book-title-link">' + data + '</a>';
+						// return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
 					}
 				},
 				{ data: 'inquiry_type' },
 				{ data: 'member_id' },
 				{
 					data: 'inquiry_write_date',
-					render: function(data, type, row) {
-						var date = new Date(data);
-						return new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+					render: function(data, type) {
+						if (type === 'display' || type === 'filter') {
+							var date = new Date(data);
+							var year = date.getFullYear();
+							var month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+							var day = String(date.getDate()).padStart(2, '0');
+							var formattedDate = `${year}-${month}-${day}`;
+							return formattedDate;
+						}
+						return data;
 					}
 				},
 				{
@@ -35,7 +45,11 @@ $(document).ready(function() {
 							return '-';
 						} else if (type === 'display' || type === 'filter') {
 							var date = new Date(data);
-							return new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date);
+							var year = date.getFullYear();
+							var month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+							var day = String(date.getDate()).padStart(2, '0');
+							var formattedDate = `${year}-${month}-${day}`;
+							return formattedDate;
 						}
 						return data; // 정렬 및 필터를 위해 원본 데이터 반환
 					}
@@ -81,10 +95,10 @@ $(document).ready(function() {
 				$(row).attr('data-id', data.inquiry_num); // 각 행에 고유 ID 설정
 
 				// 제목 컬럼의 링크 클릭 이벤트 추가
-				$(row).find('.book-title-link').on('click', function(event) {
-					event.preventDefault();
-					postToDetailPage(data.inquiry_num);
-				});
+				// $(row).find('.book-title-link').on('click', function(event) {
+				// 	event.preventDefault();
+				// 	postToDetailPage(data.inquiry_num);
+				// });
 			},
 		});
 	}
