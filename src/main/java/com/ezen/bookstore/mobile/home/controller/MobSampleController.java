@@ -1,4 +1,4 @@
-package com.ezen.bookstore.mobile.controller;
+package com.ezen.bookstore.mobile.home.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

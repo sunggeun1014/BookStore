@@ -1,11 +1,11 @@
-package com.ezen.bookstore.mobile.controller;
+package com.ezen.bookstore.mobile.home.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ezen.bookstore.mobile.service.DeliveryService;
+import com.ezen.bookstore.mobile.home.service.DeliveryService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
