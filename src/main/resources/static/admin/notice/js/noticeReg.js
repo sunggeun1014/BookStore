@@ -59,7 +59,7 @@ $(document).ready(function() {
 		
 		const collator = new Intl.Collator('ko');
 
-		if (collator.compare(noticeContent, '여기에 텍스트를 입력하거나 이미지를 드래그 앤 드롭하세요...') === 0|| !noticeContent.trim()) {
+		if (collator.compare(noticeContent.trim(), '여기에 텍스트를 입력하거나 이미지를 드래그 앤 드롭하세요...') === 0|| !noticeContent.trim()) {
 			getCheckModal('내용을 입력해주세요.');
 			return;
 		} else if (!noticeTitle.trim()){
