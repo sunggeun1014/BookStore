@@ -18,6 +18,7 @@
 .logo-wrap {
     padding: 30px 0 45px 0;
     text-align: center;
+    cursor: pointer;
 }
 
 .icon-img-wrap {

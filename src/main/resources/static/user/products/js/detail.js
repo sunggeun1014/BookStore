@@ -199,14 +199,13 @@ function refundInfoHandler() {
                     location.href = '/user/login';
                 });
             } else {
-                // location.href = action;
-                console.log(action);
+                location.href = action;
             }
         });
     }
 
-    handleClick(refundBtn, "반품신청으로 이동 (주문목록)");
-    handleClick(inquiryBtn, "1:1문의로 이동 (접수화면)");
+    handleClick(refundBtn, "/user/mypage/orderList");
+    handleClick(inquiryBtn, "/user/mypage/written-inquiries-page");
 }
 
 function getMemberID(buttons) {
