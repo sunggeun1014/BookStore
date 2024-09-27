@@ -103,6 +103,7 @@
 
     <select id="getDetailItem" parameterType="Integer" resultType="customerOrderWithDetails">
         SELECT
+        	b.book_isbn,
 	        b.book_thumbnail_changed,
 	        b.book_name,
 	        cod.order_detail_price,
@@ -127,6 +128,7 @@
 	    WHERE
 	        co.order_num = #{orderNum}
 	    GROUP BY 
+	    	b.book_isbn,
 	     	b.book_thumbnail_changed,
 	        b.book_name,
 	        cod.order_detail_price,
