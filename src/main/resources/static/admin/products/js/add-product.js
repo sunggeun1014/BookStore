@@ -258,7 +258,7 @@ function checkForm() {
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                getErrorModal();
+                getErrorModal("ERROR");
             }
         });
     });

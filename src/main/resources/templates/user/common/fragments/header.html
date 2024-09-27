@@ -4,6 +4,7 @@
 
 <div class="header-top">
     <div class="header-top-inner">
+    	<input type="hidden" id="member-login-user-id" th:if="${session.member != null}" th:value="${session.member.member_id}"></th:block>
         <div id="loginMenu" class="top-menu-wrap">
             <a href="/user/login" class="top-menu-link">로그인</a>
             <a href="/user/cart/list" class="top-menu-link">장바구니</a>
@@ -106,19 +107,19 @@
             </div>
             <div class="modal-categories-wrap">
                 <div class="modal-categories" id="modal-categories-kor">
-                    <a href="" class="modal-category-detail">소설</a> <a href="" class="modal-category-detail">요리</a> <a
-                        href="" class="modal-category-detail">건강</a> <a href="" class="modal-category-detail">인문</a> <a
-                        href="" class="modal-category-detail">경제/경영</a> <a href=""
+                    <a href="/user/products/searchForm?search_field=1&categoryCountryType=1" class="modal-category-detail">소설</a> <a href="/user/products/searchForm?search_field=2&categoryCountryType=1" class="modal-category-detail">요리</a> <a
+                        href="/user/products/searchForm?search_field=3&categoryCountryType=1" class="modal-category-detail">건강</a> <a href="/user/products/searchForm?search_field=4&categoryCountryType=1" class="modal-category-detail">인문</a> <a
+                        href="/user/products/searchForm?search_field=5&categoryCountryType=1" class="modal-category-detail">경제/경영</a> <a href="/user/products/searchForm?search_field=7&categoryCountryType=1"
                                                                            class="modal-category-detail">역사/문화</a> <a
-                        href="" class="modal-category-detail">중/고등참고서</a> <a href=""
+                        href="/user/products/searchForm?search_field=8&categoryCountryType=1" class="modal-category-detail">중/고등참고서</a> <a href="/user/products/searchForm?search_field=9&categoryCountryType=1"
                                                                              class="modal-category-detail">청소년</a> <a
-                        href="" class="modal-category-detail">기술/공학</a> <a href="" class="modal-category-detail">과학</a>
-                    <a href="" class="modal-category-detail">여행</a> <a href="" class="modal-category-detail">자기계발</a>
+                        href="/user/products/searchForm?search_field=10&categoryCountryType=1" class="modal-category-detail">기술/공학</a> <a href="/user/products/searchForm?search_field=11&categoryCountryType=1" class="modal-category-detail">과학</a>
+                    <a href="/user/products/searchForm?search_field=12&categoryCountryType=1" class="modal-category-detail">여행</a> <a href="/user/products/searchForm?search_field=17&categoryCountryType=1" class="modal-category-detail">자기계발</a>
                 </div>
                 <div class="modal-categories" id="modal-categories-foreign">
-                    <a href="" class="modal-category-detail">경제/경영</a> <a href="" class="modal-category-detail">문학</a>
-                    <a href="" class="modal-category-detail">생활/요리/건강</a> <a href="" class="modal-category-detail">어린이/ELT</a>
-                    <a href="" class="modal-category-detail">과학기술</a>
+                    <a href="/user/products/searchForm?search_field=6&categoryCountryType=2" class="modal-category-detail">경제/경영</a> <a href="/user/products/searchForm?search_field=13&categoryCountryType=2" class="modal-category-detail">문학</a>
+                    <a href="/user/products/searchForm?search_field=14&categoryCountryType=2" class="modal-category-detail">생활/요리/건강</a> <a href="/user/products/searchForm?search_field=15&categoryCountryType=2" class="modal-category-detail">어린이/ELT</a>
+                    <a href="/user/products/searchForm?search_field=16&categoryCountryType=2" class="modal-category-detail">과학기술</a>
                 </div>
             </div>
         </div>

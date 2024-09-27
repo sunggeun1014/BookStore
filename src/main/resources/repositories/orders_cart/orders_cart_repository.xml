@@ -18,6 +18,26 @@
 		)
 	</insert>
 	
+	<select id="getProductBasket" parameterType="userCart" resultType="userCart">
+		SELECT 
+			cart_num,
+		    book_isbn,
+		    member_id,
+		    cart_purchase_qty 
+		FROM 
+			orders_cart
+		WHERE
+			book_isbn = #{book_isbn} AND member_id = #{member_id}
+			
+	</select>
+	
+	<insert id="basketUpdate" parameterType="userCart">
+		UPDATE orders_cart SET
+			cart_purchase_qty = cart_purchase_qty + #{cart_purchase_qty}
+		WHERE
+			cart_num = #{cart_num}
+	</insert>
+	
 	<select id="basketCount" resultType="Integer" parameterType="String">
     	SELECT 
     		COUNT(*) 

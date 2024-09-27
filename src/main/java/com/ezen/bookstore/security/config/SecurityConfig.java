@@ -117,9 +117,9 @@ public class SecurityConfig {
             )
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/oauth2/authorization/**", "/login/oauth2/code/**").permitAll()
+                .requestMatchers("/oauth2/authorization/**", "/login/oauth2/code/**", "/user/mypage/notices-page/**", "/user/mypage/notices/**", "/user/mypage/notices-detail/**").permitAll()
                 .requestMatchers("/images/**").permitAll()
-                .requestMatchers("/user/mypage/**", "/user/cart/**").hasAuthority("ROLE_USER")
+                .requestMatchers("/user/mypage/**", "/user/cart/**", "/user/order/**", "/user/order").hasAuthority("ROLE_USER")
                 .anyRequest().permitAll()
             )
             .oauth2Login(oauth2 -> oauth2

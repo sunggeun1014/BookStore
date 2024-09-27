@@ -63,7 +63,7 @@
                         <i class="fa-solid fa-plus" id="increase"></i>
                     </div>
                     <div class="price-wrap total">
-                        <p type="text" class="total-price" th:data-price="${bookDetail.book_price}"></p>
+                        <p class="total-price" th:data-price="${bookDetail.book_price}" oninput="bookTotalPrice(this);"></p>
                         <p>원</p>
                     </div>
                 </div>
