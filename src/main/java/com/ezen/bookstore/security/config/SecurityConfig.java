@@ -1,5 +1,8 @@
 package com.ezen.bookstore.security.config;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -66,7 +69,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/admin/login/**", "/admin/common/**","/images/**").permitAll()
-                .anyRequest().hasAuthority("ROLE_ADMIN")
+                .anyRequest().hasAuthority("ROLE_OPERATOR")
             )
             .formLogin(form -> form
                 .loginProcessingUrl("/admin/loginProc")    
@@ -83,21 +86,21 @@ public class SecurityConfig {
                 .permitAll()
             )
             .exceptionHandling(exception -> exception
-	    		// 403 발생시
-	    		.accessDeniedHandler((request, response, accessDeniedException) -> {
-	    			response.sendRedirect("/admin/login");  
-	    		})
-	    		// 인증되지 않은 사용자가 접근할 때 로그인 페이지로 리디렉션
-	    		.authenticationEntryPoint((request, response, authException) -> {
-	    			response.sendRedirect("/admin/login");
-	    		})
-    		)
+        	    .accessDeniedHandler((request, response, accessDeniedException) -> {
+        	        String errorMessage = URLEncoder.encode("접근 권한이 없습니다.", StandardCharsets.UTF_8.toString());
+        	        response.sendRedirect("/admin/login?accessError=" + errorMessage);
+        	    })
+        	    .authenticationEntryPoint((request, response, authException) -> {
+        	        String errorMessage = URLEncoder.encode("로그인이 필요합니다.", StandardCharsets.UTF_8.toString());
+        	        response.sendRedirect("/admin/login?accessError=" + errorMessage);
+        	    })
+        	)
             .userDetailsService(customAdminDetailsService);
 
         return http.build();
     }
 
-    // User 경로용 SecurityFilterChain
+    // User 경로용
     @Bean
     @Order(2)
     SecurityFilterChain securityUserFilterChain(HttpSecurity http) throws Exception {
@@ -114,7 +117,7 @@ public class SecurityConfig {
             )
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/oauth2/authorization/**", "/login/oauth2/code/**").permitAll() // 여기를 전역적으로 허용
+                .requestMatchers("/oauth2/authorization/**", "/login/oauth2/code/**").permitAll()
                 .requestMatchers("/images/**").permitAll()
                 .requestMatchers("/user/mypage/**", "/user/cart/**").hasAuthority("ROLE_USER")
                 .anyRequest().permitAll()
@@ -151,6 +154,54 @@ public class SecurityConfig {
                 })
             )
             .userDetailsService(customUserDetailsService);
+
+        return http.build();
+    }
+    
+    @Bean
+    @Order(3)
+    SecurityFilterChain securityAdminMobileFilterChain(HttpSecurity http) throws Exception {
+        http
+            .securityMatcher("/mobile/admin/**")
+            .authenticationProvider(adminAuthenticationProvider())
+            .sessionManagement(session -> 
+                session
+                    .sessionFixation().newSession()
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                    .invalidSessionUrl("/mobile/admin/login") 
+                    .maximumSessions(1)                 
+                    .expiredUrl("/login?expired=true")  
+            )
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/mobile/admin/login/**", "/mobile/admin/common/**","/mobile/images/**").permitAll()
+                .anyRequest().hasAuthority("ROLE_WORKER")
+            )
+            .formLogin(form -> form
+                .loginProcessingUrl("/mobile/admin/loginProc")    
+                .loginPage("/mobile/admin/login") 
+                .successHandler(new CustomAdminAuthenticationSuccessHandler()) 
+                .failureHandler(new CustomAdminAuthenticationFailureHandler()) 
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/mobile/admin/logout")
+                .logoutSuccessUrl("/mobile/admin/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+            )
+            .exceptionHandling(exception -> exception
+        	    .accessDeniedHandler((request, response, accessDeniedException) -> {
+        	        String errorMessage = URLEncoder.encode("접근 권한이 없습니다.", StandardCharsets.UTF_8.toString());
+        	        response.sendRedirect("/mobile/admin/login?accessError=" + errorMessage);
+        	    })
+        	    .authenticationEntryPoint((request, response, authException) -> {
+        	        String errorMessage = URLEncoder.encode("로그인이 필요합니다.", StandardCharsets.UTF_8.toString());
+        	        response.sendRedirect("/mobile/admin/login?accessError=" + errorMessage);
+        	    })
+        	)
+            .userDetailsService(customAdminDetailsService);
 
         return http.build();
     }

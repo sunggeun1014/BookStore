@@ -14,34 +14,52 @@ import org.springframework.stereotype.Service;
 import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
 import com.ezen.bookstore.security.mapper.AdminMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Service
 public class CustomAdminDetailsService implements UserDetailsService {
 
     private final AdminMapper adminMapper;
+    private final HttpServletRequest request;
 
-    public CustomAdminDetailsService(AdminMapper adminMapper) {
+    public CustomAdminDetailsService(AdminMapper adminMapper, HttpServletRequest request) {
         this.adminMapper = adminMapper;
+        this.request = request;
     }
 
-    
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AdminManagersDTO manager = adminMapper.loadAdminByUsername(username);
+        
         if (manager == null) {
             throw new UsernameNotFoundException("아이디를 찾을 수 없습니다.");
         }
 
-        // manager_dept가 02가 아닌 경우 로그인 실패 처리
-        if (!"02".equals(manager.getManager_dept())) {
-        	throw new UsernameNotFoundException("접근 권한이 없습니다.");        }
+        // 사용자 권한 부여 (manager_dept에 따라 부여)
+        Collection<? extends GrantedAuthority> authorities;
+        
+        if ("02".equals(manager.getManager_dept())) {
+            authorities = getOperatorAuthorities(manager); // 관리자 권한
+        } else if ("01".equals(manager.getManager_dept())) {
+            authorities = getWorkerAuthorities(manager); // 직원 권한
+        } else {
+            throw new UsernameNotFoundException("잘못된 권한을 가진 사용자입니다.");
+        }
 
-        // manager_dept가 02인 경우만 CustomUserDetails를 반환
-        return new CustomAdminDetails(manager, getAuthorities(manager));
+        return new CustomAdminDetails(manager, authorities);
     }
-    
-    private Collection<? extends GrantedAuthority> getAuthorities(AdminManagersDTO manager) {
-        // manager_dept가 02인 경우 ROLE_USER 권한 부여
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+
+
+    // ROLE_OPERATOR 권한 부여
+    private Collection<? extends GrantedAuthority> getOperatorAuthorities(AdminManagersDTO manager) {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_OPERATOR"));
+    }
+
+    // ROLE_WORKER 권한 부여
+    private Collection<? extends GrantedAuthority> getWorkerAuthorities(AdminManagersDTO manager) {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_WORKER"));
     }
 }
+
 

@@ -2,20 +2,17 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>로그인 화면</title>
-<link rel="stylesheet" href="/admin/common/css/reset.css">
-<link rel="stylesheet" href="/admin/common/css/common.css" />
-<link rel="stylesheet" href="/admin/login/css/login.css" />
-
+<title>모바일 로그인 화면</title>
+<link rel="stylesheet" href="/mobile/common/css/reset.css" />
 </head>
-<body>    
-    <div class="inner">
+<body>
+	<div class="inner">
         <div class="white-frame">
             <div class="logo-wrap">
                 <img src="/admin/common/img/login-로고.png" alt="로고" />
             </div>
             
-            <form th:action="@{/admin/loginProc}" method="POST" class="login-form">
+            <form th:action="@{/mobile/admin/loginProc}" method="POST" class="login-form">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
                 <div th:if="${param.accessError}" class="error-message">
@@ -54,7 +51,7 @@
             </form>
         </div>
     </div>
-
-    <script src="/admin/login/js/login.js"></script>
+	<script src="/admin/login/js/login.js"></script>
+	
 </body>
 </html>
