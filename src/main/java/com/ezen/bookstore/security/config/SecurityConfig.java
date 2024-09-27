@@ -175,7 +175,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/mobile/admin/login/**", "/mobile/admin/common/**","/mobile/images/**").permitAll()
-                .anyRequest().hasAuthority("ROLE_WORKER")
+                .requestMatchers("/mobile/admin/**").hasAuthority("ROLE_WORKER")
+                .anyRequest().hasAnyAuthority("ROLE_WORKER")
             )
             .formLogin(form -> form
                 .loginProcessingUrl("/mobile/admin/loginProc")    

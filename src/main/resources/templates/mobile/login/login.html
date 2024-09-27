@@ -4,53 +4,41 @@
 <meta charset="UTF-8">
 <title>모바일 로그인 화면</title>
 <link rel="stylesheet" href="/mobile/common/css/reset.css" />
+<link rel="stylesheet" href="/mobile/common/css/sample.css" />
+<link rel="stylesheet" href="/mobile/login/css/login.css" />
+
+
 </head>
 <body>
-	<div class="inner">
-        <div class="white-frame">
-            <div class="logo-wrap">
-                <img src="/admin/common/img/login-로고.png" alt="로고" />
-            </div>
-            
-            <form th:action="@{/mobile/admin/loginProc}" method="POST" class="login-form">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
-                <div th:if="${param.accessError}" class="error-message">
-                    <p th:text="${param.accessError}"></p>
-                </div>
-
-                <div class="frame">
-                    <div class="input-container" id="usernameContainer" 
-                         th:classappend="${param.usernameError} ? 'error-border' : ''">
-                        <input id="id" class="id" type="text" th:name="username" 
-                               placeholder="아이디" required />
-                    </div>
-                    
-                    <div th:if="${param.usernameError}" class="error-message">
-                        <p th:text="${param.usernameError}"></p>
-                    </div>
-                </div>
-                
-                <br>
-                
-                <div class="frame">
-                    <div class="input-container" id="passwordContainer" 
-                         th:classappend="${param.passwordError} ? 'error-border' : ''">
-                        <input id="password" class="password" type="password" th:name="password" 
-                               placeholder="비밀번호" required />
-                    </div>
-                    
-                    <div th:if="${param.passwordError}" class="error-message">
-                        <p th:text="${param.passwordError}"></p>
-                    </div>
-                </div>
-                
-                <br>
-                
-                <button type="submit" class="default-btn">로그인</button>
-            </form>
-        </div>
+<div id="login-container">
+    <div class="logo-wrap">
+        <img src="/mobile/common/img/mobile-logo.svg" alt="로고" class="logo-img"/>
     </div>
+    <div class="sign-wrap">
+	    <div th:if="${param.accessError}" >
+	        <p th:text="${param.accessError}" class="error-message authority"></p>
+	    </div>
+    </div>
+    
+    <form th:action="@{/mobile/admin/loginProc}" method="POST" id="login-form">
+        <div class="sign-wrap">
+            <label for="mob-id">아이디</label>
+            <input type="text" th:name="username" id="mob-id" class="id" placeholder="아이디" th:classappend="${param.passwordError} ? 'error'"/>
+            <div th:if="${param.usernameError}" class="error-message">
+	            <p th:text="${param.usernameError}"></p>
+	        </div>
+        </div>
+        <div class="sign-wrap" >
+	        <label for="mob-pw">비밀번호</label>
+            <input type="password" th:name="password" class="password" id="mob-pw" placeholder="비밀번호" th:classappend="${param.passwordError} ? 'error'"/>
+            <div th:if="${param.passwordError}" class="error-message">
+	            <p th:text="${param.passwordError}"></p>
+	        </div>
+        </div>
+        <button type="submit" id="login-btn" class="default-btn">로그인</button>
+    </form>
+</div>
 	<script src="/admin/login/js/login.js"></script>
 	
 </body>
