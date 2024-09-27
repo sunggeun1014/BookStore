@@ -39,18 +39,18 @@ public class CustomAdminDetailsService implements UserDetailsService {
         // 사용자 권한 부여 (manager_dept에 따라 부여)
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        String requestURI = request.getRequestURI();
         
-        if(requestURI.startsWith("/mobile/admin/login")) {
-        	if("01".equals(manager.getManager_dept())) {
-                authorities.addAll(getWorkerAuthorities(manager));  
-        	}
-        } else if(requestURI.startsWith("/admin/login")) {
-        	if("02".equals(manager.getManager_dept())) {
-                authorities.addAll(getWorkerAuthorities(manager)); 
-                authorities.addAll(getOperatorAuthorities(manager));  
-        	}
+        if ("02".equals(manager.getManager_dept())) {
+            // ROLE_OPERATOR와 ROLE_WORKER 권한 모두 부여
+            authorities.addAll(getOperatorAuthorities(manager));
+            authorities.addAll(getWorkerAuthorities(manager));
+        } else if ("01".equals(manager.getManager_dept())) {
+            authorities.addAll(getWorkerAuthorities(manager)); // ROLE_WORKER 권한 부여
+        } else {
+            throw new UsernameNotFoundException("잘못된 권한을 가진 사용자입니다.");
         }
+
+       
         
         return new CustomAdminDetails(manager, authorities);
 
