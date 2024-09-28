@@ -24,7 +24,7 @@ $(document).ready(function() {
 			{ 
 				data: 'order_num',
 				render: function(data, type, row) {
-					return `<a href="/admin/customerOrders/detail?order_num=${data}" class="order-detail-link">${data}</a>`;
+					return `<a href="/admin/customerOrders/detail?order_num=${data}" data-menu-link="customerOrders" class="order-detail-link">${data}</a>`;
 				}
 			},
 			{ data: 'member_id' },
@@ -136,7 +136,7 @@ $(document).ready(function() {
 
 
 	// 개별 선택
-	$('#banners tbody').on('change', '.row-checkbox', function() {
+	$('#customer-orders-table tbody').on('change', '.row-checkbox', function() {
 		const $row = $(this).closest('tr'); // 체크박스가 있는 행을 선택
 
 		if (this.checked) {
@@ -192,6 +192,7 @@ function filter() {
 			d.start_date = $("#startDate").val();
 			d.end_date = $("#endDate").val();
 			d.order_status = $("input[name='order_status']:checked").val();
+			d.order_delivery_status = $("input[name='order_delivery_status']:checked").val();
 			d.search_conditions = $("#searchColumn").val();
 			d.word = $("#word").val();
 		}
@@ -231,6 +232,7 @@ function resetBtn() {
 	$("#startDate").val("");
 	$("#endDate").val("");
 	$("#order-status-all").prop("checked", true);
+	$("#delivery-status-all").prop("checked", true);
 	$("#word").val("");
 	
 	table.ajax.reload();

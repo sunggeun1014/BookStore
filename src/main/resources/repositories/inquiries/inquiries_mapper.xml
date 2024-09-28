@@ -127,4 +127,34 @@
 			END; 
       	-->
 	</insert>
+
+    <select id="getListAtHome" resultType="inquiries">
+        SELECT * FROM (
+        SELECT
+        i.inquiry_num,
+        i.inquiry_title,
+        i.member_id,
+        i.inquiry_write_date,
+        CASE
+        WHEN i.inquiry_answer_status = '01' THEN '미완료'
+        WHEN i.inquiry_answer_status = '02' THEN '처리완료'
+        END AS inquiry_answer_status,
+        CASE
+        WHEN i.inquiry_type = '01' THEN '상품문의'
+        WHEN i.inquiry_type = '02' THEN '배송문의'
+        WHEN i.inquiry_type = '03' THEN '결제문의'
+        WHEN i.inquiry_type = '04' THEN '취소문의'
+        WHEN i.inquiry_type = '05' THEN '교환문의'
+        WHEN i.inquiry_type = '06' THEN '반품문의'
+        WHEN i.inquiry_type = '07' THEN '기타'
+        END AS inquiry_type,
+        ia.answer_write_date
+        FROM
+        inquiries i
+        LEFT JOIN
+        inquiries_answer ia ON i.inquiry_num = ia.inquiry_num
+        ORDER BY i.inquiry_write_date DESC
+        )
+        WHERE ROWNUM &lt;= 5
+    </select>
 </mapper>

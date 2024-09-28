@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class InquiriesController {
 	private final InquiriesService iqs;
 	
-	@GetMapping("/inquiries")
+	@GetMapping("/list")
 	public String inquiries() {
 		return "admin/inquiries/inquiries";
 	}
@@ -47,7 +47,7 @@ public class InquiriesController {
 		return response;
 	}
 
-	@GetMapping("/details")
+	@GetMapping("/detail")
 	public String showInquiriesDetails(@RequestParam("inquiry_num") Integer inquiryNum, Model model) {
 		InquiriesDTO tables = iqs.getDetailList(inquiryNum);
 		
@@ -65,7 +65,7 @@ public class InquiriesController {
 		iqs.updateInquiry(inquiriesDTO);
 		
 		
-		return "redirect:/admin/inquiries/inquiries";
+		return "redirect:/admin/inquiries/list";
 	}
 	
 	@PostMapping("/insert")
@@ -74,7 +74,7 @@ public class InquiriesController {
 		iqs.insertInquiry(inquiriesDTO);
 		
 		
-		return "redirect:/admin/inquiries/inquiries";
+		return "redirect:/admin/inquiries/list";
 	}
 
 }

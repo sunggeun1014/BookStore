@@ -8,6 +8,7 @@ public class SearchCondition {
 	private String start_date;
 	private String end_date;
 	private String order_status;
+	private String order_delivery_status;
 	private String search_conditions;
 	private String word;
 	private String book_state;

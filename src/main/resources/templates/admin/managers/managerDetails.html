@@ -5,7 +5,11 @@
     layout:decorate="~{/admin/common/layout/defaultlayout}"
     layout:fragment="Content">
 <link rel="stylesheet" href="/admin/managers/css/managerDetails.css" />
-<div>
+
+	<button class="back-btn" onclick="location.href='/admin/managers/list'">
+		<i class="fa-solid fa-chevron-left"></i>
+		<span>뒤로가기</span>
+	</button>
 	<div class="white-frame">
 		<h1 class="search-list-title">매니저 정보 조회</h1>
 		
@@ -49,30 +53,20 @@
 		</div>
 		
 		
-		<div class="info">
+		<div class="info profile">
 			<span class="search-list-subject">프로필</span>
-			<div class="img-input-wrap">
-                <label for="input-file" class="input-file-label">
-                    <input type="file" name="profileImage" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png" onchange="previewImage(event)"/>
-					<img th:src="@{/images/profiles/{profile}(profile=${manager_details.manager_profile_changed != null ? manager_details.manager_profile_changed : 'default_profile.png'})}" alt="사진" id="preview" style="display: block;"/>
-            	</label>
-            </div>
-			
-			<label class="caution">형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
+			<div class="img-wrap-container">
+				<span class="caution">형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</span>
+				<div class="img-input-wrap">
+					<label for="input-file" class="input-file-label">
+						<input type="file" name="profileImage" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png" onchange="previewImage(event)"/>
+						<img th:src="@{/images/profiles/{profile}(profile=${manager_details.manager_profile_changed != null ? manager_details.manager_profile_changed : 'default_profile.png'})}" alt="사진" id="preview" style="display: block;"/>
+					</label>
+				</div>
+			</div>
 		</div>
-		
-		<div class="btn">
-			<button class="default-btn cancle" onclick="location.href='/admin/managers/managers'">
-			      <span>뒤로가기</span>
-			</button>
-		</div>
-		
-		
 	</div>
-	
-	
+
 	<script src="/admin/members/js/memberDetails.js"></script>
-	
-	
-</div>
+
 </html>

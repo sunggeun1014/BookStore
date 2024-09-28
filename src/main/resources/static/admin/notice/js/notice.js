@@ -26,7 +26,7 @@ $(document).ready(function() {
 				{
 					data: 'notice_title',
 					render: function(data, type, row) {
-						return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
+						return '<a href="#" class="book-title-link" data-menu-link="notice" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
 					}
 				},
 				{
@@ -331,7 +331,7 @@ function postToDetailPage(data) {
 	var form = $('<form>', {
 		id: 'postToDetailForm',
 		method: 'POST',
-		action: '/admin/notice/details'  // 서버의 상세 페이지 URL로 설정
+		action: '/admin/notice/detail'  // 서버의 상세 페이지 URL로 설정
 	});
 
 	// 숨겨진 필드에 데이터를 추가합니다.

@@ -196,7 +196,7 @@ $(document).ready(function() {
 		getCheckModal(msg);
 
 		$(document).on('click', '#confirm-delete', function() {
-			window.location.href = '/admin/notice/notice';
+			window.location.href = '/admin/notice/list';
 		});
 	}
 });

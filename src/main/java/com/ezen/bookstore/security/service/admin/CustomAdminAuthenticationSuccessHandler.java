@@ -33,13 +33,13 @@ public class CustomAdminAuthenticationSuccessHandler implements AuthenticationSu
         
         if (requestURI.startsWith("/admin")) {
         	
-            redirectUrl = "/admin/index";
+            redirectUrl = "/admin/home";
         } else if (requestURI.startsWith("/mobile/admin")) {
         	
-            redirectUrl = "/mobile/admin/index";
+            redirectUrl = "/mobile/admin/home";
         } else {
             // 기본 리다이렉트 경로 (예상치 못한 경로일 경우)
-            redirectUrl = "/admin/index";
+            redirectUrl = "/admin/home";
         }
 
         response.sendRedirect(redirectUrl);

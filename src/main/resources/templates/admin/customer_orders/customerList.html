@@ -51,7 +51,21 @@
 				<label for="order-status-completion">처리완료</label>
 			</div>
 		</div>
-		
+
+		<div class="filter-info">
+			<p class="search-list-subject">배송상태</p>
+			<div class="filter-wrap radio-filter">
+				<input type="radio" id="delivery-status-all" name="order_delivery_status" value="" checked="checked"/>
+				<label for="delivery-status-all">전체</label>
+				<input type="radio" id="delivery-status-before" name="order_delivery_status" value="before"/>
+				<label for="delivery-status-before">배송전</label>
+				<input type="radio" id="delivery-status-inTransit" name="order_delivery_status" value="inTransit"/>
+				<label for="delivery-status-inTransit">배송중</label>
+				<input type="radio" id="delivery-status-completion" name="order_delivery_status" value="completion"/>
+				<label for="delivery-status-completion">배송완료</label>
+			</div>
+		</div>
+
 		<div class="filter-info">
 			<p class="search-list-subject">검색어</p>
 			<div class="filter-wrap search-bar">

@@ -17,13 +17,16 @@ input, select {
 }
 
 .info {
+    height: 60px;
     display: flex;
-    border-bottom: 1px solid #D8D8D8;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    padding-left: 50px;
     align-items: center; /* 자식 요소들을 수직 중앙 정렬 */
+    border-bottom: 1px solid #D8D8D8;
+    padding-left: 50px;
     position: relative;
+}
+
+.info.profile {
+    height: 150px;
 }
 
 .search-list-title:first-child {
@@ -36,6 +39,8 @@ input, select {
 }
 
 .caution {
-	margin-left: 10px;
+    display: block;
+    font-size: 12px;
+    color: #666666;
+    margin-bottom: 5px;
 }
-

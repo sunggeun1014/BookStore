@@ -11,5 +11,5 @@ public interface InventoryLogService {
 	public List<InventoryLogDTO> getDataFilter(SearchCondition condition);
 	public InventoryLogDTO getInventoryLogDetail(Integer log_transaction_num);
 	public List<InventoryLogDTO> getInventoryLogDetailList(Integer log_transaction_num);
-	
+	public List<InventoryLogDTO> getListAtHome();
 }

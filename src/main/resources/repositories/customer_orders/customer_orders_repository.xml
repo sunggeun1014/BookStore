@@ -87,6 +87,17 @@
 					AND order_status = '처리완료' 
 				</if>
 			</if>
+			<if test="order_delivery_status != null and !order_delivery_status.equals('')">
+				<if test="order_delivery_status.equals('before')">
+					AND order_delivery_status = '배송전'
+				</if>
+				<if test="order_delivery_status.equals('inTransit')">
+					AND order_delivery_status = '배송중'
+				</if>
+				<if test="order_delivery_status.equals('completion')">
+					AND order_delivery_status = '배송완료'
+				</if>
+			</if>
 			<if test="search_conditions != null and !search_conditions.equals('')">
 				<if test="word != null and !word.equals('')">
 					AND order_num LIKE '%' || #{word} || '%'

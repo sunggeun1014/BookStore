@@ -59,4 +59,14 @@ public class InventoryLogServiceImpl implements InventoryLogService {
 		return null;
 	}
 
+	@Override
+	public List<InventoryLogDTO> getListAtHome() {
+		try {
+			return ilr.getListAtHome();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }

@@ -7,12 +7,7 @@ import java.util.Map;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.ezen.bookstore.admin.members.dto.AdminMembersDTO;
 import com.ezen.bookstore.admin.members.service.AdminMgntService;
@@ -43,8 +38,8 @@ public class AdminMgntRestController {
         return response;
     }
 
-    @PostMapping("/details")
-    public String showMemberDetails(@RequestParam("member_id") String memberID, Model model) {
+    @GetMapping("/detail/{member_id}")
+    public String showMemberDetails(@PathVariable("member_id") String memberID, Model model) {
         AdminMembersDTO memberDetails = mgntService.detailList(memberID);
 
         String[] emailParts = memberDetails.getMember_email().split("@");
@@ -88,6 +83,6 @@ public class AdminMgntRestController {
 
         mgntService.updateMemberDetails(membersDTO);
         
-        return "redirect:/admin/members/members";
+        return "redirect:/admin/members/list";
     }
 }
