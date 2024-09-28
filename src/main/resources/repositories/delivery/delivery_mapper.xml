@@ -24,4 +24,18 @@
 			dr.request_date ASC
     
 	</select>
+	
+	<select id="getRequestDetail" parameterType="Integer" resultType="deliveryDTO">
+		SELECT
+			cod.order_num,
+			cod.book_isbn,
+			cod.order_detail_qty,
+			b.book_name
+		FROM
+			customer_order_details cod
+		JOIN
+			books b ON cod.book_isbn = b.book_isbn
+		WHERE
+			cod.order_num = #{order_num}
+	</select>
 </mapper>

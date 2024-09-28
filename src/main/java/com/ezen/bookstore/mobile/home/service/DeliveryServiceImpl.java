@@ -24,4 +24,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 	public List<DeliveryDTO> getRequestList() {
 		return deliveryMapper.getRequestList();
 	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<DeliveryDTO> getRequestDetail(Integer orderNum) {
+		return deliveryMapper.getRequestDetail(orderNum);
+	}
 }
