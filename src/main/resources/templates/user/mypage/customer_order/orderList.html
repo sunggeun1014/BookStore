@@ -71,8 +71,8 @@
 						<img class="book-thumbnail" th:src="'/images/books/' + ${item.book_thumbnail_changed != null ? item.book_thumbnail_changed : '/images/books/noimg.png'}" alt="책 이미지">
 					</span> 
 					<span class="book-info"> 
-						<span th:class="${item.order_qty_total == 1} ? 'single-order' : 'book-name'" th:text="${item.book_name}"></span> 
-						<span class="purchase-qty" th:if="${item.order_qty_total > 1}" th:text="'외 ' + ${item.order_qty_total - 1} + '개'"></span>
+						<span th:class="${item.order_detail_num > 1} ? 'book-name' : 'single-order'" th:text="${item.book_name}"></span> 
+						<span class="purchase-qty" th:if="${item.order_detail_num > 1}" th:text="'외 ' + ${item.order_detail_num - 1} + '개'"></span>
 					</span>
 				</a>
 				
