@@ -34,9 +34,6 @@ public class UserOrderRequestController {
 		UserCustomerOrderWithDetailsDTO orderDetails = orderRequestService.getOrderDetail(orderNum);
 		List<UserCustomerOrderWithDetailsDTO> detailList  = orderRequestService.getDetailItem(orderNum);
 		
-		System.out.println(detailList);
-		System.out.println(orderDetails);
-		
 		model.addAttribute("detailList", detailList);
 	    model.addAttribute("orderDetails", orderDetails);
 	    

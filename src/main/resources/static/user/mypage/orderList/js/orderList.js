@@ -92,6 +92,7 @@ $(document).ready(function() {
 					return;
 				}
 			}
+			
 			// 필터링 로직
 	        if (selectedStatus === '배송전' || selectedStatus === '배송중' || selectedStatus === '배송완료') {
 	            // 배송 상태가 선택된 경우
@@ -103,12 +104,7 @@ $(document).ready(function() {
 	            if (!(orderStatus === '취소요청' || orderStatus === '주문취소')) {
 	                return;
 	            }
-	        } else if (selectedStatus === '교환' || selectedStatus === '반품') {
-	            // 교환/반품 상태일 경우
-	            if (!(orderStatus === '반품요청' || orderStatus === '반품완료' || orderStatus === '교환요청' || orderStatus === '교환완료')) {
-	                return;
-	            }
-	        }
+	        } 
 
 			$(this).show();
 			hasOrders = true;
@@ -140,7 +136,6 @@ function getStatusCounts() {
 		method: 'GET',
 		success: function(data) {
 			$('#cancellation-count').text(data['취소요청'] + data['취소완료']);
-			$('#exchange-return-count').text(data['반품요청'] + data['반품완료'] + data['교환완료']);
 			$('#delivered-count').text(data['배송완료']);
 			$('#in-delivery-count').text(data['배송중']);
 			$('#before-delivery-count').text(data['배송전']);

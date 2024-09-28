@@ -5,7 +5,7 @@
 <mapper namespace="UserOrderRequest">
 
 	<select id="orderList" resultType="customerOrderWithDetails">
-	    SELECT
+	   	    SELECT
         co.order_num,
         co.order_purchase_date,
         COUNT(cod.order_detail_num) AS order_detail_num,
@@ -45,22 +45,26 @@
 	
 	<select id="countByOrderStatus" parameterType="Map" resultType="Integer">
 	    SELECT 
-	    	COUNT(*)
+	    	COUNT(DISTINCT co.order_num)
 	    FROM 
 	    	customer_orders co
 	    JOIN
-	    	customer_order_details od ON co.order_num = od.order_num
+	    	customer_order_details cod ON co.order_num = cod.order_num
 	    WHERE 
 	    	member_id = #{memberId} AND order_detail_status = #{status}
 	</select>
 	
 	<select id="countByDeliveryStatus" parameterType="Map" resultType="Integer">
 	    SELECT 
-	    	COUNT(*)
+	    	COUNT(DISTINCT co.order_num)
 	    FROM 
-	    	customer_orders
+	    	customer_orders co
+	    JOIN
+	    	customer_order_details cod ON co.order_num = cod.order_num
 	    WHERE 
-	    	member_id = #{memberId} AND order_delivery_status = #{status}
+	    	member_id = #{memberId}
+	   	AND order_delivery_status = #{status} 
+	   	AND order_detail_status = '01'
 	</select>
 	
 	<select id="getOrderDetail" parameterType="Integer" resultType="customerOrderWithDetails">

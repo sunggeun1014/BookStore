@@ -37,10 +37,7 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
         
         Map<String, Integer> counts = new HashMap<>();
         counts.put("취소요청", orderRequestRepository.countByOrderStatus(memberId, "02"));
-        counts.put("반품요청", orderRequestRepository.countByOrderStatus(memberId, "04"));
         counts.put("취소완료", orderRequestRepository.countByOrderStatus(memberId, "05"));
-        counts.put("교환완료", orderRequestRepository.countByOrderStatus(memberId, "06"));
-        counts.put("반품완료", orderRequestRepository.countByOrderStatus(memberId, "07"));
 
         counts.put("배송전", orderRequestRepository.countByDeliveryStatus(memberId, "01"));
         counts.put("배송중", orderRequestRepository.countByDeliveryStatus(memberId, "02"));
