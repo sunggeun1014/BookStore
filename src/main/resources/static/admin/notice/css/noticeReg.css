@@ -62,3 +62,13 @@
 	align-items: center;
 	gap: 10px;
 }
+
+.char-count {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+
+.char-count span {
+	display: inline-block;
+}

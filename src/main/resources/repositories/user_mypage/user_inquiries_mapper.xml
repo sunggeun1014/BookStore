@@ -107,10 +107,10 @@
         inquiry_title,
         inquiry_content,
         member_id,
-        inquiry_type,
-        order_num,
-        order_detail_num,
-        order_qty
+        inquiry_type
+        <if test="order_num != null">, order_num</if> 
+        <if test="order_detail_num != null">, order_detail_num</if>
+        <if test="order_request_qty != null">, order_qty</if>
         <if test="inquiries_original != null">, inquiries_original</if>
         <if test="inquiries_changed != null">, inquiries_changed</if>
     )
@@ -119,24 +119,25 @@
         #{inquiry_title},
         #{inquiry_content},
         #{member_id},
-        #{inquiry_type},
-        #{order_num},
-        #{order_detail_num},
-        NVL(#{order_request_qty}, 0)
-        <if test="inquiries_original != null">, #{inquiries_original, jdbcType=VARCHAR}</if>
-        <if test="inquiries_changed != null">, #{inquiries_changed, jdbcType=VARCHAR}</if>
+        #{inquiry_type}
+		<if test="order_num != null">, #{order_num}</if>  <!-- 조건부로 order_num 값 추가 -->
+        <if test="order_detail_num != null">, #{order_detail_num}</if>  <!-- 조건부로 order_detail_num 값 추가 -->
+        <if test="order_request_qty != null">, NVL(#{order_request_qty}, 0)</if>  <!-- 조건부로 order_request_qty 값 추가 -->
+        <if test="inquiries_original != null">, #{inquiries_original, jdbcType=VARCHAR}</if>  <!-- 이미지 원본 -->
+        <if test="inquiries_changed != null">, #{inquiries_changed, jdbcType=VARCHAR}</if>  <!-- 이미지 변경 -->
     )
 	</insert>
 
 	<update id="updateRequest" parameterType="userInquiries">
-	UPDATE 
-		Customer_Order_Details
-	SET 
-		order_request_qty = #{order_request_qty}
-	
-	WHERE
-		order_detail_num = #{order_detail_num}
-	
+		<if test="order_detail_num != null">  <!-- order_detail_num이 존재하는 경우에만 업데이트 -->
+		UPDATE 
+			Customer_Order_Details
+		SET 
+			order_request_qty = #{order_request_qty}
+		
+		WHERE
+			order_detail_num = #{order_detail_num}
+		</if>
 	
 	</update>
 </mapper>

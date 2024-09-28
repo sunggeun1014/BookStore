@@ -1,9 +1,12 @@
 $(document).ready(function () {
 
-    let currentPage = 1;
-    const pageSize = 10;
-
-    loadBooks('pending');
+	let currentPage = 1;
+	const pageSize = 10;
+	let globalStartDate = '';
+	let globalEndDate = '';
+	let globalStatus = 'pending';  // 초기 상태는 'pending'으로 설정
+	
+    loadBooks(globalStatus);
 
     datepicker('startDate', 'endDate');
 
@@ -28,15 +31,11 @@ $(document).ready(function () {
             startDate = new Date(startDate);
         }
 
-        startDate = formatDateForDB(startDate, 'start');
-        endDate = formatDateForDB(endDate, 'end');
+        globalStartDate = formatDateForDB(startDate, 'start');
+        globalEndDate = formatDateForDB(endDate, 'end');
 
 		currentPage = 1;
-        if ($('.tab-btn.active').text() === '리뷰를 기다리는 도서') {
-            loadBooks('pending');
-        } else {
-            loadBooks('written');
-        }
+		loadBooks(globalStatus, currentPage, pageSize, globalStartDate, globalEndDate);
     });
 
     $('.tab-btn').on('click', function () {
@@ -44,14 +43,17 @@ $(document).ready(function () {
         $(this).addClass('active');
 
         if ($(this).text() === '리뷰를 기다리는 도서') {
-            loadBooks('pending');
+            globalStatus = 'pending';
         } else if ($(this).text() === '내가 작성한 리뷰') {
-            loadBooks('written');
+            globalStatus = 'written';
         }
+		currentPage = 1;  // 상태 변경 시 첫 번째 페이지부터 시작
+        loadBooks(globalStatus, currentPage, pageSize, globalStartDate, globalEndDate);
     });
 
     function loadBooks(type, currentPage = 1, pageSize = 10, startDate = '', endDate = '') {
-        let url = '';
+        $('#book-list').empty();
+		let url = '';
         let requestData = {
             page: currentPage,
             pageSize: pageSize
@@ -92,9 +94,13 @@ $(document).ready(function () {
                             let bookHtml = `
                                 <div class="book-info">
                                     <div class="book-wrap">
-                                        <img src="${imageUrl}" alt="책 이미지">
+										<a href='/user/products/detail?book_isbn=${book.book_isbn}'>
+	                                        <img src="${imageUrl}" alt="책 이미지">
+										</a>
                                         <div class="book-details">
-                                            <span class="book-title">${book.book_name}</span>
+											<a href='/user/products/detail?book_isbn=${book.book_isbn}'>
+                                            	<span class="book-title">${book.book_name}</span>
+											</a>
                                             <span class="book-author">저자: ${book.book_author}</span>
                                             <span class="book-date">구매일: ${purchaseDateFormatted}</span>
                                         </div>
@@ -109,8 +115,12 @@ $(document).ready(function () {
                             let reviewHtml = `
                                 <div class="review-container">
                                     <div class="book-info-wrapper">
-                                        <img src="${imageUrl}" alt="책 이미지">
-                                        <div class="book-title">${book.book_name}</div>
+										<a href='/user/products/detail?book_isbn=${book.book_isbn}'>
+                                        	<img src="${imageUrl}" alt="책 이미지">
+										</a>
+										<a href='/user/products/detail?book_isbn=${book.book_isbn}'>
+                                        	<div class="book-title">${book.book_name}</div>
+										</a>
                                     </div>
                                     <div class="review-box">
                                         <div class="review-stars">${starsHtml}</div>
@@ -171,7 +181,7 @@ $(document).ready(function () {
 		} else {
 			leftIcon.on('click', function (){
 				currentPage -= 1;
-				loadBooks($('.tab-btn.active').text() === '리뷰를 기다리는 도서' ? 'pending' : 'written', currentPage);
+				loadBooks(globalStatus, currentPage, pageSize, globalStartDate, globalEndDate);
 				updatePagination(totalPages, currentPage);
 			});
 		}
@@ -192,7 +202,8 @@ $(document).ready(function () {
             }
             pageButton.on('click', function () {
 				currentPage = i;  
-                loadBooks($('.tab-btn.active').text() === '리뷰를 기다리는 도서' ? 'pending' : 'written', i);
+                loadBooks(globalStatus, i, pageSize, globalStartDate, globalEndDate);
+				updatePagination(totalPages, i);
         	});
 			pageArea.append(pageButton);
         }
@@ -202,7 +213,7 @@ $(document).ready(function () {
 	    } else {
 	        rightIcon.on('click', function () {
 	            currentPage += 1;
-	            loadBooks($('.tab-btn.active').text() === '리뷰를 기다리는 도서' ? 'pending' : 'written', currentPage);
+	            loadBooks(globalStatus, currentPage, pageSize, globalStartDate, globalEndDate);
 	            updatePagination(totalPages, currentPage);
 	        });
 	    }

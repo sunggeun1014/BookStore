@@ -2,26 +2,29 @@ package com.ezen.bookstore.admin.supplierorders.dto;
 
 import java.sql.Timestamp;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 public class SupplierOrdersDTO {
 
-	private Integer order_num;       
-	private String order_status;      
-	private Timestamp order_date; 
-	private String manager_id;
-	private Integer order_total_qty; 
-	private Integer order_total_price;
+	Integer order_num;       
+	String order_status;      
+	Timestamp order_date; 
+	String manager_id;
+	Integer order_total_qty; 
+	Integer order_total_price;
 	
-	private Integer order_detail_num;
-	private String order_detail_isbn;
-	private String order_detail_title;
-	private Integer order_detail_qty;
-	private Integer order_detail_received_qty;
-	private Integer order_detail_price;
-	private String order_detail_publisher;
-	private Integer detail_total_price;
+	Integer order_detail_num;
+	String order_detail_isbn;
+	String order_detail_title;
+	Integer order_detail_qty;
+	Integer order_detail_received_qty;
+	Integer order_detail_price;
+	String order_detail_publisher;
+	Integer detail_total_price;
 	
-	private String manager_name;
+	String manager_name;
 }

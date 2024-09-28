@@ -1,5 +1,44 @@
 $(document).ready(function() {
 	datepicker("startDate", "endDate");
+	const maxByteLength  = 1000;
+	
+	
+	function getByteLength(str) {
+	    let byteLength = 0;
+	    for (let i = 0; i < str.length; i++) {
+	        let charCode = str.charCodeAt(i);
+	        if (charCode <= 0x007F) {
+	            byteLength += 1;
+	        } else if (charCode <= 0x07FF) {
+	            byteLength += 2;
+	        } else {
+	            byteLength += 3;
+	        }
+	    }
+	    return byteLength;
+	}
+	
+	$("#editor").on("input", function () {
+	    updateCharCount()
+	});
+	
+	function updateCharCount() {
+	    let editor = $("#editor");
+	    let content = editor.text();
+	    
+	    let byteLength = getByteLength(content);
+
+	    
+	    if (byteLength > maxByteLength) {
+	        while (getByteLength(content) > maxByteLength) {
+	            content = content.substring(0, content.length - 1);
+	        }
+	        editor.text(content)
+	    }
+
+	    
+	    $("#charCount").text(byteLength);
+	}
 
 	const editor = document.getElementById('editor');
 	let tempImages = [];
@@ -17,7 +56,6 @@ $(document).ready(function() {
 	editor.addEventListener('drop', (event) => {
 		event.preventDefault();
 		editor.classList.remove('dragover');
-
 		const files = event.dataTransfer.files;
 		if (files.length > 0) {
 			for (let i = 0; i < files.length; i++) {
@@ -31,9 +69,10 @@ $(document).ready(function() {
 						img.style.maxWidth = '100%';
 						img.style.height = 'auto';
 						editor.appendChild(img);
-
+						
 						tempImages.push(img);
 						imageFiles.push(file); 
+						
 					};
 					reader.readAsDataURL(file);
 				} else {

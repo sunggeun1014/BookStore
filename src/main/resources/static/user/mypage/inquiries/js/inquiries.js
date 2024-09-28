@@ -2,7 +2,9 @@ $(document).ready(function () {
     
 	let currentPage = 1;
 	const pageSize = 10;
-	
+	let globalStartDate = '';
+	let globalEndDate = '';
+	let globalStatus = '';
     loadInquiries();
     
     
@@ -10,10 +12,9 @@ $(document).ready(function () {
 
     
     $('#searchBtn').on('click', function () {
-        let startDate = $('#startDate').val();
-        let endDate = $('#endDate').val();
         let inquiry_answer_status = $('.tab-btn.active').data('status');
-
+		let startDate = $('#startDate').val();
+		let endDate = $('#endDate').val();
         if (!startDate && !endDate) {
             getCheckModal('시작일 또는 종료일을 선택해주세요.');
             return;
@@ -25,11 +26,12 @@ $(document).ready(function () {
         if (!startDate) startDate = new Date('1970-01-01');
         else startDate = new Date(startDate);
 
-        startDate = formatDateForDB(startDate, 'start');
-        endDate = formatDateForDB(endDate, 'end');
+        globalStartDate = formatDateForDB(startDate, 'start');
+        globalEndDate = formatDateForDB(endDate, 'end');
+		globalStatus = inquiry_answer_status;
 		
 		currentPage = 1;
-        loadInquiries(inquiry_answer_status, startDate, endDate, currentPage, pageSize);
+        loadInquiries(globalStatus, globalStartDate, globalEndDate, currentPage, pageSize);
     });
 
     
@@ -38,13 +40,14 @@ $(document).ready(function () {
         $(this).addClass('active');
         
         let inquiry_answer_status = $(this).data('status');
+		globalStatus = inquiry_answer_status;
 		currentPage = 1; 
-        loadInquiries(inquiry_answer_status, '', '', currentPage, pageSize);
+        loadInquiries(globalStatus, globalStartDate, globalEndDate, currentPage, pageSize);
     });
 
     
     function loadInquiries(inquiry_answer_status = '', startDate = '', endDate = '', page = 1, pageSize = 10) {
-        let url = '/user/mypage/inquiries-page/search';
+		let url = '/user/mypage/inquiries-page/search';
 		let requestData = {
             page: page,
             pageSize: pageSize
@@ -68,10 +71,11 @@ $(document).ready(function () {
 				let inquiries = data.inquiries || [];
 				 
                 $('#inquiries-list').empty();
+				
                 if (inquiries.length === 0) {
                     $('.result-wrap').show();
                     $('#inquiries-list').hide();
-					updatePagination(0, 1, inquiry_answer_status);
+					updatePagination(0, 1, inquiry_answer_status, startDate, endDate);
                 } else {
                     $('.result-wrap').hide();
                     $('#inquiries-list').show();
@@ -171,7 +175,7 @@ $(document).ready(function () {
 					    });
                     });
 					
-					updatePagination(data.totalPages, page);
+					updatePagination(data.totalPages, page, startDate, endDate);
                 }
             },
             error: function () {
@@ -182,59 +186,59 @@ $(document).ready(function () {
     }
 	
 	function updatePagination(totalPages, currentPage, inquiry_answer_status = '') {
-		
-		const maxPagesToShow = 5;
-		
-        $('#page-area').empty();
-		
-		let pageArea = $('#page-area')
-		
-		let leftIcon = $('<i class="fa-solid fa-angle-left page-arrow"></i>')
-		let rightIcon = $('<i class="fa-solid fa-angle-right page-arrow"></i>')
-		
-		if (currentPage === 1) {
-			leftIcon.addClass('arrow-disable');
-		} else {
-			leftIcon.on('click', function (){
-				currentPage -= 1;
-				loadInquiries(inquiry_answer_status, '', '', currentPage, pageSize);
-				updatePagination(totalPages, currentPage, inquiry_answer_status);
-			});
-		}
-		
-		pageArea.append(leftIcon);
-		
-		let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+	    const maxPagesToShow = 5;
+
+	    $('#page-area').empty();
+	    
+	    let pageArea = $('#page-area')
+	    
+	    let leftIcon = $('<i class="fa-solid fa-angle-left page-arrow"></i>')
+	    let rightIcon = $('<i class="fa-solid fa-angle-right page-arrow"></i>')
+	    
+	    if (currentPage === 1) {
+	        leftIcon.addClass('arrow-disable');
+	    } else {
+	        leftIcon.on('click', function (){
+	            currentPage -= 1;
+	            loadInquiries(globalStatus, globalStartDate, globalEndDate, currentPage, pageSize);
+	            updatePagination(totalPages, currentPage, globalStatus);
+	        });
+	    }
+	    
+	    pageArea.append(leftIcon);
+	    
+	    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
 	    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
 	    if (endPage - startPage < maxPagesToShow - 1) {
 	        startPage = Math.max(1, endPage - maxPagesToShow + 1);
 	    }
-		
-        for (let i = 1; i <= totalPages; i++) {
-            let pageButton = $('<span class="page-link"></span>').text(i);
-            if (i === currentPage) {
-                pageButton.addClass('link-on');
-            }
-            pageButton.on('click', function () {
-				currentPage = i;  
-                loadInquiries(inquiry_answer_status, '', '', i, pageSize);
-        	});
-			pageArea.append(pageButton);
-        }
-		
-		if (currentPage === totalPages) {
+	    
+	    for (let i = startPage; i <= endPage; i++) {
+	        let pageButton = $('<span class="page-link"></span>').text(i);
+	        if (i === currentPage) {
+	            pageButton.addClass('link-on');
+	        }
+	        pageButton.on('click', function () {
+	            currentPage = i;  
+	            loadInquiries(globalStatus, globalStartDate, globalEndDate, i, pageSize);
+	            updatePagination(totalPages, i, globalStatus);
+	        });
+	        pageArea.append(pageButton);
+	    }
+	    
+	    if (currentPage === totalPages) {
 	        rightIcon.addClass('arrow-disabled');
 	    } else {
 	        rightIcon.on('click', function () {
 	            currentPage += 1;
-	            loadInquiries(inquiry_answer_status, '', '', currentPage, pageSize);
-	            updatePagination(totalPages, currentPage, inquiry_answer_status);
+	            loadInquiries(globalStatus, globalStartDate, globalEndDate, currentPage, pageSize);
+	            updatePagination(totalPages, currentPage, globalStatus);
 	        });
 	    }
-		
-		pageArea.append(rightIcon);
-    }
+	    
+	    pageArea.append(rightIcon);
+	}
 	
     function formatDateForDB(date, type) {
         let formattedDate = new Date(date).toISOString().split('T')[0];

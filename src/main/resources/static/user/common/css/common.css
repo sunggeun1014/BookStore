@@ -141,6 +141,7 @@ input:focus {
     border-radius: 10px;
     padding: 10px;
     font-size: 16px;
+    cursor: pointer;
 }
 
 /* 라디오 */
