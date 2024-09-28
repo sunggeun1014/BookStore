@@ -51,7 +51,8 @@
 		    sod.order_detail_title,
 		    sod.order_detail_qty,
 		    sod.order_detail_price,
-		    sod.order_detail_price * sod.order_detail_qty AS detail_total_price
+		    sod.order_detail_price * sod.order_detail_qty AS detail_total_price,
+		    sod.order_detail_received_qty
 		FROM
 		    supplier_orders        so
 		    INNER JOIN supplier_order_details sod ON so.order_num = sod.order_num

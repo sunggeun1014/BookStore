@@ -39,7 +39,10 @@
                     <span>가격</span>
                 </div>
                 <div class="qty-column">
-                    <span>수량</span>
+                    <span>발주수량</span>
+                </div>
+                <div class="qty-column">
+                    <span>처리수량</span>
                 </div>
                 <div class="purchase-column">
                     <span>구매금액</span>
@@ -61,6 +64,9 @@
                     </div>
                     <div class="qty-data">
                         <span th:text="${info.order_detail_qty} + '개'"></span>
+                    </div>
+                    <div class="qty-data">
+                        <span th:text="${info.order_detail_received_qty} + '개'"></span>
                     </div>
                     <div class="purchase-data">
                         <span th:text="${#numbers.formatInteger(info.detail_total_price, 0, 'COMMA')} + '원'"></span>
