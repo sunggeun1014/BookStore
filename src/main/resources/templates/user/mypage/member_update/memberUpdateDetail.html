@@ -122,7 +122,7 @@
 							<input id="naverLogin" type="checkbox" th:checked="${userMembers.naver_login_cd != null and !userMembers.naver_login_cd.isEmpty()}" /> 
 							<span class="slider naver"></span>
 						</label>
-						<input type="hidden" id="naver_login_cd" name="naver_login_cd" />
+						<input type="hidden" id="naver_login_cd" name="naver_login_cd" th:value="${userMembers.naver_login_cd}"/>
 						
 					</div>
 					<div>
@@ -131,7 +131,7 @@
 							<input id="kakaoLogin" type="checkbox" th:checked="${userMembers.kakao_login_cd != null and !userMembers.kakao_login_cd.isEmpty()}" />
 							<span class="slider kakao"></span>
 						</label>
-						<input type="hidden" id="kakao_login_cd" name="kakao_login_cd" />
+						<input type="hidden" id="kakao_login_cd" name="kakao_login_cd" th:value="${userMembers.kakao_login_cd}"/>
 					</div>
 				</div>			
 			</div>
