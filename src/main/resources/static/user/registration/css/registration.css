@@ -284,3 +284,7 @@ input.nomal, .form-item.nomal::before {
 .form-item.phoneNo::before { content: 'smartphone'; }
 .form-item.addr::before { content: 'book'; }
 .form-item.detail-addr::before { content: 'info'; }
+
+.pointer-cursor {
+	cursor: pointer;
+}

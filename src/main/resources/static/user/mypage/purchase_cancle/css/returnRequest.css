@@ -426,3 +426,9 @@
 .modal-font-size {
 	font-size: 14px;
 }
+
+.warning-message {
+    margin: -10px 0 0 150px;
+    font-size: 14px;
+    color: #E54F53;
+}

@@ -17,7 +17,7 @@ function orderCancleBtn() {
 				getCheckModal("<span>취소가 완료 되었습니다.</span><br> 결제 취소는 카드사에 따라<br> 3일~2주 이내에 완료 됩니다.");
 				
 				$("#confirm-delete").on("click", function() {
-					location.href = "#";
+					location.href = `/user/mypage/cancleCompletion?orderNum=${list[0].order_num}`;
 				});
 			} else {
 				getCheckModal("고객센터에 문의 바랍니다.");

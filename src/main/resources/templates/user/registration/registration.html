@@ -5,7 +5,6 @@
 <title>BOOKSTORE 회원가입</title>
 
 <link rel="shortcut icon" th:href="@{/user/common/imgs/favicon.ico}" type="image/x-icon">
-<link rel="stylesheet" href="/admin/managers/css/managerReg.css" />
 <link rel="stylesheet" href="/admin/common/css/modal.css" />
 <link rel="stylesheet" href="/user/registration/css/registration.css" />
 <link rel="stylesheet" href="/user/common/css/common.css" />
@@ -69,7 +68,7 @@
 	
 			<div class="form-list third">			
 				<div class="form-item addr">
-					<input type="text" id="address_kakao" name="member_addr" class="gray-text pointer-cursor" placeholder="주소" />
+					<input type="text" id="address_kakao" name="member_addr" class="gray-text pointer-cursor" placeholder="주소" readonly/>
 				</div>
 				<div class="form-item detail-addr">
 					<input type="text" id="member_detail_addr" name="member_detail_addr" onclick="this.value='';" class="gray-text" placeholder="상세주소" />

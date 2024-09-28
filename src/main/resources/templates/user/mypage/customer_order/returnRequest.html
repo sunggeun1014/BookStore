@@ -67,7 +67,7 @@
 	<input type="hidden" name="retrieve_phoneNo" th:value="${refund.retrieve_phoneNo != null ? refund.retrieve_phoneNo : refund.recipient_phoneno}">
 	<input type="hidden" name="retrieve_addr" th:value="${refund.retrieve_addr != null ? refund.retrieve_addr : refund.order_addr}">
 	<input type="hidden" name="retrieve_addr_detail" th:value="${refund.retrieve_addr_detail != null ? refund.retrieve_addr_detail : refund.order_addr_detail}">
-	<input type="hidden" name="common_ent_pw" th:value="${refund.retrieve_common_cnt_pw != null ? refund.retrieve_common_cnt_pw : ''}">
+	<input type="hidden" name="common_ent_pw" th:value="${refund.retrieve_common_cnt_pw != null ? refund.retrieve_common_cnt_pw : refund.common_ent_pw}">
 	<div>
 		<div class="info-title-area">
 			<span>회수지 정보</span>
@@ -127,6 +127,7 @@
 								</div>
 							</div>
 						</div>
+						<div id="warning-message"></div>
 						<div class="common-entranc-title-area">
 							<span>공동현관 출입방법</span>
 						</div>
@@ -164,7 +165,7 @@
 					<span class="user-info-font" id="refund-addr" th:text="${refund.retrieve_addr != null ? (refund.retrieve_addr + ' ' + refund.retrieve_addr_detail) : (refund.order_addr + ' ' + refund.order_addr_detail)}"></span>
 				</div>
 				<div class="common-entrance-area">
-					<span class="user-info-font" id="refund-commonent-pw" th:text="${refund.retrieve_common_cnt_pw != null ? refund.retrieve_common_cnt_pw : '자유출입 가능'}"></span>
+					<span class="user-info-font" id="refund-commonent-pw" th:text="${refund.retrieve_common_cnt_pw != null ? refund.retrieve_common_cnt_pw : refund.common_ent_pw}"></span>
 				</div>
 			</div>
 		</div>

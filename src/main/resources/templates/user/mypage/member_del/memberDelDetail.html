@@ -31,27 +31,27 @@
 		<div class="span-radio">
 		    <span class="default-font bold">상품</span>
 		    <div class="radio-group">
-		        <label><input type="radio">찾는 상품 없음</label>
-		        <label><input type="radio">상품정보 부족</label>
-		        <label><input type="radio">상품품질 불만</label>
-		        <label><input type="radio">가격 불만</label>
+		        <label><input type="radio" name="product">찾는 상품 없음</label>
+		        <label><input type="radio" name="product">상품정보 부족</label>
+		        <label><input type="radio" name="product">상품품질 불만</label>
+		        <label><input type="radio" name="product">가격 불만</label>
 		    </div>
 		</div>
 		<div class="span-radio">
 		    <span class="default-font bold">서비스</span>
 		    <div class="radio-group">
-		        <label><input type="radio">배송 불만</label>
-		        <label><input type="radio">사이트 이용 불편</label>
-		        <label><input type="radio">결제 불편</label>
-		        <label><input type="radio">반품/교환/환불 불만</label>
-		        <label><input type="radio">불친절</label>
+		        <label><input type="radio" name="service">배송 불만</label>
+		        <label><input type="radio" name="service">사이트 이용 불편</label>
+		        <label><input type="radio" name="service">결제 불편</label>
+		        <label><input type="radio" name="service">반품/교환/환불 불만</label>
+		        <label><input type="radio" name="service">불친절</label>
 		    </div>
 		</div>
 		<div class="span-radio" style="border: none">
 		    <span class="default-font bold">시스템/기타</span>
 		    <div class="radio-group">
-		        <label><input type="radio">상품검색 불편</label>
-		        <label><input type="radio">개인정보/보안 우려</label>
+		        <label><input type="radio" name="system">상품검색 불편</label>
+		        <label><input type="radio" name="system">개인정보/보안 우려</label>
 		    </div>	
 		</div>
 	</div>
@@ -67,7 +67,7 @@
 		</div>
 	</div>
 	<div class="btn-box">
-		<button type="button" id="delete-btn" class="default-btn" disabled>탈퇴</button>
+		<button type="button" id="delete-btn" class="delete-btn-on" disabled>탈퇴</button>
 		<button type="button" class="default-btn grey" onclick="location.href='/user/mypage/delete-page'">취소</button>
 	</div>
 </div>

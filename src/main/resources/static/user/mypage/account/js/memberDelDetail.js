@@ -8,8 +8,12 @@ document.addEventListener("DOMContentLoaded", function() {
 		// 두 개의 체크박스가 모두 체크되었을 때만 버튼 활성화
 		if (checkBtn1.checked && checkBtn2.checked) {
 			deleteBtn.disabled = false;
+			$(deleteBtn).removeClass("delete-btn-on");
+			$(deleteBtn).addClass("default-btn");
 		} else {
 			deleteBtn.disabled = true;
+			$(deleteBtn).addClass("delete-btn-on");
+			$(deleteBtn).removeClass("default-btn");
 		}
 	}
 

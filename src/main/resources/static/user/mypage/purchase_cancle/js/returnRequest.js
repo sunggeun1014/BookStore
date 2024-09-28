@@ -81,7 +81,7 @@ function initRefundModal() {
 	$("#modal-user-addr").val(addr);
 	$("#modal-user-addr-detail").val(addrDetail);
 	
-	if(commonEntPw) {
+	if(commonEntPw && commonEntPw != "자유출입") {
 		$("#modal-user-common-entrance-pw").css({ "display": "block" });
 		$("#common-entrance-on").prop("checked", true);
 		$("#modal-user-common-entrance-pw").val(commonEntPw);
@@ -119,6 +119,20 @@ function infoChangeBtn() {
 	const addrDetail = $("#modal-user-addr-detail").val();
 	const commonEntPw = $("#modal-user-common-entrance-pw").val();
 	
+	if(!name) {
+		$("#warning-message").text("⚠️ 이름을 입력하세요");
+		$("#warning-message").addClass("warning-message");
+		return;
+	} else if(!phoneNo) {
+		$("#warning-message").text("⚠️ 전화번호를 입력하세요");
+		$("#warning-message").addClass("warning-message");
+		return;
+	} else if(!addr) {
+		$("#warning-message").text("⚠️ 주소를 입력하세요");
+		$("#warning-message").addClass("warning-message");
+		return;
+	}
+	
 	$("input[name='retrieve_name']").val(name);
 	$("input[name='retrieve_phoneNo']").val(phoneNo);
 	$("input[name='retrieve_addr']").val(addr);
@@ -132,9 +146,12 @@ function infoChangeBtn() {
 		$("input[name='common_ent_pw']").val(commonEntPw);
 		$("#refund-commonent-pw").text(commonEntPw);
 	} else {
-		$("input[name='common_ent_pw']").val("");
-		$("#refund-commonent-pw").text("자유출입 가능");
+		$("input[name='common_ent_pw']").val("자유출입");
+		$("#refund-commonent-pw").text("자유출입");
 	}
+	
+	$("#warning-message").text("");
+	$("#warning-message").removeClass("warning-message");
 	
 	$(".info-change-modal").css({ "display": "none" });
 }
@@ -209,7 +226,7 @@ function orderCancleBtn() {
 				if(response === list.length) {
 					getCheckModal("<span class='modal-font-bold'>반품신청 완료</span><span class='modal-font-size'>상품 회수 후 반품이 완료 되며 완료 후<br> 환불이 진행 됩니다.</span>");
 					$("#confirm-delete").on("click", function() {
-						location.href = "/user/mypage/orderList";
+						location.href = `/user/mypage/returnDetail?orderNum=${data.dto.order_num}`;
 					});
 				} else {
 					getCheckModal("다시 시도해 주세요.");

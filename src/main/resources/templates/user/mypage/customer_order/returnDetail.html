@@ -36,7 +36,8 @@
 				</div>
 			</div>
 			<div>
-				<span class="book-price" th:text="${#numbers.formatInteger(detail.order_detail_price, 0, 'COMMA')} + '원'"></span>
+				<span class="book-price" th:if="${detail.order_detail_status == '반품요청'}" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.order_request_qty, 0, 'COMMA')} + '원'"></span>
+				<span class="book-price" th:if="${detail.order_detail_status != '반품요청'}" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.order_complete_qty, 0, 'COMMA')} + '원'"></span>
 			</div>	
 			<div class="order_status_area">
 				<span class="order_status" th:text="${detail.order_detail_status}"></span>
@@ -63,7 +64,7 @@
 					<span class="user-info-font" id="refund-phoneNo" th:text="${refund.retrieve_phoneNo != null ? refund.retrieve_phoneNo : refund.recipient_phoneno}"></span>
 				</div>
 				<div>
-					<span class="user-info-font" id="refund-addr" th:text="${refund.retrieve_addr != null ? (refund.retrieve_addr + ' ' + refund.retrieve_addr_detail) : (refund.order_addr + ' ' + refund.order_addr_detail)}"></span>
+					<span class="user-info-font" id="refund-addr" th:text="${refund.retrieve_addr != null ? (refund.retrieve_addr + (refund.retrieve_addr_detail != null ? ' ' + refund.retrieve_addr_detail : '')) : (refund.order_addr + (refund.order_addr_detail != null ? ' ' + refund.order_addr_detail : ''))}"></span>
 				</div>
 				<div class="common-entrance-area">
 					<span class="user-info-font" id="refund-commonent-pw" th:text="${refund.retrieve_common_cnt_pw != null ? refund.retrieve_common_cnt_pw : '자유출입 가능'}"></span>
