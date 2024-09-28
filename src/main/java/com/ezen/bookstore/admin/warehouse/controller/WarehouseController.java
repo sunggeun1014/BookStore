@@ -32,7 +32,7 @@ public class WarehouseController {
 	
 	private final WarehouseServiceImpl warehouseService;
 	
-	@GetMapping("/warehouse")
+	@GetMapping("/list")
 	public String warehouse() {
 		return "admin/warehouse/warehouse";
 	}

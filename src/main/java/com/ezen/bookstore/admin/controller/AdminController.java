@@ -44,7 +44,7 @@ public class AdminController {
         return "/admin/login/login";
     }
 	
-	@GetMapping("/index")
+	@GetMapping("/home")
     public String index(Model model) {
 		int productCnt = homeService.getProductsCnt();
 		int memberCnt = homeService.getMembersCnt();
@@ -123,7 +123,7 @@ public class AdminController {
 			return "redirect:/admin/myinfo";
 		}
 		
-        return "redirect:/admin/index";  // 업데이트 후 마이페이지로 리다이렉트
+        return "redirect:/admin/myinfo";  // 업데이트 후 마이페이지로 리다이렉트
     }
     
    @GetMapping("/download")

@@ -32,7 +32,8 @@ $(document).ready(function() {
             { 
                 data: 'member_id',
                 render: function(data, type, row) {
-                    return '<a href="#" class="member-id-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
+                    const url = '/admin/members/detail/' + encodeURIComponent(data);
+                    return '<a href=' + url + ' class="member-id-link" data-menu-link="memebers" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
                 }
             },
             { data: 'member_email' },
@@ -76,14 +77,15 @@ $(document).ready(function() {
             emptyTable: "조회된 정보가 없습니다.",
         }
     });
-    
-    $('#member tbody').on('click', '.member-id-link', function(e) {
-        e.preventDefault(); 
 
-        var data = table.row($(this).parents('tr')).data();
-
-        postToDetailPage(data);
-    });
+    // a링크 클릭 이동
+    // $('#member tbody').on('click', '.member-id-link', function(e) {
+    //     e.preventDefault();
+    //
+    //     var data = table.row($(this).parents('tr')).data();
+    //
+    //     postToDetailPage(data);
+    // });
     
     // 검색 버튼 클릭 이벤트 핸들러
     $('#searchButton').on('click', function() {
@@ -202,19 +204,19 @@ function setActive(element) {
 }
 
 // 상세 페이지로 데이터를 전달하는 함수입니다.
-function postToDetailPage(data) {
-    var existingForm = $('#postToDetailForm');
-
-    if (existingForm.length) {
-        existingForm.remove();
-    }
-    
-    var form = $('<form>', {
-        method: 'POST',
-        action: '/admin/members/details'
-    });
-
-    form.append($('<input>', { type: 'hidden', name: 'member_id', value: data.member_id }));
-
-    form.appendTo('body').submit();
-}
+// function postToDetailPage(data) {
+//     var existingForm = $('#postToDetailForm');
+//
+//     if (existingForm.length) {
+//         existingForm.remove();
+//     }
+//
+//     var form = $('<form>', {
+//         method: 'POST',
+//         action: '/admin/members/details'
+//     });
+//
+//     form.append($('<input>', { type: 'hidden', name: 'member_id', value: data.member_id }));
+//
+//     form.appendTo('body').submit();
+// }

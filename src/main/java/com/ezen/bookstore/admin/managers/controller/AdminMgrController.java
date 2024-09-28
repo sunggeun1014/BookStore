@@ -36,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/admin/managers")
 public class AdminMgrController {
 	
-	@GetMapping("/managers")
+	@GetMapping("/list")
 	public String managers() {
 		return "admin/managers/managers";
 	}

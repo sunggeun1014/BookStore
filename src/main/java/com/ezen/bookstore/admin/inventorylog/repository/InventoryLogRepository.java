@@ -52,4 +52,8 @@ public class InventoryLogRepository {
 	public List<InventoryLogDTO> getInventoryLogDetailList(Integer log_transaction_num) {
 		return sql.selectList("InventoryLog.getDetailList", log_transaction_num);
 	}
+
+	public List<InventoryLogDTO> getListAtHome() {
+		return sql.selectList("InventoryLog.getListAtHome");
+	}
 }

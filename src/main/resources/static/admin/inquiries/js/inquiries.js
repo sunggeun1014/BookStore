@@ -17,8 +17,8 @@ $(document).ready(function() {
 					data: 'inquiry_title',
 					render: function(data, type, row) {
 						const inquiryNum = row.inquiry_num; // inquiry_num 가져오기
-						const url = '/admin/inquiries/details?inquiry_num=' + encodeURIComponent(inquiryNum);
-						return '<a href=' + url + ' class="book-title-link">' + data + '</a>';
+						const url = '/admin/inquiries/detail?inquiry_num=' + encodeURIComponent(inquiryNum);
+						return '<a href=' + url + ' class="book-title-link" data-menu-link="managers">' + data + '</a>';
 						// return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
 					}
 				},

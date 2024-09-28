@@ -35,7 +35,7 @@ public class ProductsController {
 
     private final ProductsService productService;
     
-    @GetMapping("/products")
+    @GetMapping("/list")
     public String products() {
     	return "admin/products/products";
     }
@@ -119,9 +119,9 @@ public class ProductsController {
     	productDTO.setBook_category(productDTO.getBook_category().replace(",", ""));
         productService.insertBook(productDTO);
 
-        model.addAttribute("template", "/admin/products/product");
+//        model.addAttribute("template", "/admin/products/product");
 
-        return "redirect:/admin/products/products";
+        return "redirect:/admin/products/list";
     }
 
     @PostMapping("/checkISBN")

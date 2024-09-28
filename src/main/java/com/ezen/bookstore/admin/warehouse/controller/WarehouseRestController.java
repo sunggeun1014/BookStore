@@ -46,6 +46,6 @@ public class WarehouseRestController {
 		
 		warehouseService.updateStockDetails(warehouseDTO);
 		
-		return "redirect:/admin/warehouse/warehouse";
+		return "redirect:/admin/warehouse/list";
 	}
 }

@@ -33,7 +33,7 @@ $(document).ready(function() {
 					render: function(data) {
 						const editText = data.length > 14 ? data.substring(0, 14) + '...' : data.substring(0, 14) + '...';
 
-						return '<a href="#" class="book-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + editText + '</a>';
+						return '<a href="#" class="book-title-link" data-menu-link="reviews" style="color: inherit; text-decoration: underline; cursor: pointer;">' + editText + '</a>';
 					},
 				},
 				{ data: 'book_isbn' },
@@ -297,7 +297,7 @@ function postToDetailPage(data) {
 	var form = $('<form>', {
 		id: 'postToDetailForm',
 		method: 'POST',
-		action: '/admin/reviews/details'  // 서버의 상세 페이지 URL로 설정
+		action: '/admin/reviews/detail'  // 서버의 상세 페이지 URL로 설정
 	});
 
 

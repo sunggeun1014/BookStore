@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/admin/members")
 public class AdminMgntController {
 	
-	@GetMapping("/members")
+	@GetMapping("/list")
 	public String members() {
 		return "admin/members/members";
 	}

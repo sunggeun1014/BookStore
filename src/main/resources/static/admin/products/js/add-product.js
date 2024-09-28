@@ -311,7 +311,6 @@ function showInvenList() {
     const searchInput = document.getElementById("search-keyword")
     const bookModal = document.querySelector("#search-book-modal")
     const closeBtn = document.querySelector("#close-btn")
-    const searchButton = document.getElementById("searchButton");
     const inputValue = searchInput.value.trim();
 
     searchBox.addEventListener("click", function () {

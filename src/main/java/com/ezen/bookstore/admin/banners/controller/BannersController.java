@@ -33,7 +33,7 @@ public class BannersController {
 	private final BannersService bannersService;
 	
 	
-	@GetMapping("/banners")
+	@GetMapping("/list")
 	public String bannersList() {
 		return "admin/banners/banners";
 	}
@@ -66,10 +66,10 @@ public class BannersController {
             log.error("파일 업로드 오류", e);
             model.addAttribute("error", "파일 업로드 오류");
 		}
-	    return "redirect:/admin/banners/banners";
+	    return "redirect:/admin/banners/list";
 	}
 
-	@PostMapping("/details")
+	@PostMapping("/detail")
 	public String showBannerDetail(@RequestParam("banner_num") Integer bannerNum, Model model) {
 		BannersDTO banners = bannersService.getBannerDetail(bannerNum);
         
@@ -91,7 +91,7 @@ public class BannersController {
             log.error("파일 업로드 오류", e);
             model.addAttribute("error", "파일 업로드 오류");
 		}
-		return "redirect:/admin/banners/banners";
+		return "redirect:/admin/banners/list";
 	}
 
 	@PostMapping("/delete")
