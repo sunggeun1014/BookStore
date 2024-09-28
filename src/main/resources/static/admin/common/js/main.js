@@ -53,6 +53,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 link.setAttribute('href', trimmedPath + 'detail');
                 link.classList.add("current-page");
             }
+            link.setAttribute('href', originalHref);
+
         });
 
         // onclick에서 경로 추출하여 현재 경로와 비교

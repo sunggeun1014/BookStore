@@ -1,50 +1,46 @@
 <!DOCTYPE html>
-<html lang="ko" 
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{/admin/common/layout/defaultlayout}"
-    layout:fragment="Content">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/common/layout/defaultlayout}"
+      layout:fragment="Content">
 
-<link rel="stylesheet" href="/admin/reviews/css/reviews.css" />
-<div>
-	<div class="container">
-		<!-- 뒤로가기 버튼 -->
-	    <button class="back-btn" onclick="location.href='/admin/reviews/list'">
-	      <i class="fa-solid fa-chevron-left"></i>
-	      <span>뒤로가기</span>
-	    </button>
+<link rel="stylesheet" href="/admin/reviews/css/reviews.css"/>
+<!-- 뒤로가기 버튼 -->
+<button class="back-btn" onclick="location.href='/admin/reviews/list'">
+    <i class="fa-solid fa-chevron-left"></i>
+    <span>뒤로가기</span>
+</button>
 
-		<!-- 리뷰 상세 정보 박스 -->
-		<div class="white-frame">
-			<div class="text-title">
-				<span th:utext="'리뷰번호 : ' + ${reviews.review_num}"></span>
-			</div>
-			<div class="text-group">
-				<span class="search-list-subject">작성자</span>
-				<span th:text="${reviews.member_id}"></span>
-			</div>
-			<div class="text-group">
-				<span class="search-list-subject">작성일</span>
-				<span th:text="${#dates.format(reviews.review_write_date, 'YYY-MM-dd HH:mm')}"></span>
-			</div>
-			<div class="text-group">
-				<span class="search-list-subject">책 제목</span>
-				<span th:text="${reviews.book_name}"></span>
-			</div>
-			<div class="text-group">
-				<span class="search-list-subject">ISBN</span>
-				<span th:text="${reviews.book_isbn}"></span>
-			</div>
-			<div class="text-group">
-				<span class="search-list-subject">별점</span>
-				<span id="starRating" th:data-rating="${reviews.review_rating}"></span>
-			</div>
-			<div class="text-group">
-				<span class="search-list-subject">내용</span>
-				<span class="review-content" th:text="${reviews.review_content}"></span>
-			</div>
-		</div>
-	</div>
-	<script src="/admin/reviews/js/reviewDetails.js"></script>
+<!-- 리뷰 상세 정보 박스 -->
+<div class="white-frame">
+    <div class="text-title">
+        <span th:utext="'리뷰번호 : ' + ${reviews.review_num}"></span>
+    </div>
+    <div class="text-group">
+        <span class="search-list-subject">작성자</span>
+        <span th:text="${reviews.member_id}"></span>
+    </div>
+    <div class="text-group">
+        <span class="search-list-subject">작성일</span>
+        <span th:text="${#dates.format(reviews.review_write_date, 'YYY-MM-dd HH:mm')}"></span>
+    </div>
+    <div class="text-group">
+        <span class="search-list-subject">책 제목</span>
+        <span th:text="${reviews.book_name}"></span>
+    </div>
+    <div class="text-group">
+        <span class="search-list-subject">ISBN</span>
+        <span th:text="${reviews.book_isbn}"></span>
+    </div>
+    <div class="text-group">
+        <span class="search-list-subject">별점</span>
+        <span id="starRating" th:data-rating="${reviews.review_rating}"></span>
+    </div>
+    <div class="text-group">
+        <span class="search-list-subject">내용</span>
+        <span class="review-content" th:text="${reviews.review_content}"></span>
+    </div>
 </div>
+<script src="/admin/reviews/js/reviewDetails.js"></script>
 </html>
