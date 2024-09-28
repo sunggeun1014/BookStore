@@ -116,7 +116,6 @@ $(document).ready(function() {
         var phoneNo_part1 = $('#userPart1').val();
         var phoneNo_part2 = $('#userPart2').val();
         var manager_addr = $('#address_kakao').val();
-        var manager_detail_addr = $('#manager_detail_addr').val();
         var manager_dept = $('#manager_dept').val();
 
         if (!idCheckPassed || !pwCheckPassed) {
@@ -137,10 +136,7 @@ $(document).ready(function() {
         } else if (!manager_addr) {
             getCheckModal("주소를 입력해주세요.");
             return;
-        } else if (!manager_detail_addr) {
-            getCheckModal("상세주소를 입력해주세요.");
-            return;
-        } else if (!manager_dept) {
+        }  else if (!manager_dept) {
             getCheckModal("부서를 선택해주세요.");
             return;
         } else if (!validateEmail(manager_emailUser) || $("#emailDomain").val() == null) {

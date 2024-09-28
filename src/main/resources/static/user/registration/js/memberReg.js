@@ -372,30 +372,30 @@ $(document).ready(function() {
         
     });
 
-    $('#member_detail_addr').on('blur', function() {
-        let member_detail_addr = $(this).val();
-        if (member_detail_addr.length > 0) {
-            $('#detailAddrCheck').hide();  
-            $('.form-item.detail-addr').removeClass('warning').css({
-			    "border-color": "#C0C0C0", 
-			    "z-index": "900",        
-			    "color": "#C0C0C0"
-			}).addClass("nomal");
-			$('#member_detail_addr').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"     
-        	});
-        } else {
-			$('#detailAddrCheck').text('⚠상세주소 : 필수 정보입니다 입력해주세요.').show();
-			$('.form-item.detail-addr').removeClass('nomal').css({
-			    "border-color": "#E54F53", 
-			    "z-index": "1000",        
-			    "color": "#E54F53"
-			}).addClass("warning");
-			$('#member_detail_addr').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"        
-        	});
-		}
-    });
+//    $('#member_detail_addr').on('blur', function() {
+//        let member_detail_addr = $(this).val();
+//        if (member_detail_addr.length > 0) {
+//            $('#detailAddrCheck').hide();  
+//            $('.form-item.detail-addr').removeClass('warning').css({
+//			    "border-color": "#C0C0C0", 
+//			    "z-index": "900",        
+//			    "color": "#C0C0C0"
+//			}).addClass("nomal");
+//			$('#member_detail_addr').removeClass('warning').addClass('nomal').css({
+//        	    "color": "#C0C0C0"     
+//        	});
+//        } else {
+//			$('#detailAddrCheck').text('⚠상세주소 : 필수 정보입니다 입력해주세요.').show();
+//			$('.form-item.detail-addr').removeClass('nomal').css({
+//			    "border-color": "#E54F53", 
+//			    "z-index": "1000",        
+//			    "color": "#E54F53"
+//			}).addClass("warning");
+//			$('#member_detail_addr').removeClass('nomal').addClass('warning').css({
+//        	    "color": "#E54F53"        
+//        	});
+//		}
+//    });
     
     
 
@@ -407,7 +407,7 @@ $(document).ready(function() {
         let member_name = $('#member_name').val();
         let member_phoneNo = $('#member_phoneNo').val();
         let member_addr = $('#address_kakao').val();
-        let member_detail_addr = $('#member_detail_addr').val();
+//        let member_detail_addr = $('#member_detail_addr').val();
         let certifiedEmail = $('#emailVerificationStatus').val();
 
         if (!validateId(member_id)) {
@@ -497,18 +497,18 @@ $(document).ready(function() {
             event.preventDefault(); 
         }
 
-        if (member_detail_addr.length === 0) {
-            $('#detailAddrCheck').text('⚠상세주소 : 필수 정보입니다 입력해주세요.').show();
-			$('.form-item.detail-addr').removeClass('nomal').css({
-			    "border-color": "#E54F53",
-			    "z-index": "1000",        
-			    "color": "#E54F53"
-			}).addClass("warning");
-			$('#member_detail_addr').removeClass('nomal').addClass('warning').css({
-        	    "color": "#E54F53"        
-        	});
-            event.preventDefault(); 
-        }
+//        if (member_detail_addr.length === 0) {
+//            $('#detailAddrCheck').text('⚠상세주소 : 필수 정보입니다 입력해주세요.').show();
+//			$('.form-item.detail-addr').removeClass('nomal').css({
+//			    "border-color": "#E54F53",
+//			    "z-index": "1000",        
+//			    "color": "#E54F53"
+//			}).addClass("warning");
+//			$('#member_detail_addr').removeClass('nomal').addClass('warning').css({
+//        	    "color": "#E54F53"        
+//        	});
+//            event.preventDefault(); 
+//        }
 
         if (!certifiedEmail) {
             $('#emailCheck').text('⚠이메일 : 이메일 인증을 진행해 주세요.').show();
