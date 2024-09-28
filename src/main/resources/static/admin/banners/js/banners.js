@@ -34,7 +34,7 @@ $(document).ready(function() {
 					data: 'banner_title',
 					width: '240px',
 					render: function(data, type, row) {
-						return '<a href="#" class="banner-title-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
+						return '<a href="#" class="banner-title-link" data-menu-link="banner" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
 					}
 				},
 				{
@@ -311,7 +311,7 @@ function postToDetailPage(data) {
 	var form = $('<form>', {
 		id: 'postToDetailForm',
 		method: 'POST',
-		action: '/admin/banners/details'  // 서버의 상세 페이지 URL로 설정
+		action: '/admin/banners/detail'  // 서버의 상세 페이지 URL로 설정
 	});
 
 

@@ -35,7 +35,7 @@ public class NoticeController {
 	private final NoticeService noticeService;
 	private final FileManagement fileManagement;
 	
-	@GetMapping("/notice")
+	@GetMapping("/list")
 	public String notice() {
 		return "admin/notice/notice";
 	}
@@ -54,7 +54,7 @@ public class NoticeController {
 	
 	
 	
-	@PostMapping("/details")
+	@PostMapping("/detail")
 	public String showNoticeDetails(@RequestParam("notice_num") Long noticeNum, Model model) {
 		NoticeDTO noticeDTO = noticeService.getDetailList(noticeNum);
 
@@ -68,7 +68,7 @@ public class NoticeController {
 
 		noticeService.deleteNoticesByNums(noticeNums);
 		
-		return "redirect:/admin/notice/notice";
+		return "redirect:/admin/notice/list";
 	}
 
 	
@@ -89,10 +89,10 @@ public class NoticeController {
 			noticeService.saveNotice(noticeDTO, images);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/admin/notice/notice";
+			return "redirect:/admin/notice/list";
 		}
 		
-		return "redirect:/admin/notice/notice";
+		return "redirect:/admin/notice/list";
 	}
 	
 	@PostMapping("/imageUrl")
@@ -136,10 +136,10 @@ public class NoticeController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/admin/notice/notice";
+			return "redirect:/admin/notice/list";
 		}
 		
-		return "redirect:/admin/notice/notice";
+		return "redirect:/admin/notice/list";
 	}
 	
 }

@@ -29,7 +29,7 @@ public class HomeController {
     @GetMapping(value = "/inquiries/json", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> getInquiriesData() {
-        List<InquiriesDTO> tables = iqs.getList();
+        List<InquiriesDTO> tables = iqs.getListAtHome();
 
         Map<String, Object> response = new HashMap<>();
         response.put("data", tables);
@@ -42,7 +42,7 @@ public class HomeController {
     @ResponseBody
     public Map<String, Object> getStocksData() {
         Map<String, Object> responseMap = new HashMap<>();
-        List<InventoryLogDTO> list = ils.getInventoryLogList();
+        List<InventoryLogDTO> list = ils.getListAtHome();
 
         responseMap.put("data", list);
 

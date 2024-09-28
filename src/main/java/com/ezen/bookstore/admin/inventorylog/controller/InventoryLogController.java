@@ -25,7 +25,7 @@ public class InventoryLogController {
 		return "admin/inventory_log/inventoryLogDetail";
 	}
 	
-	@GetMapping("/inventoryLog")
+	@GetMapping("/list")
 	public String inventoryLog() {
 		return "admin/inventory_log/inventoryLogList";
 	}

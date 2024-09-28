@@ -97,4 +97,23 @@
 		    log_transaction_num = #{log_transaction_num}
 	</select>
 
+
+	<select id="getListAtHome" resultType="inventoryLog">
+		SELECT * FROM (
+		SELECT
+		log_transaction_num,
+		manager_id,
+		CASE
+		WHEN log_transaction_status = '01' THEN '입고'
+		WHEN log_transaction_status = '02' THEN '출고'
+		WHEN log_transaction_status = '03' THEN '반품입고'
+		WHEN log_transaction_status = '04' THEN '교환출고'
+		END AS log_transaction_status,
+		log_operation_date
+		FROM
+		inventory_log
+		ORDER BY log_operation_date DESC
+		) WHERE ROWNUM &lt;= 5
+	</select>
+
 </mapper>

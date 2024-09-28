@@ -138,12 +138,13 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .title-wrap {
     display: flex;
     flex-direction: column;
+    pointer-events: none;
 }
 
 .header-title {
@@ -187,6 +188,7 @@
 
 .text-wrap {
     flex-direction: column;
+    pointer-events: none;
 }
 
 .text-wrap p {

@@ -22,7 +22,7 @@ public class InventoryLogRestController {
 	
 	private final InventoryLogService ils;
 
-	@GetMapping(value = "/inventoryLog", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> getTableData() {
         Map<String, Object> responseMap = new HashMap<>();
         List<InventoryLogDTO> list = ils.getInventoryLogList();

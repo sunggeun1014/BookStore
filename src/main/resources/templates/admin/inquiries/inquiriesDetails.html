@@ -44,7 +44,7 @@
 <div>
 	<div class="container" style="padding-bottom: 30px;" th:with="status = ${inquiries.inquiry_answer_status}">
 		<!-- 뒤로가기 버튼 -->
-		<button class="back-btn" onclick="location.href='/admin/inquiries/inquiries'">
+		<button class="back-btn" onclick="location.href='/admin/inquiries/list'">
 			<i class="fa-solid fa-chevron-left"></i> 
 			<span>뒤로가기</span>
 		</button>
@@ -124,7 +124,7 @@
 				</div>
 				<div class="btn-box">
 					<button type="submit" class="default-btn" th:text="${inquiries.inquiry_answer_status == '처리완료' ? '수정' : '등록'}"></button>
-					<button type="button" class="default-btn cancel" onclick="location.href='/admin/inquiries/inquiries'">취소</button>
+					<button type="button" class="default-btn cancel" onclick="location.href='/admin/inquiries/list'">취소</button>
 				</div>
 			</div>
 		</form>

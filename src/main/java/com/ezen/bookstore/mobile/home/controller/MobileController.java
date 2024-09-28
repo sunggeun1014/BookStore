@@ -26,7 +26,7 @@ public class MobileController {
 		return "/mobile/login/login";		
 	}
 	
-	@GetMapping("/index")
+	@GetMapping("/home")
     public String index(Model model) {
 		model.addAttribute("list", deliveryService.getRequestList());
 		return "mobile/home/home";

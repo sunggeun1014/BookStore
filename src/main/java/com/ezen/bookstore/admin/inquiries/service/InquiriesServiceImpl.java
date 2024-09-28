@@ -47,4 +47,9 @@ public class InquiriesServiceImpl implements InquiriesService {
     	
     	inquiriesMapper.insertInquiry(inquiriesDTO);
     }
+
+    @Override
+    public List<InquiriesDTO> getListAtHome() {
+        return inquiriesMapper.getListAtHome();
+    }
 }

@@ -16,7 +16,7 @@ public class SupplierOrdersController {
 	
 	private final SupplierOrdersService sos;
 	
-	@GetMapping("/supplierOrders")
+	@GetMapping("/list")
 	public String supplierOrdersList() {
 		
 		return "admin/supplier_orders/supplierList";

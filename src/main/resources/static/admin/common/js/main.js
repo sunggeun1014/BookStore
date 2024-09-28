@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
         currentPath = currentPath.slice(0, -1);
     }
 
-    // 페이지가 admin/index로 이동하면 모든 메뉴 초기화
-    if (currentPath === '/admin/index') {
+    // 페이지가 admin/home 이동하면 모든 메뉴 초기화
+    if (currentPath === '/admin/home') {
         // 로컬 스토리지 초기화
         menuItems.forEach((_, index) => {
             localStorage.removeItem(`menu-open-${index}`);
@@ -36,8 +36,22 @@ document.addEventListener("DOMContentLoaded", function() {
         // 하위 메뉴에서 현재 페이지 경로와 일치하는 링크만 굵어지게 설정
         const subMenuLinks = item.querySelectorAll(".sub-menu-list li a");
         subMenuLinks.forEach(link => {
-            if (link.getAttribute('href') === currentPath) {
-                link.classList.add("current-page");  // 현재 페이지에만 적용될 클래스 추가
+            const originalHref = link.getAttribute('href'); // 원래의 href 저장
+            console.log('a링크', originalHref )
+
+            const href = link.getAttribute('href');
+
+            // href에서 '/admin/products/'까지만 남기기
+            const trimmedPath = href.split('/').slice(0, 3).join('/') + '/';
+            const trimmedCurPath = currentPath.split('/').slice(0, 3).join('/') + '/'; // 현재 경로 자르기
+
+            if (originalHref === currentPath) {
+                link.classList.add("current-page");
+            }
+
+            if (trimmedPath === trimmedCurPath && originalHref.includes('list') && currentPath.includes('detail')) {
+                link.setAttribute('href', trimmedPath + 'detail');
+                link.classList.add("current-page");
             }
         });
 
@@ -111,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 localStorage.removeItem(`menu-open-${index}`);
             });
             // 홈으로 이동
-            location.href = '/admin/index';
+            location.href = '/admin/home';
         });
     }
 });

@@ -42,13 +42,18 @@
         SELECT count(*)
         FROM customer_orders
         WHERE order_delivery_status = '01'
+        AND EXTRACT(MONTH FROM order_purchase_date) = EXTRACT(MONTH FROM SYSDATE)
+        AND EXTRACT(YEAR FROM order_purchase_date) = EXTRACT(YEAR FROM SYSDATE)
     </select>
+
 
     <!-- 배송중 -->
     <select id="getAllDelivering" resultType="int">
         SELECT count(*)
         FROM customer_orders
         WHERE order_delivery_status = '02'
+        AND EXTRACT(MONTH FROM order_purchase_date) = EXTRACT(MONTH FROM SYSDATE)
+        AND EXTRACT(YEAR FROM order_purchase_date) = EXTRACT(YEAR FROM SYSDATE)
     </select>
 
     <!-- 배송완료 -->
@@ -56,6 +61,8 @@
         SELECT count(*)
         FROM customer_orders
         WHERE order_delivery_status = '03'
+        AND EXTRACT(MONTH FROM order_purchase_date) = EXTRACT(MONTH FROM SYSDATE)
+        AND EXTRACT(YEAR FROM order_purchase_date) = EXTRACT(YEAR FROM SYSDATE)
     </select>
 
 </mapper>

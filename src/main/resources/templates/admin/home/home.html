@@ -7,14 +7,14 @@
 
     <link rel="stylesheet" href="/admin/home/css/home.css">
 <div class="dashboard-header">
-    <div class="info-wrap" onclick="location.href='/admin/members/members'">
+    <div class="info-wrap home-member" onclick="location.href='/admin/members/list'">
         <div class="member-cnt txt-wrap">
             <p>회원수</p>
             <p>[[${memberCnt}]]</p>
         </div>
         <i class="fa-solid fa-users"></i>
     </div>
-    <div class="info-wrap" onclick="location.href='/admin/products/products'">
+    <div class="info-wrap" onclick="location.href='/admin/products/list'">
         <div class="items-cnt txt-wrap">
             <p>판매중인상품</p>
             <p>[[${productCnt}]]</p>
@@ -38,7 +38,7 @@
 </div>
 
 <div class="white-frame dashboard-status">
-    <p class="search-list-title">주문현황</p>
+    <p class="search-list-title">이번달 주문현황</p>
     <div class="status-info-wrap">
         <div class="status-info order">
             <div class="img-wrap">
