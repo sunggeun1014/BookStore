@@ -1,0 +1,35 @@
+#dispatch-list {
+    max-height: 400px; /* 원하는 최대 높이 설정 */
+    padding: 10px;     /* 여백 추가 */
+    box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
+}
+
+.checkBox {
+	width: 2rem;
+}
+
+.inventoryQty {
+	width: 6rem;
+}
+
+.content-dispatch-list {
+    display: flex;
+    align-items: center; /* 체크박스와 텍스트를 수직 중앙 정렬 */
+    margin-bottom: 1rem; /* 항목 간의 간격 추가 */
+    border-bottom: 1px solid #D8D8D8;
+    padding-bottom: 1rem;
+}
+
+
+.content-text-wrap {
+    flex: 1; /* 텍스트 부분이 남은 공간을 차지 */
+    padding-left: 10px; /* 체크박스와 텍스트 사이에 여백 */
+}
+
+.content-text-wrap p {
+    margin: 0; /* 기본 여백 제거 */
+}
+
+input[type="checkbox"] {
+    margin-right: 10px; /* 체크박스와 텍스트 사이에 여백 */
+}

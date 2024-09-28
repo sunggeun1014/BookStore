@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/mobile/common/layout/mobilelayout}"
+      layout:fragment="Content">
+    <link rel="stylesheet" href="/mobile/common/css/container-map.css" />
+    <link rel="stylesheet" href="/mobile/dispatch/css/dispatch.css" />
+    
+<div class="mobile-inner" style="gap: 2.3rem;"> 
+    <button class="back-btn">
+        <i class="fa-solid fa-chevron-left"></i>
+        <p class="menu-title">출고하기</p>
+    </button>    
+    <div class="white-frame home-first-menu">
+        <div class="cnt" id="A-01" th:value="A-01">A01</div>
+        <div class="cnt" id="A-02" th:value="A-02">A02</div>
+        <div class="cnt" id="A-03" th:value="A-03">A03</div>
+        <div class="cnt" id="A-04" th:value="A-04">A04</div>
+        <div class="cnt" id="A-05" th:value="A-05">A05</div>
+        <div class="cnt" id="B-01" th:value="B-01">B01</div>
+        <div class="cnt" id="B-02" th:value="B-02">B02</div>
+        <div class="cnt" id="B-03" th:value="B-03">B03</div>
+        <div class="cnt" id="B-04" th:value="B-04">B04</div>
+        <div class="cnt" id="B-05" th:value="B-05">B05</div>
+        <div class="cnt" id="C-01" th:value="C-01">C01</div>
+        <div class="cnt" id="C-02" th:value="C-02">C02</div>
+        <div class="cnt" id="C-03" th:value="C-03">C03</div>
+        <div class="cnt" id="C-04" th:value="C-04">C04</div>
+        <div class="cnt" id="C-05" th:value="C-05">C05</div>
+    </div>
+
+    <div class="white-frame scroll" style="height: 22rem">
+		    <p class="sub-title"><span id="zone-num-display"></span></p>
+		    <div id="dispatch-list"></div>
+    </div>
+    
+    <button class="default-btn export">
+	    <svg data-slot="icon" fill="none" stroke-width="2" stroke="currentColor" viewBox="-8 -8 40 40"
+	         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+	        <path stroke-linecap="round" stroke-linejoin="round"
+	              d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"></path>
+	    </svg>
+	    출고하기
+	</button>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/mobile/dispatch/js/dispatch.js"></script>
+</html>

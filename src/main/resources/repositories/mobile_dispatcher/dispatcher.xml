@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.bookstore.mobile.dispatch.mapper.DispatchMapper">
+	<select id="getDispatchList" resultType="warehouse">
+		SELECT 
+			inv_isbn,
+			inv_title,
+			inv_qty,
+			inv_registration_date
+		FROM
+			inventory
+		WHERE
+			zone_num = #{zone_num}
+			
+	</select>
+</mapper>
