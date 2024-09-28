@@ -26,7 +26,7 @@ $(document).ready(function() {
 	    { 
 	        data: 'inv_isbn',
 	        render: function(data) {
-	            return '<a href="#" class="isbn-link" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
+	            return '<a href="#" class="isbn-link" data-menu-link="warehouse" style="color: inherit; text-decoration: underline; cursor: pointer;">' + data + '</a>';
 	        }
 	    },
 	    { 

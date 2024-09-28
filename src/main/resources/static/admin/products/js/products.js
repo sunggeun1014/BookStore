@@ -41,7 +41,7 @@ $(document).ready(function() {
                     data: 'book_isbn',
                     render: function(data, type, row) {
                         const url = '/admin/products/detail?book_isbn=' + encodeURIComponent(data);
-                        return '<a href=' + url + ' class="book-isbn-link" data-isbn="' + data + '">' + data + '</a>';
+                        return '<a href=' + url + ' class="book-isbn-link" data-menu-link="products" data-isbn="' + data + '">' + data + '</a>';
                     }
                 },
                 {

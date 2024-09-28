@@ -9,4 +9,5 @@ public interface InquiriesService {
     InquiriesDTO getDetailList(Integer inquiryNum);
     void updateInquiry(InquiriesDTO inquiriesDTO);
     void insertInquiry(InquiriesDTO inquiriesDTO);
+    List<InquiriesDTO> getListAtHome();
 }

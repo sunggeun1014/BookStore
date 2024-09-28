@@ -44,7 +44,7 @@ public class ReviewsController {
 		return response;
 	}
 
-	@PostMapping("/details")
+	@PostMapping("/detail")
 	public String showReviewDetails(@RequestParam("review_num") Integer reviewNum, Model model) {
 
 		ReviewsDTO reviewsDTO = reviewService.getDetailList(reviewNum);

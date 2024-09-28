@@ -3,7 +3,7 @@ let table = null;
 $(document).ready(function() {
 	table = $('#inventoryLog-orders-table').DataTable({
 		ajax: {
-			url: '/admin/inventoryLogRest/inventoryLog',
+			url: '/admin/inventoryLogRest/list',
 			dataSrc: function(json) {
 				$("#data-count").text(`총 ${json.recordsTotal}건`);
 				return json.data;
@@ -18,7 +18,7 @@ $(document).ready(function() {
 			{ 
 				data: 'log_transaction_num',
 				render: function(data, type, row) {
-					return `<a href="/admin/inventoryLog/detail?log_transaction_num=${data}" class="order-detail-link">${data}</a>`;
+					return `<a href="/admin/inventoryLog/detail?log_transaction_num=${data}" data-menu-link="inventoryLog" class="order-detail-link">${data}</a>`;
 				}
 			},
 			{ 

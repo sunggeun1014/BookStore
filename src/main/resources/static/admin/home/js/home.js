@@ -22,7 +22,7 @@ $(document).ready(function() {
                         targets: 0
                     },
                 ],
-            order: [[3, 'desc']],
+            order: [[3, 'asc']],
             ajax: {
                 url: '/admin/home/inquiries/json',
                 dataSrc: 'data',
@@ -41,8 +41,8 @@ $(document).ready(function() {
                     className: 'text-eclipse',
                     render: function(data, type, row) {
                         const inquiryNum = row.inquiry_num; // inquiry_num 가져오기
-                        const url = '/admin/inquiries/details?inquiry_num=' + encodeURIComponent(inquiryNum);
-                        return '<a href=' + url + ' class="book-title-link">' + data + '</a>';
+                        const url = '/admin/inquiries/detail?inquiry_num=' + encodeURIComponent(inquiryNum);
+                        return '<a href=' + url + ' class="book-title-link" data-menu-link="inquiry">' + data + '</a>';
                     }
                 },
                 {
@@ -133,7 +133,7 @@ $(document).ready(function() {
                 {
                     data: 'log_transaction_num',
                     render: function(data, type, row) {
-                        return `<a href="/admin/inventoryLog/detail?log_transaction_num=${data}" class="order-detail-link">${data}</a>`;
+                        return `<a href="/admin/inventoryLog/detail?log_transaction_num=${data}" data-menu-link="invenLog" class="order-detail-link">${data}</a>`;
                     }
                 },
                 {
@@ -179,3 +179,24 @@ $(document).ready(function() {
         });
     }
 });
+
+clickToPages();
+
+function clickToPages() {
+    const homeMemberBtn = document.querySelector('.home-member')
+
+    homeMemberBtn.addEventListener("click", function () {
+        const subMenu = document.querySelector(".sub-menu-list.member");
+        const barImg = document.querySelector(".bar-img.member");
+        const arrowRight = document.querySelector(".fa-chevron-right.member");
+        const iconImg = document.querySelector(".icon-img.member");
+        const listText = document.querySelector(".menu-text > p.member");
+
+        if (subMenu) subMenu.classList.toggle("open");
+        if (barImg) barImg.classList.toggle("open");
+        if (arrowRight) arrowRight.classList.toggle("open");
+        if (iconImg) iconImg.classList.toggle("open");
+        if (listText) listText.classList.toggle("open");
+    })
+}
+

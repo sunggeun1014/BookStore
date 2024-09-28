@@ -11,13 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
@@ -49,8 +43,8 @@ public class AdminMgrRestController {
 		return response;
 	}
 	
-	@PostMapping("/details")
-	public String showMemberDetails(@RequestParam("manager_id") String managerID, Model model) {
+	@GetMapping("/detail/{manager_id}")
+	public String showMemberDetails(@PathVariable("manager_id") String managerID, Model model) {
 	    AdminManagersDTO managerDetails = mgrService.detailList(managerID);
 	    
 	    String[] emailParts = managerDetails.getManager_email().split("@");
@@ -125,7 +119,7 @@ public class AdminMgrRestController {
 		
 		mgrService.joinProcess(managersDTO, profileImage);
 		
-		return "redirect:/admin/managers/managers";
+		return "redirect:/admin/managers/list";
 	}
 	
 }

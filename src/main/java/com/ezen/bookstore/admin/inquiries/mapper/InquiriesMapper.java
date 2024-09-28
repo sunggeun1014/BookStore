@@ -15,4 +15,6 @@ public interface InquiriesMapper {
 	public void updateInquiry(InquiriesDTO inquiriesDTO);
 	
 	public void insertInquiry(InquiriesDTO inquiriesDTO);
+
+	public List<InquiriesDTO> getListAtHome();
 }

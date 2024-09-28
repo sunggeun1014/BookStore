@@ -18,7 +18,7 @@ $(document).ready(function() {
 			{ 
 				data: 'order_num',
 				render: function(data, type, row) {
-					return `<a href="/admin/supplierOrders/detail?order_num=${data}" class="order-detail-link">${data}</a>`;
+					return `<a href="/admin/supplierOrders/detail?order_num=${data}" data-menu-link="supplierOrders" class="order-detail-link">${data}</a>`;
 				}
 			},
 			{ 
@@ -111,6 +111,7 @@ function filter() {
 		table.settings()[0].ajax.data = function(d) {
 			d.start_date = $("#startDate").val();
 			d.end_date = $("#endDate").val();
+			d.order_status = $("input[name='order_status']:checked").val();
 			d.search_conditions = $("#searchColumn").val();
 			d.word = $("#word").val();
 		}
@@ -148,6 +149,7 @@ function resetBtn() {
 	
 	$("#startDate").val("");
 	$("#endDate").val("");
+	$("#order-status-all").prop("checked", true);
 	$("#word").val("");
 	
 	table.ajax.reload();
