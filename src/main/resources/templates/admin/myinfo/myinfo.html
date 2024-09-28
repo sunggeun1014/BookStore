@@ -128,7 +128,9 @@
                     <div class="img-input-wrap">
                         <label for="input-file" class="input-file-label">
                             <input type="file" name="profileImage" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png" onchange="previewImage(event)"/>
-							<img th:src="@{/images/profiles/{profile}(profile=${managers.manager_profile_changed != null ? managers.manager_profile_changed : 'default_profile.png'})}" alt="사진" id="preview" style="display: block;"/>
+							<img th:src="${managers.manager_profile_changed != null ? '/images/profiles/' + managers.manager_profile_changed : '/admin/common/img/profile/default_profile.png'}" 
+							     alt="사진" id="preview" style="display: block;" onerror="this.onerror=null; this.src='/admin/common/img/profile/default_profile.png';" />                        
+                        
                         </label>
                     </div>
                     <label>형식 : JPG, JPEG, PNG / 권장 사이즈 500px * 500px</label>
