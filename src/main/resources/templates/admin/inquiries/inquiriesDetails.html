@@ -47,8 +47,8 @@
     <i class="fa-solid fa-chevron-left"></i>
     <span>뒤로가기</span>
 </button>
-
-<div class="white-frame" th:with="status = ${inquiries.inquiry_answer_status}">
+<div class="inquiries-container" style="padding-bottom: 30px;" th:with="status = ${inquiries.inquiry_answer_status}">
+<div class="white-frame">
     <div class="text-title">
         <span th:text="'문의번호 : ' + ${inquiries.inquiry_num}"></span>
     </div>
@@ -130,5 +130,5 @@
         </div>
     </div>
 </form>
-
+</div>
 </html>

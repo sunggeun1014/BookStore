@@ -1,6 +1,4 @@
 /* 대시보드 헤더 */
-
-/* 이너안에 있어야 너비가 맞음*/
 .dashboard-header {
     width: 100%;
     display: flex;
@@ -140,8 +138,7 @@
     color: #4777F6;
 }
 
-.text-ellipsis {
-    display: inline-block;
+.text-eclipse {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

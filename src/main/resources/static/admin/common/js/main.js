@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const menuItems = document.querySelectorAll(".menu-items");
     let currentPath = window.location.pathname;
+    let searchPath = window.location.search;
 
     // 경로의 끝에 슬래시('/')가 있으면 제거 (정규화)
     if (currentPath.endsWith('/')) {
@@ -15,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // 로컬 스토리지에서 메뉴 상태를 불러와 복원
     menuItems.forEach((item, index) => {
         const subMenu = item.querySelector(".sub-menu-list");
         const barImg = item.querySelector(".bar-img");
@@ -23,35 +23,50 @@ document.addEventListener("DOMContentLoaded", function() {
         const iconImg = item.querySelector(".icon-img");
         const listText = item.querySelector(".menu-text > p");
 
-        const isOpen = localStorage.getItem(`menu-open-${index}`) === "true";
-
-        if (isOpen) {
-            if (subMenu) subMenu.classList.add("open");
-            if (barImg) barImg.classList.add("open");
-            if (arrowRight) arrowRight.classList.add("open");
-            if (iconImg) iconImg.classList.add("open");
-            if (listText) listText.classList.add("open");
-        }
-
         // 하위 메뉴에서 현재 페이지 경로와 일치하는 링크만 굵어지게 설정
         const subMenuLinks = item.querySelectorAll(".sub-menu-list li a");
         subMenuLinks.forEach(link => {
             const originalHref = link.getAttribute('href'); // 원래의 href 저장
-            console.log('a링크', originalHref )
 
             const href = link.getAttribute('href');
 
-            // href에서 '/admin/products/'까지만 남기기
             const trimmedPath = href.split('/').slice(0, 3).join('/') + '/';
             const trimmedCurPath = currentPath.split('/').slice(0, 3).join('/') + '/'; // 현재 경로 자르기
 
             if (originalHref === currentPath) {
                 link.classList.add("current-page");
+
+                // 다른 페이지에서 들어올 때 경로가 맞으면 활성화
+                if (subMenu) subMenu.classList.add("open");
+                // 추가 효과
+                if (barImg) barImg.classList.add("open");
+                if (arrowRight) arrowRight.classList.add("open");
+                if (iconImg) iconImg.classList.add("open");
+                if (listText) listText.classList.add("open");
+
+                localStorage.setItem(`menu-open-${index}`, true);
             }
+
 
             if (trimmedPath === trimmedCurPath && originalHref.includes('list') && currentPath.includes('detail')) {
                 link.setAttribute('href', trimmedPath + 'detail');
                 link.classList.add("current-page");
+
+                const isOpen = localStorage.getItem(`menu-open-${index}`) === "true";
+
+                if (isOpen) {
+                    if (subMenu) subMenu.classList.add("open");
+                    if (barImg) barImg.classList.add("open");
+                    if (arrowRight) arrowRight.classList.add("open");
+                    if (iconImg) iconImg.classList.add("open");
+                    if (listText) listText.classList.add("open");
+                }
+
+                if (subMenu) subMenu.classList.add("open");
+                if (barImg) barImg.classList.add("open");
+                if (arrowRight) arrowRight.classList.add("open");
+                if (iconImg) iconImg.classList.add("open");
+                if (listText) listText.classList.add("open");
             }
             link.setAttribute('href', originalHref);
 
