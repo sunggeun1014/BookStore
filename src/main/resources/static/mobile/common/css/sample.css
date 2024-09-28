@@ -21,9 +21,9 @@ body, html {
 
 .mobile-frame {
 	position: relative;
-	width: 360px;
-	height: 670px;
-	padding: 15px;
+	width: 36rem;
+	height: 67rem;
+	padding: 1.5rem;
 	background-color: #FFFFFF;
 }
 
@@ -31,10 +31,17 @@ body, html {
 	overflow: auto;
 }
 
+.elipsis {
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .content-list {
-	height: 40px;
-    display: flex;
-    margin-top: 20px;
+	height: 4rem;
+    display: grid;
+    grid-template-columns: 22rem 1fr;
+    margin-top: 2rem;
     border-bottom: 1px solid #D8D8D8;
     align-items: center;
 }

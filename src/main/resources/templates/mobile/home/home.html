@@ -4,8 +4,8 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{/mobile/common/layout/mobilelayout}"
 	  layout:fragment="Content">
-
-<div class="mobile-inner" style="gap: 23px;"> 
+	  
+<div class="mobile-inner" style="gap: 3rem"> 
 	<h3 class="menu-title">홈</h3>
 	<div class="white-frame home-first-menu">
 	    <p class="sub-title">입/출고</p>
@@ -31,18 +31,23 @@
 	    </div>
 	</div>
 	
-	<div class="white-frame scroll" style="height: 360px">
+	<div class="white-frame scroll" style="height: 37rem">
 		<p class="sub-title">배송요청</p>
 		<div class="content-list" th:each="item : ${list}">
 			<div class="content-text-wrap">
-				<p class="content-text">요청번호: <span th:text="${item.request_num}"></span></p>
+				<a class="content-text" style="text-decoration: underline;" th:href="@{/mobile/admin/delivery-detail(orderNum=${item.order_num})}">요청번호: <span th:text="${item.request_num}"></span></a>
 				<p class="content-sub-txt">요청날짜: <span th:text="${#dates.format(item.request_date, 'yyyy-MM-dd')}"></span></p>
 			</div>
 			<div style="text-align: end;">
-				<p class="content-text">총 <span th:text="${item.request_detail_num} + 권"></span></p>
+				<p class="content-text">총 <span th:text="${item.total_order_qty} + 권"></span></p>
 			</div>
 		</div>
 		
+		<div id="page-area" class="page-area" th:if="${page != null}" th:data-current-page="${page.currentPage}" th:data-total-page="${page.totalPages}">
+			<i id="page-arrow-left" class="fa-solid fa-angle-left page-arrow"></i>
+			<span th:each="i : ${#numbers.sequence(page.startPage, page.endPage)}" th:id="'page-link-' + ${i}" class="page-link" th:text="${i}"></span>
+			<i id="page-arrow-right" class="fa-solid fa-angle-right page-arrow"></i>
+		</div>
 	</div>
 	
 </div>

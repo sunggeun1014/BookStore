@@ -19,4 +19,7 @@ public class DeliveryDTO {
 	Integer order_num;
 	Integer order_detail_qty;
 	Integer total_order_qty;
+	
+	String book_name;
+	String book_isbn;
 }
