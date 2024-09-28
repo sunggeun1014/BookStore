@@ -54,7 +54,11 @@
 
 			<div class="info">
 				<span class="search-list-subject important">내용</span>
-				<div contenteditable="true" class="editor" id="editor" th:utext="${notice.notice_content}">
+				<div style="position:relative;">
+					<div contenteditable="true" class="editor" id="editor" th:utext="${notice.notice_content}"></div>
+					<p class="char-count">
+						<span id="charCount">0</span><span>/1000</span>
+					</p>
 				</div>
 			</div>
 

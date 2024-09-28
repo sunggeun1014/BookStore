@@ -1,16 +1,15 @@
-window.onload = function() {
-	document.getElementById("address_kakao").addEventListener("click", function() {
-    	new daum.Postcode({
-        	oncomplete: function(data) {
-            	document.getElementById("address_kakao").value = data.address;
-            	document.querySelector("input[name=address_detail]").focus();
+document.addEventListener("DOMContentLoaded", function() {
+    // address_kakao 요소에 포커스 이벤트를 추가
+    document.getElementById("address_kakao").addEventListener("click", function() {
+
+        new daum.Postcode({
+            oncomplete: function(data) {
+                document.getElementById("address_kakao").value = data.address;
+                document.getElementById("address_detail").focus();  // 주소 입력 후 상세 주소로 포커스 이동
             }
         }).open();
     });
-		   
-	
-	
-}
+});
 	
 	   
 document.getElementById("userPart1").addEventListener("input", function() {
@@ -243,17 +242,20 @@ function prepareSubmit() {
    const emailUser = document.getElementById("emailUser").value.trim();
    const emailDomainSelect = document.getElementById("emailDomain").value;
    const fullEmail = emailUser && emailDomainSelect ? `${emailUser}@${emailDomainSelect}` : "";
-	
+
+   // 주소와 상세주소 처리
    const address = document.getElementById("address_kakao").value.trim();
-   const addressDetail = document.getElementById("address_detail").value.trim();
-  
+   
+   // addressDetail이 빈 값일 경우 공백을 넣기 위한 처리
+   let addressDetail = document.getElementById("address_detail").value.trim();
+   addressDetail = addressDetail === "" ? " " : addressDetail;
 
    // 전화번호 조합
    const countryNum = document.getElementById("countryNum").value;
    const userPart1 = document.getElementById("userPart1").value.trim();
    const userPart2 = document.getElementById("userPart2").value.trim();
-   const fullPhone = countryNum && userPart1 && userPart2 ? `${countryNum}-${userPart1}-${userPart2}` : "";
-	
+   const fullPhone = countryNum && userPart1 && userPart2 ? `${countryNum}-${userPart1}-${userPart2}` : ""; 
+
    // 폼 유효성 검사 실행
    if (!validateForm()) {
        return false;
@@ -268,7 +270,6 @@ function prepareSubmit() {
        member_detail_addr: addressDetail,
        kakao_login_cd: document.getElementById("kakao_login_cd").value,
        naver_login_cd: document.getElementById("naver_login_cd").value,
-
    };
 
    fetch('/user/mypage/updatedata', {
@@ -281,7 +282,7 @@ function prepareSubmit() {
    .then(response => response.json())
    .then(result => {
        if (result.success) {
-	   	   showSuccessModal('회원 정보가 수정되었습니다.')
+	   	   showSuccessModal('회원 정보가 수정되었습니다.');
 		   return;
        } else {
 		   getErrorModal('수정에 실패했습니다 : ' + result.message);

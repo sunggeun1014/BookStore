@@ -77,9 +77,15 @@
 			<div class="text-group">
 				<span class="search-list-subject">파일첨부</span>
 				<div class="img-input-wrap">
-					<label for="input-file" class="input-file-label">
-						<a th:href="@{/admin/download?(img=${inquiries.inquiries_changed})}">
-							<img alt="사진" th:src="@{/images/books/{book}(book=${inquiries.inquiries_changed})}">
+					<label id="download-label" for="input-file" class="input-file-label"
+           				   th:style="${inquiries.inquiries_changed == null ? 'cursor:not-allowed;' : ''}">
+						
+						<a id="download-link" 
+						   th:href="${inquiries.inquiries_changed != null ? '/admin/download?img=' + inquiries.inquiries_changed : '#'}"
+           				   th:style="${inquiries.inquiries_changed == null ? 'pointer-events:none;' : ''}">
+						    <img alt="사진" 
+						         id="book-image"
+     							 th:src="${inquiries.inquiries_changed != null ? '/images/inquiries/' + inquiries.inquiries_changed : '/user/common/imgs/book-default-img.png'}">
 						</a>
 					</label>
 				</div>
@@ -115,12 +121,16 @@
 					<span class="search-list-subject">답변내용</span> 
 					
 					<input type="hidden" th:field="*{inquiry_num}">
-					
-					<textarea th:field="*{answer_content}"
-						th:attr="placeholder=${status == '미완료' ? '내용을 입력하세요' : ''}"
-						th:utext="${status == '처리완료' ? status : ''}"
-						maxlength="1000">
-            		</textarea>
+					<div style="position:relative;">
+						<textarea id="inquiryContent" th:field="*{answer_content}"
+							th:attr="placeholder=${status == '미완료' ? '내용을 입력하세요' : ''}"
+							th:utext="${status == '처리완료' ? status : ''}"
+							maxlength="1000">
+	            		</textarea>
+	            		<p class="char-count">
+							<span id="charCount">0</span><span>/1000</span>
+						</p>
+					</div>
 				</div>
 				<div class="btn-box">
 					<button type="submit" class="default-btn" th:text="${inquiries.inquiry_answer_status == '처리완료' ? '수정' : '등록'}"></button>
@@ -131,4 +141,6 @@
 		
 	</div>
 </div>
+   	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="/admin/inquiries/js/inquiriesDetails.js"></script>
 </html>

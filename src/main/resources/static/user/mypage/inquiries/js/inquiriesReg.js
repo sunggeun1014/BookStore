@@ -37,8 +37,9 @@ $(document).ready(function () {
 		let title = $("#inquiryTitle").val();
 		let content = $("#inquiryContent").val();
 		let orderNumer = $("#order-number").val();
+		let inquiryType = $('#inquiryTypeSelect').val();
 		
-		if (!orderNumer) {
+		if (inquiryType !== '01' && inquiryType !== '07' && !orderNumer) {
 			getErrorModal("문의할 상품을 선택해주세요");
 			$("#order-number").focus();
 			e.preventDefault();
@@ -180,7 +181,9 @@ function createOrderModal(orderList) {
 	$(".custom-modal-btn.confirm").on("click", function () {
 	    let selectedOrder = $("input[name='order']:checked"); 
 	    let selectedBook = $("input.check-box:checked").first(); 
-		let isExchangeInquiry = inquiryTypeSelect.value === '05';
+		
+		let inquiryType = $("#inquiryTypeSelect").val(); 
+		let isQuantityRequired = inquiryType === '04' || inquiryType === '05' || inquiryType === '06';
 		
 	    if (selectedOrder.length && !selectedBook.length) {
 	        
@@ -189,8 +192,8 @@ function createOrderModal(orderList) {
 	        let orderQty = selectedOrder.data('qty');
 
 			
-			if (orderQty <= 0 && isExchangeInquiry) {
-				getErrorModal("해당 주문은 이미 모두 교환 요청 상태입니다.다른 문의 유형을 선택해주세요");
+			if (orderQty <= 0 && isQuantityRequired) {
+				getErrorModal("해당 상품의 모든 수량이 이미 요청 상태입니다. 다른 문의 유형을 선택해주세요.");
 				return;
 			}
 			
@@ -203,8 +206,8 @@ function createOrderModal(orderList) {
 	        let bookQty = selectedBook.data('qty');
 			
 			
-			if (bookQty <= 0 && isExchangeInquiry) {
-				getErrorModal("해당 주문은 이미 모두 교환 요청 상태입니다.다른 문의 유형을 선택해주세요");
+			if (bookQty <= 0 && isQuantityRequired) {
+				getErrorModal("해당 상품의 모든 수량이 이미 요청 상태입니다. 다른 문의 유형을 선택해주세요.");
 				return;
 			}
 			
@@ -214,7 +217,7 @@ function createOrderModal(orderList) {
 	    divArea.remove();
 		
 		let quantitySection = document.getElementById('quantitySection'); 
-		quantitySection.style.display = isExchangeInquiry ? 'flex' : 'none';
+		quantitySection.style.display = isQuantityRequired ? 'flex' : 'none';
 		$(".order-summary").css("display", "flex");
 	});
 	
