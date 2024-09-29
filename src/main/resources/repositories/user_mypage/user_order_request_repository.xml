@@ -243,8 +243,8 @@
 	
 	<select id="getRefundInfo" parameterType="Integer" resultType="customerOrderWithDetails">
 		SELECT 
-		    SUM(CASE WHEN cod.order_detail_status = '05' THEN cod.order_detail_price * cod.order_complete_qty ELSE 0 END) AS refundAmount,
-		    SUM(CASE WHEN cod.order_detail_status = '05' or cod.order_detail_status = '02' THEN cod.order_detail_price * cod.order_request_qty ELSE 0 END) AS cancellationAmount,
+		    SUM(CASE WHEN pr.request_status = '05' THEN cod.order_detail_price * pr.request_complete_qty ELSE 0 END) AS refundAmount,
+		    SUM(CASE WHEN pr.request_status = '05' or pr.request_status = '02' THEN cod.order_detail_price * pr.request_complete_qty ELSE 0 END) AS cancellationAmount,
 		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total,
 		    co.recipient_name,
 		    co.recipient_phoneNo,
@@ -258,6 +258,7 @@
 		    co.retrieve_common_cnt_pw
 		FROM customer_orders co
 			LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
+			LEFT JOIN product_request pr ON cod.order_detail_num = pr.order_detail_num
 		WHERE co.order_num = #{order_num}
 		GROUP BY
 		    co.recipient_name,
@@ -274,8 +275,8 @@
 	
 	<select id="getReturnRefundInfo" parameterType="Integer" resultType="customerOrderWithDetails">
 		SELECT 
-		    SUM(CASE WHEN cod.order_detail_status = '07' THEN cod.order_detail_price * cod.order_complete_qty ELSE 0 END) AS refundAmount,
-		    SUM(cod.order_detail_price * cod.order_detail_qty) AS cancellationAmount,
+		    SUM(CASE WHEN pr.request_status = '07' THEN cod.order_detail_price * pr.request_complete_qty ELSE 0 END) AS refundAmount,
+		    SUM(CASE WHEN pr.request_status = '07' or pr.request_status = '04' THEN cod.order_detail_price * pr.request_complete_qty ELSE 0 END) AS cancellationAmount,
 		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total,
 		    co.recipient_name,
 		    co.recipient_phoneNo,
@@ -289,6 +290,7 @@
 		    co.retrieve_common_cnt_pw
 		FROM customer_orders co
 			LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
+			LEFT JOIN product_request pr ON cod.order_detail_num = pr.order_detail_num
 		WHERE co.order_num = #{order_num}
 		GROUP BY
 		    co.recipient_name,

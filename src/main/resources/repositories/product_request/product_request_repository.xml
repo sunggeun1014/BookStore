@@ -28,7 +28,7 @@
 		    LEFT JOIN customer_orders        co ON co.order_num = cod.order_num
 		    LEFT JOIN books b ON cod.book_isbn = b.book_isbn
 		WHERE
-		    co.order_num = #{orderNum} AND cod.order_detail_status IN ( '02', '05' )
+		    co.order_num = #{orderNum} AND pr.request_status IN ( '02', '05' )
 	</select>
 	
 	<insert id="productRequestInsert" parameterType="customerOrderWithDetails">
@@ -84,6 +84,6 @@
 		    LEFT JOIN customer_orders        co ON co.order_num = cod.order_num
 		    LEFT JOIN books b ON cod.book_isbn = b.book_isbn
 		WHERE
-		    co.order_num = #{orderNum} AND cod.order_detail_status IN ( '04', '07' )
+		    co.order_num = #{orderNum} AND pr.request_status IN ( '04', '07' )
 	</select>
 </mapper>
