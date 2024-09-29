@@ -25,4 +25,10 @@ public class CommonConstants {
         INQUIRY_TYPE.put("06", "반품문의");
         INQUIRY_TYPE.put("07", "기타");
     }
+    
+    public static final String[] MENU_ITEMS = {
+            "A-01", "A-02", "A-03", "A-04", "A-05",
+            "B-01", "B-02", "B-03", "B-04", "B-05",
+            "C-01", "C-02", "C-03", "C-04", "C-05"
+    };
 }

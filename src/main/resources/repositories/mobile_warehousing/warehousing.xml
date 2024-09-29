@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.bookstore.mobile.warehousing.mapper.WareHousingMapper">
+
+	<select id="getOrderDetails" resultType="supplierOrders" parameterType="Integer">
+		SELECT
+	        sod.order_detail_num,
+	        sod.order_detail_isbn,
+	        sod.order_detail_title,
+	        sod.order_detail_qty,
+	        sod.order_detail_received_qty,
+	        so.order_date
+	    FROM 
+	        Supplier_Order_Details sod
+	    JOIN 
+	        Supplier_Orders so
+	    ON 
+	        sod.order_num = so.order_num 
+	    WHERE
+	        sod.order_num = #{order_num}
+	
+	</select>
+	
+	<update id="updateReceivedQty" parameterType="map">
+		UPDATE 
+			Supplier_Order_Details
+		SET
+			order_detail_received_qty = order_detail_received_qty + #{order_detail_qty}
+		WHERE
+			order_detail_num = #{order_detail_num}
+	</update>
+	
+	<insert id="insertInventoryLog" parameterType="supplierOrders">
+	    INSERT INTO 
+	    	Inventory_Log (
+		    log_transaction_num,
+		    manager_id, 
+		    log_transaction_status,
+		    log_operation_date,
+		    order_num
+	    )
+	    VALUES (
+		    INVENTORY_LOG_SEQ.NEXTVAL,
+		    #{manager_id},
+		    '01',
+		    CURRENT_TIMESTAMP,
+		    #{order_num}
+	    )
+	</insert>
+	
+    <select id="getLastLogTransactionNum" resultType="Integer">
+        SELECT INVENTORY_LOG_SEQ.CURRVAL FROM dual
+    </select>
+    
+	<insert id="insertInventoryLogDetail" parameterType="supplierOrders">
+	    INSERT INTO 
+	    	Inventory_Log_Details (
+	    log_detail_num, 
+	    log_detail_isbn, 
+	    log_detail_title, 
+	    log_detail_qty, 
+	    zone_num,
+	    log_transaction_num
+	    )
+	    VALUES (
+	    INVENTORY_LOG_DETAILS_SEQ.NEXTVAL,
+	    #{order_detail_isbn}, 
+	    #{order_detail_title},
+	    #{order_detail_qty}, 
+	    #{zone_num},
+	    #{log_transaction_num} 
+	    )
+	</insert>
+</mapper>
