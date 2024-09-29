@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko"
-	 xmlns:th="http://www.thymeleaf.org"
-	 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-	<head th:replace="~{/mobile/common/fragments/config :: ConfigFragment}"></head>
+<head th:replace="~{/mobile/common/fragments/config :: ConfigFragment}"></head>
 
 <body>
-	<div class="mobile-frame">
-		<div layout:fragment="Content"></div>
+<div class="mobile-frame">
+    <div layout:fragment="Content"></div>
 
-		<div class="footer-wrap">
-			<footer th:insert="~{/mobile/common/fragments/footer :: FooterFragment}"></footer>
-		</div>
-	</div>
-	
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-	<script src="/mobile/common/js/sample.js"></script>
-	<script src="/user/common/js/pagination.js"></script>
+    <footer th:insert="~{/mobile/common/fragments/footer :: FooterFragment}"></footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="/mobile/common/js/sample.js"></script>
+<script src="/user/common/js/pagination.js"></script>
 </body>
 </html>
