@@ -76,14 +76,6 @@
             co.order_addr,
             co.order_addr_detail,
             CASE
-                WHEN cod.order_detail_status = '01' THEN '주문완료'
-                WHEN cod.order_detail_status = '02' THEN '취소요청'
-                WHEN cod.order_detail_status = '04' THEN '반품요청'
-                WHEN cod.order_detail_status = '05' THEN '취소완료'
-                WHEN cod.order_detail_status = '06' THEN '교환완료'
-                WHEN cod.order_detail_status = '07' THEN '반품완료'
-            END AS order_detail_status,
-            CASE
                 WHEN co.order_delivery_status = '01' THEN '배송전'
                 WHEN co.order_delivery_status = '02' THEN '배송중'
                 WHEN co.order_delivery_status = '03' THEN '배송완료'
@@ -100,7 +92,6 @@
             co.order_purchase_date, 
             co.order_addr, 
             co.order_addr_detail, 
-            cod.order_detail_status,
             co.order_delivery_status,
             COALESCE(co.recipient_name, m.member_name),
             COALESCE(co.recipient_phoneno, m.member_phoneno)
@@ -120,6 +111,7 @@
                 WHEN cod.order_detail_status = '05' THEN '취소완료'
                 WHEN cod.order_detail_status = '06' THEN '교환완료'
                 WHEN cod.order_detail_status = '07' THEN '반품완료'
+                WHEN cod.order_detail_status = '08' THEN '처리불가'
             END AS order_detail_status,
             CASE
                 WHEN co.order_delivery_status = '01' THEN '배송전'

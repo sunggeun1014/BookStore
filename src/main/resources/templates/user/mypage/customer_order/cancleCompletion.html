@@ -31,15 +31,15 @@
 					<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><span class="book-name" th:text="${detail.book_name}"></span></a>
 				</div>
 				<div>
-					<span class="purchase-qty" th:text="'수량: ' + ${detail.order_request_qty} + '개'" th:if="${detail.order_detail_status == '취소요청'}"></span>
-					<span class="purchase-qty" th:text="'수량: ' + ${detail.order_complete_qty} + '개'" th:if="${detail.order_detail_status != '취소요청'}"></span>
+					<span class="purchase-qty" th:text="'수량: ' + ${detail.request_complete_qty} + '개'" th:if="${detail.request_status == '취소요청'}"></span>
+					<span class="purchase-qty" th:text="'수량: ' + ${detail.request_complete_qty} + '개'" th:if="${detail.request_status != '취소요청'}"></span>
 				</div>
 			</div>
 			<div>
-				<span class="book-price" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.order_request_qty, 0, 'COMMA')} + '원'"></span>
+				<span class="book-price" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.request_complete_qty, 0, 'COMMA')} + '원'"></span>
 			</div>	
 			<div>
-				<span class="order_status" th:text="${detail.order_detail_status}"></span>
+				<span class="order_status" th:text="${detail.request_status}"></span>
 			</div>	
 		</div>
 	</div>

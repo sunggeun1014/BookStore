@@ -11,6 +11,7 @@ import com.ezen.bookstore.admin.customerorders.repository.CustomerOrdersReposito
 import com.ezen.bookstore.admin.inventorylog.repository.InventoryLogRepository;
 import com.ezen.bookstore.admin.warehouse.mapper.WarehouseRepository;
 import com.ezen.bookstore.commons.SearchCondition;
+import com.ezen.bookstore.user.mypage.orders.repository.UserOrderRequestRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,7 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 	private final CustomerOrdersRepository cor;
 	private final WarehouseRepository wr;
 	private final InventoryLogRepository ilr;
+	private final UserOrderRequestRepository orderRequestRepository; 
 	
 	@Override
 	public List<CustomerOrdersDTO> getCustomerOrdersList() {
@@ -112,6 +114,7 @@ public class CustomerOrdersServiceImpl implements CustomerOrdersService {
 				}
 				
 				cor.orderStatusUpdate(list.getOrder_detail_num().get(i), order_selected_status, list.getInput_qty().get(i));
+				orderRequestRepository.productRequestInsert(order_selected_status, list.getInput_qty().get(i), list.getOrder_detail_num().get(i));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

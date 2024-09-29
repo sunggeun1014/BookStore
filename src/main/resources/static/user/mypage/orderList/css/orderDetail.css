@@ -183,3 +183,8 @@
 .btn-area {
 	text-align: center;
 }
+
+.product-request-btn-area {
+	display: flex;
+	gap: 10px;
+}

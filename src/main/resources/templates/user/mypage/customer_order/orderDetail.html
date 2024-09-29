@@ -19,39 +19,38 @@
 			<div class="order-items-box">
 				<div class="box-title-wrapper">
 					<div class="box-title">
-						<span class="order-delivery-status" 
-      						th:text="${orderDetails.order_detail_status == '취소완료' ? '취소된 주문' : orderDetails.order_delivery_status}"></span>
+						<span class="order-delivery-status">주문상품</span>
 					</div>
-					
-					<!-- 배송 상태에 따라 취소/반품 버튼 -->
-				    <button id="cancelButton" class="default-btn border cancel-btn" 
-				        th:if="${orderDetails.order_delivery_status == '배송전' && orderDetails.order_detail_status == '주문완료'}" 
-				        th:data-order-num="${orderDetails.order_num}" 
-				        onclick="location.href='/' + 'user/mypage/cancleList?orderNum=' + this.dataset.orderNum">취소</button>
-				    
-				    <button id="returnButton" class="default-btn border return-btn" 
-						th:if="${(orderDetails.order_delivery_status == '배송중' || orderDetails.order_delivery_status == '배송완료')
-							&& (orderDetails.order_detail_status != '반품요청' && orderDetails.order_detail_status != '반품완료')}"
-						th:data-order-num="${orderDetails.order_num}"
-				        th:data-payment-date="${orderDetails.order_purchase_date}"
-				        onclick="location.href='/' + 'user/mypage/returnRequest?orderNum=' + this.dataset.orderNum">반품</button>
-				    
-				    <!-- 주문 상태가 취소요청/취소완료일 때 취소상세 버튼 -->
-				    <button id="cancelDetailButton" class="small-btn detail" 
-				        th:if="${orderDetails.order_detail_status == '취소요청' || orderDetails.order_detail_status == '취소완료'}" 
-				        th:data-order-num="${orderDetails.order_num}"
-				        onclick="location.href='/' + 'user/mypage/cancleCompletion?orderNum=' + this.dataset.orderNum">취소상세
-				        <i class="fa-solid fa-angle-right"></i>
-				    </button>
-                    
-                    <!-- 주문 상태가 반품요청/반품완료일 때 반품상세 버튼 -->
-                    <button id="returnDetailButton" class="small-btn detail" 
-                    	th:if="${orderDetails.order_detail_status == '반품요청' || orderDetails.order_detail_status == '반품완료'}"
-   						th:data-order-num="${orderDetails.order_num}"
-		    			onclick="location.href='/' + 'user/mypage/returnDetail?orderNum=' + this.dataset.orderNum">반품상세
-   						<i class="fa-solid fa-angle-right"></i>
-   					</button>							
-							
+					<div class="product-request-btn-area">
+						<!-- 배송 상태에 따라 취소/반품 버튼 -->
+					    <button id="cancelButton" class="default-btn border cancel-btn" 
+					        th:if="${orderDetails.order_delivery_status == '배송전' && not #arrays.isEmpty(detailList.?[order_detail_status == '주문완료'])}" 
+					        th:data-order-num="${orderDetails.order_num}" 
+					        onclick="location.href='/' + 'user/mypage/cancleList?orderNum=' + this.dataset.orderNum">취소</button>
+					    
+					    <button id="returnButton" class="default-btn border return-btn" 
+							th:if="${(orderDetails.order_delivery_status == '배송중' || orderDetails.order_delivery_status == '배송완료')
+								&& not #arrays.isEmpty(detailList.?[order_detail_status == '주문완료'])}"
+							th:data-order-num="${orderDetails.order_num}"
+					        th:data-payment-date="${orderDetails.order_purchase_date}"
+					        onclick="location.href='/' + 'user/mypage/returnRequest?orderNum=' + this.dataset.orderNum">반품</button>
+					    
+					    <!-- 주문 상태가 취소요청/취소완료일 때 취소상세 버튼 -->
+					    <button id="cancelDetailButton" class="small-btn detail" 
+					        th:if="${not #arrays.isEmpty(detailList.?[order_detail_status == '취소요청']) || not #arrays.isEmpty(detailList.?[order_detail_status == '취소완료'])}" 
+					        th:data-order-num="${orderDetails.order_num}"
+					        onclick="location.href='/' + 'user/mypage/cancleCompletion?orderNum=' + this.dataset.orderNum">취소상세
+					        <i class="fa-solid fa-angle-right"></i>
+					    </button>
+	                    
+	                    <!-- 주문 상태가 반품요청/반품완료일 때 반품상세 버튼 -->
+	                    <button id="returnDetailButton" class="small-btn detail" 
+	                    	th:if="${not #arrays.isEmpty(detailList.?[order_detail_status == '반품요청']) || not #arrays.isEmpty(detailList.?[order_detail_status == '반품완료'])}"
+	   						th:data-order-num="${orderDetails.order_num}"
+			    			onclick="location.href='/' + 'user/mypage/returnDetail?orderNum=' + this.dataset.orderNum">반품상세
+	   						<i class="fa-solid fa-angle-right"></i>
+	   					</button>							
+					</div>
 				</div>
 				
 				<div class="order-items" th:each="item : ${detailList}">

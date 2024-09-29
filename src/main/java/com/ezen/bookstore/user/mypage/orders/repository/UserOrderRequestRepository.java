@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO;
+import com.ezen.bookstore.user.mypage.orders.dto.UserProductRequestDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,22 +46,12 @@ public class UserOrderRequestRepository {
     	return sql.selectOne("UserOrderRequest.getOrderDetail", orderNum);
     }
 	
-	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String memberId) {
-		Map<String, Object> map = new HashMap<>();
-		
-		map.put("orderNum", orderNum);
-		map.put("memberId", memberId);
-		
-		return sql.selectList("UserOrderRequest.cancleList", map);
+	public List<UserProductRequestDTO> getOrderCancleList(Integer orderNum) {
+		return sql.selectList("ProductRequest.getRequestList", orderNum);
 	}
 	
-	public List<UserCustomerOrderWithDetailsDTO> getOrderReturnList(Integer orderNum, String memberId) {
-		Map<String, Object> map = new HashMap<>();
-		
-		map.put("orderNum", orderNum);
-		map.put("memberId", memberId);
-		
-		return sql.selectList("UserOrderRequest.returnList", map);
+	public List<UserProductRequestDTO> getOrderReturnList(Integer orderNum) {
+		return sql.selectList("ProductRequest.getRefundRequestList", orderNum);
 	}
 	
 	public List<UserCustomerOrderWithDetailsDTO> getOrderRequestList(Integer orderNum, String memberId) {
@@ -90,7 +81,7 @@ public class UserOrderRequestRepository {
 		return sql.selectOne("UserOrderRequest.getReturnRefundInfo", orderNum);
 	}
 	
-	public int returnRequest(Map<String, Integer> map) {
+	public int returnRequest(Map<String, Object> map) {
 		return sql.update("UserOrderRequest.returnRequest", map);
 	}
 	
@@ -98,4 +89,17 @@ public class UserOrderRequestRepository {
 		sql.update("UserOrderRequest.returnRequestInfoUpdate", info);
 	}
 	
+	public void productRequestInsert(UserCustomerOrderWithDetailsDTO dto) {
+		sql.update("ProductRequest.productRequestInsert", dto);
+	}
+	
+	public void productRequestInsert(String order_detail_status, Integer order_detail_qty, Integer order_detail_num) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("order_detail_status", order_detail_status);
+		map.put("order_detail_qty", order_detail_qty);
+		map.put("order_detail_num", order_detail_num);
+		
+		sql.update("ProductRequest.adminProductRequestInsert", map);
+	}
 }

@@ -7,11 +7,10 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ezen.bookstore.commons.AccountManagement;
 import com.ezen.bookstore.commons.SessionUtils;
 import com.ezen.bookstore.user.commons.UserSessionInfo;
-import com.ezen.bookstore.user.members.dto.UserMembersDTO;
 import com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO;
+import com.ezen.bookstore.user.mypage.orders.dto.UserProductRequestDTO;
 import com.ezen.bookstore.user.mypage.orders.repository.UserOrderRequestRepository;
 
 import lombok.AccessLevel;
@@ -56,9 +55,9 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 		return orderRequestRepository.getDetailItem(orderNum);
 	}
 
-	public List<UserCustomerOrderWithDetailsDTO> getOrderCancleList(Integer orderNum, String memberId) {
+	public List<UserProductRequestDTO> getOrderCancleList(Integer orderNum) {
 		try {
-			return orderRequestRepository.getOrderCancleList(orderNum, memberId);
+			return orderRequestRepository.getOrderCancleList(orderNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,9 +65,9 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 		return null;
 	}
 	
-	public List<UserCustomerOrderWithDetailsDTO> getOrderReturnList(Integer orderNum, String memberId) {
+	public List<UserProductRequestDTO> getOrderReturnList(Integer orderNum) {
 		try {
-			return orderRequestRepository.getOrderReturnList(orderNum, memberId);
+			return orderRequestRepository.getOrderReturnList(orderNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,6 +93,9 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 		try {
 			for (UserCustomerOrderWithDetailsDTO dto : list) {
 				result += orderRequestRepository.orderCancle(dto);
+				dto.setOrder_detail_status("02");
+				
+				orderRequestRepository.productRequestInsert(dto);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -127,21 +129,28 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 	@Override
 	@Transactional
 	public int returnRequest(Map<String, Object> data) {
-		int result = 0;
-		List<Map<String, Integer>> list = (List<Map<String, Integer>>) data.get("list");
-		Map<String, String> info = (Map<String, String>) data.get("dto");
-		
-		try {
-			for(Map<String, Integer> map : list) {
-				result += orderRequestRepository.returnRequest(map);
-			}
-			
-			orderRequestRepository.returnRequestInfoUpdate(info);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+	    int result = 0;
+	    List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("list");
+	    Map<String, String> info = (Map<String, String>) data.get("dto");
+
+	    try {
+	        for (Map<String, Object> map : list) {
+	            result += orderRequestRepository.returnRequest(map);
+	            Integer orderRequestQty = Integer.parseInt((String) map.get("order_request_qty"));
+	            Integer orderDetailNum = Integer.parseInt((String) map.get("order_detail_num"));
+	            
+	            orderRequestRepository.productRequestInsert("04", orderRequestQty, orderDetailNum);
+	        }
+
+	        orderRequestRepository.returnRequestInfoUpdate(info);
+	    } catch (NumberFormatException e) {
+	        e.printStackTrace();
+	        // 적절한 에러 처리를 추가하세요.
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return result;
 	}
 
 }

@@ -56,6 +56,8 @@
       
       
       <typeAlias type="com.ezen.bookstore.mobile.home.dto.DeliveryDTO" alias="deliveryDTO"/>
+      
+      <typeAlias type="com.ezen.bookstore.user.mypage.orders.dto.UserProductRequestDTO" alias="productRequest"/>
    </typeAliases>
 
 </configuration>

@@ -51,7 +51,7 @@
 					<span>반품요청</span>
 					<div>
 						<span class="input-count">
-							<input type="number" name="order_request_qty" oninput="countValidation(this)" placeholder="수량" th:data-max-qty="${detail.order_detail_qty - detail.order_request_qty - detail.order_complete_qty}" th:value="${(detail.order_detail_qty - detail.order_request_qty - detail.order_complete_qty) <= 0 ? 0 : (detail.order_detail_qty - detail.order_request_qty - detail.order_complete_qty)}">
+							<input type="number" name="order_request_qty" oninput="countValidation(this);" placeholder="수량" th:data-max-qty="${detail.order_detail_qty - detail.order_request_qty - detail.order_complete_qty}" th:value="${(detail.order_detail_qty - detail.order_request_qty - detail.order_complete_qty) <= 0 ? 0 : (detail.order_detail_qty - detail.order_request_qty - detail.order_complete_qty)}">
 						</span>
 					</div>
 				</div>
@@ -62,7 +62,7 @@
 		</div>
 	</div>
 	
-	<input type="hidden" name="order_num" th:value="${cancleList[0].order_num}"/>
+	<input type="hidden" name="order_num" th:if="${!#lists.isEmpty(cancleList)}" th:value="${cancleList[0].order_num}"/>
 	<input type="hidden" name="retrieve_name" th:value="${refund.retrieve_name != null ? refund.retrieve_name : refund.recipient_name}">
 	<input type="hidden" name="retrieve_phoneNo" th:value="${refund.retrieve_phoneNo != null ? refund.retrieve_phoneNo : refund.recipient_phoneno}">
 	<input type="hidden" name="retrieve_addr" th:value="${refund.retrieve_addr != null ? refund.retrieve_addr : refund.order_addr}">
