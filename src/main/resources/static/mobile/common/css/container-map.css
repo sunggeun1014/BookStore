@@ -7,14 +7,14 @@
 }
 
 .cnt {
-    width: 50px;
-    height: 50px;
+    width: 5rem;
+    height: 5rem;
     background-color: #E3E2D9;
     border: 1px solid #ddd;
     text-align: center;
     font-size: 1.3rem;
     font-weight: 800;
-    line-height: 50px;
+    line-height: 5rem;
     color: #222222;
     aspect-ratio: 1 / 1;
     cursor: pointer;
