@@ -1,110 +1,44 @@
-.footer-wrap {
-	position: absolute;
-    left: 0;
-    bottom: 0;
+.mobile-frame {
+    padding: 1.5rem 1.5rem 0;
 }
 
 .mobile-inner {
-	display: flex;
+    display: flex;
     flex-direction: column;
 }
 
-.mobile-frame {
-	position: relative;
-	width: 36rem;
-	height: 67rem;
-	padding: 1.5rem;
-	background-color: #FFFFFF;
-}
-
 .scroll {
-	overflow: auto;
+    overflow: auto;
 }
 
 .elipsis {
-	white-space: nowrap;
+    white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 
 .content-list {
-	height: 4rem;
+    height: 4rem;
     display: grid;
     grid-template-columns: 22rem 1fr;
     margin-top: 2rem;
     border-bottom: 1px solid #D8D8D8;
     align-items: center;
 }
+
 .content-text-wrap {
-	display: flex;
+    display: flex;
     flex-direction: column;
     gap: 5px;
 }
-/* 로그인 */
-#login-container {
-    width: 100%;
-    padding: 0 4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.logo-wrap {
-    margin: 10rem 0;
-    width: 23rem;
-    height: 4rem;
-}
-
-.logo-wrap img {
-    width: 100%;
-    height: 100%;
-}
-
-.sign-wrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: .5rem;
-}
-
-.sign-wrap label {
-    font-size: 1.8rem;
-}
-
-.sign-wrap input {
-    width: 100%;
-    height: 6rem;
-    border: 1px solid #C0C0C0;
-    border-radius: 1rem;
-    padding: 1rem 1rem;
-    font-size: 1.4rem;
-}
-
-.sign-wrap:nth-child(2) {
-    margin-top: 2rem;
-}
-
-/* 아이디 비번 틀렸을 때 */
-.sign-wrap .error-message {
-  color: #E54F53;
-  font-size: 1.4rem;
-}
-
-.sign-wrap #mob-id,
-.sign-wrap #mob-pw {
-  border: 1px solid #E54F53;
-}
-
-#login-btn {
-    height: 6rem;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-top: 5rem;
-}
 
 /* 하단 탭바 */
+#tabbar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: #ffffff;
+}
 
 .menu-list {
     display: flex;
@@ -113,7 +47,7 @@
     cursor: pointer;
 }
 
-.menu-item {
+.menu-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
