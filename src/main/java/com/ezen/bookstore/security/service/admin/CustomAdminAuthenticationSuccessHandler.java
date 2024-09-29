@@ -20,28 +20,16 @@ public class CustomAdminAuthenticationSuccessHandler implements AuthenticationSu
 			Authentication authentication) throws IOException, ServletException {
 		
 		HttpSession session = request.getSession(true);
+		String redirectUrl = "/admin/home";
 		
 		CustomAdminDetails adminDetails = (CustomAdminDetails) authentication.getPrincipal();		
-        AdminManagersDTO managersDTO = adminDetails.getManagersDTO();
+		AdminManagersDTO managersDTO = adminDetails.getManagersDTO();
         managersDTO.setManager_pw(null);
                 
         session.setMaxInactiveInterval(60*60);
         session.setAttribute(AccountManagement.MANAGER_INFO, managersDTO);
         
-        String requestURI = request.getRequestURI();
-        String redirectUrl;
         
-        if (requestURI.startsWith("/admin")) {
-        	
-            redirectUrl = "/admin/home";
-        } else if (requestURI.startsWith("/mobile/admin")) {
-        	
-            redirectUrl = "/mobile/admin/index";
-        } else {
-            // 기본 리다이렉트 경로 (예상치 못한 경로일 경우)
-            redirectUrl = "/admin/home";
-        }
-
         response.sendRedirect(redirectUrl);
 
 	}

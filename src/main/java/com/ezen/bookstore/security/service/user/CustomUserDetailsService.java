@@ -27,7 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("아이디를 찾을 수 없습니다.");
         }
 
-        // ROLE_USER 권한 부여하고 CustomUserDetails 반환
         return new CustomUserDetails(member, Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
     }
 

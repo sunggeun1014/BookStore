@@ -1,4 +1,4 @@
-package com.ezen.bookstore.security.service.user;
+package com.ezen.bookstore.security.service.mobile;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -12,18 +12,18 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class CustomUserAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class CustomMobileAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-	        AuthenticationException exception) throws IOException, ServletException {
+	                                    AuthenticationException exception) throws IOException, ServletException {
 
-		String matchErrorMessage = "아이디 또는 비밀번호가 일치하지 않습니다.";
-	    String redirectUrl = "/user/login?error=true";
-	    
-	    redirectUrl += "&passwordError=" + URLEncoder.encode(matchErrorMessage, "UTF-8");
-	   
-	    response.sendRedirect(redirectUrl);
+		 String matchErrorMessage = "아이디 또는 비밀번호가 일치하지 않습니다.";
+		    String redirectUrl = "/mobile/admin/login?error=true";
+		    
+		    redirectUrl += "&passwordError=" + URLEncoder.encode(matchErrorMessage, "UTF-8");
+		   
+		    response.sendRedirect(redirectUrl);
 	}
 
 }

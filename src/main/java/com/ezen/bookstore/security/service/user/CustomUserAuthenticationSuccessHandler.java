@@ -30,12 +30,13 @@ public class CustomUserAuthenticationSuccessHandler implements AuthenticationSuc
             membersDTO.setMember_pw(null);
             session.setMaxInactiveInterval(60 * 60);
             session.setAttribute(AccountManagement.MEMBER_INFO, membersDTO);
+            
         // 소셜 로그인 성공시    
         } else if (authentication.getPrincipal() instanceof DefaultOAuth2User) {
             
             DefaultOAuth2User oauthUser = (DefaultOAuth2User) authentication.getPrincipal();
             UserMembersDTO membersDTO = (UserMembersDTO) oauthUser.getAttributes().get("userMembersDTO");
-            membersDTO.setMember_pw(null);  // 비밀번호는 세션에 저장하지 않음
+            membersDTO.setMember_pw(null);
             session.setAttribute(AccountManagement.MEMBER_INFO, membersDTO); 
         }
         
