@@ -9,7 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			el: '.swiper-pagination',
 			clickable: true, // 페이지네이션 클릭 가능
 		},
+		watchOverflow : true,
 		effect: 'slide', // 효과를 슬라이드로 설정 (기본값)
+		autoplay: {
+			delay: 3000,   // 시간 설정
+			disableOnInteraction: false,  // false로 설정하면 스와이프 후 자동 재생이 비활성화 되지 않음
+		},
 	});
 
 	// 현재 월을 베스트셀러 제목에 반영
