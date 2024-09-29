@@ -1,6 +1,9 @@
 package com.ezen.bookstore.admin.supplierorders.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
+
+import com.ezen.bookstore.mobile.warehousing.dto.OrderDetailsDTO;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -27,4 +30,8 @@ public class SupplierOrdersDTO {
 	Integer detail_total_price;
 	
 	String manager_name;
+	String zone_num;
+	
+	Integer log_transaction_num; 
+	List<OrderDetailsDTO> order_details;
 }
