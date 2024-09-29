@@ -12,6 +12,8 @@
 			banner_visible = '01' 
 		AND 
 			banner_position = '01'
+	    AND (banner_end IS NULL OR banner_end >= SYSDATE)
+			
 	</select>
 
 	<select id="getBestBooks" parameterType="String" resultType="userMain">
