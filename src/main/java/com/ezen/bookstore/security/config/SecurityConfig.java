@@ -16,22 +16,30 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.ezen.bookstore.security.service.admin.CustomAdminAuthenticationFailureHandler;
 import com.ezen.bookstore.security.service.admin.CustomAdminAuthenticationSuccessHandler;
 import com.ezen.bookstore.security.service.admin.CustomAdminDetailsService;
+import com.ezen.bookstore.security.service.mobile.CustomMobileAuthenticationFailureHandler;
+import com.ezen.bookstore.security.service.mobile.CustomMobileAuthenticationSuccessHandler;
+import com.ezen.bookstore.security.service.mobile.CustomMobileDetailsService;
 import com.ezen.bookstore.security.service.user.CustomOAuth2UserService;
 import com.ezen.bookstore.security.service.user.CustomUserAuthenticationFailureHandler;
 import com.ezen.bookstore.security.service.user.CustomUserAuthenticationSuccessHandler;
 import com.ezen.bookstore.security.service.user.CustomUserDetailsService;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig {
 
-    private final CustomAdminDetailsService customAdminDetailsService;
-    private final CustomUserDetailsService customUserDetailsService;
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final PasswordEncoder passwordEncoder;
+    CustomAdminDetailsService customAdminDetailsService;
+    CustomUserDetailsService customUserDetailsService;
+    CustomOAuth2UserService customOAuth2UserService;
+    CustomMobileDetailsService customMobileDetailsService;
+    
+    PasswordEncoder passwordEncoder;
   
     @Bean
     DaoAuthenticationProvider adminAuthenticationProvider() {
@@ -51,6 +59,15 @@ public class SecurityConfig {
         return authProvider;
     }
     
+    @Bean
+    DaoAuthenticationProvider mobileAuthenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(customMobileDetailsService); 
+        authProvider.setPasswordEncoder(passwordEncoder);
+        authProvider.setHideUserNotFoundExceptions(false);
+        return authProvider;
+    }
+    
     // Admin 경로용 SecurityFilterChain
     @Bean
     @Order(1)
@@ -61,7 +78,7 @@ public class SecurityConfig {
             .sessionManagement(session -> 
                 session
                     .sessionFixation().newSession()
-                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                     .invalidSessionUrl("/admin/login") 
                     .maximumSessions(1)                 
                     .expiredUrl("/login?expired=true")  
@@ -87,11 +104,11 @@ public class SecurityConfig {
             )
             .exceptionHandling(exception -> exception
         	    .accessDeniedHandler((request, response, accessDeniedException) -> {
-        	        String errorMessage = URLEncoder.encode("접근 권한이 없습니다.", StandardCharsets.UTF_8.toString());
+        	        String errorMessage = URLEncoder.encode("접근 권한이 없거나 로그인이 필요합니다.", StandardCharsets.UTF_8.toString());
         	        response.sendRedirect("/admin/login?accessError=" + errorMessage);
         	    })
         	    .authenticationEntryPoint((request, response, authException) -> {
-        	        String errorMessage = URLEncoder.encode("로그인이 필요합니다.", StandardCharsets.UTF_8.toString());
+        	        String errorMessage = URLEncoder.encode("접근 권한이 없거나 로그인이 필요합니다.", StandardCharsets.UTF_8.toString());
         	        response.sendRedirect("/admin/login?accessError=" + errorMessage);
         	    })
         	)
@@ -163,11 +180,11 @@ public class SecurityConfig {
     SecurityFilterChain securityAdminMobileFilterChain(HttpSecurity http) throws Exception {
         http
             .securityMatcher("/mobile/admin/**")
-            .authenticationProvider(adminAuthenticationProvider())
+            .authenticationProvider(mobileAuthenticationProvider())
             .sessionManagement(session -> 
                 session
                     .sessionFixation().newSession()
-                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                     .invalidSessionUrl("/mobile/admin/login") 
                     .maximumSessions(1)                 
                     .expiredUrl("/login?expired=true")  
@@ -181,8 +198,8 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginProcessingUrl("/mobile/admin/loginProc")    
                 .loginPage("/mobile/admin/login") 
-                .successHandler(new CustomAdminAuthenticationSuccessHandler()) 
-                .failureHandler(new CustomAdminAuthenticationFailureHandler()) 
+                .successHandler(new CustomMobileAuthenticationSuccessHandler()) 
+                .failureHandler(new CustomMobileAuthenticationFailureHandler()) 
                 .permitAll()
             )
             .logout(logout -> logout
@@ -194,15 +211,15 @@ public class SecurityConfig {
             )
             .exceptionHandling(exception -> exception
         	    .accessDeniedHandler((request, response, accessDeniedException) -> {
-        	        String errorMessage = URLEncoder.encode("접근 권한이 없습니다.", StandardCharsets.UTF_8.toString());
+        	        String errorMessage = URLEncoder.encode("접근 권한이 없거나 로그인이 필요합니다.", StandardCharsets.UTF_8.toString());
         	        response.sendRedirect("/mobile/admin/login?accessError=" + errorMessage);
         	    })
         	    .authenticationEntryPoint((request, response, authException) -> {
-        	        String errorMessage = URLEncoder.encode("로그인이 필요합니다.", StandardCharsets.UTF_8.toString());
+        	        String errorMessage = URLEncoder.encode("접근 권한이 없거나 로그인이 필요합니다.", StandardCharsets.UTF_8.toString());
         	        response.sendRedirect("/mobile/admin/login?accessError=" + errorMessage);
         	    })
         	)
-            .userDetailsService(customAdminDetailsService);
+            .userDetailsService(customMobileDetailsService);
 
         return http.build();
     }

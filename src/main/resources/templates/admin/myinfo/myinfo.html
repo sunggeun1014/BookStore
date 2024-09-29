@@ -118,7 +118,12 @@
             <div class="select-wrap info">
                 <span class="search-list-subject">부서명</span>
                 <div class="text-readonly">
-                    <span th:text="${managers.manager_dept} == '01' ? '물류팀' : '운영팀'"></span>
+					<span th:text="
+					    ${managers.manager_dept} == '01' ? '물류팀' :
+					    (${managers.manager_dept} == '02' ? '운영팀' :
+					    (${managers.manager_dept} == '03' ? '인사팀' : '기타'))
+					"></span>
+
                 </div>
             </div>
             <!-- 프로필 사진 -->

@@ -17,17 +17,23 @@
 	        WHERE 
 	            notice_visible != '02'
 	            AND notice_title LIKE #{keyword}
-	            AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)  <!-- 종료 날짜가 없거나 현재 날짜 이후인 공지만 노출 -->
+	            AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)
 	    ) 
 	    WHERE rnum BETWEEN #{startRow} AND #{endRow}
 	</select>
 
 	
 	<select id="getTotalNoticesCount" parameterType="string" resultType="int">
-	    SELECT COUNT(*)
-	    FROM notices
-	    WHERE notice_visible != '02'
-	    AND notice_title LIKE #{keyword} 
+	    SELECT 
+	    	COUNT(*)
+	    FROM 
+	    	notices
+	    WHERE 
+	    	notice_visible != '02'
+	    	AND notice_title LIKE #{keyword}
+	    	AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)
+	    	
+	    	 
 	</select>
 
 
@@ -45,6 +51,7 @@
 			notices
 		WHERE
 			notice_num = #{notice_num}
+			AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)
 		
 	</select>
 	
@@ -59,6 +66,8 @@
 	        ORDER BY notice_num DESC
 	    )
 	    WHERE ROWNUM = 1
+	   	AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)
+	    
 	</select>
 
 
@@ -73,6 +82,8 @@
 	        ORDER BY notice_num ASC
 	    )
 	    WHERE ROWNUM = 1
+	    AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)
+	    
 	</select>
 
 
