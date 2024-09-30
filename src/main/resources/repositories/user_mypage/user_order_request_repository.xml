@@ -5,44 +5,60 @@
 <mapper namespace="UserOrderRequest">
 
 	<select id="orderList" resultType="customerOrderWithDetails">
-		 SELECT
-	        co.order_num,
-	        co.order_purchase_date,
-	        COUNT(cod.order_detail_num) AS order_detail_num,
-	        MAX(b.book_thumbnail_changed) AS book_thumbnail_changed,
-	        MAX(b.book_name) AS book_name,
-	        SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total,
-	        CASE
-	            WHEN co.order_delivery_status = '01' THEN '배송전'
-	            WHEN co.order_delivery_status = '02' THEN '배송중'
-	            WHEN co.order_delivery_status = '03' THEN '배송완료'
-	        END AS order_delivery_status,
-	        CASE
-	            WHEN MAX(cod.order_detail_status) = '01' THEN '주문완료'
-	            WHEN MAX(cod.order_detail_status) = '02' THEN '취소요청'
-	            WHEN MAX(cod.order_detail_status) = '05' THEN '취소완료'
-	            WHEN MAX(cod.order_detail_status) = '03' THEN '교환요청'
-	            WHEN MAX(cod.order_detail_status) = '06' THEN '교환완료'
-	            WHEN MAX(cod.order_detail_status) = '04' THEN '반품요청'
-	            WHEN MAX(cod.order_detail_status) = '07' THEN '반품완료'
-	            WHEN MAX(cod.order_detail_status) = '08' THEN '처리불가'
-	        END AS order_detail_status,
-	        co.order_modify_date
-	    FROM
-	        customer_orders co
-	    LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
-	    LEFT JOIN books b ON cod.book_isbn = b.book_isbn
-	    WHERE
-	        co.member_id = #{member_id}
-	    GROUP BY
-	        co.order_num,
-	        co.order_purchase_date,
-	        co.order_delivery_status,
-	        co.order_modify_date
-	    ORDER BY 
-	        order_modify_date DESC
+		SELECT
+		    co.order_num,
+		    co.order_purchase_date,
+		    COUNT(cod.order_detail_num) AS order_detail_num,
+		    first_book.book_thumbnail_changed,
+		    first_book.book_name,
+		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total,
+		    CASE
+		        WHEN co.order_delivery_status = '01' THEN '배송전'
+		        WHEN co.order_delivery_status = '02' THEN '배송중'
+		        WHEN co.order_delivery_status = '03' THEN '배송완료'
+		    END AS order_delivery_status,
+		    CASE
+		        WHEN MAX(cod.order_detail_status) = '01' THEN '주문완료'
+		        WHEN MAX(cod.order_detail_status) = '02' THEN '취소요청'
+		        WHEN MAX(cod.order_detail_status) = '05' THEN '취소완료'
+		        WHEN MAX(cod.order_detail_status) = '03' THEN '교환요청'
+		        WHEN MAX(cod.order_detail_status) = '06' THEN '교환완료'
+		        WHEN MAX(cod.order_detail_status) = '04' THEN '반품요청'
+		        WHEN MAX(cod.order_detail_status) = '07' THEN '반품완료'
+		        WHEN MAX(cod.order_detail_status) = '08' THEN '처리불가'
+		    END AS order_detail_status,
+		    co.order_modify_date
+		FROM
+    		customer_orders co
+		LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
+		LEFT JOIN (
+		    SELECT
+		        cod.order_num,
+		        b.book_thumbnail_changed,
+		        b.book_name
+		    FROM
+		        customer_order_details cod
+		    LEFT JOIN books b ON cod.book_isbn = b.book_isbn
+		    WHERE
+		        cod.order_detail_num = (
+		            SELECT MIN(inner_cod.order_detail_num)
+		            FROM customer_order_details inner_cod
+		            WHERE inner_cod.order_num = cod.order_num
+		        )
+			) first_book ON co.order_num = first_book.order_num
+		WHERE
+		    co.member_id = #{member_id}
+		GROUP BY
+		    co.order_num,
+		    co.order_purchase_date,
+		    first_book.book_thumbnail_changed,
+		    first_book.book_name,
+		    co.order_delivery_status,
+		    co.order_modify_date
+		ORDER BY 
+		    co.order_modify_date DESC
 	</select>
-	
+
 	<select id="countByOrderStatus" parameterType="Map" resultType="Integer">
 	    SELECT 
 	    	COUNT(DISTINCT co.order_num)
@@ -54,7 +70,7 @@
 	    	member_id = #{memberId} AND order_detail_status = #{status}
 	</select>
 	
-	 <select id="countByDeliveryStatus" parameterType="Map" resultType="Integer">
+	<select id="countByDeliveryStatus" parameterType="Map" resultType="Integer">
 	    SELECT 
 	        COUNT(DISTINCT co.order_num)
 	    FROM 
@@ -138,6 +154,8 @@
 	        cod.order_detail_qty,     
             cod.order_detail_status,
             co.order_delivery_status
+        ORDER BY
+        	cod.order_detail_num ASC
     </select>
 
 	<select id="cancleList" parameterType="java.util.HashMap" resultType="customerOrderWithDetails">
