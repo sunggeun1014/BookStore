@@ -68,6 +68,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (iconImg) iconImg.classList.add("open");
                 if (listText) listText.classList.add("open");
             }
+
+            if (trimmedPath === trimmedCurPath && originalHref.includes('list') && currentPath.includes('register')) {
+                link.setAttribute('href', trimmedPath + 'register');
+                link.classList.add("current-page");
+
+                const isOpen = localStorage.getItem(`menu-open-${index}`) === "true";
+
+                if (isOpen) {
+                    if (subMenu) subMenu.classList.add("open");
+                    if (barImg) barImg.classList.add("open");
+                    if (arrowRight) arrowRight.classList.add("open");
+                    if (iconImg) iconImg.classList.add("open");
+                    if (listText) listText.classList.add("open");
+                }
+
+                if (subMenu) subMenu.classList.add("open");
+                if (barImg) barImg.classList.add("open");
+                if (arrowRight) arrowRight.classList.add("open");
+                if (iconImg) iconImg.classList.add("open");
+                if (listText) listText.classList.add("open");
+            }
             link.setAttribute('href', originalHref);
 
         });

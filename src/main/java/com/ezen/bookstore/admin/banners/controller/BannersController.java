@@ -50,12 +50,12 @@ public class BannersController {
 		return response;
 	}
 
-	@GetMapping("/insert")
+	@GetMapping("/register")
 	public String insertBannerPage(Model model) {
 		return "admin/banners/bannerInsert";
 	}
 
-	@PostMapping("/insert")
+	@PostMapping("/register")
 	public String insertBanner(@ModelAttribute BannersDTO bannersDTO,
 			@RequestParam("banner_image") MultipartFile bannerImage, Model model) {
 		try {
