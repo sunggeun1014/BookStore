@@ -202,7 +202,9 @@ nav.category-wrap {
 
 /* 선택된 카테고리 아이콘 표시 */
 .modal-category-icon.active {
-    display: inline-block; 
+    display: block;
+}
+.modal-category-icon.active .fa-chevron-right  {
     color: #845EC2;
     font-size: 16px;
 }
@@ -220,8 +222,11 @@ nav.category-wrap {
     overflow: hidden; 
 }
 
+.category-wrap {
+    display: none;
+}
+
 .modal-categories {
-    opacity: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -234,13 +239,12 @@ nav.category-wrap {
     transition: opacity 0.3s ease;
 }
 
-#modal-categories-foreign {
+.modal-categories.foreign {
     padding: 35px 40px 135px;
 }
 
-.modal-categories.active {
-    opacity: 1;
-    visibility: visible;
+.category-wrap.active {
+    display: block;
 }
 
 .modal-category-detail {

@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>아이디 찾기 결과</title>
-<link rel="stylesheet" href="/user/members/css/showFindId.css" />
+    <meta charset="UTF-8">
+    <title>WHALE BOOKS</title>
+    <link rel="shortcut icon" th:href="@{/user/common/imgs/favicon.ico}" type="image/x-icon">
+    <link rel="stylesheet" href="/user/common/css/reset.css">
+    <link rel="stylesheet" href="/user/members/css/showFindId.css"/>
 </head>
 <body>
-    <a href="/user/main">
-	    <img src="/user/common/imgs/main-logo.svg" alt="메인로고" class="mainlogo" />
-	</a>
+<div class="find-result-container">
+    <a class="logo-wrap" href="/user/main">
+        <img src="/user/common/imgs/main-logo.svg" alt="메인로고" class="mainlogo"/>
+    </a>
     <div class="showFindId-frame">
-        
+
         <h3 th:text="${name} + '님의 아이디 입니다.'"></h3>
 
         <ul>
@@ -26,6 +29,7 @@
             <button type="button" onclick="window.location.href='/user/login'">로그인</button>
         </div>
     </div>
-    
+</div>
+
 </body>
 </html>

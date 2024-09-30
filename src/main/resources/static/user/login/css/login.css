@@ -1,23 +1,9 @@
-body, html {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
 .login-frame {
+    margin-top: 80px;
     display: flex;
     flex-direction: column; /* 요소들이 위아래로 배치되도록 설정 */
     align-items: center;
     justify-content: center;
-}
-
-a {
-	color: #7E7E7E;
-	margin-right : 5px;
-	margin-left : 5px;
 }
 
 .logo-wrap {
@@ -48,18 +34,17 @@ a {
     margin-bottom: 20px;
 }
 
-.login-function .id-store {
+.id-store {
     display: flex;
     font-size: 14px;
     align-items: center;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
-
-.login-function .id-store a {
-    text-decoration: none;
+.save-wrap {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 input:not([type="radio"]) {
@@ -72,9 +57,32 @@ input:not([type="radio"]) {
     max-width: 380px;
     border: none;
 }
+
 .text {
-	color:#7E7E7E;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
+
+.text > a {
+	color:#7E7E7E;
+
+}
+
+.find-id {
+    position: relative;
+}
+
+.find-id::after {
+    position: absolute;
+    top: 1px;
+    right: -5px;
+    content: "";
+    width: 1px;
+    height: 13px;
+    background-color: #7E7E7E;
+}
+
 .form-item {
     display: flex;
     align-items: center;

@@ -123,6 +123,9 @@
 	padding: 10px 0;
 	border-top: 1px solid #D8D8D8;
 	border-bottom: 1px solid #D8D8D8;
+	background-color: #FAFAFA;
+	color: #7E7E7E;
+	font-weight: 700;
 }
 
 .column-area > div {
@@ -133,6 +136,7 @@
 	display: flex;
 	padding: 10px 0;
 	border-bottom: 1px solid #D8D8D8;
+	color: #7E7E7E;
 }
 
 .row-data-area > div {
