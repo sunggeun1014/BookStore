@@ -5,12 +5,12 @@
 <mapper namespace="UserOrderRequest">
 
 	<select id="orderList" resultType="customerOrderWithDetails">
-		 SELECT
+	    SELECT
 	        co.order_num,
 	        co.order_purchase_date,
 	        COUNT(cod.order_detail_num) AS order_detail_num,
-	        MAX(b.book_thumbnail_changed) AS book_thumbnail_changed,
-	        MAX(b.book_name) AS book_name,
+	        MIN(b.book_thumbnail_changed) AS book_thumbnail_changed,
+	        MIN(b.book_name) AS book_name,
 	        SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total,
 	        CASE
 	            WHEN co.order_delivery_status = '01' THEN '배송전'
@@ -34,15 +34,21 @@
 	    LEFT JOIN books b ON cod.book_isbn = b.book_isbn
 	    WHERE
 	        co.member_id = #{member_id}
+	        AND cod.order_detail_num = (
+	            SELECT MIN(inner_cod.order_detail_num)
+	            FROM customer_order_details inner_cod
+	            WHERE inner_cod.order_num = cod.order_num
+	        )
 	    GROUP BY
 	        co.order_num,
 	        co.order_purchase_date,
 	        co.order_delivery_status,
 	        co.order_modify_date
 	    ORDER BY 
-	        order_modify_date DESC
+	        co.order_modify_date DESC
 	</select>
-	
+
+
 	<select id="countByOrderStatus" parameterType="Map" resultType="Integer">
 	    SELECT 
 	    	COUNT(DISTINCT co.order_num)
@@ -54,7 +60,7 @@
 	    	member_id = #{memberId} AND order_detail_status = #{status}
 	</select>
 	
-	 <select id="countByDeliveryStatus" parameterType="Map" resultType="Integer">
+	<select id="countByDeliveryStatus" parameterType="Map" resultType="Integer">
 	    SELECT 
 	        COUNT(DISTINCT co.order_num)
 	    FROM 
@@ -138,6 +144,8 @@
 	        cod.order_detail_qty,     
             cod.order_detail_status,
             co.order_delivery_status
+        ORDER BY
+        	cod.order_detail_num ASC
     </select>
 
 	<select id="cancleList" parameterType="java.util.HashMap" resultType="customerOrderWithDetails">

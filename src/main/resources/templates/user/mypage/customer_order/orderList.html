@@ -92,6 +92,10 @@
 						<button class="default-btn border return-cancel-btn" th:data-order-num="${item.order_num}" 
 				        onclick="location.href='/' + 'user/mypage/cancleList?orderNum=' + this.dataset.orderNum">취소</button>
 					</div>
+					<div class="history-table-item request-button" th:if="${item.order_delivery_status == '배송완료' && item.order_detail_status == '주문완료'}">
+						<button class="default-btn border return-cancel-btn" th:data-order-num="${item.order_num}" 
+				        onclick="location.href='/' + 'user/mypage/returnRequest?orderNum=' + this.dataset.orderNum">반품</button>
+					</div>
 				</div>
 			</div>
 		</div>
