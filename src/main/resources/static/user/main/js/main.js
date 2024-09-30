@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	new Swiper('.swiper', {
 		loop: true, // 무한 루프 설정
 		slidesPerView: 'auto',
+		loopAdditionalSlides: 1,
 		centeredSlides: true,
 		pagination: {
 			el: '.swiper-pagination',

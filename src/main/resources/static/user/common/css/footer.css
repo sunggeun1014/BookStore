@@ -46,7 +46,7 @@ footer .footer-middle li::after {
     width: 1px;
     height: 12px;
     background-color: #C0C0C0;
-    top: 3px;
+    top: 1px;
     right: -6px;
 }
 
@@ -77,7 +77,7 @@ footer .footer-middle .company-info p::after {
     width: 1px;
     height: 10px;
     background-color: #c0c0c0;
-    top: 3px;
+    top: 1px;
     right: -6px;
 }
 

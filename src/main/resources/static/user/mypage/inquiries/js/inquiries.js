@@ -1,16 +1,16 @@
 $(document).ready(function () {
-    
+
 	let currentPage = 1;
 	const pageSize = 10;
 	let globalStartDate = '';
 	let globalEndDate = '';
 	let globalStatus = '';
     loadInquiries();
-    
-    
+
+
     datepicker('startDate', 'endDate');
 
-    
+
     $('#searchBtn').on('click', function () {
         let inquiry_answer_status = $('.tab-btn.active').data('status');
 		let startDate = $('#startDate').val();
@@ -29,23 +29,23 @@ $(document).ready(function () {
         globalStartDate = formatDateForDB(startDate, 'start');
         globalEndDate = formatDateForDB(endDate, 'end');
 		globalStatus = inquiry_answer_status;
-		
+
 		currentPage = 1;
         loadInquiries(globalStatus, globalStartDate, globalEndDate, currentPage, pageSize);
     });
 
-    
+
     $('.tab-btn').on('click', function () {
         $('.tab-btn').removeClass('active');
         $(this).addClass('active');
-        
+
         let inquiry_answer_status = $(this).data('status');
 		globalStatus = inquiry_answer_status;
-		currentPage = 1; 
+		currentPage = 1;
         loadInquiries(globalStatus, globalStartDate, globalEndDate, currentPage, pageSize);
     });
 
-    
+
     function loadInquiries(inquiry_answer_status = '', startDate = '', endDate = '', page = 1, pageSize = 10) {
 		let url = '/user/mypage/inquiries-page/search';
 		let requestData = {
@@ -67,11 +67,11 @@ $(document).ready(function () {
             method: 'GET',
             data: requestData,
             success: function (data) {
-				 
+
 				let inquiries = data.inquiries || [];
-				 
+
                 $('#inquiries-list').empty();
-				
+
                 if (inquiries.length === 0) {
                     $('.result-wrap').show();
                     $('#inquiries-list').hide();
@@ -84,26 +84,26 @@ $(document).ready(function () {
                         let writeDateFormatted = formatDate(inquiry.inquiry_write_date);
                         let inquiryTypeFormatted = formatInquiryType(inquiry.inquiry_type);
 						let answerDateFormatted = inquiry.answer_write_date ? formatDate(inquiry.answer_write_date) : '';
-						
-						
+
+
 						let imagePath = `/images/inquiries/${inquiry.inquiries_changed}`;
 					    const defaultImagePath = '/user/common/imgs/book-default-img.png';
-                        
-						
-						
+
+
+
                         let arrowIconHtml = `<i class="icon-arrow-off"></i>`;
-						
+
 						let imageHtml = inquiry.inquiries_changed ? `
 						       <div class="image-container">
 						           <img alt="사진" class="styled-image" src="${imagePath}"  onerror="this.src='${defaultImagePath}'">
 						       </div>` : '';
-						   
-                        
+
+
                         let inquiryHtml = `
                             <div class="inquiry-info">
                             	<div>
                             		<div class="inquiry-first-content">
-                                    	<div class="inquiry-status">${inquiry.inquiry_answer_status === '01' ? '미답변' : '답변 완료'}</div>
+                                    	<div class="reply-state">${inquiry.inquiry_answer_status === '01' ? '미답변' : '답변 완료'}</div>
                                     	<span class="btn-spacebetween">|</span>
                                     	<div class="solid">${inquiryTypeFormatted}</div>
                                     </div>
@@ -120,10 +120,10 @@ $(document).ready(function () {
                            
                             <div class="inquiry-detail-info" style="display:none;">
                                 <div class="inquiry-detail-content">
+	                                <p>${inquiry.inquiry_content ? inquiry.inquiry_content : '문의 내용이 없습니다.'}</p>
 									<div>
-	                                    <p>${inquiry.inquiry_content ? inquiry.inquiry_content : '문의 내용이 없습니다.'}</p>
+									    ${imageHtml}
 									</div>
-									${imageHtml}
 									<div class="inquiry-detail-action">
 	                                	<button class="delete-btn" data-num="${inquiry.inquiry_num}" data-order-detail-num="${inquiry.order_detail_num}">삭제</button>
 									</div>
@@ -134,22 +134,42 @@ $(document).ready(function () {
 	                        <div class="inquiry-answer-info" style="display: none;">
 	                           <div class="inquiry-answer-content">
 	                               <i class="icon-answer-arrow"></i>
-	                               <div>
+	                               <div class="reply-wrap">
 	                                   <p>${inquiry.answer_content ? inquiry.answer_content : '답변 내용이 없습니다.'}</p>
-	                                   <div style="margin-top: 20px; font-size: 13px;">${answerDateFormatted}</div>
+	                                   <p>${answerDateFormatted}</p>
 	                               </div>
 	                           </div>
 	                        </div>` : ''}`;
-                        
+
                         $('#inquiries-list').append(inquiryHtml);
                     });
 
-                    
-                    $('.icon-arrow-off').on('click', function () {
-                        let $icon = $(this);
+
+                    // $('.icon-arrow-off').on('click', function () {
+                    //     let $icon = $(this);
+                    //     let $detailContent = $icon.closest('.inquiry-info').next('.inquiry-detail-info');
+                    //     let $answerContent = $detailContent.next('.inquiry-answer-info');
+					//
+                    //     if ($icon.hasClass('icon-arrow-off')) {
+                    //         $icon.removeClass('icon-arrow-off').addClass('icon-arrow-on');
+                    //         $detailContent.slideDown();
+                    //         if ($answerContent.length) {
+                    //             $answerContent.slideDown();
+                    //         }
+                    //     } else {
+                    //         $icon.removeClass('icon-arrow-on').addClass('icon-arrow-off');
+                    //         $detailContent.slideUp();
+                    //         if ($answerContent.length) {
+                    //             $answerContent.slideUp();
+                    //         }
+                    //     }
+                    // });
+
+                    $('.inquiry-info').on('click', function () {
+                        let $icon = $(this).find('.icon-arrow-off, .icon-arrow-on'); // 클릭한 inquiry-info 내에서 아이콘 찾기
                         let $detailContent = $icon.closest('.inquiry-info').next('.inquiry-detail-info');
                         let $answerContent = $detailContent.next('.inquiry-answer-info');
-						
+
                         if ($icon.hasClass('icon-arrow-off')) {
                             $icon.removeClass('icon-arrow-off').addClass('icon-arrow-on');
                             $detailContent.slideDown();
@@ -165,16 +185,17 @@ $(document).ready(function () {
                         }
                     });
 
-                    
+
+
                     $('.delete-btn').on('click', function () {
                         let inquiryNum = $(this).data('num');
 						let orderDetailNum = $(this).data('orderDetailNum');
-						
+
 						getConfirmModal('정말로 삭제하시겠습니까?','', function () {
-					        deleteInquiry(inquiryNum, orderDetailNum); 
+					        deleteInquiry(inquiryNum, orderDetailNum);
 					    });
                     });
-					
+
 					updatePagination(data.totalPages, page, startDate, endDate);
                 }
             },
@@ -184,17 +205,17 @@ $(document).ready(function () {
             }
         });
     }
-	
+
 	function updatePagination(totalPages, currentPage, inquiry_answer_status = '') {
 	    const maxPagesToShow = 5;
 
 	    $('#page-area').empty();
-	    
+
 	    let pageArea = $('#page-area')
-	    
+
 	    let leftIcon = $('<i class="fa-solid fa-angle-left page-arrow"></i>')
 	    let rightIcon = $('<i class="fa-solid fa-angle-right page-arrow"></i>')
-	    
+
 	    if (currentPage === 1) {
 	        leftIcon.addClass('arrow-disable');
 	    } else {
@@ -204,29 +225,29 @@ $(document).ready(function () {
 	            updatePagination(totalPages, currentPage, globalStatus);
 	        });
 	    }
-	    
+
 	    pageArea.append(leftIcon);
-	    
+
 	    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
 	    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
 	    if (endPage - startPage < maxPagesToShow - 1) {
 	        startPage = Math.max(1, endPage - maxPagesToShow + 1);
 	    }
-	    
+
 	    for (let i = startPage; i <= endPage; i++) {
 	        let pageButton = $('<span class="page-link"></span>').text(i);
 	        if (i === currentPage) {
 	            pageButton.addClass('link-on');
 	        }
 	        pageButton.on('click', function () {
-	            currentPage = i;  
+	            currentPage = i;
 	            loadInquiries(globalStatus, globalStartDate, globalEndDate, i, pageSize);
 	            updatePagination(totalPages, i, globalStatus);
 	        });
 	        pageArea.append(pageButton);
 	    }
-	    
+
 	    if (currentPage === totalPages) {
 	        rightIcon.addClass('arrow-disabled');
 	    } else {
@@ -236,10 +257,10 @@ $(document).ready(function () {
 	            updatePagination(totalPages, currentPage, globalStatus);
 	        });
 	    }
-	    
+
 	    pageArea.append(rightIcon);
 	}
-	
+
     function formatDateForDB(date, type) {
         let formattedDate = new Date(date).toISOString().split('T')[0];
         return type === 'start' ? formattedDate + ' 00:00:00' : formattedDate + ' 23:59:59';

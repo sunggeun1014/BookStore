@@ -1,29 +1,20 @@
 .product-image {
 	width: 140px;
 	height: 210px;
+	border: 1px solid #f3f3f3;
+	box-shadow: 0 1px 4px rgb(0 0 0 / 0.09);
 }
 
-.product-list-area {
+#product-list-form {
 	display: flex;
-	border-top: solid 1px #C0C0C0;
-	padding: 30px 0; 
-}
-
-.product-list-area:last-child {
+	justify-content: space-between;
 	border-bottom: solid 1px #C0C0C0;
+	padding: 30px 0;
 }
 
-.product-checkbox-area {
-	margin-right: 22px;
-}
-
-.product-img-area {
-	margin-right: 24px;
-}
-
-.product-info-area {
-	height: 186px;
-	margin-right: auto;
+.list-left {
+	display: flex;
+	gap: 24px;
 }
 
 .book-name {
@@ -72,9 +63,9 @@
 }
 
 .product-btn-area {
-	margin: auto 0;
     display: flex;
     flex-direction: column;
+	justify-content: center;
     gap: 15px;
 }
 
@@ -117,6 +108,8 @@
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #C0C0C0;
 }
 
 .order-area {
@@ -217,8 +210,10 @@
 }
 
 .filter-btn-wrap {
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);
+	width: 65%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
 }
 
 .condition-title-style {

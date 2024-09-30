@@ -23,6 +23,12 @@
 	display: flex; 
 	flex-direction: column;
 }
+
+textarea:focus,
+select:focus {
+    outline: none;
+    border: 1px solid #2D2D2D;
+}
 .btn-custom {
 	width: 120px; 
 	border-radius: 5px;
@@ -33,7 +39,6 @@
 }
 .between {
 	justify-content: space-between;
- 
 }
 
 .email-container {
@@ -71,15 +76,10 @@
 	line-height: 2;	
 }
 
-.content-font {
-	font-size: 16px;	
-	font-weight: 600;
-}
-
 .char-count {
 	position: absolute;
 	bottom: 17px;
-	right: 0px;
+	right: 0;
 }
 
 .char-count span {
@@ -101,7 +101,6 @@
 }
 
 .image-upload-label {
-    display: inline-block;
     width: 100px;
     height: 100px;
     border: 2px solid #ccc;
@@ -120,7 +119,7 @@
 	display: flex;
     flex-direction: column;
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 10% auto;
     border: 0.5px solid #888;
     padding: 20px;
     width: 500px;
@@ -128,6 +127,26 @@
     max-height: 700px;
     border-radius: 8px;
     overflow: auto;
+}
+
+/* 스크롤바 커스텀 */
+.inquiry-modal-content::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+}
+.inquiry-modal-content::-webkit-scrollbar-track { /* 스크롤 바 배경 */
+    height: 10%;
+    background-color: transparent; /*스크롤 바 배경 색상*/
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    background-clip: content-box;
+}
+
+.inquiry-modal-content::-webkit-scrollbar-thumb {  /* 스크롤바 막대 */
+    height: 20%;
+    background-clip: padding-box;
+    border: 2px solid transparent; /*스크롤 바 양옆 여백*/
+    border-radius: 8px;
+    background-color: #666; /*스크롤 바 색상*/
 }
 
 .inquiry-modal-text {
@@ -161,7 +180,7 @@
 
 .btn-spacebetween {
 	margin: 0 10px;
-	color: C0C0C0;
+	color: #C0C0C0;
 }
 
 .cancel-btn-img {
@@ -195,14 +214,15 @@
 .order-summary {
 	display: flex; 
 	align-items: center;
-	margin: 15px 0px 20px 0px; 
-	gap: 40px;
+	margin: 15px 0 20px 0;
+	gap: 20px;
 }
 
 .order-span {
 	border: 1px solid #C0C0C0;
     border-radius: 5px;
-    padding: 15px;
+    padding: 10px;
+    font-size: 14px;
 	
 }
 

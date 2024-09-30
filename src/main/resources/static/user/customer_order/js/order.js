@@ -175,25 +175,6 @@ function showLoginCheckModal() {
     }
 }
 
-// let lastDate = "";
-// let orderTurn = 0;
-// const date = new Date();
-// const year = date.getFullYear();
-// const month = String(date.getMonth() + 1).padStart(2, "0");
-// const day = String(date.getDate()).padStart(2, "0");
-// let orderDate = year + month + day;
-//
-// function createTempOrderNum() {
-//     if (lastDate !== orderDate) {
-//         lastDate = orderDate;
-//         orderTurn = 0;
-//     }
-//
-//     orderNum = `${orderDate}-${String(++orderTurn).padStart(4, "0")}`;
-//
-//     return orderNum;
-// }
-
 function goToOrder() {
     const payBtn = document.getElementById("pay-btn");
     const entPwInput = document.getElementById("common_ent_pw");
@@ -204,7 +185,6 @@ function goToOrder() {
         errorMsg.style.display = 'none';
     })
 
-    // const tempOrderNum = createTempOrderNum();
     const memberId = document.getElementById("member_id").value;
     const totalAmount = parseInt(document.querySelector(".price > p:first-child").textContent.replace(/,/g, ''));
     const orderNameInput = document.getElementById("order_name")
@@ -273,8 +253,6 @@ function goToOrder() {
         // if (cartNum && cartNum.length > 0) {
         //     data.cart_num = cartNum; // 카트넘이 있을 경우만 추가
         // }
-
-        console.log(cartNum);
 
         PortOne.requestPayment({
             storeId: "store-5d54b2b0-bf88-45dd-8265-7018895b8a38",
