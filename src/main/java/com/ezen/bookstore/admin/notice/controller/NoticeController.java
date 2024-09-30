@@ -72,7 +72,7 @@ public class NoticeController {
 	}
 
 	
-	@GetMapping("/noticeReg")
+	@GetMapping("/register")
 	public String noticeReg() {
 		return "admin/notice/noticeReg";
 	}

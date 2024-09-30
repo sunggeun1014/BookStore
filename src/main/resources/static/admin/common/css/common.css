@@ -448,9 +448,17 @@ input[type='number'] {
 	justify-content: center;
 	align-items: center;
 }
+
+.essential {
+	position: relative;
+}
+
 .essential::before {
+	position: absolute;
     content: "*";
     color: red;
+	top: -17px;
+	left: 1px;
 }
 
 /* 테이블 체크 했을 때 배경색 바뀜 */

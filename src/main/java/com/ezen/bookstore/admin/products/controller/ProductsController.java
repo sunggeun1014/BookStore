@@ -93,7 +93,7 @@ public class ProductsController {
         return "redirect:/admin/products/detail?book_isbn=" + bookISBN;
     }
 
-    @GetMapping("/addProduct")
+    @GetMapping("/register")
     public String addBook(Model model) {
         List<CategoryDTO> bookCategory = productService.categoryList();
 
@@ -114,7 +114,7 @@ public class ProductsController {
         return response;
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("/register")
     public String insertBook(@ModelAttribute ProductsDTO productDTO, Model model) throws IOException {
     	productDTO.setBook_category(productDTO.getBook_category().replace(",", ""));
         productService.insertBook(productDTO);

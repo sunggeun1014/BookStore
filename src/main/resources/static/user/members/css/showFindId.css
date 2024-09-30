@@ -1,28 +1,23 @@
-body {
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    height: 100vh;
-    margin: 0;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+.find-result-container {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.logo-wrap {
+    display: block;
+    margin: 100px 0 90px;
 }
 
 .showFindId-frame {
+    width: 360px;
     text-align: center;
     background-color: white;
-    padding: 40px 30px;
     border-radius: 10px;
-    width: 360px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     flex-wrap: nowrap;
     align-content: center;
-}
-.showFindId-frame img.mainlogo {
-    width: 100px;
-    margin-bottom: 30px;
 }
 
 /* h3 왼쪽 정렬 및 border-bottom 추가 */
@@ -30,7 +25,6 @@ h3 {
     font-size: 16px;
     color: #333;
     margin-bottom: 20px;
-    font-weight: normal;
     text-align: left; /* 왼쪽 정렬 */
     border-bottom: 1px solid #d9d9d9; /* 아래 경계선 추가 */
     padding-bottom: 20px; /* 경계선과 텍스트 사이의 여백 */
@@ -90,8 +84,4 @@ button:last-of-type {
 
 button:hover {
     opacity: 0.9;
-}
-
-img {
-	margin-top: 20px;
 }
