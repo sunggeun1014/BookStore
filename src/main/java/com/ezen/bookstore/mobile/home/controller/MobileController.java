@@ -6,11 +6,19 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ezen.bookstore.admin.commons.AdminSessionInfo;
+import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
+import com.ezen.bookstore.admin.managers.service.AdminMgrService;
+import com.ezen.bookstore.commons.CommonConstants;
 import com.ezen.bookstore.commons.Pagination;
 import com.ezen.bookstore.commons.PaginationProcess;
+import com.ezen.bookstore.commons.SessionUtils;
 import com.ezen.bookstore.mobile.home.dto.DeliveryDTO;
 import com.ezen.bookstore.mobile.home.service.DeliveryService;
 
@@ -28,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MobileController {
 	PaginationProcess paginationProcess;
 	DeliveryService deliveryService;
+	AdminMgrService adminMgrService;
 	
 	@GetMapping("/login")
 	public String login() {		
@@ -47,6 +56,7 @@ public class MobileController {
 		return "mobile/home/home";
     }
 	
+	
 	@GetMapping("/delivery-detail")
 	public String orderDetailPage(@RequestParam("orderNum") Integer orderNum,
 								  Model model) {
@@ -54,4 +64,35 @@ public class MobileController {
 		model.addAttribute("list", deliveryService.getRequestDetail(orderNum));
 		return "mobile/home/delivery_detail";
 	}
+	
+	
+	
+	
+	@GetMapping("/myinfo")
+	public String myInfoPage(Model model) {
+		AdminManagersDTO managerDTO = adminMgrService.detailList(SessionUtils.getAdminAttribute(AdminSessionInfo.MANAGER_ID));
+		
+        String[] phoneNumber = managerDTO.getManager_phoneNo().split("-");
+        String countryNum = phoneNumber[0];
+        String phonePart1 = phoneNumber[1];
+        String phonePart2 = phoneNumber[2];
+        
+		model.addAttribute("countryNums", CommonConstants.COUNTRY_NUMS);
+		model.addAttribute("countryNum", countryNum);
+		model.addAttribute("phonePart1", phonePart1);
+		model.addAttribute("phonePart2", phonePart2);
+		
+		model.addAttribute("manager", managerDTO);
+		return "mobile/myinfo/myinfo";
+	}
+	
+	@PostMapping("/update-info")
+    public String updateManagerInfo(@ModelAttribute AdminManagersDTO managerDTO) {
+        
+		managerDTO.setManager_id(SessionUtils.getAdminAttribute(AdminSessionInfo.MANAGER_ID));
+        
+        adminMgrService.updateManager(managerDTO, null);
+        
+        return "redirect:/mobile/admin/index";
+    }
 }

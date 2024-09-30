@@ -32,6 +32,23 @@
 			order_detail_num = #{order_detail_num}
 	</update>
 	
+	
+	<insert id="insertInventory" parameterType="supplierOrders">
+		MERGE INTO inventory inv
+	    USING (
+	        SELECT #{order_detail_isbn} AS inv_isbn, #{order_detail_title} AS inv_title, #{order_detail_qty} AS inv_qty, #{zone_num} AS zone_num 
+	        FROM dual
+	    ) src
+	    ON (inv.inv_isbn = src.inv_isbn)
+	    WHEN MATCHED THEN
+	        UPDATE SET 
+	            inv.inv_qty = inv.inv_qty + src.inv_qty,
+	            inv.zone_num = src.zone_num
+	    WHEN NOT MATCHED THEN
+	        INSERT (inv.inv_isbn, inv.inv_title, inv.inv_qty, inv.inv_registration_date, inv.zone_num)
+	        VALUES (src.inv_isbn, src.inv_title, src.inv_qty, CURRENT_TIMESTAMP, src.zone_num)
+	</insert>
+
 	<insert id="insertInventoryLog" parameterType="supplierOrders">
 	    INSERT INTO 
 	    	Inventory_Log (

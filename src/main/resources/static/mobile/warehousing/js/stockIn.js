@@ -3,59 +3,63 @@ $(document).ready(function() {
 	const zoneNum = document.getElementById("zoneNum").value;
 
 	$('#stockIn').on('click', function() {
-       let orderDetails = [];
-	   
-	   let orderNum = $('#search-input').val().trim();
-	   
-	   if (!orderNum) {
-           alert('발주번호를 입력하세요.');
-           return;
-       }
-	   
-       $('#dispatch-list .content-dispatch-list').each(function() {
-			let contentWrap = $(this).find('.content-text-wrap'); 
-
-		    let isbn = contentWrap.attr('data-isbn');  
-		    let title = contentWrap.attr('data-title'); 
-		    let qtyInput = $(this).find('.input-qty').val();  
-		    let orderDetailNum = contentWrap.attr('data-detail');
-		   
-           if (qtyInput && qtyInput > 0) {
-               orderDetails.push({
-                   order_detail_isbn: isbn,
-                   order_detail_title: title,
-                   order_detail_qty: parseInt(qtyInput, 10),
-				   order_detail_num: orderDetailNum
-               });
+       getConfirmModal("상품을 입고하시겠습니까?", function() {
+           let orderDetails = [];
+           let orderNum = $('#search-input').val().trim();
+           
+           if (!orderNum) {
+               getCheckModal('발주번호를 입력하세요.', $('#search-input'));
+               return;
            }
-       });
+           
+           $('#dispatch-list .content-dispatch-list').each(function() {
+               let contentWrap = $(this).find('.content-text-wrap'); 
 
-       if (orderDetails.length === 0) {
-           alert('입력된 수량이 없습니다.');
-           return;
-       }
-	   let requestData = {
-		   order_num: orderNum,
-	       zone_num: zoneNum, 
-	       order_details: orderDetails
-		
-	   };
-       $.ajax({
-           type: "POST",
-           url: "/mobile/admin/process-inventory",  
-           data: JSON.stringify(requestData),
-           contentType: "application/json",  
-           success: function(response) {
-               if (response.status === 'success') {
-                   alert('입고 처리가 완료되었습니다.');
-                   location.reload();  
-               } else {
-                   alert('입고 처리에 실패했습니다.');
+               let isbn = contentWrap.attr('data-isbn');  
+               let title = contentWrap.attr('data-title'); 
+               let qtyInput = $(this).find('.input-qty').val();  
+               let orderDetailNum = contentWrap.attr('data-detail');
+              
+               if (qtyInput && qtyInput > 0) {
+                   orderDetails.push({
+                       order_detail_isbn: isbn,
+                       order_detail_title: title,
+                       order_detail_qty: parseInt(qtyInput, 10),
+                       order_detail_num: orderDetailNum
+                   });
                }
-           },
-           error: function(xhr, status, error) {
-               alert('서버와의 통신 중 오류가 발생했습니다.');
+           });
+
+           if (orderDetails.length === 0) {
+               getCheckModal('입력된 수량이 없습니다.');
+               return;
            }
+
+           let requestData = {
+               order_num: orderNum,
+               zone_num: zoneNum, 
+               order_details: orderDetails
+           };
+
+           $.ajax({
+               type: "POST",
+               url: "/mobile/admin/process-inventory",  
+               data: JSON.stringify(requestData),
+               contentType: "application/json",  
+               success: function(response) {
+                   if (response.status === 'success') {
+                       getCheckModal('입고 처리가 완료되었습니다.');
+                       location.reload();  
+                   } else {
+                       getErrorModal();
+					   return;
+                   }
+               },
+               error: function(xhr, status, error) {
+                   getErrorModal();
+				   return;
+               }
+           });
        });
    });
 	   
@@ -67,7 +71,7 @@ $(document).ready(function() {
         let orderNum = $('#search-input').val().trim();
 
         if (!orderNum) {
-            alert('발주번호를 입력하세요.');
+            getCheckModal('발주번호를 입력하세요.', $('#search-input'));
             return;
         }
 		
@@ -92,11 +96,13 @@ $(document).ready(function() {
                     const dataList = response.data;
                     updateWarehouseList(dataList);  
                 } else {
-                    alert('데이터를 불러오는 데 실패했습니다.');
+                    getErrorModal();
+					return;
                 }
             },
             error: function(xhr, status, error) {
-                alert('서버와의 통신 중 오류가 발생했습니다.');
+                getCheckModal('발주번호를 확인하세요.', $('#search-input'));
+				return;
             },
             beforeSend: function() {
                 $('#dispatch-list').html('<p>로딩 중...</p>');  

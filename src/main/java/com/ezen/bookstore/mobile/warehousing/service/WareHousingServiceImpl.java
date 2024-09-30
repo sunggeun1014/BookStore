@@ -46,6 +46,8 @@ public class WareHousingServiceImpl implements WareHousingService {
 	         wareHousingMapper.updateReceivedQty(orderDetail.getOrder_detail_num(), orderDetail.getOrder_detail_qty());
 	         
 	         wareHousingMapper.insertInventoryLogDetail(orderDetail);
+	         
+	         wareHousingMapper.insertInventory(orderDetail);
 		}
 	}
 }
