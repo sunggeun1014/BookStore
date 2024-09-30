@@ -27,10 +27,10 @@
 					        th:if="${orderDetails.order_delivery_status == '배송전' && not #arrays.isEmpty(detailList.?[order_detail_status == '주문완료'])}" 
 					        th:data-order-num="${orderDetails.order_num}" 
 					        onclick="location.href='/' + 'user/mypage/cancleList?orderNum=' + this.dataset.orderNum">취소</button>
-
-					    <button id="returnButton" class="default-btn border return-btn"
-							th:if="${(orderDetails.order_delivery_status == '배송중' || orderDetails.order_delivery_status == '배송완료')
-								&& not #arrays.isEmpty(detailList.?[order_detail_status == '주문완료'])}"
+						
+					    <button id="returnButton" class="default-btn border return-btn" 
+							th:if="${orderDetails.order_delivery_status == '배송완료' && not #arrays.isEmpty(detailList.?[order_detail_status == '주문완료']) 
+								&& not #arrays.isEmpty(detailList.?[order_detail_status == '반품요청' || order_detail_status == '반품완료']) == false}"
 							th:data-order-num="${orderDetails.order_num}"
 					        th:data-payment-date="${orderDetails.order_purchase_date}"
 					        onclick="location.href='/' + 'user/mypage/returnRequest?orderNum=' + this.dataset.orderNum">반품</button>

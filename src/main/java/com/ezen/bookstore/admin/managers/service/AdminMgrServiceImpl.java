@@ -81,11 +81,11 @@ public class AdminMgrServiceImpl implements AdminMgrService {
     public void updateManager(AdminManagersDTO managersDTO, MultipartFile profileImage) {
     	String password = managersDTO.getManager_pw();
     	
-    	if (!password.isEmpty()) {
+    	if (password != null && !password.isEmpty()) {
     		String encodedPassword = passwordEncoder.encode(password);
     		managersDTO.setManager_pw(encodedPassword);
     	}
-		if (!profileImage.isEmpty()) {
+		if (profileImage != null && !profileImage.isEmpty()) {
 	        try {
 	             String originalFilename = profileImage.getOriginalFilename();
 	             String modifiedFilename = FileManagement.generateNewFilename(originalFilename, FileManagement.PROFILE_UPLOAD_NAME);

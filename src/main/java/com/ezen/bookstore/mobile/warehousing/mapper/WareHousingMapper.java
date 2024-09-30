@@ -15,6 +15,6 @@ public interface WareHousingMapper {
 	void insertInventoryLog(SupplierOrdersDTO supplierOrdersDTO);
 	Integer getLastLogTransactionNum();
     void insertInventoryLogDetail(OrderDetailsDTO orderDetailsDTO);
-    
+    void insertInventory(OrderDetailsDTO orderDetailsDTO);
     void updateReceivedQty(@Param("order_detail_num")Integer orderDetailNum, @Param("order_detail_qty")Integer orderDetailQty);
 }

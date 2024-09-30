@@ -35,7 +35,8 @@ public class UserOrderRequestRepository {
         Map<String, String> params = new HashMap<>();
         params.put("memberId", memberId);
         params.put("status", status);
-    	return sql.selectOne("UserOrderRequest.countByDeliveryStatus", params);
+        List<Integer> results = sql.selectList("UserOrderRequest.countByDeliveryStatus", params);
+        return results.isEmpty() ? 0 : results.get(0);
     }
 	
     public List<UserCustomerOrderWithDetailsDTO> getDetailItem(Integer orderNum) {

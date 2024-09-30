@@ -215,8 +215,16 @@ input[type='number'] {
     appearance: none;
 }
 
+.input-pw {
+	width: 15rem;
+    height: 3rem;
+    border: 1px solid #C0C0C0;
+    border-radius: .5rem;
+}
+
 /* 전화번호 셀렉박스 */
 select {
+	width: 5rem;
     height: 3rem;
     padding: 0 .5rem;
     appearance: none;
@@ -232,6 +240,10 @@ select::-ms-expand {
 .select-wrap-und {
     position: relative;
     width: 5rem;
+}
+
+.search-list-subject-symbol {
+	width: 1rem;
 }
 
 .fa-sort {
@@ -317,4 +329,27 @@ select::-ms-expand {
 .content-sub-txt {
     font-size: 1rem;
     color: #7e7e7e;
+}
+
+.myinfo {
+	display: grid; 
+	grid-template-columns: 10rem 1fr; 
+	gap: 3rem; 
+	align-items: center;
+}
+
+.myinfo-phone {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.success-message {
+    color: #10A142;
+    font-size: 1.4rem;
+}
+
+.error-message {
+	color: #E54F53;
+  	font-size: 1.4rem;
 }
