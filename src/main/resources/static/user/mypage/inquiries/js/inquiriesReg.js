@@ -160,10 +160,8 @@ function createOrderModal(orderList) {
 	contentArea.append(modalFotter);
 	divArea.append(contentArea);
 
-	
 	$("body").append(divArea);
-
-	
+	disableScroll();
 	
 	function setOrderDetails(orderNumber, orderDetailNumber, maxQty) {
 	    
@@ -215,7 +213,8 @@ function createOrderModal(orderList) {
 	    }
 		
 	    divArea.remove();
-		
+		enableScroll();
+
 		let quantitySection = document.getElementById('quantitySection'); 
 		quantitySection.style.display = isQuantityRequired ? 'flex' : 'none';
 		$(".order-summary").css("display", "flex");
@@ -223,6 +222,7 @@ function createOrderModal(orderList) {
 	
 	$("#cancel-btn").on("click", function() {
 		divArea.remove();
+		enableScroll();
 	});
 }
 

@@ -103,7 +103,7 @@ function getErrorModal(msg, focusElement) {
 
 
 // 탑버튼
-const BODY = document.querySelector("body"); //scrolling
+const BODY = document.body; //scrolling
 const topBtn = document.querySelector("#top-btn");
 
 window.addEventListener("scroll", function () {
@@ -194,3 +194,32 @@ function drawNoResultDefault(parentEl, msg) {
 
     parentElement.appendChild(resultWrap)
 }
+
+
+let scrollPosition = 0;
+// 스크롤 불가
+function disableScroll() {
+    scrollPosition = window.scrollY
+    BODY.style.position = 'fixed';
+    BODY.style.top = `-${scrollPosition}px`;
+    BODY.style.overflow = 'hidden';
+    BODY.style.width = '100%';
+}
+
+// 스크롤 가능
+function enableScroll() {
+    BODY.style.position = '';
+    BODY.style.top = '';
+    BODY.style.overflow = '';
+    window.scrollTo(0, scrollPosition);
+}
+
+// function disableScroll() {
+//     BODY.classList.add('hidden')
+//     document.documentElement.classList.add('hidden')
+// }
+//
+// function enableScroll() {
+//     BODY.classList.remove('hidden')
+//     document.documentElement.classList.remove('hidden')
+// }

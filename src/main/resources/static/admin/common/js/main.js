@@ -1,7 +1,6 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const menuItems = document.querySelectorAll(".menu-items");
     let currentPath = window.location.pathname;
-    let searchPath = window.location.search;
 
     // 경로의 끝에 슬래시('/')가 있으면 제거 (정규화)
     if (currentPath.endsWith('/')) {
@@ -69,13 +68,23 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (listText) listText.classList.add("open");
             }
 
-            if (trimmedPath === trimmedCurPath && originalHref.includes('list') && currentPath.includes('register')) {
-                link.setAttribute('href', trimmedPath + 'register');
-                link.classList.add("current-page");
+            if (trimmedPath === trimmedCurPath && currentPath.includes('register')) {
+                if (originalHref.includes('managers/list')) {
+                    return
+                } else {
+                    link.setAttribute('href', trimmedPath + 'register');
+                    link.classList.add("current-page");
 
-                const isOpen = localStorage.getItem(`menu-open-${index}`) === "true";
+                    const isOpen = localStorage.getItem(`menu-open-${index}`) === "true";
 
-                if (isOpen) {
+                    if (isOpen) {
+                        if (subMenu) subMenu.classList.add("open");
+                        if (barImg) barImg.classList.add("open");
+                        if (arrowRight) arrowRight.classList.add("open");
+                        if (iconImg) iconImg.classList.add("open");
+                        if (listText) listText.classList.add("open");
+                    }
+
                     if (subMenu) subMenu.classList.add("open");
                     if (barImg) barImg.classList.add("open");
                     if (arrowRight) arrowRight.classList.add("open");
@@ -83,11 +92,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     if (listText) listText.classList.add("open");
                 }
 
-                if (subMenu) subMenu.classList.add("open");
-                if (barImg) barImg.classList.add("open");
-                if (arrowRight) arrowRight.classList.add("open");
-                if (iconImg) iconImg.classList.add("open");
-                if (listText) listText.classList.add("open");
             }
             link.setAttribute('href', originalHref);
 
@@ -111,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 메뉴 클릭 시 동작
     menuItems.forEach((item, index) => {
-        item.addEventListener("click", function(e) {
+        item.addEventListener("click", function (e) {
             const subMenu = this.querySelector(".sub-menu-list");
             const barImg = this.querySelector(".bar-img");
             const arrowRight = this.querySelector(".fa-chevron-right");
@@ -157,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // 로고 클릭 시 모든 메뉴 상태 초기화
     const logoWrap = document.querySelector(".logo-wrap");
     if (logoWrap) {
-        logoWrap.addEventListener("click", function() {
+        logoWrap.addEventListener("click", function () {
             // 로컬 스토리지 초기화
             menuItems.forEach((_, index) => {
                 localStorage.removeItem(`menu-open-${index}`);
@@ -223,11 +227,11 @@ function setDateOption(day, obj) {
 
     const start_year = new_date.getFullYear();
     const start_month = (new_date.getMonth() + 1).toString().padStart(2, '0');
-    const start_day    = new_date.getDate().toString().padStart(2, '0');
+    const start_day = new_date.getDate().toString().padStart(2, '0');
 
     const end_year = now_date.getFullYear();
     const end_month = (now_date.getMonth() + 1).toString().padStart(2, '0');
-    const end_day    = now_date.getDate().toString().padStart(2, '0');
+    const end_day = now_date.getDate().toString().padStart(2, '0');
 
     $(".startDate").val(`${start_year}-${start_month}-${start_day}`);
     $(".endDate").val(`${end_year}-${end_month}-${end_day}`);
@@ -252,13 +256,13 @@ function getConfirmModal(msg, func) {
 
 
     $("body").append(divArea);
-    $("#confirm-delete").on("click", function() {
+    $("#confirm-delete").on("click", function () {
         func();
         divArea.remove(); // 모달 제거
     });
 
     // 취소 버튼 클릭 이벤트
-    $("#cancel-delete").on("click", function() {
+    $("#cancel-delete").on("click", function () {
         divArea.remove(); // 모달 제거
     });
 
@@ -280,9 +284,9 @@ function getCheckModal(msg, focusElement) {
     divArea.append(contentArea);
 
     $("body").append(divArea);
-    $(".modal-btn.confirm").on("click", function() {
+    $(".modal-btn.confirm").on("click", function () {
         divArea.remove(); // 모달 제거
-        if(focusElement) {
+        if (focusElement) {
             focusElement.focus();
         }
     });
@@ -305,9 +309,9 @@ function getErrorModal(focusElement) {
     divArea.append(contentArea);
 
     $("body").append(divArea);
-    $(".modal-btn.confirm").on("click", function() {
+    $(".modal-btn.confirm").on("click", function () {
         divArea.remove(); // 모달 제거
-        if(focusElement) {
+        if (focusElement) {
             focusElement.focus();
         }
     });
@@ -327,12 +331,12 @@ function fnPostAjax(url, params, successFc) {
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(params),
-        success: function(jsonData) {
-            if(typeof successFc === 'function') {
+        success: function (jsonData) {
+            if (typeof successFc === 'function') {
                 successFc(jsonData);
             }
         },
-        error: function() {
+        error: function () {
             getCheckModal('통신 중 오류가 발생했습니다.');
         }
     });
