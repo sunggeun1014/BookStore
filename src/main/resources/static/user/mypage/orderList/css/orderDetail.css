@@ -57,23 +57,20 @@
 
 .order-items {
 	display: flex;
-	align-items: center;
 	padding: 15px 30px 15px 40px;
 	border-top: 1px solid #c0c0c0;
-	gap: 20px;
+	justify-content: space-between;
 }
 
 .book-thumbnail {
-	width: 82px;
-	height: 115px;
+	width: 80px;
+	height: 114px;
 }
 
 .book-info {
 	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
 	align-items: center;
+	gap: 20px;
 }
 
 .book-name-qty {
@@ -96,10 +93,10 @@
 
 .order-status-wrap {
 	display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
-    width: 65px;
+	flex-direction: column;
+	gap: 5px;
+	align-items: center;
+	width: 65px;
 }
 
 .order-status {

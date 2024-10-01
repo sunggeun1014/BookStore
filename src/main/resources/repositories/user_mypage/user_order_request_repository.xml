@@ -158,7 +158,7 @@
         	cod.order_detail_num ASC
     </select>
 
-	<select id="cancleList" parameterType="java.util.HashMap" resultType="customerOrderWithDetails">
+	<select id="cancelList" parameterType="java.util.HashMap" resultType="customerOrderWithDetails">
 		SELECT
 	    co.order_num,
 	    co.order_purchase_date,
@@ -256,7 +256,7 @@
 		    order_num = #{orderNum}
 	</update>
 	
-	<update id="orderCancle" parameterType="customerOrderWithDetails">
+	<update id="orderCancel" parameterType="customerOrderWithDetails">
 		UPDATE customer_order_details
 		SET
 		    order_detail_status = '02',

@@ -5,24 +5,24 @@
       layout:decorate="~{/user/common/layout/myPageLayout}"
       layout:fragment="Content">
 
-	<link rel="stylesheet" href="/user/mypage/purchase_cancle/css/cancleList.css">
+	<link rel="stylesheet" href="/user/mypage/purchase_cancel/css/cancelList.css">
 <div>
 	<div class="page-title">
 		<span>취소신청</span>
 	</div>
 	<div class="order-info-area">
 		<div class="request-date">
-			<span th:if="${!#lists.isEmpty(cancleList)}" th:text="${#dates.format(cancleList[0].order_purchase_date, 'yyyy.MM.dd')}"></span>
+			<span th:if="${!#lists.isEmpty(cancelList)}" th:text="${#dates.format(cancelList[0].order_purchase_date, 'yyyy.MM.dd')}"></span>
 		</div>
 		<div class="request-order-num">
-			<span th:if="${!#lists.isEmpty(cancleList)}" th:text="'주문번호 ' + ${cancleList[0].order_num}"></span>
+			<span th:if="${!#lists.isEmpty(cancelList)}" th:text="'주문번호 ' + ${cancelList[0].order_num}"></span>
 		</div>
 	</div>
 	<div class="page-sub-title">
 		<span>주문상품</span>
 	</div>
-	<div th:each="detail : ${cancleList}">
-		<div class="cancle-book-detail">
+	<div th:each="detail : ${cancelList}">
+		<div class="cancel-book-detail">
 			<div>
 				<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><img th:src="'/images/books/' + ${detail.book_thumbnail_changed != null ? detail.book_thumbnail_changed : 'noimg.png'}" alt="책 이미지" width="80" height="114"></a>
 			</div>
@@ -43,7 +43,7 @@
 			</div>		
 		</div>
 	</div>
-	<div class="cancle-guide-lines-area">
+	<div class="cancel-guide-lines-area">
 		<div>
 			<div class="guide-lines-title-area">
 				<span class="guide-lines-title">취소안내사항</span>
@@ -92,11 +92,11 @@
 		</div>
 	</div>
 	<div class="btn-area">
-		<button class="cancle-btn" onclick="orderCancleBtn();">취소신청</button>
+		<button class="cancel-btn" onclick="orderCancelBtn();">취소신청</button>
 		<button class="back-btn" onclick="location.href='/user/mypage/orderList'">이전으로</button>
 	</div>
 </div>
 
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="/user/mypage/purchase_cancle/js/cancleList.js"></script>
+	<script src="/user/mypage/purchase_cancel/js/cancelList.js"></script>
 </html>

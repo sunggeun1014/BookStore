@@ -29,7 +29,7 @@ function countValidation(obj) {
 		$(obj).val(maxQty);
 	} 
 	
-	const isChecked = $(obj).closest(".cancle-book-detail").find(".checked").prop("checked");
+	const isChecked = $(obj).closest(".cancel-book-detail").find(".checked").prop("checked");
 	
 	if(isChecked) {
 		calculateTotalAmount();
@@ -39,7 +39,7 @@ function countValidation(obj) {
 function calculateTotalAmount() {
     let totalAmount = 0;
 
-    $(".cancle-book-detail").each(function() {
+    $(".cancel-book-detail").each(function() {
 		const isChecked = $(this).find(".checked").prop("checked");
 		
 		if(isChecked) {
@@ -64,7 +64,7 @@ function numberFormatter(number) {
 }
 
 function selectedCountChange() {
-	const selectedCount = $(".cancle-book-detail").find("input[type='checkbox']:checked").length;
+	const selectedCount = $(".cancel-book-detail").find("input[type='checkbox']:checked").length;
 	
 	$("#selected-count").text(`(${selectedCount})`);
 }
@@ -185,10 +185,10 @@ function addrSearchBtn() {
     }).open();
 }
 
-function orderCancleBtn() {
+function orderCancelBtn() {
 	const list = [];
 	 
-	$(".cancle-book-detail").each(function() {
+	$(".cancel-book-detail").each(function() {
 		if($(this).find(".checked").prop("checked")) {
 			const qty = $(this).find("input[name='order_request_qty']").val();
 			const name = $(this).find("input[name='order_detail_num']").val();
