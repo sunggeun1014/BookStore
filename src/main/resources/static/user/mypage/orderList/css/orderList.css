@@ -132,7 +132,7 @@
 }
 
 .book-name {
-    max-width: 156px;
+	max-width: 156px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -162,4 +162,10 @@
 
 .result-wrap {
 	border: none;
+}
+
+.order-status span{
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
 }

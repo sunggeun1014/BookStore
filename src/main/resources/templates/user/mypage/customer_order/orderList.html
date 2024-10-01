@@ -38,8 +38,8 @@
 				<span class="history-status">배송완료</span>
 			</div>
 			<div class="order-history-box">
-				<span class="history-val" id="cancellation-count"></span> 
-				<span class="history-status">취소</span>
+				<span class="history-val" id="request-complete-count"></span> 
+				<span class="history-status">교환/반품/취소</span>
 			</div>
 		</div>
 		<div class="order-history-table">
@@ -76,18 +76,23 @@
 				
 				<!-- 주문상태 -->
 				<div class="history-table-item order-status">
-					<!-- 취소완료일 때는 '주문취소'로 표시 -->
-					<span th:if="${item.order_detail_status == '취소완료'}" th:text="주문취소"></span>
-					
-    				<!-- 나머지 요청 상태는 그대로 표시 -->
-			    	<span th:if="${item.order_detail_status != '취소완료'}" th:text="${item.order_detail_status}"></span>
+			    	<span th:if="${item.order_detail_status == '교환요청' || item.order_detail_status == '반품요청' || item.order_detail_status == '취소요청'}">
+			    		교환/반품/취소
+			    		<span>요청</span>
+			    	</span>
+			    	<span th:if="${item.order_detail_status == '교환완료' || item.order_detail_status == '반품완료' || item.order_detail_status == '주문취소'}">
+			    		교환/반품/취소
+						<span>완료</span>
+			    	</span>
+			    	<span th:if="${item.order_detail_status == '주문완료' || item.order_detail_status == '처리불가'}" th:text="${item.order_detail_status}">
+			    	</span>
+			    
 				</div>
 				
 				
 				<!-- 배송상태 -->
 				<div class="history-table-item delivery-status">
-					<span class="order_delivery_status" th:text="${(item.order_detail_status == '취소요청' || item.order_detail_status == '취소완료' || item.order_detail_status == '교환완료' || 
-						item.order_detail_status == '반품요청' || item.order_detail_status == '반품완료') ? '-' : item.order_delivery_status}"></span>
+					<span class="order_delivery_status" th:text="${item.order_detail_status != '주문완료' && item.order_detail_status != '처리불가' ? '-' : item.order_delivery_status}"></span>
 					<div class="history-table-item request-button" th:if="${item.order_delivery_status == '배송전' && item.order_detail_status == '주문완료'}">
 						<button class="default-btn border return-cancel-btn" th:data-order-num="${item.order_num}" 
 				        onclick="location.href='/' + 'user/mypage/cancleList?orderNum=' + this.dataset.orderNum">취소</button>
