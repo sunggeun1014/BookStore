@@ -10,7 +10,7 @@
 	<div class="swiper slide-wrap">
 		<div class="swiper-wrapper">
 			<!-- Slides -->
-			<div class="swiper-slide" th:each="banner : ${banners}">
+			<div class="swiper-slide" th:each="banner : ${banners}" th:data-banners-size="${#lists.size(banners)}">
 				<img th:src="@{/images/banners/{banner}(banner=${banner.banner_changed})}" alt="배너" />
 			</div>
 		</div>
