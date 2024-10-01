@@ -10,13 +10,13 @@
 		    color: #4777F6; 
 		}
 		.text-delivery-in-progress {
-		    color: orange; 
+		    color: #F69E47;
 		}
 		.text-delivery-complete {
-		    color: green; 
+		    color: #10A142;
 		}
 		.text-unknown-status {
-		    color: red; 
+		    color: #E54F53;
 		}
 	</style>
 
@@ -24,7 +24,7 @@
 	<h3 class="menu-title">배송상황</h3>
 	
 	<div class="white-frame scroll" style="height: 70rem;">
-		<div class="content-list deliver-state" th:each="item : ${list}" style="height: 6rem;">
+		<div class="content-list deliver-state" th:each="item : ${list}">
 			<div class="content-text-wrap">
 				<span class="content-text" th:text="'주문번호: ' + ${item.order_num}"></span>
 				<p class="content-text"><span th:text="'받는분:' + ${item.recipient_name}"></span></p>

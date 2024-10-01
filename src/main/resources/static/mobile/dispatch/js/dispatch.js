@@ -23,16 +23,16 @@ $(document).ready(function() {
 
                     // 받은 데이터를 순회하면서 HTML 추가
                     dataList.forEach(function(item) {
-                        let truncatedTitle = item.inv_title.length > 20 ? item.inv_title.substring(0, 12) + "..." : item.inv_title;
+                        let truncatedTitle = item.inv_title.length > 15 ? item.inv_title.substring(0, 12) + "..." : item.inv_title;
 
                         const listItem = `
-                            <div class="content-dispatch-list">                             
+                            <div class="content-dispatch-list">
                                 <div class="content-text-wrap">
-                                    <p class="content-text"><span>${truncatedTitle}</span></p>
+                                    <p class="content-text">${truncatedTitle}</p>
                                     <p class="content-text">ISBN: <span>${item.inv_isbn}</span></p>
                                     <p class="content-sub-txt">요청날짜: <span>${item.inv_registration_date}</span></p>
                                 </div>
-                                <div style="text-align: end;" class="inventoryQty">
+                                <div class="inventoryQty">
                                     <p class="content-text">총 <span>${item.inv_qty} 권</span></p>
                                 </div>
                             </div>

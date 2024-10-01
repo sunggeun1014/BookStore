@@ -1,6 +1,11 @@
+button {
+   outline: none;
+   border: none;
+   background-color: #ffffff;
+}
+
 /* 모달 스타일 추가 */
 .modal {
-   
    position: fixed;
    z-index: 1000;
    left: 0;
@@ -20,7 +25,8 @@
    padding: 0;
    width: 30rem;
    height: 15.5rem;
-   border-radius: 0.8rem
+   border-radius: 0.8rem;
+   overflow: hidden;
 }
 
 .modal-text {
@@ -49,6 +55,7 @@
 .modal-footer {
    display: flex;
    align-items:center;
+   border-top: .1rem solid #c0c0c0;
 }
 
 .modal-footer .modal-btn {
