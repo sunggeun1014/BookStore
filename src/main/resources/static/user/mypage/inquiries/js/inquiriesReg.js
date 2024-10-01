@@ -13,22 +13,25 @@ $(document).ready(function () {
 			} else {
 				byteLength += 3;
 			}
+			
+			if (str[i] === '\n') {
+				byteLength += 1;
+			}
 		}
 		return byteLength;
 	}
 	
 	
-	$("#inquiryContent").on("input", function (e) {
+	$("#inquiryContent").on("input", function () {
 		let textarea = $(this);
 		let content = textarea.val();
 		let byteLength = getByteLength(content);
-
-		if (byteLength > maxByteLength) {
-			while (getByteLength(content) > maxByteLength) {
-				content = content.substring(0, content.length - 1);
-			}
-			textarea.val(content);
+		
+		while (byteLength > maxByteLength) {
+			content = content.slice(0, -1);
+			byteLength = getByteLength(content);
 		}
+		textarea.val(content);
 
 		$("#charCount").text(getByteLength(textarea.val()));
 	});
