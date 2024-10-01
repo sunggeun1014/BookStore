@@ -13,7 +13,6 @@ $(document).ready(function() {
             url: "/mobile/admin/get-inventoryList",
             data: { zoneNum: zoneNum },
             success: function(response) {
-                console.log(response);
 
                 // 데이터를 렌더링할 #dispatch-list 영역 초기화
                 $('#dispatch-list').empty();
@@ -43,7 +42,7 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                console.error("Error: " + error);
+				
             }
         });
     }

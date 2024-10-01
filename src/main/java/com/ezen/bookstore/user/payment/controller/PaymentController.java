@@ -38,10 +38,6 @@ public class PaymentController {
         Integer totalItems = 0;
         Integer totalPrice = 0;
 
-        log.info("받은 목록: {}", items);
-        log.info("받은 카트목록: {}", cartItems);
-        log.info("받은 타입: {}", purchaseType);
-
         List<OrderItemDTO> combinedItems = new ArrayList<>();
         if (items != null) {
             combinedItems.addAll(items);

@@ -2,7 +2,6 @@
 function initKakao() {
     if (!Kakao.isInitialized()) {
         Kakao.init('4f23d110021dacd702bf22df50d94c73');
-        console.log('Kakao SDK 초기화 완료');
     }
 }
 
@@ -10,7 +9,6 @@ function initKakao() {
 const kakaoLogin = function() {
     // Kakao SDK가 초기화되었는지 확인
     if (!Kakao.isInitialized()) {
-        console.error('Kakao SDK가 초기화되지 않았습니다.');
         return;
     }
 
@@ -26,12 +24,12 @@ const kakaoLogin = function() {
                     checkKakaoIdAvailability(kakaoId);
                 },
                 fail: function(error) {
-                    console.log('Kakao API 요청 실패:', error);
+					
                 }
             });
         },
         fail: function(err) {
-            console.log('Kakao 로그인 실패:', err);
+			
         }
     });
 };
@@ -62,7 +60,9 @@ function checkKakaoIdAvailability(kakaoId) {
             getCheckModal('이미 등록된 카카오 계정입니다.');
         }
     })
-    .catch(error => console.error('카카오 ID 확인 중 오류 발생:', error));
+    .catch(error => {
+		
+	});
 }
 
 // 카카오 로그인이 성공했을 때 처리하는 함수

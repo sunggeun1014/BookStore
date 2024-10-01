@@ -62,15 +62,17 @@ document.getElementById('kakao_login_btn').addEventListener('click', function(ev
                             getCheckModal('이미 등록된 카카오 계정입니다.');  // 경고 모달 띄우기
                         }
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => {
+						
+					});
                 },
                 fail: function(error) {
-                    console.log(error);
+					
                 }
             });
         },
         fail: function(err) {
-            console.log(err);
+			
         }
     });
 });
@@ -586,7 +588,6 @@ function confirmNumber() {
         	});
         },
         error: function(xhr, status, error) {
-            console.log("Error: " + error);
             $("#emailVerificationStatus").val("");
             $('#certifiedEmailFail').text("⚠인증에 실패하였습니다.");
             $('#certifiedEmailSuccess').hide();

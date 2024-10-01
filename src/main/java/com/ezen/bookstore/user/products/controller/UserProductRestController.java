@@ -48,7 +48,6 @@ public class UserProductRestController {
 
 	@PostMapping("/instantBuy")
 	public ResponseEntity<Void> instantBuy(@RequestBody List<OrderItemDTO> items, HttpSession session) {
-		log.info("Received items: {}", items);
 
 		session.setAttribute("orderItems", items);
 		session.setAttribute("purchaseType", "instantBuy");

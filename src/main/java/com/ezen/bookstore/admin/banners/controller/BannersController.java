@@ -63,7 +63,6 @@ public class BannersController {
 			model.addAttribute("success", "배너 등록 성공");
 
 		} catch (IOException e) {
-            log.error("파일 업로드 오류", e);
             model.addAttribute("error", "파일 업로드 오류");
 		}
 	    return "redirect:/admin/banners/list";
@@ -88,7 +87,6 @@ public class BannersController {
 			bannersService.updateBanner(bannersDTO, bannerImage);
 			model.addAttribute("success", "배너 업데이트 성공");
 		} catch (Exception e) {
-            log.error("파일 업로드 오류", e);
             model.addAttribute("error", "파일 업로드 오류");
 		}
 		return "redirect:/admin/banners/list";
@@ -100,7 +98,6 @@ public class BannersController {
 			bannersService.deleteBanners(bannerNums);
 			return ResponseEntity.ok("배너 삭제 완료");
 		} catch (Exception e) {
-			log.error("배너 삭제 오류", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
 		}
 	}

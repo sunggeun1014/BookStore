@@ -19,11 +19,9 @@ $(document).ready(function() {
         // 체크박스가 체크되어 있으면 아이디를 로컬 스토리지에 저장
         if ($('#saveIdCheckbox').is(':checked') && id.length > 0) {
             localStorage.setItem('savedUserId', id);
-            console.log('로그인 성공, 아이디 저장됨:', id);
         } else {
             // 체크박스가 체크 해제되면 로컬 스토리지에서 아이디 삭제
             localStorage.removeItem('savedUserId');
-            console.log('아이디 저장 안함');
         }
     });
 	

@@ -37,7 +37,6 @@ public class PaymentRepository {
 
     public void insertOrder(CompleteOrderDTO completeOrderDTO) throws SQLException {
         sql.insert("OrderPayment.insertCustomerOrder", completeOrderDTO);
-        log.info("주문 삽입 완료: {}", completeOrderDTO);
     }
 
     public void insertOrderDetail(CompleteDetailDTO completeDetailDTO) throws SQLException {

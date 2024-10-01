@@ -72,7 +72,6 @@ public class AdminMgrServiceImpl implements AdminMgrService {
 	    
         String encodedPassword = passwordEncoder.encode(managersDTO.getManager_pw());
         managersDTO.setManager_pw(encodedPassword);
-        System.out.println(encodedPassword);
 
         adminMgrMapper.addManager(managersDTO);
     }

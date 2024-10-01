@@ -145,7 +145,7 @@ function getStatusCounts() {
 			$('#before-delivery-count').text(data['배송전']);
 		},
 		error: function() {
-			console.error('상태 카운트를 가져오는 데 실패했습니다.');
+			
 		}
 	});
 }

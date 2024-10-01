@@ -45,12 +45,9 @@ public class EmailServiceImpl implements EmailService {
 			mimeMessageHelper.setText(setContext(authNum), true);
 			javaMailSender.send(mimeMessage);
 			
-			log.info("Success");
-			
 			return authNum;
 			
 		} catch (MessagingException e) {
-			log.info("fail");
 			throw new RuntimeException(e);
 		}
 	}

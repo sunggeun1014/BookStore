@@ -29,7 +29,6 @@ function displayEmail() {
 	const emailUser = document.getElementById('emailUser').value;
 	const emailDomain = document.getElementById('emailDomain').value;
 	const completeEmail = `${emailUser}@${emailDomain}`;
-	console.log(completeEmail);
 }
 
 

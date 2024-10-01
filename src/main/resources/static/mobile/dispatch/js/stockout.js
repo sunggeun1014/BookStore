@@ -30,8 +30,6 @@ $(document).ready(function() {
                request_details: requestDetails
             };
             
-           	console.log(requestData);
-
             $.ajax({
                 type: "POST",
                 url: "/mobile/admin/stockout-inventory",  

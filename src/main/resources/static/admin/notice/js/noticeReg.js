@@ -149,7 +149,7 @@ $(document).ready(function() {
 				}
 			})
 			.catch(error => {
-				console.error('이미지 업로드 중 에러 발생:', error);
+				
 			});
 		} else {
 			// 이미지 파일이 없을 때도 저장 또는 수정 호출

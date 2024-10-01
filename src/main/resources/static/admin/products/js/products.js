@@ -120,7 +120,6 @@ $(document).ready(function() {
                                 var formattedDate = year + '-' + month + '-' + day;
                                 return formattedDate;
                             } else {
-                                console.error("Invalid date:", data);
                                 return data; // 잘못된 날짜일 경우 원본 데이터 반환
                             }
                         }
@@ -295,8 +294,6 @@ function confirmDelete() {
             bookISBN.push(selectedRows[i].book_isbn)
         }
 
-        console.log(bookISBN)
-
         if (bookISBN.length > 0) {
             getConfirmModal("목록에서 숨김 처리 하시겠습니까?", function() {
                 $.ajax({
@@ -307,7 +304,6 @@ function confirmDelete() {
                     success: function(response) {
 
                         if (response === 'success') {
-                            console.log("삭제요청 성공", response)
                             location.reload(); // 삭제하고 새로고침
                             // location.href = "/admin/products/products";
 
@@ -316,7 +312,7 @@ function confirmDelete() {
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error("삭제 요청 실패:", error);
+						
                     }
                 });
             });

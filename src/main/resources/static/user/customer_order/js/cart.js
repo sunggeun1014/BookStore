@@ -73,13 +73,13 @@ document.addEventListener("DOMContentLoaded", function() {
 				data: JSON.stringify({ book_isbn: book_isbn, cart_purchase_qty: qty }),
 				success: function(response) {
 					if (response.success) {
-						console.log(response.message);
+						
 					} else {
-						console.error(response.message);
+						
 					}
 				},
 				error: function() {
-					console.error('서버 통신 오류');
+					
 				}
 			});
 		}
@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						},
 
 						error: function(jqXHR, textStatus, errorThrown) {
-							console.error('error', textStatus, errorThrown)
+							
 						}
 					})
 

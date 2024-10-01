@@ -28,7 +28,6 @@ public class UserMgntServiceImpl implements UserMgntService {
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(userMembersDTO.getMember_pw());
         userMembersDTO.setMember_pw(encodedPassword);
-        System.out.println(encodedPassword);
 
         // 데이터베이스에 저장
         userMgntMapper.addMember(userMembersDTO);

@@ -1,5 +1,3 @@
-console.log("하이");
-
 linkTabbar();
 
 function linkTabbar() {

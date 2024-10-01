@@ -60,10 +60,8 @@ public class PaymentRestController {
 
             if (paymentSuccess) {
                 // 4. 결제 완료 처리
-                log.info("결제 성공, 주문 삽입 시작");
                 try {
                     if (details.isEmpty()) {
-                        log.error("주문상세 null or 빈값");
                         paymentService.cancelPayment(paymentId);
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문상세못찾음");
                     }
@@ -79,22 +77,19 @@ public class PaymentRestController {
                     }
 
                 } catch (SQLException e) {
-                    log.error("SQL 오류 발생: {}", e.getMessage());
                     try {
                         paymentService.cancelPayment(paymentId);
                     } catch (Exception cancelEx) {
-                        log.error("결제취소오류: {}", cancelEx.getMessage());
+                    	
                     }
                 } catch (Exception e) {
-                    log.error("주문 삽입 중 오류 발생: {}", e.getMessage());
                     try {
                         paymentService.cancelPayment(paymentId);
                     } catch (Exception cancelEx) {
-                        log.error("결제취소오류2: {}", cancelEx.getMessage());
+                    	
                     }
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 삽입 중 오류 발생, 결제취소");
                 }
-                log.info(jsonResponse);
                 return ResponseEntity.ok(jsonResponse);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 검증 실패");

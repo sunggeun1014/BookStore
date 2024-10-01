@@ -265,7 +265,7 @@ function goToOrder() {
             currency: "CURRENCY_KRW"
         }).then(response => {
             if (response.code != null) {
-                console.log('결제오류발생', response.message);
+				
                 return;
             }
             $.ajax({
@@ -275,22 +275,19 @@ function goToOrder() {
                 data: JSON.stringify(data),
                 success: function (response, status, xhr) {
                     const jsonResponse = JSON.parse(response);
-                    console.log(jsonResponse.order_num)
                     if (xhr.status === 200 && jsonResponse.order_num) {
                         // 페이지 이동
                         window.location.href = `/user/complete-order?order_num=${jsonResponse.order_num}&member_id=${memberId}`;
                     } else {
-                        console.log('결제 실패', xhr.status);
+						
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.log('AJAX 호출 중 오류 발생: ' + error);
-                    console.log('상태: ' + xhr.status);
-                    console.log('응답 본문: ' + xhr.responseText);
+					
                 }
             })
         }).catch(error => {
-            console.log('결제 요청 중 오류:', error);
+			
         });
 
     })

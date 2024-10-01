@@ -61,7 +61,6 @@ function calcQty() {
     function initialzeQty() {
         getTotalQty = parseInt(inputQty.value) || 1;
         updateQtyDisplay();
-        console.log('초기값 수량 ', getTotalQty)
     }
 
     function updateQtyDisplay() {
@@ -136,12 +135,10 @@ function submitHandler() {
                     data: JSON.stringify(data),
                     success: function (response) {
                         if (response === -1) {
-                            console.log("장바구니에 이미 있다")
                             getConfirmModal("장바구니에 이미 있는 상품으로 수량을 추가했습니다.","장바구니로 이동 하시겠습니까?", function () {
                                 location.href = '/user/cart/list'
                             })
                         } else {
-                            console.log('ajax 성공')
                             getConfirmModal("장바구니에 추가 되었습니다.", "장바구니로 이동 하시겠습니까?", function () {
                                 location.href = '/user/cart/list'
                             })
@@ -151,7 +148,6 @@ function submitHandler() {
                         if (xhr.status === 409) {
                             getErrorModal("이미 장바구니에 있는 상품입니다.");
                         } else {
-                            console.log(xhr)
                             getErrorModal("장바구니에 담기에 실패 했습니다.");
                         }
                     }
@@ -164,8 +160,6 @@ function submitHandler() {
                     book_price: bookPriceInput.value,
                     book_thumbnail_changed: bookThumbNailInput.value,
                 }]
-                console.log('바로구매클릭')
-                console.log('바로구매data? ', orderData)
 
                 $.ajax({
                     url: '/user/productsRest/instantBuy',
@@ -173,11 +167,9 @@ function submitHandler() {
                     contentType: 'application/json',
                     data: JSON.stringify(orderData),
                     success: function (response) {
-                        console.log("바로구매 성공")
                         location.href = '/user/order';
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        console.log("바로구매 에러", textStatus, errorThrown);
                         getErrorModal("바로구매 오류 입니다.")
                     }
                 })

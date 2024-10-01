@@ -177,7 +177,6 @@ public class UserMgntRestController {
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> handleNaverCallback(@RequestBody Map<String, String> requestData) {
 	    String accessToken = requestData.get("access_token");
-	    log.info("Received Access Token: {}", accessToken);  // 로그로 확인
 
 	    // 네이버 사용자 정보 요청
 	    String userInfoUrl = "https://openapi.naver.com/v1/nid/me";
@@ -204,7 +203,6 @@ public class UserMgntRestController {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultMap);
 	        }
 	    } catch (HttpClientErrorException e) {
-	        log.error("API 요청 실패: {}", e.getResponseBodyAsString());  // 실패 원인 로그로 출력
 	        Map<String, String> errorResult = new HashMap<>();
 	        errorResult.put("error", "Authentication failed");
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResult);

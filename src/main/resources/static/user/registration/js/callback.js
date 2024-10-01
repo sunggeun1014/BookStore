@@ -9,7 +9,7 @@ window.onload = function() {
         // access_token이 존재하는 경우, 서버로 POST 요청
         sendTokenToServer(accessToken);
     } else {
-        console.error("Access token이 존재하지 않습니다.");
+		
     }
 };
 // 서버로부터 토큰에서 추출한 아이디를 받아오는 역할
@@ -23,18 +23,17 @@ function sendTokenToServer(accessToken) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('서버 응답:', data);
 
         // 서버로부터 받은 네이버 ID를 hidden input 필드에 저장
         if (data.naverId) {            
             checkNaverIdAvailability(data.naverId);
 
         } else {
-            console.error('Naver ID를 받아오지 못했습니다.');
+			
         }
     })
     .catch(error => {
-        console.error('서버로 access token 전송 중 오류 발생:', error);
+		
     });
 }
 
@@ -50,7 +49,6 @@ function checkNaverIdAvailability(naverId) {
     .then(response => response.json())
     .then(data => {
         if (data.isAvailable) {
-            console.log('네이버 ID는 사용 가능합니다.');
             window.close();
             if (window.opener) {
                 window.opener.document.getElementById('naver_login_cd').value = naverId; // 부모창에 값 설정
@@ -76,7 +74,7 @@ function checkNaverIdAvailability(naverId) {
         }
     })
     .catch(error => {
-        console.error('네이버 ID 중복 체크 중 오류 발생:', error);
+		
     });
 }
 

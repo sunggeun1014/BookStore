@@ -14,6 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>BookStore</name>
 	<description>책 판매 및 창고 관리 시스템</description>
+	<packaging>jar</packaging>
 	<url />
 	<licenses>
 		<license />

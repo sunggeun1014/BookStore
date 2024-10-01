@@ -159,7 +159,6 @@ $(document).ready(function () {
     $('#change-button').on('click', function () {
         var selectedIds = [];
         var selectedDept = $('#searchDept').val();  // 선택된 부서 값 가져오기 (문자열 그대로)
-        console.log("Selected Dept:", selectedDept);  // 선택된 부서의 값을 콘솔에 출력
 
         $('#manager').DataTable().$('.row-checkbox:checked').each(function () {
             var rowData = $('#manager').DataTable().row($(this).closest('tr')).data();
@@ -189,8 +188,6 @@ $(document).ready(function () {
         $('#manager').DataTable().$('.row-checkbox:checked').each(function () {
             var rowData = $('#manager').DataTable().row($(this).closest('tr')).data();
             selectedIds.push(rowData.manager_id);
-            console.log("Selected IDs:", selectedIds);
-            console.log("Selected IDs:", selectedDept);
 
         });
 

@@ -31,7 +31,6 @@ $(document).ready(function() {
             url: "/mobile/admin/get-inventoryList",
             data: { zoneNum: zoneValue },
             success: function(response) {
-                console.log(response);
 
                 if (response.status === 'success') {
                     const dataList = response.data;
@@ -41,7 +40,6 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                console.error("Error: " + error);
                 alert('서버와의 통신 중 오류가 발생했습니다.');
             },
             beforeSend: function() {

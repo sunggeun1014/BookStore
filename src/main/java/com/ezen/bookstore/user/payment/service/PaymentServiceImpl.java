@@ -56,7 +56,6 @@ public class PaymentServiceImpl implements PaymentService {
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        log.info("토큰: {}", response.body());
 
         return parseTokenFromResponse(response.body());
     }
@@ -64,8 +63,6 @@ public class PaymentServiceImpl implements PaymentService {
     private String parseTokenFromResponse(String response) throws JsonProcessingException {
         JsonNode node = mapper.readTree(response);
         String accessToken = node.get("accessToken").asText();
-
-        log.info("Access Token 파싱 완료: {}", accessToken);
 
         return accessToken;
     }
@@ -105,7 +102,6 @@ public class PaymentServiceImpl implements PaymentService {
 
         JsonNode jsonResponse = mapper.readTree(response.body());
         String status = jsonResponse.get("status").asText();
-        log.info("결제 상태 확인: {}", status);
 
         // 결제 상태가 'PAID'일 때만 true 반환
         return "PAID".equals(status);
@@ -118,7 +114,6 @@ public class PaymentServiceImpl implements PaymentService {
         try {
             paymentRepository.insertOrder(completeOrder);
         } catch (SQLException e) {
-            log.error("주문 삽입 중 오류 발생: {}", e.getMessage());
             throw e;
         }
 
@@ -128,7 +123,6 @@ public class PaymentServiceImpl implements PaymentService {
             try {
                 paymentRepository.insertOrderDetail(detail);
             } catch (SQLException e) {
-                log.error("주문 상세 삽입 중 오류 발생: {}", e.getMessage());
                 throw e; // 예외를 상위 레이어에 전달
             }
         }
