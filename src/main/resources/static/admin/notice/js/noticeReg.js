@@ -2,7 +2,7 @@ $(document).ready(function() {
 	datepicker("startDate", "endDate");
 	const maxByteLength  = 1000;
 	
-	
+	updateCharCount();
 	function getByteLength(str) {
 	    let byteLength = 0;
 	    for (let i = 0; i < str.length; i++) {
@@ -14,28 +14,41 @@ $(document).ready(function() {
 	        } else {
 	            byteLength += 3;
 	        }
+			if (str[i] === '\n'){
+				byteLength += 1;
+			}
 	    }
 	    return byteLength;
 	}
 	
 	$("#editor").on("input", function () {
-	    updateCharCount()
+	    updateCharCount();
 	});
 	
 	function updateCharCount() {
 	    let editor = $("#editor");
-	    let content = editor.text();
+	    let content = editor.clone()  
+		                    .find("img")      
+		                    .remove()        
+		                    .end()            
+		                    .text();
 	    
 	    let byteLength = getByteLength(content);
 
-	    
-	    if (byteLength > maxByteLength) {
-	        while (getByteLength(content) > maxByteLength) {
-	            content = content.substring(0, content.length - 1);
-	        }
-	        editor.text(content)
-	    }
+	    while (byteLength > maxByteLength) {
+			content = content.slice(0, -1);
+			byteLength = getByteLength(content);
+		}
+		
+		let originalHtml = editor.html();
+	    let newHtml = editor.clone()
+	                       .find("img")  
+	                       .remove()      
+	                       .end()
+	                       .html();        
 
+		let finalHtml = originalHtml.replace(newHtml, content);
+		editor.html(finalHtml);  
 	    
 	    $("#charCount").text(byteLength);
 	}

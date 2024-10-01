@@ -97,11 +97,14 @@
 						<textarea id="inquiryContent" th:field="*{answer_content}"
 							th:attr="placeholder=${status == '미완료' ? '내용을 입력하세요' : ''}"
 							th:utext="${status == '처리완료' ? status : ''}"
-							maxlength="1000">
+							maxlength="1000"
+							oninput="textLengthCheck(this, 1000);">
 	            		</textarea>
-	            		<p class="char-count">
-							<span id="charCount">0</span><span>/1000</span>
-						</p>
+						<div class="content-length-area" style="margin: 10px 10px 0 0;">
+				         	<div id="current-length">0</div>
+				         	<div>/</div>
+				         	<div id="max-length">1000</div>
+				     	</div>
 					</div>
 				</div>
 				<div class="btn-box">
