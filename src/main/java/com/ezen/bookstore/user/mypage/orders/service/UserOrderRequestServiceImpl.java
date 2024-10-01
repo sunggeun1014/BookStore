@@ -35,12 +35,19 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
         String memberId = SessionUtils.getUserAttribute(UserSessionInfo.MEMBER_ID);
         
         Map<String, Integer> counts = new HashMap<>();
-        counts.put("취소요청", orderRequestRepository.countByOrderStatus(memberId, "02"));
-        counts.put("취소완료", orderRequestRepository.countByOrderStatus(memberId, "05"));
-
+        // 배송상태 카운트
         counts.put("배송전", orderRequestRepository.countByDeliveryStatus(memberId, "01"));
         counts.put("배송중", orderRequestRepository.countByDeliveryStatus(memberId, "02"));
         counts.put("배송완료", orderRequestRepository.countByDeliveryStatus(memberId, "03"));
+        
+        // 주문상태 카운트
+        counts.put("교환/반품/취소요청", orderRequestRepository.countByOrderStatus(memberId, "02") 
+        						+ orderRequestRepository.countByOrderStatus(memberId, "03") 
+        						+ orderRequestRepository.countByOrderStatus(memberId, "04"));
+        
+        counts.put("교환/반품/취소완료", orderRequestRepository.countByOrderStatus(memberId, "05") 
+				        		+ orderRequestRepository.countByOrderStatus(memberId, "06") 
+				        		+ orderRequestRepository.countByOrderStatus(memberId, "07"));
 
         return counts;
     }

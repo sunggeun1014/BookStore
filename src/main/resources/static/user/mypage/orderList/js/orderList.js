@@ -99,9 +99,9 @@ $(document).ready(function() {
 	            if (deliveryStatus !== selectedStatus) {
 	                return;
 	            }
-	        } else if (selectedStatus === '취소') {
-	            // 주문 상태가 '취소'일 경우
-	            if (!(orderStatus === '취소요청' || orderStatus === '주문취소')) {
+	        } else if (selectedStatus === '교환/반품/취소') {
+	            // 주문 상태가 '교환/반품/취소'가 아닐 경우
+	            if ((orderStatus === '주문완료' || orderStatus === '처리불가')) {
 	                return;
 	            }
 	        } 
@@ -135,7 +135,10 @@ function getStatusCounts() {
 		url: '/user/mypage/statusCounts',
 		method: 'GET',
 		success: function(data) {
-			$('#cancellation-count').text(data['취소요청'] + data['취소완료']);
+			const requestCount = data['교환/반품/취소요청'];
+			const completeCount = data['교환/반품/취소완료'];
+			
+			$('#request-complete-count').text(requestCount + completeCount);
 			$('#delivered-count').text(data['배송완료']);
 			$('#in-delivery-count').text(data['배송중']);
 			$('#before-delivery-count').text(data['배송전']);
