@@ -7,8 +7,8 @@
 		SELECT 
 		    dr.request_num, 
 		    dr.request_date,
-		    drd.request_detail_num, 
-		    drd.order_num, 
+		    LISTAGG(drd.request_detail_num, ', ') WITHIN GROUP (ORDER BY drd.request_detail_num) AS request_detail_nums,
+		    LISTAGG(drd.order_num, ', ') WITHIN GROUP (ORDER BY drd.order_num) AS order_nums,
 		    SUM(cod.order_detail_qty) AS total_order_qty
 		FROM 
 		    delivery_request dr
@@ -17,40 +17,49 @@
 		JOIN 
 		    customer_order_details cod ON drd.order_num = cod.order_num
 		WHERE 
-		    dr.request_end_date IS NULL
+		    dr.request_status LIKE '01'
 		GROUP BY 
-		    dr.request_num, dr.request_date, drd.request_detail_num, drd.order_num
+		    dr.request_num, dr.request_date
 		ORDER BY 
-			dr.request_date ASC
+		    dr.request_date DESC
     
 	</select>
 	
 	<select id="getOrderStatus" resultType="deliveryDTO">
 		SELECT
-			order_num,
-			recipient_name,
-			order_addr,
-			order_addr_detail,
-			order_delivery_status,
-			order_purchase_date,
-			order_modify_date
-		FROM
-			Customer_Orders
+	        order_num,
+	        recipient_name,
+	        order_addr,
+	        order_addr_detail,
+	        order_delivery_status,
+	        order_purchase_date,
+	        order_modify_date
+	    FROM
+	        Customer_Orders
+	    ORDER BY
+	        CASE 
+	            WHEN order_modify_date IS NOT NULL THEN order_modify_date 
+	            ELSE order_purchase_date
+	        END DESC
 	</select>
 	
 	
 	
 	<select id="getRequestDetail" parameterType="Integer" resultType="deliveryDTO">
-		SELECT
-			cod.order_num,
-			cod.book_isbn,
-			cod.order_detail_qty,
-			b.book_name
-		FROM
-			customer_order_details cod
-		JOIN
-			books b ON cod.book_isbn = b.book_isbn
-		WHERE
-			cod.order_num = #{order_num}
+	   SELECT
+	        cod.order_num,
+	        cod.book_isbn,
+	        b.book_name,
+	        cod.order_detail_qty
+	    FROM
+	        delivery_request dr
+	    JOIN
+	        delivery_request_detail drd ON dr.request_num = drd.request_num
+	    JOIN
+	        customer_order_details cod ON drd.order_num = cod.order_num
+	    JOIN
+	        books b ON cod.book_isbn = b.book_isbn
+	    WHERE
+	        dr.request_num = #{request_num}
 	</select>
 </mapper>

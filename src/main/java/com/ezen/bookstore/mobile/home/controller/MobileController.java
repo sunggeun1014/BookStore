@@ -57,10 +57,10 @@ public class MobileController {
 	
 	
 	@GetMapping("/delivery-detail")
-	public String orderDetailPage(@RequestParam("orderNum") Integer orderNum,
+	public String orderDetailPage(@RequestParam("requestNum") Integer requestNum,
 								  Model model) {
-		model.addAttribute("orderNum", orderNum);
-		model.addAttribute("list", deliveryService.getRequestDetail(orderNum));
+		model.addAttribute("requestNum", requestNum);
+		model.addAttribute("list", deliveryService.getRequestDetail(requestNum));
 		return "mobile/home/delivery_detail";
 	}
 	
