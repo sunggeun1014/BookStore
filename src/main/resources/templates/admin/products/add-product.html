@@ -147,14 +147,16 @@
             <p class="search-list-subject">책소개
                 <span class="important">*</span>
             </p>
-            <textarea name="book_intro" id="book_intro" cols="30" rows="10" class="custom-textarea" oninput="textLengthCheck(this, 4000);"></textarea>
-            
+
+            <div class="intro-text-wrap">
+                <textarea name="book_intro" id="book_intro" cols="30" rows="10" class="custom-textarea" oninput="textLengthCheck(this, 4000);"></textarea>
+                <div class="content-length-area">
+                    <div id="current-length">0</div>
+                    <div>/</div>
+                    <div id="max-length">4000</div>
+                </div>
+            </div>
         </div>
-        <div class="content-length-area">
-           	<div id="current-length">0</div>
-           	<div>/</div>
-           	<div id="max-length">4000</div>
-       	</div>
     </form>
 
     <div class="button-wrap">

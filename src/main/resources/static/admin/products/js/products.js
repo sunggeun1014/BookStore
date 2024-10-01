@@ -295,7 +295,7 @@ function confirmDelete() {
         }
 
         if (bookISBN.length > 0) {
-            getConfirmModal("목록에서 숨김 처리 하시겠습니까?", function() {
+            getConfirmModal("삭제 하시겠습니까?", function() {
                 $.ajax({
                     url: "/admin/products/delete",
                     method: "POST",
