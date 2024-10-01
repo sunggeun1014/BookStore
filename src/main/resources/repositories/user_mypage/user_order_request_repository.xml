@@ -268,7 +268,7 @@
 	<select id="getRefundInfo" parameterType="Integer" resultType="customerOrderWithDetails">
 		SELECT 
 		    SUM(CASE WHEN pr.request_status = '05' THEN cod.order_detail_price * pr.request_complete_qty ELSE 0 END) AS refundAmount,
-		    SUM(CASE WHEN pr.request_status = '05' or pr.request_status = '02' THEN cod.order_detail_price * pr.request_complete_qty ELSE 0 END) AS cancellationAmount,
+		    SUM(CASE WHEN pr.request_status = '02' THEN cod.order_detail_price * pr.request_complete_qty ELSE 0 END) AS cancellationAmount,
 		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total,
 		    co.recipient_name,
 		    co.recipient_phoneNo,
@@ -300,7 +300,7 @@
 	<select id="getReturnRefundInfo" parameterType="Integer" resultType="customerOrderWithDetails">
 		SELECT 
 		    SUM(CASE WHEN pr.request_status = '07' THEN cod.order_detail_price * pr.request_complete_qty ELSE 0 END) AS refundAmount,
-		    SUM(CASE WHEN pr.request_status = '07' or pr.request_status = '04' THEN cod.order_detail_price * pr.request_complete_qty ELSE 0 END) AS cancellationAmount,
+		    SUM(CASE WHEN pr.request_status = '04' THEN cod.order_detail_price * pr.request_complete_qty ELSE 0 END) AS cancellationAmount,
 		    SUM(cod.order_detail_price * cod.order_detail_qty) AS order_price_total,
 		    co.recipient_name,
 		    co.recipient_phoneNo,
