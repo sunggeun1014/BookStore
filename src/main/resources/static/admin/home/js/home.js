@@ -59,7 +59,7 @@ $(document).ready(function () {
                     data: 'inquiry_write_date',
                     render: function (data, type, row) {
                         const date = new Date(data);
-                        return data ? date.toISOString().split('T')[0] : '-';
+                        return data ? date.toLocaleDateString('ko-KR') : '-';
                     }
                 },
                 {
@@ -156,7 +156,7 @@ $(document).ready(function () {
                     data: 'log_operation_date',
                     render: function (data) {
                         const date = new Date(data);
-                        return date.toISOString().split('T')[0];
+                        return data ? date.toLocaleDateString('ko-KR') : '-';
                     }
                 },
 

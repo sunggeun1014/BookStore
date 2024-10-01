@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-
+	const bannersSize = $(".swiper-slide").attr("data-banners-size");
+	
 	// 배너 슬라이드 swiper
 	new Swiper('.swiper', {
-		loop: true, // 무한 루프 설정
-		slidesPerView: 'auto',
-		loopAdditionalSlides: 1,
+		loop: bannersSize <= 3 ? false : true, // 무한 루프 설정
+		slidesPerView: 2,
 		centeredSlides: true,
 		pagination: {
 			el: '.swiper-pagination',
