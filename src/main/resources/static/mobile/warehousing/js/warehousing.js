@@ -7,7 +7,7 @@ $(document).ready(function() {
         $('#dispatch-list').empty();
         
         dataList.forEach(function(item) {
-            let truncatedTitle = item.inv_title.length > 20 ? item.inv_title.substring(0, 12) + "..." : item.inv_title;
+            let truncatedTitle = item.inv_title.length > 15 ? item.inv_title.substring(0, 12) + "..." : item.inv_title;
 
             const listItem = `
                 <div class="content-dispatch-list">

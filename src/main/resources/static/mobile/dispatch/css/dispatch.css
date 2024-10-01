@@ -1,9 +1,3 @@
-#dispatch-list {
-    max-height: 400px; /* 원하는 최대 높이 설정 */
-    padding: 10px;     /* 여백 추가 */
-    box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
-}
-
 .checkBox {
 	width: 2rem;
 }
