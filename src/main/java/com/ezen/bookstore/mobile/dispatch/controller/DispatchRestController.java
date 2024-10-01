@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezen.bookstore.admin.supplierorders.dto.SupplierOrdersDTO;
 import com.ezen.bookstore.admin.warehouse.dto.WarehouseDTO;
 import com.ezen.bookstore.mobile.dispatch.dto.RequestDTO;
 import com.ezen.bookstore.mobile.dispatch.service.DispatchService;
@@ -64,10 +63,7 @@ public class DispatchRestController {
 	@PostMapping("/stockout-inventory")
 	public ResponseEntity<?> processInventory(@RequestBody RequestDTO requestDTO) {
 	    try {
-	        // 주문 항목 리스트 처리
-//	        List<RequestDTO> requestDetails = requestDTO.getRequest_details();
-	        
-	        // 주문 항목을 처리하는 서비스 로직 호출
+
 	        dispatchService.minusInventoryLog(requestDTO);
 	       
 	        

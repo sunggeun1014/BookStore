@@ -20,7 +20,5 @@ public class RequestDTO {
     String zone_num;
     Integer request_num;
     
-
-    // 여러 주문 항목을 받을 리스트 필드
     List<RequestDTO> request_details;
 }

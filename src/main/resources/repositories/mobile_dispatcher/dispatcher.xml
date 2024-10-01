@@ -4,7 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ezen.bookstore.mobile.dispatch.mapper.DispatchMapper">
     
-    <!-- Supplier Order Insert -->
     <insert id="insertSupplierOrder" parameterType="supplierOrders">
         INSERT INTO supplier_orders 
         (
@@ -22,7 +21,6 @@
         )
     </insert>
     
-    <!-- Dispatch List 가져오기 -->
     <select id="getDispatchList" resultType="warehouse">
         SELECT 
             inv_isbn,
@@ -35,7 +33,6 @@
             zone_num = #{zone_num}
     </select>
     
-    <!-- Request Detail 가져오기 -->
     <select id="getRequestDeatil" parameterType="list" resultType="request">
        SELECT 
             cod.book_isbn AS book_isbn, 
@@ -54,11 +51,11 @@
             Books bk ON bk.book_isbn = cod.book_isbn
         WHERE 
             dr.request_num = #{request_num}
+            AND dr.request_status = '01'
         GROUP BY 
             cod.book_isbn, bk.book_name, dr.request_date
     </select>
     
-    <!-- 인벤토리 업데이트 -->
     <insert id="minusInventory" parameterType="request">
         MERGE INTO inventory inv
         USING (
@@ -77,17 +74,14 @@
             VALUES (src.inv_isbn, src.inv_title, src.inv_qty, CURRENT_TIMESTAMP)
     </insert>
 
-    <!-- 시퀀스 값을 가져오기 (log_transaction_num) -->
     <select id="getLastLogTransactionNum" resultType="Integer">
         SELECT INVENTORY_LOG_SEQ.NEXTVAL FROM dual
     </select>
 
-    <!-- Zone Number 가져오기 -->
     <select id="getZoneNum" resultType="String" parameterType="String">
         SELECT zone_num from inventory WHERE inv_isbn = #{isbn}
     </select>
     
-    <!-- Inventory_Log에 데이터 삽입 -->
     <insert id="insertInventoryLog" parameterType="request">
         INSERT INTO Inventory_Log (
             log_transaction_num,
@@ -103,7 +97,6 @@
         )
     </insert>
     
-    <!-- Inventory_Log_Details에 데이터 삽입 -->
     <insert id="insertInventoryLogDetail" parameterType="request">
         INSERT INTO Inventory_Log_Details (
             log_detail_num, 
@@ -123,7 +116,7 @@
         )
     </insert>
     
-    <update id="changeRequestStatus" parameterType="Integer">
+    <update id="changeOrederStatus" parameterType="Integer">
         UPDATE customer_orders
         SET ORDER_DELIVERY_STATUS = '02'
         WHERE ORDER_NUM IN (
@@ -131,6 +124,12 @@
             FROM delivery_request_detail
             WHERE request_num = #{request_num}
         )
+    </update>
+    
+    <update id="changeRequestStatus" parameterType="Integer">
+    	UPDATE delivery_request
+    	SET request_status = '02'
+    	WHERE request_num = #{request_num}
     </update>
 
 </mapper>

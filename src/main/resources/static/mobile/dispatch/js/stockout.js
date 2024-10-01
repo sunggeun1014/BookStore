@@ -30,6 +30,8 @@ $(document).ready(function() {
                request_details: requestDetails
             };
             
+           	console.log(requestData);
+
             $.ajax({
                 type: "POST",
                 url: "/mobile/admin/stockout-inventory",  
@@ -82,7 +84,7 @@ $(document).ready(function() {
 	        success: function(response) {
 	            if (response.status === 'success') {
 	                const dataList = response.data;
-	                updateWarehouseList(dataList);  // 이 함수에서 리스트가 제대로 업데이트됩니다.
+	                updateWarehouseList(dataList); 
 	            } else {
 	                getErrorModal();
 	                return;
@@ -93,13 +95,13 @@ $(document).ready(function() {
 	            return;
 	        },
 	        beforeSend: function() {
-	            $('#dispatch-list').html('<p>로딩 중...</p>');  // 데이터 로딩 전 메시지 표시
+	            $('#dispatch-list').html('<p>로딩 중...</p>'); 
 	        }
 	    });
 	}
 
     function updateWarehouseList(dataList) {
-    $('#dispatch-list').empty();  // 이전 리스트 삭제
+    $('#dispatch-list').empty();  
 
 	    dataList.forEach(function(item) {
 	        let truncatedTitle = item.book_name.length > 20 ? item.book_name.substring(0, 12) + "..." : item.book_name;
