@@ -35,11 +35,11 @@
 	    </div>
 	</div>
 	
-	<div class="white-frame scroll" style="height: 37rem">
+	<div class="white-frame scroll" style="height: 57rem">
 		<p class="sub-title">배송요청</p>
 		<div class="content-list" th:each="item : ${list}">
 			<div class="content-text-wrap">
-				<a class="content-text" style="text-decoration: underline;" th:href="@{/mobile/admin/delivery-detail(orderNum=${item.order_num})}">요청번호: <span th:text="${item.request_num}"></span></a>
+				<a class="content-text" style="text-decoration: underline;" th:href="@{/mobile/admin/delivery-detail(requestNum=${item.request_num})}">요청번호: <span th:text="${item.request_num}"></span></a>
 				<p class="content-sub-txt">요청날짜: <span th:text="${#dates.format(item.request_date, 'yyyy-MM-dd')}"></span></p>
 			</div>
 			<div style="text-align: end;">

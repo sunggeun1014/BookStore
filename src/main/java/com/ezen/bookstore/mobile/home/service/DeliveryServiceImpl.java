@@ -27,8 +27,8 @@ public class DeliveryServiceImpl implements DeliveryService {
 	
 	@Transactional(readOnly = true)
 	@Override
-	public List<DeliveryDTO> getRequestDetail(Integer orderNum) {
-		return deliveryMapper.getRequestDetail(orderNum);
+	public List<DeliveryDTO> getRequestDetail(Integer requestNum) {
+		return deliveryMapper.getRequestDetail(requestNum);
 	}
 
 	@Transactional(readOnly = true)

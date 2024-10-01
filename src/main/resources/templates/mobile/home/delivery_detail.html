@@ -9,11 +9,12 @@
 	<h3 class="menu-title">배송요청내역</h3>
 	
 	<div class="white-frame scroll" style="height: 53rem">
-		<p class="sub-title">요청번호:<span th:text="${orderNum}"></span></p>
-		<div class="content-list" th:each="item : ${list}">
+		<p class="sub-title">요청번호:<span th:text="${requestNum}"></span></p>
+		<div class="content-list" style="grid-template-columns: 1fr 1fr; height: 5rem;" th:each="item : ${list}">
 			<div class="content-text-wrap">
 				<span class="content-text" th:text="'ISBN: ' + ${item.book_isbn}"></span>
-				<p class="content-sub-txt elipsis"><span th:text="'책제목:' + ${item.book_name}"></span></p>
+				<span class="content-text" th:text="'주문번호: ' + ${item.order_num}"></span>
+				<p class="content-sub-txt"><span th:text="'책제목:' + ${item.book_name}"></span></p>
 			</div>
 			<div style="text-align: end">
 				<p class="content-text"><span th:text="${item.order_detail_qty} + 권"></span></p>
