@@ -8,7 +8,6 @@
 <body>
 <header th:insert="~{/user/common/fragments/header :: HeaderFragment}"></header>
 <div class="inner">
-
     <div id="myprofile-wrap">
         <nav class="side-menu">
             <div class="user-profile-wrap">
@@ -49,7 +48,10 @@
         </nav>
         <div id="myinfo-content" layout:fragment="Content"></div>
     </div>
-
+</div>
+<!-- 탑버튼 -->
+<div id="top-btn">
+    <i class="fa-solid fa-arrow-up"></i>
 </div>
 <footer th:insert="~{/user/common/fragments/footer :: FooterFragment}"></footer>
 
