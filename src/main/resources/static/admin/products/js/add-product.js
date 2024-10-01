@@ -167,13 +167,14 @@ function checkForm() {
                     if (response.deleteState === '02') {
                         getConfirmModal("이미 등록된 ISBN입니다. 수정하시기 바랍니다.", function () {
                             // 페이지 이동
-                            location.href = `/admin/products/editProduct?book_isbn=${inputISBN.value}`;
+                            location.href = `/admin/products/detail?book_isbn=${inputISBN.value}`;
                         });
                     } else {
                         // 중복된 ISBN인 경우
                         getCheckModal("이미 존재하는 ISBN입니다.");
-                        inputISBN.focus();
+                        location.href = `/admin/products/detail?book_isbn=${inputISBN.value}`;
                     }
+                } else {
                     if (!response.isInvIsbn) {
                         getCheckModal("해당 ISBN은 재고에 존재하지 않는 상품 입니다.", inputISBN);
                         return;
@@ -255,7 +256,6 @@ function checkForm() {
                         addForm.submit();
                     });
                 }
-
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 getErrorModal("ERROR");
