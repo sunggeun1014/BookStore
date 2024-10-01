@@ -33,7 +33,7 @@
 
 .page-sub-title {
 	font-size: 16px;
-	font-weight: bold;
+	font-weight: 600;
 	background-color: #FAFAFA;
 	padding: 15px 10px;
 	height: 65px;
@@ -54,13 +54,13 @@
     flex-direction: column;
     justify-content: space-between;
 	height: 47px;
-	margin-left: 10px;
+	margin-left: 20px;
 	margin-right: auto;
 }
 
 .book-name, .book-price {
 	font-size: 16px;
-	font-weight: bold;
+	font-weight: 600;
 	color: #000000;
 }
 

@@ -83,6 +83,7 @@
 .purchase-qty {
 	color: #7e7e7e;
 	font-size: 14px;
+	font-weight: 300;
 }
 
 .order-price-status {
@@ -102,7 +103,6 @@
 .order-status {
 	color: #845EC2;
 	font-weight: 600;
-	font-size: 14px;
 }
 
 .delivery-info-title, .payment-info-title, .income-deduction-title {
