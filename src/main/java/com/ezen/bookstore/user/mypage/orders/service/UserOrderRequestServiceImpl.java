@@ -49,6 +49,8 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 				        		+ orderRequestRepository.countByOrderStatus(memberId, "06") 
 				        		+ orderRequestRepository.countByOrderStatus(memberId, "07"));
 
+        counts.put("교환/반품/취소전체", orderRequestRepository.countByorderStatusTotal(memberId));
+        		
         return counts;
     }
 

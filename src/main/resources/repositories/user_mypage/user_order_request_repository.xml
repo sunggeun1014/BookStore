@@ -70,6 +70,19 @@
 	    	member_id = #{memberId} AND order_detail_status = #{status}
 	</select>
 	
+	<select id="countByorderStatusTotal" parameterType="String" resultType="Integer">
+	    SELECT
+		    co.order_num 
+		FROM
+		    customer_orders        co
+		    LEFT JOIN customer_order_details cod ON co.order_num = cod.order_num
+		WHERE
+		        member_id = #{member_id}
+		    AND cod.order_detail_status IN ( '02', '03', '04', '05', '06', '07' )
+		GROUP BY
+		    co.order_num
+	</select>
+	
 	<select id="countByDeliveryStatus" parameterType="Map" resultType="Integer">
 	    SELECT 
 	        COUNT(DISTINCT co.order_num)

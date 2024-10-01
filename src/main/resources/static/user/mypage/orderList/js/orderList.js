@@ -137,8 +137,9 @@ function getStatusCounts() {
 		success: function(data) {
 			const requestCount = data['교환/반품/취소요청'];
 			const completeCount = data['교환/반품/취소완료'];
+			const totalCount = data['교환/반품/취소전체'];
 			
-			$('#request-complete-count').text(requestCount + completeCount);
+			$('#request-complete-count').text(totalCount);
 			$('#delivered-count').text(data['배송완료']);
 			$('#in-delivery-count').text(data['배송중']);
 			$('#before-delivery-count').text(data['배송전']);

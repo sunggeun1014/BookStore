@@ -103,4 +103,11 @@ public class UserOrderRequestRepository {
 		
 		sql.update("ProductRequest.adminProductRequestInsert", map);
 	}
+	
+	public int countByorderStatusTotal(String member_id) {
+		List<Integer> list = sql.selectList("UserOrderRequest.countByorderStatusTotal", member_id);
+		
+		return list.size(); 
+	}
+	
 }

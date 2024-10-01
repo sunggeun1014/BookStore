@@ -234,3 +234,12 @@ select:focus {
 	top: 0;
 	left: 10;
 }
+
+.input-box-long {
+    width: 340px;
+    height: 45px;
+    border: 1px solid #C0C0C0;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+}

@@ -358,6 +358,12 @@ function toggleInquiryProduct() {
 	const fields = ['inquiryTitle', 'inquiryContent', 'inquiryEmail'].map(id => document.getElementById(id));
 	const sections = ['inquiryProduct', 'inquiryProductQty'].map(id => document.getElementById(id));
 
+	if(inquiryTypeSelect.value !== '01' && inquiryTypeSelect.value !== '07') {
+		$("#inquiryProduct").addClass("important");
+	} else {
+		$("#inquiryProduct").removeClass("important");
+	}
+	
 	fields.forEach(field => {
 		field.readOnly = !isTypeSelected;
 		field.style.pointerEvents = isTypeSelected ? 'auto' : 'none';

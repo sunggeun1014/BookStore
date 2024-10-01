@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 
 
-	$("#searchKeyword").on("keydown", function(e) {
+	$(".search-input").on("keydown", function(e) {
 		if (e.key === 'Enter') {
 			location.href = `/user/products/searchForm?word=${$(this).val()}`;
 		}
