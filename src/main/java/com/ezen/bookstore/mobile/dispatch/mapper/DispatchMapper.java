@@ -20,5 +20,6 @@ public interface DispatchMapper {
 	String getZoneNum (@Param("isbn") String isbn);
 	void insertInventoryLog(RequestDTO requestDTO);
 	void insertInventoryLogDetail(RequestDTO requestDTO);
+	void changeOrederStatus(Integer requestNum);
 	void changeRequestStatus(Integer requestNum);
 }
