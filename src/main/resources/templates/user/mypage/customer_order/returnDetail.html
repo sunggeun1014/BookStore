@@ -5,45 +5,78 @@
       layout:decorate="~{/user/common/layout/myPageLayout}"
       layout:fragment="Content">
 
-	<link rel="stylesheet" href="/user/mypage/purchase_cancle/css/returnDetail.css">
+	<link rel="stylesheet" href="/user/mypage/purchase_cancel/css/returnDetail.css">
 <div>
 	<div class="page-title">
 		<span>반품상세</span>
 	</div>
 	<div class="order-info-area">
 		<div class="request-date">
-			<span th:if="${!#lists.isEmpty(cancleList)}" th:text="${#dates.format(cancleList[0].order_purchase_date, 'yyyy.MM.dd')}"></span>
+			<span th:if="${!#lists.isEmpty(cancelList)}" th:text="${#dates.format(cancelList[0].order_purchase_date, 'yyyy.MM.dd')}"></span>
 		</div>
 		<div class="request-order-num">
-			<span th:if="${!#lists.isEmpty(cancleList)}" th:text="'주문번호 ' + ${cancleList[0].order_num}"></span>
+			<span th:if="${!#lists.isEmpty(cancelList)}" th:text="'주문번호 ' + ${cancelList[0].order_num}"></span>
 		</div>
 	</div>
-	<div class="page-sub-title">
-		<span>반품상품</span>
-	</div>
-	<div th:each="detail : ${cancleList}">
-		<div class="cancle-book-detail">
-			<div>
-				<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><img th:src="'/images/books/' + ${detail.book_thumbnail_changed != null ? detail.book_thumbnail_changed : 'noimg.png'}" alt="책 이미지" width="80" height="114"></a>
-			</div>
-			<div class="book-info">
+	
+	<div class="return-request-box">
+		<div class="page-sub-title">
+			<span>반품요청 내역</span>
+		</div>
+		<div th:each="detail : ${cancelList}" th:if="${detail.request_status == '반품요청'}">
+			<div class="cancel-book-detail">
 				<div>
-					<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><span class="book-name" th:text="${detail.book_name}"></span></a>
+					<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><img th:src="'/images/books/' + ${detail.book_thumbnail_changed != null ? detail.book_thumbnail_changed : 'noimg.png'}" alt="책 이미지" width="80" height="114"></a>
+				</div>
+				<div class="book-info">
+					<div>
+						<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><span class="book-name" th:text="${detail.book_name}"></span></a>
+					</div>
+					<div>
+						<span class="purchase-qty" th:text="'수량: ' + ${detail.request_complete_qty} + '개'" th:if="${detail.request_status == '반품요청'}"></span>
+						<span class="purchase-qty" th:text="'수량: ' + ${detail.request_complete_qty} + '개'" th:if="${detail.request_status != '반품요청'}"></span>
+					</div>
 				</div>
 				<div>
-					<span class="purchase-qty" th:text="'수량: ' + ${detail.request_complete_qty} + '개'" th:if="${detail.request_status == '반품요청'}"></span>
-					<span class="purchase-qty" th:text="'수량: ' + ${detail.request_complete_qty} + '개'" th:if="${detail.request_status != '반품요청'}"></span>
-				</div>
+					<span class="book-price" th:if="${detail.request_status == '반품요청'}" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.request_complete_qty, 0, 'COMMA')} + '원'"></span>
+					<span class="book-price" th:if="${detail.request_status != '반품요청'}" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.request_complete_qty, 0, 'COMMA')} + '원'"></span>
+				</div>	
+				<div class="order_status_area">
+					<span class="order_status" th:text="${detail.request_status}"></span>
+				</div>	
 			</div>
-			<div>
-				<span class="book-price" th:if="${detail.request_status == '반품요청'}" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.request_complete_qty, 0, 'COMMA')} + '원'"></span>
-				<span class="book-price" th:if="${detail.request_status != '반품요청'}" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.request_complete_qty, 0, 'COMMA')} + '원'"></span>
-			</div>	
-			<div class="order_status_area">
-				<span class="order_status" th:text="${detail.request_status}"></span>
-			</div>	
 		</div>
 	</div>
+		
+	<div class="return-complete-box" id="returnCompleteBox">
+		<div class="page-sub-title" id="returnCompleteTitle" style="display: none;">
+			<span>반품완료 내역</span>
+		</div>
+		<div th:each="detail : ${cancelList}" th:if="${detail.request_status == '반품완료'}" class="return-complete-item">
+			<div class="cancel-book-detail">
+				<div>
+					<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><img th:src="'/images/books/' + ${detail.book_thumbnail_changed != null ? detail.book_thumbnail_changed : 'noimg.png'}" alt="책 이미지" width="80" height="114"></a>
+				</div>
+				<div class="book-info">
+					<div>
+						<a th:href="'/user/products/detail?book_isbn=' + ${detail.book_isbn}"><span class="book-name" th:text="${detail.book_name}"></span></a>
+					</div>
+					<div>
+						<span class="purchase-qty" th:text="'수량: ' + ${detail.request_complete_qty} + '개'" th:if="${detail.request_status == '반품요청'}"></span>
+						<span class="purchase-qty" th:text="'수량: ' + ${detail.request_complete_qty} + '개'" th:if="${detail.request_status != '반품요청'}"></span>
+					</div>
+				</div>
+				<div>
+					<span class="book-price" th:if="${detail.request_status == '반품요청'}" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.request_complete_qty, 0, 'COMMA')} + '원'"></span>
+					<span class="book-price" th:if="${detail.request_status != '반품요청'}" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.request_complete_qty, 0, 'COMMA')} + '원'"></span>
+				</div>	
+				<div class="order_status_area">
+					<span class="order_status" th:text="${detail.request_status}"></span>
+				</div>	
+			</div>
+		</div>
+	</div>
+		
 	<div>
 		<div class="info-title-area">
 			<span>회수지 정보</span>
@@ -81,13 +114,13 @@
 				<span>반품금액</span>
 				<span th:text="${#numbers.formatInteger(refund.cancellationAmount, 0, 'COMMA')} + '원'"></span>					
 			</div>
-			<div class="cancle-price-area">
+			<div class="cancel-price-area">
 				<span>환불금액</span>
 				<span th:text="${#numbers.formatInteger(refund.refundAmount, 0, 'COMMA') + '원'}"></span>
 			</div>
 		</div>	
 	</div>
-	<div class="cancle-guide-lines-area">
+	<div class="cancel-guide-lines-area">
 		<div class="guide-lines-content-area">
 			<div class="guide-lines-detail-area">
 				<div>
@@ -167,10 +200,10 @@
 		</div>
 	</div>
 	<div class="btn-area">
-		<button class="cancle-btn" onclick="location.href='/user/mypage/orderList'">주문/배송 목록</button>
+		<button class="cancel-btn" onclick="location.href='/user/mypage/orderList'">주문/배송 목록</button>
 	</div>
 </div>
 
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="/user/mypage/purchase_cancle/js/cancleCompletion.js"></script>
+	<script src="/user/mypage/purchase_cancel/js/returnDetail.js"></script>
 </html>

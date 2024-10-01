@@ -10,7 +10,7 @@
 	margin: 25px 0;
 	padding: 20px 0;
 	background-color: #FAF8FE;
-	border-radius: 10px;
+	border-radius: 20px;
 }
 
 .request-date {
@@ -34,18 +34,16 @@
 .page-sub-title {
 	font-size: 16px;
 	font-weight: bold;
-	background-color: #FAFAFA;
 	padding: 15px 10px;
 	height: 65px;
 	line-height: 35px;
-	border-radius: 5px;
-	margin-bottom: 10px;
+	border-top: 1px solid #000000;
 }
 
-.cancle-book-detail {
+.cancel-book-detail {
 	display: flex;
     align-items: center;
-	padding: 15px 30px 15px 20px;
+	padding: 15px 30px 15px 40px;
 	border-top: 1px solid #C0C0C0;
 }
 
@@ -73,7 +71,7 @@
 	text-align: center;
 }
 
-.cancle-btn {
+.cancel-btn {
 	width: 200px;
 	height: 50px;
 	background-color: #845EC2;
@@ -88,6 +86,10 @@
 	font-size: 14px;
 	font-weight: bold;
 	margin-left: 50px;
+}
+
+.cancel-complete-box {
+	margin-top: 60px;
 }
 
 .refund-area {
@@ -120,7 +122,7 @@
     padding-right: 30px;
 }
 
-.cancle-price-area {
+.cancel-price-area {
 	width: 50%;
 	display: flex;
     justify-content: space-between;

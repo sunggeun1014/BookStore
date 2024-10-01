@@ -27,9 +27,9 @@ public class UserOrderRequestRestController {
         return orderRequestService.getStatusCounts();
     }
 
-    @PutMapping("/orderCancle")
-    public int orderCancle(@RequestBody List<UserCustomerOrderWithDetailsDTO> list) {
-    	return orderRequestService.orderCancle(list);
+    @PutMapping("/orderCancel")
+    public int orderCancel(@RequestBody List<UserCustomerOrderWithDetailsDTO> list) {
+    	return orderRequestService.orderCancel(list);
     }
     
     @PostMapping("/returnRequest")

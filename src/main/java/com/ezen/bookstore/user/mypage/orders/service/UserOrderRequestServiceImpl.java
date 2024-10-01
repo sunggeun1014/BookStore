@@ -62,9 +62,9 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 		return orderRequestRepository.getDetailItem(orderNum);
 	}
 
-	public List<UserProductRequestDTO> getOrderCancleList(Integer orderNum) {
+	public List<UserProductRequestDTO> getOrderCancelList(Integer orderNum) {
 		try {
-			return orderRequestRepository.getOrderCancleList(orderNum);
+			return orderRequestRepository.getOrderCancelList(orderNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,12 +94,12 @@ public class UserOrderRequestServiceImpl implements UserOrderRequestService {
 
 	@Override
 	@Transactional
-	public int orderCancle(List<UserCustomerOrderWithDetailsDTO> list) {
+	public int orderCancel(List<UserCustomerOrderWithDetailsDTO> list) {
 		int result = 0;
 
 		try {
 			for (UserCustomerOrderWithDetailsDTO dto : list) {
-				result += orderRequestRepository.orderCancle(dto);
+				result += orderRequestRepository.orderCancel(dto);
 				dto.setOrder_detail_status("02");
 				
 				orderRequestRepository.productRequestInsert(dto);

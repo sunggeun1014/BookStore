@@ -40,24 +40,24 @@ public class UserOrderRequestController {
 	    return "/user/mypage/customer_order/orderDetail";
 	}
 
-    @GetMapping("/cancleList")
-    public String purchaseCancleForm(Model model, Integer orderNum, HttpSession session) {
-    	model.addAttribute("cancleList", orderRequestService.getOrderRequestList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
+    @GetMapping("/cancelList")
+    public String purchaseCancelForm(Model model, Integer orderNum, HttpSession session) {
+    	model.addAttribute("cancelList", orderRequestService.getOrderRequestList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
     	
-    	return "/user/mypage/customer_order/cancleList";
+    	return "/user/mypage/customer_order/cancelList";
     }
     
-    @GetMapping("/cancleCompletion")
-    public String purchaseCancleCompletionForm(Model model, Integer orderNum) {
-        model.addAttribute("cancleList", orderRequestService.getOrderCancleList(orderNum));
+    @GetMapping("/cancelCompletion")
+    public String purchaseCancelCompletionForm(Model model, Integer orderNum) {
+        model.addAttribute("cancelList", orderRequestService.getOrderCancelList(orderNum));
         model.addAttribute("refund", orderRequestService.getRefundInfo(orderNum));
         
-        return "/user/mypage/customer_order/cancleCompletion";
+        return "/user/mypage/customer_order/cancelCompletion";
     }
     
     @GetMapping("/returnRequest")
     public String returnRequestForm(Model model, Integer orderNum, HttpSession session) {
-    	model.addAttribute("cancleList", orderRequestService.getOrderRequestList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
+    	model.addAttribute("cancelList", orderRequestService.getOrderRequestList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
     	model.addAttribute("refund", orderRequestService.getRefundInfo(orderNum));
     	
     	return "/user/mypage/customer_order/returnRequest";
@@ -65,7 +65,7 @@ public class UserOrderRequestController {
     
     @GetMapping("/returnDetail")
     public String returnDetail(Model model, Integer orderNum) {
-    	model.addAttribute("cancleList", orderRequestService.getOrderReturnList(orderNum));
+    	model.addAttribute("cancelList", orderRequestService.getOrderReturnList(orderNum));
     	model.addAttribute("refund", orderRequestService.getReturnRefundInfo(orderNum));
     	
     	return "/user/mypage/customer_order/returnDetail";

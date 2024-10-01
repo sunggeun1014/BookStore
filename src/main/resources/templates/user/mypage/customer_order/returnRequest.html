@@ -5,17 +5,17 @@
       layout:decorate="~{/user/common/layout/myPageLayout}"
       layout:fragment="Content">
 
-	<link rel="stylesheet" href="/user/mypage/purchase_cancle/css/returnRequest.css">
+	<link rel="stylesheet" href="/user/mypage/purchase_cancel/css/returnRequest.css">
 <div>
 	<div class="page-title">
 		<span>반품신청</span>
 	</div>
 	<div class="order-info-area">
 		<div class="request-date">
-			<span th:if="${!#lists.isEmpty(cancleList)}" th:text="${#dates.format(cancleList[0].order_purchase_date, 'yyyy.MM.dd')}"></span>
+			<span th:if="${!#lists.isEmpty(cancelList)}" th:text="${#dates.format(cancelList[0].order_purchase_date, 'yyyy.MM.dd')}"></span>
 		</div>
 		<div class="request-order-num">
-			<span th:if="${!#lists.isEmpty(cancleList)}" th:text="'주문번호 ' + ${cancleList[0].order_num}"></span>
+			<span th:if="${!#lists.isEmpty(cancelList)}" th:text="'주문번호 ' + ${cancelList[0].order_num}"></span>
 		</div>
 	</div>
 	<div class="page-sub-title">
@@ -28,8 +28,8 @@
 			<span id="selected-count">(0)</span>
 		</div>
 	</div>
-	<div th:each="detail : ${cancleList}">
-		<div class="cancle-book-detail">
+	<div th:each="detail : ${cancelList}">
+		<div class="cancel-book-detail">
 			<div class="check-btn">
 			    <input type="checkbox" class="check-box checked" th:id="${detail.order_detail_num}">
 			    <label th:for="${detail.order_detail_num}"></label>
@@ -62,7 +62,7 @@
 		</div>
 	</div>
 	
-	<input type="hidden" name="order_num" th:if="${!#lists.isEmpty(cancleList)}" th:value="${cancleList[0].order_num}"/>
+	<input type="hidden" name="order_num" th:if="${!#lists.isEmpty(cancelList)}" th:value="${cancelList[0].order_num}"/>
 	<input type="hidden" name="retrieve_name" th:value="${refund.retrieve_name != null ? refund.retrieve_name : refund.recipient_name}">
 	<input type="hidden" name="retrieve_phoneNo" th:value="${refund.retrieve_phoneNo != null ? refund.retrieve_phoneNo : refund.recipient_phoneno}">
 	<input type="hidden" name="retrieve_addr" th:value="${refund.retrieve_addr != null ? refund.retrieve_addr : refund.order_addr}">
@@ -179,13 +179,13 @@
 				<span>주문금액</span>
 				<span th:text="${#numbers.formatInteger(refund.order_price_total, 0, 'COMMA') + '원'}"></span>
 			</div>
-			<div class="cancle-price-area">
+			<div class="cancel-price-area">
 				<span>환불금액</span>
 				<span id="refund-price">0원</span>
 			</div>
 		</div>	
 	</div>
-	<div class="cancle-guide-lines-area">
+	<div class="cancel-guide-lines-area">
 		<div class="guide-lines-content-area">
 			<div class="guide-lines-detail-area">
 				<div>
@@ -265,13 +265,13 @@
 		</div>
 	</div>
 	<div class="btn-area">
-		<button class="cancle-btn" onclick="orderCancleBtn();">반품신청</button>
+		<button class="cancel-btn" onclick="orderCancelBtn();">반품신청</button>
 		<button class="back-btn" onclick="location.href='/user/mypage/orderList'">이전으로</button>
 	</div>
 	
 </div>
 
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="/user/mypage/purchase_cancle/js/returnRequest.js"></script>
+	<script src="/user/mypage/purchase_cancel/js/returnRequest.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </html>
