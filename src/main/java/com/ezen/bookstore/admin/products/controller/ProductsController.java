@@ -115,11 +115,9 @@ public class ProductsController {
     }
 
     @PostMapping("/register")
-    public String insertBook(@ModelAttribute ProductsDTO productDTO, Model model) throws IOException {
+    public String insertBook(@ModelAttribute ProductsDTO productDTO) throws IOException {
     	productDTO.setBook_category(productDTO.getBook_category().replace(",", ""));
         productService.insertBook(productDTO);
-
-//        model.addAttribute("template", "/admin/products/product");
 
         return "redirect:/admin/products/list";
     }

@@ -35,9 +35,9 @@
     gap: 10px;
 }
 
-#delete-button {
-    width: 110px;
-}
+/*#delete-button {*/
+/*    width: 110px;*/
+/*}*/
 
 .book-isbn-link  {
     display: block;

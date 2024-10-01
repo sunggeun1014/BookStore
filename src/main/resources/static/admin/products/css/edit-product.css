@@ -46,6 +46,7 @@ input[type=text]:not(.placeholder, .search-input, .input-price) {
 .product-info {
     height: 60px;
     padding-left: 20px;
+    border-bottom: 1px solid #c0c0c0;
 }
 
 .book-price {
@@ -72,12 +73,13 @@ input[type=text]:not(.placeholder, .search-input, .input-price) {
 }
 
 .book-info {
-    height: 320px;
+    height: 350px;
 }
 
 .custom-textarea {
-    width: 90%;
+    width: 98%;
     height: 280px;
+    margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #C0C0C0;
     border-radius: 5px;
@@ -88,6 +90,12 @@ input[type=text]:not(.placeholder, .search-input, .input-price) {
 .custom-textarea:focus {
     outline: none;
     border: 1px solid #7E7E7E;
+}
+
+.content-length-area {
+    align-self: end;
+    padding-right: 20px;
+    margin: 0;
 }
 
 .button-wrap {
@@ -197,4 +205,12 @@ input[type=text]:not(.placeholder, .search-input, .input-price) {
     #search-book-modal .modal-content-box {
         right: 320px;
     }
+}
+
+
+.intro-text-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
