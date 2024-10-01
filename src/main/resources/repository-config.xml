@@ -53,6 +53,7 @@
       <typeAlias type="com.ezen.bookstore.user.mypage.inquiries.dto.UserInquiriesDTO" alias="userInquiries"/>
       <typeAlias type="com.ezen.bookstore.user.mypage.orders.dto.UserCustomerOrderWithDetailsDTO" alias="customerOrderWithDetails"/>
       <typeAlias type="com.ezen.bookstore.user.mypage.notice.dto.UserNoticesDTO" alias="userNotice"/>
+      <typeAlias type="com.ezen.bookstore.mobile.dispatch.dto.RequestDTO" alias="request"/>
       
       
       <typeAlias type="com.ezen.bookstore.mobile.home.dto.DeliveryDTO" alias="deliveryDTO"/>
