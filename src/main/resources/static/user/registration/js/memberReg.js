@@ -595,3 +595,22 @@ function confirmNumber() {
         }
     });
 }
+
+document.addEventListener('DOMContentLoaded', function (){
+	showTerms();
+})
+
+function showTerms() {
+	const termsModal = document.getElementById("terms-modal");
+	const closeBtn = document.getElementById("close-btn");
+	const agreeBtn = document.querySelector(".agreement > label")
+
+	agreeBtn.addEventListener('click', function () {
+		termsModal.classList.add('on')
+
+	})
+
+	closeBtn.addEventListener('click', function () {
+		termsModal.classList.remove('on')
+	})
+}
