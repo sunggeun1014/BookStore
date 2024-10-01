@@ -16,8 +16,8 @@ $(document).ready(function() {
                         <p class="content-text">ISBN: <span>${item.inv_isbn}</span></p>
                         <p class="content-sub-txt">등록날짜: <span>${item.inv_registration_date}</span></p>
                     </div>
-                    <div style="text-align: end;" class="inventoryQty">
-                        <p class="content-text" style="display: ruby-text">재고수량: <span>${item.inv_qty}개</span></p>
+                    <div class="inventoryQty">
+                        <p class="content-text">재고수량: <span>${item.inv_qty}개</span></p>
                     </div>
                 </div>
             `;

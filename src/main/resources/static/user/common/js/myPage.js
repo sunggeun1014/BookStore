@@ -7,7 +7,6 @@ window.onload = function () {
 function showSideMenu() {
     const menus = document.querySelectorAll(".sub-menu-list");
     const links = document.querySelectorAll(".sub-menu-list > a");
-    let currentPath = window.location.pathname;
     let fullURL = window.location.href;
 
     if (fullURL.endsWith('/')) {

@@ -19,15 +19,16 @@
 }
 
 .content-list {
-    height: 4rem;
+    height: 6rem;
+    padding: 1.5rem 1rem;
     display: grid;
-    grid-template-columns: 22rem 1fr;
-    margin-top: 2rem;
-    border-bottom: 1px solid #D8D8D8;
+    grid-template-columns: repeat(2, 1fr);
     align-items: center;
+    border-bottom: 1px solid #D8D8D8;
 }
 
 .content-list.deliver-state {
+    height: 8rem;
     grid-template-columns: 15rem auto 5rem;
 }
 
@@ -346,7 +347,7 @@ select::-ms-expand {
 .myinfo {
 	display: grid; 
 	grid-template-columns: 10rem auto;
-	gap: 1rem;
+	gap: 2rem 1rem;
 	align-items: center;
 }
 
