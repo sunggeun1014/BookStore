@@ -170,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
             location.href = '/admin/home';
         });
     }
+	
 });
 
 
@@ -340,4 +341,36 @@ function fnPostAjax(url, params, successFc) {
             getCheckModal('통신 중 오류가 발생했습니다.');
         }
     });
+}
+
+function getByteLen(str) {
+    let byteLength = 0;
+    for (let i = 0; i < str.length; i++) {
+        const charCode = str.charCodeAt(i);
+        if (charCode <= 0x007F) {
+            byteLength += 1;
+        } else if (charCode <= 0x07FF) {
+            byteLength += 2;
+        } else {
+            byteLength += 3;
+        }
+		
+		if (str[i] === '\n') {
+            byteLength += 1; // 추가 1바이트
+        }
+    }
+    return byteLength;
+}
+
+function textLengthCheck(obj, maxLength) {
+    let content = $(obj).val();
+    let contentLength = getByteLen(content);
+    
+    while (contentLength > maxLength) {
+        content = content.slice(0, -1);
+        contentLength = getByteLen(content);
+    }
+    $(obj).val(content);
+    $("#current-length").text(contentLength);
+    $("#max-length").text(maxLength);
 }

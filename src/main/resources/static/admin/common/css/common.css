@@ -528,3 +528,10 @@ table td:not([align]), table th:not([align]) {
 .dt-empty {
     text-align: center !important;
 }
+
+.content-length-area {
+	display: flex;
+	gap: 3px;
+	justify-content: flex-end;
+	margin: -10px 10px 0 0;
+}

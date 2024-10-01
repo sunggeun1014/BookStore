@@ -157,8 +157,13 @@
                 <span class="important">*</span>
             </p>
             <textarea name="book_intro" id="book_intro" cols="30" rows="10" class="custom-textarea"
-                      th:text="${product_detail != null ? product_detail.book_intro : ''}"></textarea>
+                      th:text="${product_detail != null ? product_detail.book_intro : ''}" oninput="textLengthCheck(this, 4000);"></textarea>
         </div>
+        <div class="content-length-area">
+           	<div id="current-length">0</div>
+           	<div>/</div>
+           	<div id="max-length">4000</div>
+       	</div>
         <th:block th:unless="${product_detail.book_deleted == '01'}">
             <input type="hidden" name="book_deleted" th:value="'01'">
         </th:block>

@@ -1,11 +1,15 @@
 // 날짜선택
-datepicker("singleDate");
-
-checkEditForm();
-
-previewImg();
-
-categoryCheck();
+$(document).ready(function() {
+	datepicker("singleDate");
+	
+	checkEditForm();
+	
+	previewImg();
+	
+	categoryCheck();
+	
+	textLengthCheck($("#book_intro"), 4000);
+});
 
 function getCountryValue() {
     const countryRadio = document.querySelector('input[name="book_country_type"]:checked');
