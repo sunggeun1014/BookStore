@@ -24,8 +24,8 @@
 	<h3 class="menu-title">배송상황</h3>
 	
 	<div class="white-frame scroll" style="height: 70rem;">
-		<div class="content-list" th:each="item : ${list}" style="height: 6rem; grid-template-columns: 22rem 1fr 1fr;">
-			<div class="content-text-wrap" style="width: 22rem;">
+		<div class="content-list deliver-state" th:each="item : ${list}" style="height: 6rem;">
+			<div class="content-text-wrap">
 				<span class="content-text" th:text="'주문번호: ' + ${item.order_num}"></span>
 				<p class="content-text"><span th:text="'받는분:' + ${item.recipient_name}"></span></p>
 				<p class="content-sub-txt"><span th:text="'주문날짜:' + ${item.order_modify_date != null ? #dates.format(item.order_modify_date, 'yyyy-MM-dd hh:mm') : #dates.format(item.order_purchase_date, 'yyyy-MM-dd hh:mm')}"></span></p>

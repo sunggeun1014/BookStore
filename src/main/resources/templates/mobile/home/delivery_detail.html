@@ -11,7 +11,7 @@
 	<div class="white-frame scroll" style="height: 53rem">
 		<p class="sub-title">요청번호:<span th:text="${orderNum}"></span></p>
 		<div class="content-list" th:each="item : ${list}">
-			<div class="content-text-wrap" style="width: 22rem">
+			<div class="content-text-wrap">
 				<span class="content-text" th:text="'ISBN: ' + ${item.book_isbn}"></span>
 				<p class="content-sub-txt elipsis"><span th:text="'책제목:' + ${item.book_name}"></span></p>
 			</div>
