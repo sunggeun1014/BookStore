@@ -30,4 +30,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 	public List<DeliveryDTO> getRequestDetail(Integer orderNum) {
 		return deliveryMapper.getRequestDetail(orderNum);
 	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<DeliveryDTO> getOrderStatus() {
+		return deliveryMapper.getOrderStatus();
+	}
 }

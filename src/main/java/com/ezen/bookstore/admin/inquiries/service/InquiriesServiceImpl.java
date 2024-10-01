@@ -37,6 +37,12 @@ public class InquiriesServiceImpl implements InquiriesService {
 
     @Override
     public void updateInquiry(InquiriesDTO inquiriesDTO) {
+    	String answerContent = inquiriesDTO.getAnswer_content();
+    	
+    	if (answerContent == null) {
+    		inquiriesDTO.setAnswer_content(" ");
+    	}
+    	
     	inquiriesMapper.updateInquiry(inquiriesDTO);
     }
 

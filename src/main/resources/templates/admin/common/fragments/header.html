@@ -12,8 +12,7 @@
 	<div class="user-wrap">
 		<div class="user-profile">
 			<div class="profile-img-wrap">
-				<img th:src="@{/images/profiles/{profile}(profile=${session.manager.manager_profile_changed != null ? session.manager.manager_profile_changed : 'default_profile.png'})}" alt="프로필이미지" class="profile-img" 
-					onerror="this.onerror=null; this.src='/admin/common/img/profile/default_profile.png';">
+				<img th:src="@{/images/profiles/{profile}(profile=${session.manager.manager_profile_changed != null ? session.manager.manager_profile_changed : 'default_profile.png'})}" alt="프로필이미지" class="profile-img" onerror="this.onerror=null; this.src='/admin/common/img/profile/default_profile.png';">
 			</div>
 			<div class="text-wrap">
 				<th:block th:switch="${session.manager.manager_dept}">

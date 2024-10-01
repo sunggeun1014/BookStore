@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ezen.bookstore.admin.commons.AdminSessionInfo;
 import com.ezen.bookstore.admin.managers.dto.AdminManagersDTO;
@@ -95,4 +94,18 @@ public class MobileController {
         
         return "redirect:/mobile/admin/index";
     }
+	
+	@GetMapping("/delivery-status")
+	public String orderStatusPage(Model model, Pagination pagination) {
+		List<DeliveryDTO> orderStatus = deliveryService.getOrderStatus();
+		
+		if (orderStatus != null && !orderStatus.isEmpty()) {
+			Map<String, Object> map = paginationProcess.process(pagination, orderStatus);
+			model.addAttribute("page", map.get("page"));
+			model.addAttribute("list", map.get("list"));
+		}
+		
+		
+		return "mobile/home/delivery_status";
+	}
 }

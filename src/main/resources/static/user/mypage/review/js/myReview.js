@@ -225,15 +225,37 @@ $(document).ready(function () {
         let formattedDate = new Date(date).toISOString().split('T')[0];
         return type === 'start' ? formattedDate + ' 00:00:00' : formattedDate + ' 23:59:59';
     }
-
+	
+	function getByteLength(str) {
+	    let byteLength = 0;
+	    for (let i = 0; i < str.length; i++) {
+	        let charCode = str.charCodeAt(i);
+	        if (charCode <= 0x007F) {
+	            byteLength += 1;
+	        } else if (charCode <= 0x07FF) {
+	            byteLength += 2;
+	        } else {
+	            byteLength += 3;
+	        }
+	    }
+	    return byteLength;
+	}
+	
+	
     function getReviewEditModal(review, onSave) {
+		const maxByteLength  = 1000;
         let modalDiv = $("<div id='myModal' class='modal' style='display: block;'></div>");
         let modalContent = $("<div class='edit-modal-content'></div>");
         let modalItem = $("<div class='edit-modal-item'></div>");
 		let modalHead = $("<div class='modal-head'><h3>리뷰 수정</h3></div>")
         let title = $(`<h2>${review.book_name}</h2>`);
         let starRatingArea = $("<div class='modal-stars'></div>");
-        let reviewTextArea = $(`<textarea class='modal-textarea'>${review.review_content}</textarea>`);
+        let reviewTextArea = $(`<div style="position: relative;">
+									<textarea class='modal-textarea' id="review_content">${review.review_content}</textarea>
+									<p class="char-count" style="bottom: 0px; right: 22px;">
+										<span id="charCount">0</span><span>/1000</span>
+									</p>
+								</div>`);
         
         let starsHtml = '';
         for (let i = 1; i <= 5; i++) {
@@ -273,7 +295,7 @@ $(document).ready(function () {
         });
         
         $("#confirm-edit").on("click", function () {
-            let newContent = reviewTextArea.val(); 
+            let newContent = $('#review_content').val();
             onSave(newContent, selectedRating);
             modalDiv.remove(); 
         });
@@ -283,6 +305,20 @@ $(document).ready(function () {
         });
 
         $("#confirm-edit").focus();
+		
+		$("#review_content").on("input", function () {
+		    let textarea = $(this);
+		    let content = textarea.val();
+		    let byteLength = getByteLength(content);
+		    if (byteLength > maxByteLength) {
+		        while (getByteLength(content) > maxByteLength) {
+		            content = content.substring(0, content.length - 1);
+		        }
+		        textarea.val(content);  
+		    }
+
+		    $("#charCount").text(getByteLength(textarea.val()));
+		});
     }
 
     function editReview(reviewNum) {

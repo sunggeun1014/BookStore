@@ -22,4 +22,11 @@ public class DeliveryDTO {
 	
 	String book_name;
 	String book_isbn;
+	
+	String recipient_name;
+	String order_addr;
+	String order_addr_detail;
+	String order_delivery_status;
+	Timestamp order_purchase_date;
+	Timestamp order_modify_date;
 }

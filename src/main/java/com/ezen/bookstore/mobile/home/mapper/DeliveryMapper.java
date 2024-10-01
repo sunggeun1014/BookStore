@@ -11,4 +11,5 @@ import com.ezen.bookstore.mobile.home.dto.DeliveryDTO;
 public interface DeliveryMapper {
 	List<DeliveryDTO> getRequestList();
 	List<DeliveryDTO> getRequestDetail(@Param("order_num") Integer orderNum);
+	List<DeliveryDTO> getOrderStatus();
 }

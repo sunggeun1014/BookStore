@@ -7,4 +7,5 @@ import com.ezen.bookstore.mobile.home.dto.DeliveryDTO;
 public interface DeliveryService {
 	List<DeliveryDTO> getRequestList();
 	List<DeliveryDTO> getRequestDetail(Integer orderNum);
+	List<DeliveryDTO> getOrderStatus();
 }

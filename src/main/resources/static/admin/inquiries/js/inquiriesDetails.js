@@ -18,12 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	
-	$("#inquiryContent").on("input", function (e) {
+	$("#inquiryContent").on("input", function () {
 		let textarea = $(this);
 		let content = textarea.val();
 		let byteLength = getByteLength(content);
 
-		if (byteLength > maxByteLength) {
+		if (byteLength >= maxByteLength) {
 			while (getByteLength(content) > maxByteLength) {
 				content = content.substring(0, content.length - 1);
 			}

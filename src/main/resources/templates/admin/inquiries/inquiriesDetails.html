@@ -16,44 +16,59 @@
 	
 <div class="inquiries-container" style="padding-bottom: 30px;" th:with="status = ${inquiries.inquiry_answer_status}">
 	<div class="white-frame">
+	
 		<div class="text-title">
 	        <span th:text="'문의번호 : ' + ${inquiries.inquiry_num}"></span>
 	    </div>
+	    
 	    <div class="text-group">
 	        <span class="search-list-subject">제목</span>
 	        <span th:text="${inquiries.inquiry_title}"></span>
 	    </div>
+	    
 	    <div class="text-group">
 	        <span class="search-list-subject">작성자</span>
 	        <span th:text="${inquiries.member_id}"></span>
 	    </div>
+	    
 	    <div class="text-group">
 	        <span class="search-list-subject">작성날짜</span>
 	        <span th:text="${#dates.format(inquiries.inquiry_write_date, 'YYYY-MM-dd HH:mm')}"></span>
 	    </div>
+	    
 		<div class="text-group">
 			<span class="search-list-subject">문의 분류</span> 
 			<span th:text="${inquiries.inquiry_type}"></span>
 		</div>
+		
 		<div class="text-group">
 			<span class="search-list-subject">내용</span> 
 			<span th:text="${inquiries.inquiry_content}"></span>
 		</div>
-		<div class="text-group">
+		
+		<div class="text-group" th:style="${inquiries.inquiries_changed == null ? 'display:none;' : ''}">
 			<span class="search-list-subject">파일첨부</span>
 			<div class="img-input-wrap">
-				<label id="download-label" for="input-file" class="input-file-label" th:style="${inquiries.inquiries_changed == null ? 'cursor:not-allowed;' : ''}">
+				<label id="download-label" for="input-file" class="input-file-label">
 					<a id="download-link" th:href="${inquiries.inquiries_changed != null ? '/admin/download?img=' + inquiries.inquiries_changed : '#'}"
 	           				   			  th:style="${inquiries.inquiries_changed == null ? 'pointer-events:none;' : ''}">
-						<img alt="사진" id="book-image" th:src="${inquiries.inquiries_changed != null ? '/images/inquiries/' + inquiries.inquiries_changed : '/user/common/imgs/book-default-img.png'}">
+						<img alt="사진" id="book-image" th:src="${inquiries.inquiries_changed != null ? '/images/inquiries/' + inquiries.inquiries_changed : '/user/common/imgs/book-default-img.png'}"
+													   onerror="this.onerror=null;
+													   			this.src='/user/common/imgs/book-default-img.png'; 
+													   			this.style.cursor='not-allowed'; 
+													   			var link = document.getElementById('download-link');
+												                link.setAttribute('href', '#');
+												                link.style.cursor='not-allowed';">
 					</a>
 				</label>
 			</div>
 		</div>
+		
 		<div class="text-group">
 			<span class="search-list-subject">답변여부</span> 
 			<span th:text="${status}" th:style="'color: ' + (${status == '처리완료'} ? '#10A142' : (${status == '미완료'} ? '#F69E47' : ''))"></span>
 		</div>
+		
 		<div class="text-group"	th:if="${inquiries.inquiry_type == '취소문의' or 
 							           inquiries.inquiry_type == '교환문의' or 
 							           inquiries.inquiry_type == '반품문의'}">
