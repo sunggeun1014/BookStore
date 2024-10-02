@@ -23,12 +23,13 @@
 
 .request-date > span {
 	border-right: 1px solid #C0C0C0;
-	padding-right: 10px;
+	padding-right: 20px;
+	margin-right: 20px;
 }
 
 .request-order-num > span {
-	padding-left: 10px;
 	color: #000000;
+	font-weight: 300;
 }
 
 .page-sub-title {
@@ -45,15 +46,14 @@
 .cancel-book-detail {
 	display: flex;
     align-items: center;
-	padding: 15px 30px 15px 20px;
+	padding: 15px 30px 15px 40px;
 	border-top: 1px solid #C0C0C0;
 }
 
 .book-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-	height: 47px;
+    gap: 10px;
 	margin-left: 20px;
 	margin-right: auto;
 }

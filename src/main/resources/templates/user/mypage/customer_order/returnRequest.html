@@ -57,7 +57,7 @@
 				</div>
 			</div>
 			<div>
-				<span class="book-price" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.order_detail_qty, 0, 'COMMA')} + '원'" th:data-detail-price="${detail.order_detail_price}"></span>
+				<span class="book-price" th:text="${#numbers.formatInteger(detail.order_detail_price * detail.order_detail_qty, 0, 'COMMA')}" th:data-detail-price="${detail.order_detail_price}"></span><span>원</span>
 			</div>		
 		</div>
 	</div>
@@ -177,11 +177,16 @@
 		<div class="refund-info-area">
 			<div class="refund-price-area">
 				<span>주문금액</span>
-				<span th:text="${#numbers.formatInteger(refund.order_price_total, 0, 'COMMA') + '원'}"></span>
+				<div class="cancel-price">
+					<span th:text="${#numbers.formatInteger(refund.order_price_total, 0, 'COMMA')}"></span><span class="won">원</span>
+				</div>
 			</div>
 			<div class="cancel-price-area">
 				<span>환불금액</span>
-				<span id="refund-price">0원</span>
+				<div class="cancel-price">
+					<span id="refund-price">0</span>
+					<span class="won">원</span>
+				</div>
 			</div>
 		</div>	
 	</div>

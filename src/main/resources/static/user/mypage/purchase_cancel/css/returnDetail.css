@@ -22,13 +22,14 @@
 }
 
 .request-date>span {
-	border-right: 1px solid #C0C0C0;
-	padding-right: 10px;
+    border-right: 1px solid #C0C0C0;
+    margin-right: 20px;
+    padding-right: 20px;
 }
 
 .request-order-num>span {
-	padding-left: 10px;
 	color: #000000;
+	font-weight: 300;
 }
 
 .page-sub-title {
@@ -54,10 +55,13 @@
 .book-info {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	height: 47px;
+	gap: 10px;
 	margin-left: 20px;
 	margin-right: auto;
+}
+
+.book-price-area {
+	display: flex;
 }
 
 .book-name, .book-price {
@@ -209,7 +213,7 @@
 
 .refund-info-area {
 	display: flex;
-	padding: 30px 20px;
+	padding: 30px 40px;
 	font-size: 16px;
 	font-weight: 600;
 	color: #000000;
@@ -229,6 +233,10 @@
 	display: flex;
 	justify-content: space-between;
 	padding-left: 30px;
+}
+
+.cancel-price .won {
+	font-weight: 400;
 }
 
 .refund-guide-area {
