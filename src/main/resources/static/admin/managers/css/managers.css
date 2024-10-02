@@ -15,3 +15,7 @@
 .pointer-cursor {
     cursor: pointer;
 }
+
+.select-wrap {
+	width: 120px;
+}

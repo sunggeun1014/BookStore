@@ -26,9 +26,9 @@
 					<input type="text" id="inv_title" name="inv_title" th:value="${stockDetails.inv_title}">			
 			</div>
 			
-			<div class="select-wrap info">
+			<div class="info">
 			    <span class="search-list-subject important">구역번호</span>
-			    <div class="select-box">            
+			    <div class="select-wrap zone_num">
 			        <select id="zone_num" name="zone_num">
 			            <!-- zoneNumList의 각 ZoneNumDTO에서 zone_num 필드 접근 -->
 			            <option th:each="zoneDTO : ${zoneNumList}"

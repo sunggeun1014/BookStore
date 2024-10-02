@@ -112,14 +112,16 @@
                 <div>
                     <span class="detail-total-cnt" th:text="'총 ' + ${#lists.size(detailList)} + '건'"></span>
                 </div>
-                <div class="request-completion-btn select-wrap">
-                    <select id="request-select-area" class="select">
-                        <option value="05">취소완료</option>
-                        <option value="06">교환완료</option>
-                        <option value="07">반품완료</option>
-                        <option value="08">처리불가</option>
-                    </select>
-                    <div class="select-arrow-down"></div>
+                <div class="request-completion-btn">
+                    <div class="select-wrap">
+                        <select id="request-select-area" class="select">
+                            <option value="05">취소완료</option>
+                            <option value="06">교환완료</option>
+                            <option value="07">반품완료</option>
+                            <option value="08">처리불가</option>
+                        </select>
+                        <div class="select-arrow-down"></div>
+                    </div>
                     <span>
 						<button class="default-btn" onclick="requestCompletionBtn();">완료</button>
 					</span>

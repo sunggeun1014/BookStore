@@ -206,7 +206,7 @@ input[type='radio']:checked {
   그림자가 없으면 그냥 설정한 색상이 꽉 찬 원으로만 나옵니다. */
 }
 
-input:focus, select:focus {
+input:focus, input[type=text]:focus, input[type="number"]:focus, select:focus {
 	outline: none;
 	box-shadow: none;
 	border: 1px solid #666;
@@ -281,13 +281,15 @@ input[type=text], input[type="number"], input[type="password"], select {
   pointer-events: none; 아이콘 클릭 방지
 }
 */
+
 .select-wrap {
+	width: 140px;
 	position: relative;
 }
 
 select {
-	width: 140px;
-	padding: 0 10px;
+	width: 100%;
+	padding: 0 25px 0 10px;
 	appearance: none;
 	-webkit-appearance: none;
 }
@@ -299,7 +301,7 @@ select::-ms-expand {
 .select-arrow-down {
 	position: absolute;
 	top: 50%;
-	left: 110px;
+	left: calc(100% - 20px);
 	transform: translateY(-50%);
 	background: url(/admin/common/img/select-arrow.svg) no-repeat center;
 	width: 10px;

@@ -5,14 +5,6 @@
     layout:decorate="~{/admin/common/layout/defaultlayout}"
     layout:fragment="Content">
     <link rel="stylesheet" href="/admin/myinfo/css/myinfo.css" />
-    <style>
-        .error-message {
-        	margin-left: 50px;
-            color: red;
-            font-size: 0.9em;
-            display: none;
-        }
-    </style>
 <div>
     <div class="white-frame">
         <!-- th:object를 사용하여 폼의 모든 필드가 manager 객체와 바인딩되도록 설정 -->
@@ -28,7 +20,7 @@
             </div>
 
             <!-- 비밀번호 필드 -->
-            <div class="info">
+            <div class="info pw-wrap">
                 <span class="search-list-subject">비밀번호</span>
                 <div>
                     <input type="password" id="input-pw" class="input-pw" placeholder="새 비밀번호 입력">
@@ -39,19 +31,19 @@
                 <span class="search-list-subject">비밀번호 확인</span>
                 <div>
                     <input type="password" id="input-pw-check" class="input-pw" th:field="*{manager_pw}" placeholder="새 비밀번호 확인">
+                    <span class="error-message" id="pwError" style="display: block;">※ 특수문자, 영문자, 숫자 포함, 최소 8자</span>
                 </div>
                 <div>
                 </div>
-	                <span class="error-message" id="pwError" style="display: block;">※ 특수문자, 영문자, 숫자 포함, 최소 8자</span>
             </div>
 
             <!-- 이메일 필드 -->
-            <div class="select-wrap info">
+            <div class="info">
                 <span class="search-list-subject">이메일</span>
                 <div class="info-items">
                     <input type="text" id="emailUser" class="gray-text" th:value="${emailUser}"/>
                     <span class="search-list-subject-symbol">@</span>
-                    <div class="select-box">
+                    <div class="select-wrap emailDomain">
                         <select id="emailDomain" name="emailDomain" onchange="toggleCustomDomain()">
 						    <option th:each="domain : ${emailDomainList}"
 						            th:value="${domain}"
@@ -72,10 +64,10 @@
             </div>
 
             <!-- 전화번호 필드 -->
-            <div class="select-wrap info">
+            <div class="info">
                 <span class="search-list-subject">전화번호</span>
                 <div class="info-items">
-                    <div class="select-box">
+                    <div class="select-wrap countryNum">
                         <select id="countryNum" name="countryNum">
 			                <option value="010" th:selected="${countryNum == '010'}">010</option>
 			                <option value="011" th:selected="${countryNum == '011'}">011</option>
@@ -100,7 +92,7 @@
             </div>
 
             <!-- 주소 필드 -->
-            <div class="info">
+            <div class="info addr-wrap">
                 <span class="search-list-subject">주소</span>
                 <div>
                     <input type="text" id="address_kakao" th:field="*{manager_addr}" class="gray-text" readonly/>
@@ -115,7 +107,7 @@
             </div>
 
             <!-- 부서명 필드 -->
-            <div class="select-wrap info">
+            <div class="info">
                 <span class="search-list-subject">부서명</span>
                 <div class="text-readonly">
 					<span th:text="
