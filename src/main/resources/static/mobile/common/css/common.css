@@ -108,7 +108,8 @@ select:focus, input:focus {
 /* 버튼 */
 /* 뒤로가기 (입고하기 등등) */
 .back-btn {
-    width: auto;
+    max-width: 15rem;
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -393,4 +394,16 @@ select::-ms-expand {
 .error-message {
 	color: #E54F53;
   	font-size: 1.4rem;
+}
+
+.inner {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.inner{
+    -ms-overflow-style: none;
+}
+.inner::-webkit-scrollbar{
+    display:none;
 }

@@ -85,11 +85,13 @@ input[type=text]:not(.placeholder, .search-input, .input-price) {
     border-radius: 5px;
     font-size: 16px;
     resize: none;
+    background-color: #f8f8f8;
 }
 
 .custom-textarea:focus {
     outline: none;
     border: 1px solid #7E7E7E;
+    background-color: #fff;
 }
 
 .content-length-area {
@@ -185,11 +187,8 @@ input[type=text]:not(.placeholder, .search-input, .input-price) {
 }
 
 /* 셀렉트박스 사이즈조정 */
-.select-lists {
+.select-wrap.select-lists {
     width: 160px;
-}
-.select-arrow-down {
-    left: 130px;
 }
 
 /* 모달 미디어 쿼리 */

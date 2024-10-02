@@ -20,13 +20,6 @@
     cursor: pointer;
 }
 
-.menu-title {
-	display: inline-block;
-	width: 8rem;
-	padding: 0;
-    margin: 0;
-}
-
 .selected {
     background-color: #695146;
     color: white; /* 원하는 배경색 */

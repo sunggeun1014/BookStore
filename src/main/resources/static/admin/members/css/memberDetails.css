@@ -67,20 +67,12 @@ span.search-list-subject{
 	width: 150px;
 }
 
-select#countryNum{
-	width:80px;
+.select-wrap.countryNum{
+	width: 70px;
 }
 
-select#emailDomain{
+.select-wrap.email-select{
 	width: 120px;
-}
-
-.select-arrow-down#phoneNum{
-	margin-left: 310px;
-}
-
-.select-arrow-down#email{
-	margin-left: 585px;
 }
 
 input#address_kakao{
@@ -89,6 +81,11 @@ input#address_kakao{
 
 input#emailUser{
 	width: 200px;
+    color: #666;
+}
+
+input:focus#emailUser {
+    color: #000;
 }
 
 input.num{
@@ -110,10 +107,6 @@ hr {
 
 .search-list-title {
 	margin-bottom: 50px;
-}
-
-input.gray-text {
-    color: gray;
 }
 
 input#customEmailDomain{

@@ -7,8 +7,8 @@
 }
 
 .content-dispatch-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    justify-content: space-between;
     align-items: center; /* 체크박스와 텍스트를 수직 중앙 정렬 */
     border-bottom: 1px solid #D8D8D8;
     padding: 1.5rem 1rem;

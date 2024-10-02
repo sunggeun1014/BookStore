@@ -73,7 +73,7 @@
 			               th:checked="${product_detail != null and product_detail.book_country_type == '02'}"/>
 			        <label for="overseas">국외</label>
 			    </div>
-			    <div class="select-wrap">
+			    <div class="select-wrap select-lists">
 			        <select id="national" class="select-lists" name="book_category" th:style="${product_detail == null or product_detail.book_country_type != '01' ? 'display: none;' : ''}">
 			            <option class="default" value="">선택해주세요</option>
 			            <option th:each="val : ${book_category}" th:if="${val.category_country_type == '01'}" 

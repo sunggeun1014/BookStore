@@ -34,18 +34,10 @@ input[type=number]{
     font-size: 14px;
 }
 
-.select-box {
-    position: relative;
-    display: inline-block;
-}
-
-#zone_num {
+.select-wrap.zone_num {
 	width: 100px;
 }
 
-.select-arrow-down {
-    left: 80px;
-}    
 
 
 

@@ -44,37 +44,36 @@
 	<form th:action="@{/admin/members/update}" method="POST" onsubmit="return validateForm()">
 		<input type="hidden" name="member_id" th:value="${member_details.member_id}" />
 		
-		<div class="select-wrap info">	
+		<div class="info">
 			<span class="search-list-subject">이메일</span>
 			<input type="text" id="emailUser" name="emailUser" th:value="${emailUser}" class="gray-text" onclick="this.value='';" /> 
-			<span class="search-list-subject-symbol">@</span>			 				
-			<select id="emailDomain" name="emailDomain" th:value="${emailDomain}"  onchange="toggleCustomDomain()">
-				<option value="naver.com" th:selected="${emailDomain == 'naver.com'}">naver.com</option>
-				<option value="gmail.com" th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
-				<option value="daum.net" th:selected="${emailDomain == 'daum.net'}">daum.net</option>
-				<option value="yahoo.com" th:selected="${emailDomain == 'yahoo.com'}">yahoo.com</option>
-				<option value="custom">직접 입력</option>			
-			</select>
-        	<input type="text" id="customEmailDomain" name="customEmailDomain" style="display:none;" placeholder="이메일 도메인 입력" width:150px;/>
-			
-			<div class="select-arrow-down" id="email"></div>
-			
-			
+			<span class="search-list-subject-symbol">@</span>
+			<div class="select-wrap email-select">
+				<select id="emailDomain" name="emailDomain" th:value="${emailDomain}"  onchange="toggleCustomDomain()">
+					<option value="naver.com" th:selected="${emailDomain == 'naver.com'}">naver.com</option>
+					<option value="gmail.com" th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
+					<option value="daum.net" th:selected="${emailDomain == 'daum.net'}">daum.net</option>
+					<option value="yahoo.com" th:selected="${emailDomain == 'yahoo.com'}">yahoo.com</option>
+					<option value="custom">직접 입력</option>
+				</select>
+				<div class="select-arrow-down" id="email"></div>
+			</div>
 		</div>
-		
+		<input type="text" id="customEmailDomain" name="customEmailDomain" style="display:none;" placeholder="이메일 도메인 입력" />
 
-		
-		<div class="select-wrap info">
+		<div class="info">
 			<span class="search-list-subject">전화번호</span>
-			<select id="countryNum" name="countryNum" th:value="${countryNum}">
-				<option value="010" th:selected="${countryNum == '010'}">010</option>
-				<option value="011" th:selected="${countryNum == '011'}">011</option>
-				<option value="016" th:selected="${countryNum == '016'}">016</option>
-				<option value="017" th:selected="${countryNum == '017'}">017</option>
-				<option value="018" th:selected="${countryNum == '018'}">018</option>
-				<option value="019" th:selected="${countryNum == '019'}">019</option>
-			</select>
-			<div class="select-arrow-down" id="phoneNum"></div>
+			<div class="select-wrap countryNum">
+				<select id="countryNum" name="countryNum" th:value="${countryNum}">
+					<option value="010" th:selected="${countryNum == '010'}">010</option>
+					<option value="011" th:selected="${countryNum == '011'}">011</option>
+					<option value="016" th:selected="${countryNum == '016'}">016</option>
+					<option value="017" th:selected="${countryNum == '017'}">017</option>
+					<option value="018" th:selected="${countryNum == '018'}">018</option>
+					<option value="019" th:selected="${countryNum == '019'}">019</option>
+				</select>
+				<div class="select-arrow-down" id="phoneNum"></div>
+			</div>
 			<span class="search-list-subject-symbol">-</span>
 			
 			<input type="number" id="userPart1" class="num gray-text" name="userPart1" min="0" max="9999" th:value="${userPart1}" title="4자리 숫자를 입력해주세요" required oninput="limitLength(this, 4)" onclick="this.value='';" />

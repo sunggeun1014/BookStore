@@ -9,9 +9,9 @@
     
 <div class="mobile-inner" style="gap: 2.3rem;"> 
 	<input type="hidden" id="zoneNum" th:value="${zoneNum}">
-    <button class="back-btn" onclick="location.href='/mobile/admin/warehousing-page'">
+    <button class="back-btn menu-title" onclick="location.href='/mobile/admin/warehousing-page'">
         <i class="fa-solid fa-chevron-left"></i>
-        <p class="menu-title">입고하기</p>
+        입고하기
     </button>
     
     <div class="search-input-box">
@@ -20,9 +20,11 @@
 	    <i class="fa-solid fa-barcode" aria-hidden="true"></i>
 	</div>
 	
-    <div class="white-frame scroll" style="height: 25rem">
+    <div class="white-frame">
 		<p class="sub-title"><span id="order-num-display"></span></p>
-		<div id="dispatch-list"></div>
+        <div class="inner scroll" style="height: 31rem">
+            <div id="dispatch-list"></div>
+        </div>
     </div>
     
     <button id="stockIn" class="default-btn export">완료</button>
