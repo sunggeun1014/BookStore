@@ -123,6 +123,7 @@
 	display: flex;
 	gap: 5px;
 	text-align: start;
+	line-height: 1.5;
 }
 
 .book-thumbnail {
@@ -136,6 +137,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	font-weight: 500;
 }
 
 .single-order {
@@ -143,6 +145,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	font-weight: 500;
 }
 
 .order-detail-status {
