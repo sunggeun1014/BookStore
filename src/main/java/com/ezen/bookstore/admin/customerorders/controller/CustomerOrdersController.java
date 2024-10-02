@@ -20,7 +20,7 @@ public class CustomerOrdersController {
 	@GetMapping("/list")
 	public String customerOrdersList() {
 		
-		return "admin/customer_orders/customerList";
+		return "/admin/customer_orders/customerList";
 	}
 	
 	@GetMapping("/detail")
@@ -30,7 +30,7 @@ public class CustomerOrdersController {
 		model.addAttribute("condition", condition);
 		
 		
-		return "admin/customer_orders/customerDetail";
+		return "/admin/customer_orders/customerDetail";
 	}
     
 }

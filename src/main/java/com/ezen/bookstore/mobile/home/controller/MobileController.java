@@ -52,7 +52,7 @@ public class MobileController {
 			model.addAttribute("list", map.get("list"));
 		}
 		
-		return "mobile/home/home";
+		return "/mobile/home/home";
     }
 	
 	
@@ -61,7 +61,7 @@ public class MobileController {
 								  Model model) {
 		model.addAttribute("requestNum", requestNum);
 		model.addAttribute("list", deliveryService.getRequestDetail(requestNum));
-		return "mobile/home/delivery_detail";
+		return "/mobile/home/delivery_detail";
 	}
 	
 	
@@ -82,7 +82,7 @@ public class MobileController {
 		model.addAttribute("phonePart2", phonePart2);
 		
 		model.addAttribute("manager", managerDTO);
-		return "mobile/myinfo/myinfo";
+		return "/mobile/myinfo/myinfo";
 	}
 	
 	@PostMapping("/update-info")
@@ -106,6 +106,6 @@ public class MobileController {
 		}
 		
 		
-		return "mobile/home/delivery_status";
+		return "/mobile/home/delivery_status";
 	}
 }

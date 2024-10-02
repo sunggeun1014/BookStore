@@ -19,7 +19,7 @@ public class UserInquiriesController {
 	
 	@GetMapping("/inquiries-page")
 	public String inquiriesPage() {
-		return "user/mypage/inquiries/inquiries";
+		return "/user/mypage/inquiries/inquiries";
 	}
 	
 	@GetMapping("/written-inquiries-page")
@@ -27,6 +27,6 @@ public class UserInquiriesController {
 		
 		model.addAttribute("inquiryType", CommonConstants.INQUIRY_TYPE);
 		
-		return "user/mypage/inquiries/inquiriesReg";
+		return "/user/mypage/inquiries/inquiriesReg";
 	}
 }

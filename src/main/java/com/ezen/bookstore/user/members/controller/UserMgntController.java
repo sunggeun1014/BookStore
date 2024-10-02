@@ -28,17 +28,17 @@ public class UserMgntController {
         
 	@GetMapping("/join")
 	public String mgntJoin() {			
-		return "user/registration/registration";
+		return "/user/registration/registration";
 	}
 	
 	@GetMapping("/find_Id")
 	public String getfindId() {
-		return "user/members/findId";
+		return "/user/members/findId";
 	}
 	
 	@GetMapping("/find_Pw")
 	public String getfindPw() {
-		return "user/members/findPw";
+		return "/user/members/findPw";
 	}
 	
 	@GetMapping("/modifyPwScreen")
@@ -59,11 +59,11 @@ public class UserMgntController {
 	    model.addAttribute("name", name);
 	    model.addAttribute("memberIds", memberIds);
 	    
-	    return "user/members/showFindId";  
+	    return "/user/members/showFindId";  
 	}
 	
 	@GetMapping("/naver/callback")
 	public String callbackmgntJoin() {			
-		return "user/registration/callback";
+		return "/user/registration/callback";
 	}
 }

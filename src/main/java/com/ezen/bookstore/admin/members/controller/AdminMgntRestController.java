@@ -58,7 +58,7 @@ public class AdminMgntRestController {
         model.addAttribute("userPart1", userPart1);
         model.addAttribute("userPart2", userPart2);
 
-        return "admin/members/memberDetails";
+        return "/admin/members/memberDetails";
     }
 
     @PostMapping("/update")

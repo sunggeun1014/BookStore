@@ -37,7 +37,7 @@ public class NoticeController {
 	
 	@GetMapping("/list")
 	public String notice() {
-		return "admin/notice/notice";
+		return "/admin/notice/notice";
 	}
 	
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,7 +60,7 @@ public class NoticeController {
 
 		model.addAttribute("notice", noticeDTO);
 		
-		return "admin/notice/noticeDetails";
+		return "/admin/notice/noticeDetails";
 	}
 	
 	@PostMapping("/delete")
@@ -74,7 +74,7 @@ public class NoticeController {
 	
 	@GetMapping("/register")
 	public String noticeReg() {
-		return "admin/notice/noticeReg";
+		return "/admin/notice/noticeReg";
 	}
 	
 	@PostMapping("/save")

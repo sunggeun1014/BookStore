@@ -63,7 +63,7 @@ public class AdminMgrRestController {
 	    model.addAttribute("userPart1", userPart1);
 	    model.addAttribute("userPart2", userPart2);
 	    
-	    return "admin/managers/managerDetails";
+	    return "/admin/managers/managerDetails";
 	}
 	
 	@PostMapping("/update/dept")

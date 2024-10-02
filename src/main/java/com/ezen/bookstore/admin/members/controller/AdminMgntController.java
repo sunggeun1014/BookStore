@@ -18,6 +18,6 @@ public class AdminMgntController {
 	
 	@GetMapping("/list")
 	public String members() {
-		return "admin/members/members";
+		return "/admin/members/members";
 	}
 }

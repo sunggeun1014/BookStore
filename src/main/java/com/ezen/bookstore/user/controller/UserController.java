@@ -43,7 +43,7 @@ public class UserController {
 		model.addAttribute("topRatedBooks", topRatedBooks);
 		model.addAttribute("recommendBooks", recommendBooks);
 
-		return "user/main/main";
+		return "/user/main/main";
 	}
 
 	@GetMapping("/login-status")
@@ -55,21 +55,21 @@ public class UserController {
 	
 	@GetMapping("/privacy-policy")
 	public String privacyPolicyPage() {
-		return "user/main/footer_policy/privacy_policy";
+		return "/user/main/footer_policy/privacy_policy";
 	}
 	
 	@GetMapping("/youth-policy")
 	public String youthPolicyPage() {
-		return "user/main/footer_policy/youth_policy";
+		return "/user/main/footer_policy/youth_policy";
 	}
 	
 	@GetMapping("/terms-policy")
 	public String termsePolicyPage() {
-		return "user/main/footer_policy/terms_policy";
+		return "/user/main/footer_policy/terms_policy";
 	}
 	
 	@GetMapping("/email-policy")
 	public String emailPolicyPage() {
-		return "user/main/footer_policy/email_policy";
+		return "/user/main/footer_policy/email_policy";
 	}
 }

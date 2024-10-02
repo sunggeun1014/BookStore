@@ -19,12 +19,12 @@ public class DispatchController {
 
 	@GetMapping("/dispatch-page")
 	public String getDispatchPage() {
-		return "mobile/dispatch/dispatch";
+		return "/mobile/dispatch/dispatch";
 	}
 
 	@GetMapping("/stockout-page")
 	public String getStockOutPage() {
-		return "mobile/dispatch/stockout";
+		return "/mobile/dispatch/stockout";
 	}
 	
 	

@@ -25,7 +25,7 @@ public class UserReviewController {
 	@GetMapping("/my-reviews-page")
 	public String myReviewPage() {
 		
-		return "user/mypage/review/myReview";
+		return "/user/mypage/review/myReview";
 	}
 	
 	@GetMapping("/write-review")
@@ -34,7 +34,7 @@ public class UserReviewController {
 		
 		model.addAttribute("userBookReviewDTO", userBookReviewDTO);
 		
-		return "user/mypage/review/writeReview";
+		return "/user/mypage/review/writeReview";
 	}
 	
 	@PostMapping("/save-review")

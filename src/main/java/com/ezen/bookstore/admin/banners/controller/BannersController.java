@@ -35,7 +35,7 @@ public class BannersController {
 	
 	@GetMapping("/list")
 	public String bannersList() {
-		return "admin/banners/banners";
+		return "/admin/banners/banners";
 	}
 
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,7 +52,7 @@ public class BannersController {
 
 	@GetMapping("/register")
 	public String insertBannerPage(Model model) {
-		return "admin/banners/bannerInsert";
+		return "/admin/banners/bannerInsert";
 	}
 
 	@PostMapping("/register")
@@ -65,7 +65,7 @@ public class BannersController {
 		} catch (IOException e) {
             model.addAttribute("error", "파일 업로드 오류");
 		}
-	    return "redirect:/admin/banners/list";
+	    return "/redirect:/admin/banners/list";
 	}
 
 	@PostMapping("/detail")
@@ -74,7 +74,7 @@ public class BannersController {
         
 		model.addAttribute("banners", banners);
 
-        return "admin/banners/bannerDetail";
+        return "/admin/banners/bannerDetail";
         
     }
 

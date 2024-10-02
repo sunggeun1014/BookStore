@@ -66,7 +66,7 @@ public class AdminController {
 		model.addAttribute("allDelivering", allDelivering);
 		model.addAttribute("allCompleted", allCompleted);
 
-        return "admin/home/home";
+        return "/admin/home/home";
        
     }
 	
@@ -106,7 +106,7 @@ public class AdminController {
 	    model.addAttribute("userPart1", userPart1);
 	    model.addAttribute("userPart2", userPart2);
 	    
-	    return "admin/myinfo/myinfo";
+	    return "/admin/myinfo/myinfo";
 	}
 
 	

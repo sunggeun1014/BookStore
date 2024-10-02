@@ -17,13 +17,13 @@ public class WareHousingController {
 		
 		model.addAttribute("menuItems", CommonConstants.MENU_ITEMS);
 		
-		return "mobile/warehousing/warehousing";
+		return "/mobile/warehousing/warehousing";
 	}
 	
 	@GetMapping("/stockIn")
 	public String stockIn(@RequestParam("zoneNum") String zoneNum, Model model) {
 		model.addAttribute("zoneNum", zoneNum);
-		return "mobile/warehousing/stockIn";
+		return "/mobile/warehousing/stockIn";
 	}
 	
 }

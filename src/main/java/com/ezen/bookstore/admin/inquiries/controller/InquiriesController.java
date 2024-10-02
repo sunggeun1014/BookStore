@@ -30,7 +30,7 @@ public class InquiriesController {
 	
 	@GetMapping("/list")
 	public String inquiries() {
-		return "admin/inquiries/inquiries";
+		return "/admin/inquiries/inquiries";
 	}
 	
 	
@@ -54,7 +54,7 @@ public class InquiriesController {
 		model.addAttribute("inquiries", tables);
 		
 		
-		return "admin/inquiries/inquiriesDetails";
+		return "/admin/inquiries/inquiriesDetails";
 	}
 	
 	

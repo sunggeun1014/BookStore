@@ -22,11 +22,11 @@ public class InventoryLogController {
 		model.addAttribute("detail", ils.getInventoryLogDetail(log_transaction_num));
 		model.addAttribute("detailList", ils.getInventoryLogDetailList(log_transaction_num));
 		
-		return "admin/inventory_log/inventoryLogDetail";
+		return "/admin/inventory_log/inventoryLogDetail";
 	}
 	
 	@GetMapping("/list")
 	public String inventoryLog() {
-		return "admin/inventory_log/inventoryLogList";
+		return "/admin/inventory_log/inventoryLogList";
 	}
 }

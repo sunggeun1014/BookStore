@@ -37,7 +37,7 @@ public class ProductsController {
     
     @GetMapping("/list")
     public String products() {
-    	return "admin/products/products";
+    	return "/admin/products/products";
     }
     
     @GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -76,7 +76,7 @@ public class ProductsController {
         model.addAttribute("product_detail", productDetail);
         model.addAttribute("book_category", productService.categoryList());
 
-        return "admin/products/edit-product";
+        return "/admin/products/edit-product";
     }
 
     @PostMapping("/editProduct")
@@ -100,7 +100,7 @@ public class ProductsController {
         model.addAttribute("book_category", bookCategory);
 
 
-        return "admin/products/add-product";
+        return "/admin/products/add-product";
     }
 
     @GetMapping(value = "/inventory/json", produces = MediaType.APPLICATION_JSON_VALUE)

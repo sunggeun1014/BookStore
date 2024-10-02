@@ -23,7 +23,7 @@ public class UserNoticeController {
 	
 	@GetMapping("/notices-page")
 	public String noticesPage() {
-		return "user/mypage/notices/notices";
+		return "/user/mypage/notices/notices";
 	}
 	
 	@GetMapping("/notices-detail")
@@ -44,7 +44,7 @@ public class UserNoticeController {
 	    model.addAttribute("nextNotice", nextNotice);
 	    model.addAttribute("keyword", keyword);  
 
-	    return "user/mypage/notices/notices-detail";
+	    return "/user/mypage/notices/notices-detail";
 	}
 
 

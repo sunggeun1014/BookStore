@@ -33,13 +33,13 @@ public class UserAccountController {
 
 	@GetMapping("/update-page")
 	public String updatePage() {
-		return "user/mypage/member_update/memberUpdate";
+		return "/user/mypage/member_update/memberUpdate";
 	}
 	
 	@GetMapping("/delete-page")
 	public String deletePage() {
 		
-		return "user/mypage/member_del/memberDel";
+		return "/user/mypage/member_del/memberDel";
 	}
 	
 	@PostMapping("/update-check-pw")
@@ -64,7 +64,7 @@ public class UserAccountController {
 		    model.addAttribute("userPart1", phoneNumber[1]);
 		    model.addAttribute("userPart2", phoneNumber[2]);
 			
-			return "user/mypage/member_update/memberUpdateDetail";
+			return "/user/mypage/member_update/memberUpdateDetail";
 			
 		} else {
 			return "redirect:/user/mypage/update-page";
@@ -91,7 +91,7 @@ public class UserAccountController {
 	public String deleteDetailPage(@RequestParam("member_pw") String password) {
 		
 		if(myPageService.findPwById(password)) {
-			return "user/mypage/member_del/memberDelDetail";
+			return "/user/mypage/member_del/memberDelDetail";
 		} else {
 			return "redirect:/user/mypage/delete-page";
 		}

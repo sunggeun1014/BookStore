@@ -34,7 +34,7 @@ public class WarehouseController {
 	
 	@GetMapping("/list")
 	public String warehouse() {
-		return "admin/warehouse/warehouse";
+		return "/admin/warehouse/warehouse";
 	}
 	
 	@PostMapping("/details")
@@ -46,7 +46,7 @@ public class WarehouseController {
 		model.addAttribute("zoneNumList", zoneNumList);
 		
 				
-		return "admin/warehouse/warehouseDetail";
+		return "/admin/warehouse/warehouseDetail";
 	}
 	
 	

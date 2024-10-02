@@ -52,7 +52,7 @@ public class ReviewsController {
 		model.addAttribute("reviews", reviewsDTO);
 		
 		
-		return "admin/reviews/reviewDetails";
+		return "/admin/reviews/reviewDetails";
 	}
 
 	@PostMapping("/delete")
@@ -63,7 +63,7 @@ public class ReviewsController {
 
 	@GetMapping("/list")
 	public String reviewsView() {
-		return "admin/reviews/reviews";
+		return "/admin/reviews/reviews";
 	}
 	
 }

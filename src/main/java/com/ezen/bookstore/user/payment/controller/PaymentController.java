@@ -60,8 +60,6 @@ public class PaymentController {
             model.addAttribute("error", "데이터를 찾을 수 없습니다");
         }
 
-//        session.removeAttribute("purchaseType");
-
         return "/user/main/customer_order/payment";
     }
 

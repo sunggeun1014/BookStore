@@ -38,7 +38,7 @@ public class AdminMgrController {
 	
 	@GetMapping("/list")
 	public String managers() {
-		return "admin/managers/managers";
+		return "/admin/managers/managers";
 	}
 	
 	@GetMapping("/register")
@@ -47,7 +47,7 @@ public class AdminMgrController {
 		
 		model.addAttribute("emailDomainList", emailDomainList);
 		
-		return "admin/managers/managerReg";
+		return "/admin/managers/managerReg";
 	}
 
 }

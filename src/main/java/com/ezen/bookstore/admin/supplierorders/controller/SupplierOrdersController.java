@@ -19,14 +19,14 @@ public class SupplierOrdersController {
 	@GetMapping("/list")
 	public String supplierOrdersList() {
 		
-		return "admin/supplier_orders/supplierList";
+		return "/admin/supplier_orders/supplierList";
 	}
 	
 	@GetMapping("/register")
 	public String orderRegister() {
 		
 		
-		return "admin/supplier_orders/supplierRegister";
+		return "/admin/supplier_orders/supplierRegister";
 	}
 	
 	@GetMapping("/detail")
@@ -34,7 +34,7 @@ public class SupplierOrdersController {
 		model.addAttribute("detail", sos.getSupplierOrdersDetail(order_num));
 		model.addAttribute("detailList", sos.getSupplierOrdersDetailList(order_num));
 		
-		return "admin/supplier_orders/supplierDetail";
+		return "/admin/supplier_orders/supplierDetail";
 	}
 	
 }
