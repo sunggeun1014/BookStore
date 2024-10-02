@@ -52,9 +52,11 @@ $(document).ready(function () {
                 render: function (data) {
                     if (data === '01') {
                         return '물류팀';
-                    } else {
+                    } else if (data === '02') {
                         return '운영팀';
-                    }
+                    } else {
+						return '인사팀';
+					}
                 }
             },
             {data: 'manager_phoneNo'},

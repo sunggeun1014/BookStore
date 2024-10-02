@@ -42,6 +42,7 @@ public class UserOrderRequestController {
 
     @GetMapping("/cancelList")
     public String purchaseCancelForm(Model model, Integer orderNum, HttpSession session) {
+    	System.out.println("asdfasdfasdfa");
     	model.addAttribute("cancelList", orderRequestService.getOrderRequestList(orderNum, ((UserMembersDTO)session.getAttribute(AccountManagement.MEMBER_INFO)).getMember_id()));
     	
     	return "/user/mypage/customer_order/cancelList";

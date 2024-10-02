@@ -123,17 +123,6 @@ function showEditAddrModal() {
 			return;
 		}
 
-        if (detailAddrValue === "") {
-            editDetailAddrInput.classList.add("error");
-            errorMsg.textContent = "⚠️ 상세주소를 입력하세요";
-            return;
-        }
-
-        if (consonantRegex.test(detailAddrValue) || vowelRegex.test(detailAddrValue)) {
-            editDetailAddrInput.classList.add("error");
-            errorMsg.textContent = "⚠️ 유효한 주소를 입력하세요";
-            return;
-        }
         const nameInput = document.getElementById("edit-name");
         const numberInput = document.getElementById("edit-number");
 

@@ -26,7 +26,7 @@
 
 
     <select id="getTodaySales" resultType="int">
-        SELECT SUM(cod.order_detail_price)
+        SELECT SUM(cod.order_detail_price * (cod.order_detail_qty - cod.order_complete_qty))
         FROM customer_order_details cod
         INNER JOIN customer_orders co
         ON cod.order_num = co.order_num

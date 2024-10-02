@@ -65,7 +65,7 @@
 				<div class="delivery-info-wrap">
 					<span class="delivery-info-detail">기본정보</span>
 					<div class="recipient-info-wrap">
-						<span th:text="${orderDetails.recipient_name}"></span> <span th:text="${orderDetails.recipient_phoneno}"></span> <span th:text="${orderDetails.order_addr} + ' ' + ${orderDetails.order_addr_detail}"></span>
+						<span th:text="${orderDetails.recipient_name}"></span> <span th:text="${orderDetails.recipient_phoneno}"></span> <span th:text="${orderDetails.order_addr} + ' ' + ${orderDetails.order_addr_detail != null ? orderDetails.order_addr_detail : ''}"></span>
 					</div>
 				</div>
 			</div>
