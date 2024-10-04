@@ -43,10 +43,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		if (expectedPaymentAmountElement) {
 			expectedPaymentAmountElement.innerText = total.toLocaleString();
 		}
-
-		// 헤더 장바구니 수량 업데이트
-		const headerCartQtyElements = document.querySelectorAll('.cart-qty p');
-		headerCartQtyElements.forEach(p => p.innerText = totalItems);
 	}
 
 	function calcQty(item) {
