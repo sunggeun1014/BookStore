@@ -3,7 +3,6 @@ $(document).ready(function() {
 
     table = $('#member').DataTable({
         ajax: {
-            // 데이터를 받아오는 URL과 데이터 타입을 지정합니다.
             url: '/admin/members/json',
             dataSrc: function(json) {
                 $('#total-row').text('총 ' + json.size + '건');
@@ -11,14 +10,12 @@ $(document).ready(function() {
             }
         },
         
-        // 모든 컬럼을 가운데 정렬합니다.
         columnDefs: [
             { targets: '_all', className: 'dt-center' }
         ],
         
-        order: [[5, 'desc']], // 가입 날짜 컬럼을 최신순으로 정렬합니다.
+        order: [[5, 'desc']], 
         
-        // 각 컬럼을 데이터와 매핑합니다.
         columns: [
             {
                 data: null,
@@ -55,17 +52,15 @@ $(document).ready(function() {
 
         ],
 		drawCallback: function(settings) {
-            // 페이지 내 항목의 순서 번호를 업데이트합니다.
             var api = this.api();
             api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
-                // 페이지의 첫 번째 항목 인덱스를 기준으로 순서 번호를 계산합니다.
                 var pageStart = api.settings()[0]._iDisplayStart;
                 $(cell).html(pageStart + i + 1);
             });
         }, 
-        "info": false, // 기본 정보 텍스트를 숨깁니다.
-        lengthChange: false, // 페이지 길이 변경 옵션을 숨깁니다.
-        dom: 'lrtip', // 기본 검색 필드를 숨깁니다.
+        "info": false,
+        lengthChange: false,
+        dom: 'lrtip', 
         language: {
             searchPanes: {
                 i18n: {
@@ -77,57 +72,41 @@ $(document).ready(function() {
             emptyTable: "조회된 정보가 없습니다.",
         }
     });
-
-    // a링크 클릭 이동
-    // $('#member tbody').on('click', '.member-id-link', function(e) {
-    //     e.preventDefault();
-    //
-    //     var data = table.row($(this).parents('tr')).data();
-    //
-    //     postToDetailPage(data);
-    // });
     
-    // 검색 버튼 클릭 이벤트 핸들러
     $('#searchButton').on('click', function() {
         var selectedColumn = $('#searchColumn').val();
         var keyword = $('#searchKeyword').val();
 
-        // 이전 검색어를 초기화합니다.
         table.columns().search('');
 
-        // 선택된 컬럼과 검색어로 필터링합니다.
         table.column(selectedColumn).search(keyword);
 
-        // 테이블을 다시 그려 필터를 적용합니다 (날짜 필터와 검색어 필터 모두 적용)
         table.draw();
     });
 
-    // 검색어 입력란에서 Enter 키를 누를 때 검색 버튼 클릭 이벤트를 실행합니다.
     $('#searchKeyword').on('keypress', function(event) {
         if (event.key === 'Enter') {
             $('#searchButton').click();
         }
     });
     
-    // 날짜 필터링 로직을 추가합니다.
     $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex) {
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
-            var membersDate = data[5]; // 가입 날짜 컬럼 인덱스
+            var membersDate = data[5]; 
             
-            // 날짜를 Date 객체로 변환합니다.
             var start = startDate ? new Date(startDate) : null;
             var end = endDate ? new Date(endDate) : null;
             var memberDate = new Date(membersDate);
 
-            // memberDate가 유효한 날짜인지 확인합니다.
             if (isNaN(memberDate)) {
                 return false;
             }
 
-            // 시간 부분을 제거합니다.
             memberDate.setHours(0,0,0,0);
+            memberDate.setMinutes(0,0,0,0);
+            
 
             if ((start === null && end === null) ||
                 (start === null && memberDate <= end) ||
@@ -139,20 +118,17 @@ $(document).ready(function() {
         }
     );
     
-    // 입력 필드 클릭 시 기존 값을 제거합니다.
     document.querySelectorAll('.input-box input').forEach(function(input) {
         input.addEventListener('focus', function() {
             this.value = '';
         });
     });
 
-    // 초기화 버튼 클릭 시 필터를 초기화합니다.
     document.querySelector('[onclick="resetFilters()"]').addEventListener('click', resetFilters);
     
-    // 모든 date-option 버튼에 클릭 이벤트 리스너를 추가합니다.
     document.querySelectorAll('.date-option').forEach(function(button) {
         button.addEventListener('click', function() {
-            setActive(this);  // 클릭된 버튼에 'active' 클래스를 설정합니다.
+            setActive(this);  
         });
     });
     
@@ -160,40 +136,41 @@ $(document).ready(function() {
 
 });
 
-// 오늘 날짜를 설정하는 함수에서 테이블을 다시 그리지 않습니다.
 function setToday() {
-    var today = new Date().toISOString().split('T')[0];
-    $('#startDate').val(today);
-    $('#endDate').val(today);
-}
+    var today = new Date();
+    var startDate = new Date(today.setHours(0, 0, 0, 0)); // 오늘 0시 0분 0초
+    var endDate = new Date(today.setHours(23, 59, 59, 999)); // 오늘 23시 59분 59초
 
-// 날짜 범위를 설정하는 함수에서 테이블을 다시 그리지 않습니다.
-function setDateRange(days) {
-    var startDate = new Date();
-    startDate.setDate(startDate.getDate() - days);
     $('#startDate').val(startDate.toISOString().split('T')[0]);
-    $('#endDate').val(new Date().toISOString().split('T')[0]);
+    $('#endDate').val(endDate.toISOString().split('T')[0]).trigger('change');
 }
 
-// 필터를 초기화하는 함수입니다.
+function setDateRange(days) {
+    var endDate = new Date(); 
+    var startDate = new Date(); 
+    startDate.setDate(startDate.getDate() - days); 
+
+    endDate.setHours(23, 59, 59, 999); 
+
+    startDate.setHours(0, 0, 0, 0); 
+
+    $('#startDate').val(startDate.toISOString().split('T')[0]);
+    $('#endDate').val(endDate.toISOString().split('T')[0]).trigger('change');
+}
+
 function resetFilters() {
-    // 검색어 필터를 초기화합니다.
     $('#searchKeyword').val('');
-    // 기본 첫 번째 옵션으로 설정합니다.
     $('#searchColumn').val('2');
 
-    // 날짜 필터를 초기화합니다.
     $('#startDate').val('');
     $('#endDate').val('');
 	$(".date-option").removeClass("active");
 
-    // DataTables 검색 및 필터링을 초기화합니다.
     table.search('').columns().search('').draw();
 
     table.draw();
 }
 
-// 클릭된 date-option 버튼에 'active' 클래스를 설정합니다.
 function setActive(element) {
     var options = document.querySelectorAll('.date-option');
     options.forEach(function(option) {
@@ -202,21 +179,3 @@ function setActive(element) {
 
     element.classList.add('active');
 }
-
-// 상세 페이지로 데이터를 전달하는 함수입니다.
-// function postToDetailPage(data) {
-//     var existingForm = $('#postToDetailForm');
-//
-//     if (existingForm.length) {
-//         existingForm.remove();
-//     }
-//
-//     var form = $('<form>', {
-//         method: 'POST',
-//         action: '/admin/members/details'
-//     });
-//
-//     form.append($('<input>', { type: 'hidden', name: 'member_id', value: data.member_id }));
-//
-//     form.appendTo('body').submit();
-// }
