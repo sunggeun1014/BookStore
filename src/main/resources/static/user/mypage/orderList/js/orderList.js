@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	datepicker('startDate', 'endDate');
-
+	checkOrdersExistence();
 	getStatusCounts();
 
 	// 시작 날짜 선택 시 종료 날짜 초기화
@@ -76,7 +76,7 @@ $(document).ready(function() {
 			var orderDate = new Date(orderDateText);
 			var orderStatus = $(this).find('.order-status span').text();
 			var deliveryStatus = $(this).find('.delivery-status span').text();
-			
+
 			if (startDate) {
 				var start = new Date(startDate);
 				start.setHours(0, 0, 0, 0);
@@ -92,19 +92,19 @@ $(document).ready(function() {
 					return;
 				}
 			}
-			
+
 			// 필터링 로직
-	        if (selectedStatus === '배송전' || selectedStatus === '배송중' || selectedStatus === '배송완료') {
-	            // 배송 상태가 선택된 경우
-	            if (deliveryStatus !== selectedStatus) {
-	                return;
-	            }
-	        } else if (selectedStatus === '교환/반품/취소') {
-	            // 주문 상태가 '교환/반품/취소'가 아닐 경우
-	            if ((orderStatus === '주문완료' || orderStatus === '처리불가')) {
-	                return;
-	            }
-	        } 
+			if (selectedStatus === '배송전' || selectedStatus === '배송중' || selectedStatus === '배송완료') {
+				// 배송 상태가 선택된 경우
+				if (deliveryStatus !== selectedStatus) {
+					return;
+				}
+			} else if (selectedStatus === '교환/반품/취소') {
+				// 주문 상태가 '교환/반품/취소'가 아닐 경우
+				if ((orderStatus === '주문완료' || orderStatus === '처리불가')) {
+					return;
+				}
+			}
 
 			$(this).show();
 			hasOrders = true;
@@ -126,7 +126,23 @@ $(document).ready(function() {
 			drawNoResultDefault('.order-history-table', '주문 내역이 존재하지 않습니다.');
 		}
 	}
+
+
 });
+
+
+// 주문내역 확인
+function checkOrdersExistence() {
+	var hasOrders = false;
+
+	$('.order-history-table-list').each(function() {
+		hasOrders = true;
+	});
+
+	if (!hasOrders) {
+		drawNoResultDefault('.order-history-table', '주문 내역이 존재하지 않습니다.');
+	}
+}
 
 
 // 주문/배송상태 카운트
@@ -138,14 +154,14 @@ function getStatusCounts() {
 			const requestCount = data['교환/반품/취소요청'];
 			const completeCount = data['교환/반품/취소완료'];
 			const totalCount = data['교환/반품/취소전체'];
-			
+
 			$('#request-complete-count').text(totalCount);
 			$('#delivered-count').text(data['배송완료']);
 			$('#in-delivery-count').text(data['배송중']);
 			$('#before-delivery-count').text(data['배송전']);
 		},
 		error: function() {
-			
+
 		}
 	});
 }
