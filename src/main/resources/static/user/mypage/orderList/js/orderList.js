@@ -25,6 +25,7 @@ $(document).ready(function() {
 
 	// '주문내역' 클릭 이벤트: 초기화
 	$('.box-title').on('click', function() {
+
 		$('#startDate').val('');
 		$('#endDate').val('');
 		flatpickr("#startDate").clear();
@@ -35,6 +36,8 @@ $(document).ready(function() {
 		$('.result-wrap').remove();
 
 		$('.order-history-table-list').css('border-bottom', ''); // 모든 리스트의 border-bottom 초기화
+		
+		checkOrdersExistence();
 	});
 
 	// 각 주문 상태 클릭 이벤트
@@ -100,7 +103,7 @@ $(document).ready(function() {
 					return;
 				}
 			} else if (selectedStatus === '교환/반품/취소') {
-				// 주문 상태가 '교환/반품/취소'가 아닐 경우
+				// 주문 상태가 '교환/반품/취소'일 경우
 				if ((orderStatus === '주문완료' || orderStatus === '처리불가')) {
 					return;
 				}
