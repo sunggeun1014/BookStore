@@ -37,13 +37,11 @@
 
     <div class="info addr-info">
         <div class="addr">
-            <span class="search-list-subject">주소</span>
-            <span class="search-list-subject value" th:text="${manager_details.manager_addr}"></span>
-        </div>
-        <div class="addr detail">
-            <span class="search-list-subject">상세주소</span>
-            <span class="search-list-subject value" th:text="${manager_details.manager_detail_addr}"></span>
-        </div>
+		    <span class="search-list-subject">주소</span>
+		    <span class="search-list-subject value" 
+		          th:text="${manager_details.manager_addr} + ' ' + (${manager_details.manager_detail_addr} ?: '')"></span>
+		</div>
+
     </div>
 
     <div class="info">

@@ -106,9 +106,7 @@
             <if test="manager_addr != null and manager_addr != ''">
                 manager_addr = #{manager_addr},
             </if>
-            <if test="manager_detail_addr != null and manager_detail_addr != ''">
-                manager_detail_addr = #{manager_detail_addr}
-            </if>
+            manager_detail_addr = #{manager_detail_addr}
         </trim>
     </set>
 	    WHERE manager_id = #{manager_id}

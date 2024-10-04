@@ -136,7 +136,7 @@ $(document).ready(function () {
                     <p class="content-sub-txt">등록날짜: <span>${formattedDate}</span></p>
                 </div>
 					<div class="input-qty-container">
-					    <input type="number" class="input-qty" max="${maxQty}" ${isDisabled} placeholder="수량">
+					    <input type="number" class="input-qty" value="${maxQty}" max="${maxQty}" ${isDisabled} placeholder="수량">
 					</div>
             </div>
             `;
