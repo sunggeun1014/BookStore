@@ -15,7 +15,7 @@
                     <img src="" alt="" class="user-img"/>
 <!--                    <i class="fa-solid fa-circle-user"></i>-->
                 </div>
-                <p class="user-name">[[${session.member.member_name}]]</p>
+                <p class="user-name" th:text="${session.member != null ? session.member.member_name : '게스트'}"></p>
             </div>
             <ul class="menu-list">
                 <li class="menu-item">
