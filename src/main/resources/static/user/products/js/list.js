@@ -94,7 +94,7 @@ function basketProcess(data) {
 	const loginId = $("#member-login-user-id").val();
 
 	if(!loginId) {
-		getConfirmModal("로그인 하지 않으셨습니다.", "로그인 페이지로 가시겠습니까?", function() {
+		getConfirmModal("로그인하지 않으셨습니다.", "로그인 페이지로 이동하시겠습니까?", function() {
 			location.href = "/user/login";
 		});
 		

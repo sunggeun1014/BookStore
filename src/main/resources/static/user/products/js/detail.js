@@ -74,7 +74,7 @@ function calcQty() {
             inputQty.value = getTotalQty;
             updateQtyDisplay();
         } else {
-            getCheckModal("수량은 1개 이상 선택하셔야 합니다.")
+            getCheckModal("수량은 1개 이상 선택해야 합니다.")
         }
     });
 
@@ -116,7 +116,7 @@ function submitHandler() {
         const memberID = getMemberID([cartBtn, buyNowBtn])
 
         if (memberID === null) {
-            getConfirmModal("로그인 하지 않으셨습니다.", "로그인 페이지로 이동 하시겠습니까?", function () {
+            getConfirmModal("로그인하지 않으셨습니다.", "로그인 페이지로 이동하시겠습니까?", function () {
                 location.href = '/user/login'
             })
         } else {
@@ -135,11 +135,11 @@ function submitHandler() {
                     data: JSON.stringify(data),
                     success: function (response) {
                         if (response === -1) {
-                            getConfirmModal("장바구니에 이미 있는 상품으로 수량을 추가했습니다.","장바구니로 이동 하시겠습니까?", function () {
+                            getConfirmModal("장바구니에 이미 있는 상품으로 수량을 추가했습니다.","장바구니로 이동하시겠습니까?", function () {
                                 location.href = '/user/cart/list'
                             })
                         } else {
-                            getConfirmModal("장바구니에 추가 되었습니다.", "장바구니로 이동 하시겠습니까?", function () {
+                            getConfirmModal("장바구니에 상품이 추가되었습니다.", "장바구니로 이동하시겠습니까?", function () {
                                 location.href = '/user/cart/list'
                             })
                         }
@@ -148,7 +148,7 @@ function submitHandler() {
                         if (xhr.status === 409) {
                             getErrorModal("이미 장바구니에 있는 상품입니다.");
                         } else {
-                            getErrorModal("장바구니에 담기에 실패 했습니다.");
+                            getErrorModal("장바구니에 담기에 실패했습니다.");
                         }
                     }
                 })
@@ -170,7 +170,7 @@ function submitHandler() {
                         location.href = '/user/order';
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        getErrorModal("바로구매 오류 입니다.")
+                        getErrorModal("바로구매 오류입니다.")
                     }
                 })
             }
@@ -187,7 +187,7 @@ function refundInfoHandler() {
     function handleClick(button, action) {
         button.addEventListener("click", function () {
             if (memberID === null) {
-                getConfirmModal("로그인 하지 않으셨습니다.", "로그인 페이지로 이동하시겠습니까?", function () {
+                getConfirmModal("로그인하지 않으셨습니다.", "로그인 페이지로 이동하시겠습니까?", function () {
                     location.href = '/user/login';
                 });
             } else {

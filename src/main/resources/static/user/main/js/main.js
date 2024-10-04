@@ -47,7 +47,7 @@ function addToCart(bookIsbn, qty) {
 		success: function(isLoggedIn) {
 			if (!isLoggedIn) {
 				// 로그인하지 않은 경우 모달창 띄우기
-				getConfirmModal('로그인 후 장바구니에 추가할 수 있습니다.', '로그인하시겠습니까?', function() {
+				getConfirmModal("로그인하지 않으셨습니다.", "로그인 페이지로 이동하시겠습니까?", function() {
 					location.href = '/user/login'; // 로그인 페이지로 리다이렉트
 				});
 				return;
@@ -64,7 +64,7 @@ function addToCart(bookIsbn, qty) {
 					let redirectUrl = null;
 
 					if (response.success === true) {
-						msg1 = '장바구니에 추가하였습니다.';
+						msg1 = '장바구니에 상품이 추가되었습니다.';
 						msg2 = '장바구니로 이동하시겠습니까?';
 						redirectUrl = '/user/cart/list';
 						// 장바구니 수량을 업데이트
