@@ -1,17 +1,15 @@
+html {
+	font-size: inherit;
+}
+
 #login-container {
-	width: 100%;
 	margin-top: 50px;
 	padding: 0 4rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
 }
 
 .logo-wrap {
 	margin: 10rem 0;
-	width: 23rem;
-	height: 4rem;
+	height: 8rem;
 }
 
 .logo-wrap img {
@@ -32,7 +30,6 @@
 }
 
 .sign-wrap input {
-	width: 100%;
 	height: 6rem;
 	border: 1px solid #C0C0C0;
 	border-radius: 1rem;

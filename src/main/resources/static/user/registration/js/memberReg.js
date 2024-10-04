@@ -157,7 +157,7 @@ $(document).ready(function() {
 					    "color": "#C0C0C0"
 					}).addClass("nomal");
 					$('#member_id').css({
-					    "color": "#7E7E7E" 
+					    "color": "#000"
 					});
                     idCheckPassed = true; 
                 } else {
@@ -189,7 +189,7 @@ $(document).ready(function() {
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_id').removeClass('warning').addClass('nomal').css({
-        	    "color": "#7E7E7E"          
+        	    "color": "#000"
         	});
         } else {
 			$('.form-item.id').removeClass('nomal').css({
@@ -249,7 +249,7 @@ $(document).ready(function() {
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_pw').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"  
+        	    "color": "#000"
         	});
         	
 			$('.form-item.confirm-pw').removeClass('warning').css({
@@ -258,7 +258,7 @@ $(document).ready(function() {
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_pw_check').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"          
+        	    "color": "#000"
         	});
         	
 	        $('#pwCheckForm').hide();
@@ -276,7 +276,7 @@ $(document).ready(function() {
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_name').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"          
+        	    "color": "#000"
         	});
         	
 		} else {
@@ -302,7 +302,7 @@ $(document).ready(function() {
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_email').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"  
+        	    "color": "#000"
         	});
         	$('#sendBtn').css({"background-color": "#845EC2"}).prop("disabled", false);
 	    } else {
@@ -332,7 +332,7 @@ $(document).ready(function() {
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#member_phoneNo').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"         
+        	    "color": "#000"
         	});
         } else {
 			$('#phoneNumCheck').text('⚠휴대전화번호: 휴대전화 정보를 확인해 주세요.').show();
@@ -357,7 +357,7 @@ $(document).ready(function() {
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#address_kakao').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"       
+        	    "color": "#000"
         	});
             
         }else {
@@ -540,8 +540,9 @@ $(document).ready(function() {
 function sendNumber() {	
 	const email = $('#member_email').val()
     $("#divConfirmEmail").css({
-	  "display": "flex",
-	  "flex-direction": "row"
+		"display": "flex",
+		"flex-direction": "row",
+		"align-items": "center",
 	});
 
     $.ajax({
@@ -584,7 +585,7 @@ function confirmNumber() {
 			    "color": "#C0C0C0"
 			}).addClass("nomal");
 			$('#number').removeClass('warning').addClass('nomal').css({
-        	    "color": "#C0C0C0"         
+        	    "color": "#000"
         	});
         },
         error: function(xhr, status, error) {
