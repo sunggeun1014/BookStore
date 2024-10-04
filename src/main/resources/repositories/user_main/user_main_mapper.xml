@@ -84,9 +84,9 @@
 		        AVG(r.review_rating) AS avg_review_rating
 		    FROM 
 		        books b
-		    JOIN 
+		    LEFT JOIN 
 		        customer_order_details c ON b.book_isbn = c.book_isbn
-		    JOIN 
+		    LEFT JOIN 
 		        reviews r ON c.order_detail_num = r.order_detail_num
 		    GROUP BY 
 		        b.book_isbn, 
