@@ -9,7 +9,7 @@ $(document).ready(function() {
 				{ targets: '_all', orderable: false },
 			],
 
-			order: [[6, 'desc']], // 번호 오름차순에 따라 정렬
+			order: [[6, 'desc']],
 			ajax: {
 				url: '/admin/banners/json',
 				dataSrc: function(json) {
@@ -357,7 +357,7 @@ function resetFilters() {
 	$('#banners').find('.row-checkbox').prop('checked', false);
 
 	// 컬럼별 정렬 상태 초기화
-	table.order([1, 'asc']).draw();
+	table.order([6, 'desc']).draw();
 
 	// 페이지 번호 초기화
 	table.page('first').draw('page');
