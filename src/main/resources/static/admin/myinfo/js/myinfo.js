@@ -12,11 +12,11 @@ window.onload = function() {
 	   
 	   
 	   document.getElementById("userPart1").addEventListener("input", function() {
-	       limitLength(this, 4); // userPart1 필드는 최대 4자리 숫자
+	       limitLength(this, 4);
 	   });
 
 	   document.getElementById("userPart2").addEventListener("input", function() {
-	       limitLength(this, 4); // userPart2 필드는 최대 4자리 숫자
+	       limitLength(this, 4); 
 	   });
 		   
 		   
@@ -101,15 +101,16 @@ window.onload = function() {
            const userPart2 = document.getElementById("userPart2").value.trim();
            const phoneError = document.getElementById("phoneError");
 
-           if ((countryNum && (!userPart1 || !userPart2)) || ((!countryNum || countryNum === "") && (userPart1 || userPart2))) {
+           if ((countryNum && (!userPart1 || !userPart2)) || ((!countryNum || countryNum === "") && (userPart1 || userPart2)) || (userPart1.length !== 4 || userPart2.length !== 4)) {
                phoneError.style.display = "block";
                phoneError.textContent = "전화번호를 모두 입력해 주세요.";
                isValid = false;
            	   
 			   
 			   return isValid;
+			   
 		   }
-
+		    
            return isValid; // 폼 제출을 허용하거나 중지
        }
 
