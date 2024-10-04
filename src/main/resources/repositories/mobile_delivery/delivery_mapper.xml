@@ -18,6 +18,8 @@
 		    customer_order_details cod ON drd.order_num = cod.order_num
 		WHERE 
 		    dr.request_status LIKE '01'
+		    AND
+		    cod.order_detail_status LIKE '01'
 		GROUP BY 
 		    dr.request_num, dr.request_date
 		ORDER BY 
@@ -26,22 +28,27 @@
 	</select>
 	
 	<select id="getOrderStatus" resultType="deliveryDTO">
-		SELECT
-	        order_num,
-	        recipient_name,
-	        order_addr,
-	        order_addr_detail,
-	        order_delivery_status,
-	        order_purchase_date,
-	        order_modify_date
+	    SELECT
+	        co.order_num,
+	        co.recipient_name,  
+	        co.order_addr,  
+	        co.order_addr_detail,  
+	        co.order_delivery_status,  
+	        co.order_purchase_date,  
+	        co.order_modify_date  
 	    FROM
-	        Customer_Orders
+	        Customer_Orders co
+	    JOIN
+	        Customer_order_details cod ON co.order_num = cod.order_num
+	    WHERE
+	        cod.order_detail_status LIKE '01'
 	    ORDER BY
 	        CASE 
-	            WHEN order_modify_date IS NOT NULL THEN order_modify_date 
-	            ELSE order_purchase_date
+	            WHEN co.order_modify_date IS NOT NULL THEN co.order_modify_date 
+	            ELSE co.order_purchase_date 
 	        END DESC
 	</select>
+
 	
 	
 	
