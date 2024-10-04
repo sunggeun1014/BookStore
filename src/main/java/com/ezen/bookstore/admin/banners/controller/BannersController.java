@@ -65,7 +65,7 @@ public class BannersController {
 		} catch (IOException e) {
             model.addAttribute("error", "파일 업로드 오류");
 		}
-	    return "/redirect:/admin/banners/list";
+	    return "redirect:/admin/banners/list";
 	}
 
 	@PostMapping("/detail")

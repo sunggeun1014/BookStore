@@ -88,7 +88,11 @@ $(document).ready(function () {
         ],
 
         drawCallback: function (settings) {
-            var api = this.api();
+			let api = this.api();
+		    let filteredRecords = api.rows({ search: 'applied' }).count();
+
+		    $('#total-row').text(`총 ${filteredRecords}건`);
+			
             api.column(1, {page: 'current'}).nodes().each(function (cell, i) {
                 var pageStart = api.settings()[0]._iDisplayStart;
                 $(cell).html(pageStart + i + 1);
@@ -199,12 +203,14 @@ $(document).ready(function () {
 
 
   
-    $('#searchButton').on('click', function () {
-        var selectedColumn = $('#searchColumn').val();
-        var keyword = $('#searchKeyword').val();
-        
-        table.column(selectedColumn).search(keyword).draw();
-    });
+	$('#searchButton').on('click', function () {
+	    table.search('').columns().search('').draw();
+
+	    let selectedColumn = $('#searchColumn').val();
+	    let keyword = $('#searchKeyword').val();
+	    
+	    table.column(selectedColumn).search(keyword).draw();
+	});
 
     $('#searchKeyword').on('keypress', function (event) {
         if (event.key === 'Enter') {
@@ -282,8 +288,6 @@ function resetFilters() {
     $(".date-option").removeClass("active");
 
     table.search('').columns().search('').draw(); 
-
-    table.draw();
 }
 
 function setActive(element) {

@@ -17,20 +17,22 @@
 			<div class="filter-wrap date-filter">
 				<div class="date-picker">
 					<div class="input-date-box">
-						<input type="text" id="startDate" class="placeholder" placeholder="YYYY-MM-DD" /> 
+						<input type="text" id="startDate" class="placeholder startDate"
+							placeholder="YYYY-MM-DD" />
 							<i class="fa-solid fa-calendar-days"></i>
 					</div>
-					<div class="calendar-slash">-</div>				
+					<div class="calendar-slash">-</div>
 					<div class="input-date-box">
-						<input type="text" id="endDate" class="placeholder" placeholder="YYYY-MM-DD" /> 
+						<input type="text" id="endDate" class="placeholder endDate"
+							placeholder="YYYY-MM-DD" />
 						<i class="fa-solid fa-calendar-days"></i>
 					</div>
 				</div>
 				<div class="date-options date-pick-btn">
-					<button class="date-option today today-btn date-btn" onclick="setToday()">오늘</button>
-					<button class="date-option week-btn date-btn" onclick="setDateRange(7)">1주일</button>
-					<button class="date-option month-btn date-btn" onclick="setDateRange(30)">1개월</button>
-					<button class="date-option year-btn date-btn" onclick="setDateRange(365)">1년</button>
+					<button class="date-option today today-btn date-btn" onclick="setDateOption(0, this)">오늘</button>
+					<button class="date-option week-btn date-btn" onclick="setDateOption(7, this)">1주일</button>
+					<button class="date-option month-btn date-btn" onclick="setDateOption(30, this)">1개월</button>
+					<button class="date-option year-btn date-btn" onclick="setDateOption(365, this)">1년</button>
 				</div>
 			</div>			
 		</div>

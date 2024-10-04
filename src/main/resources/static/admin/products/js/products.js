@@ -225,6 +225,8 @@ $(document).ready(function() {
     // 검색 버튼 클릭 이벤트 핸들러
     const searchBtn = document.querySelector("#searchButton");
     searchBtn.addEventListener('click', function() {
+		table.search('').columns().search('').draw();
+		
         const columnIndex = $('#select-lists').val();
         let column = 0;
         switch (columnIndex) {

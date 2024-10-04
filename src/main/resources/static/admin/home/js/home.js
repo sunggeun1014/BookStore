@@ -57,10 +57,16 @@ $(document).ready(function () {
                 },
                 {
                     data: 'inquiry_write_date',
-                    render: function (data, type, row) {
-                        const date = new Date(data);
-                        return data ? date.toLocaleDateString('ko-KR') : '-';
-                    }
+					render: function (data) {
+					    if (!data) return '-';
+						
+					    const date = new Date(data);
+					    const year = date.getFullYear();
+					    const month = String(date.getMonth() + 1).padStart(2, '0');
+					    const day = String(date.getDate()).padStart(2, '0');
+						
+					    return `${year}. ${month}. ${day}.`;
+					}
                 },
                 {
                     data: 'inquiry_answer_status',
@@ -154,10 +160,16 @@ $(document).ready(function () {
                 },
                 {
                     data: 'log_operation_date',
-                    render: function (data) {
-                        const date = new Date(data);
-                        return data ? date.toLocaleDateString('ko-KR') : '-';
-                    }
+					render: function (data) {
+					    if (!data) return '-';
+						
+					    const date = new Date(data);
+					    const year = date.getFullYear();
+					    const month = String(date.getMonth() + 1).padStart(2, '0');
+					    const day = String(date.getDate()).padStart(2, '0');
+						
+					    return `${year}. ${month}. ${day}.`;
+					}
                 },
 
             ],

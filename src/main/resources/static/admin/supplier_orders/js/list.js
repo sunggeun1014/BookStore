@@ -44,8 +44,7 @@ $(document).ready(function() {
 			{ 
 				data: 'order_date', 
 				render: function (data) {
-					const date = new Date(data);
-					return date.toISOString().split('T')[0];
+					return getFormatDate(data);
 				}
 			},
 			{ data: 'manager_id' }

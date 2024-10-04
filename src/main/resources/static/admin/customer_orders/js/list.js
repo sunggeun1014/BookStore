@@ -9,7 +9,7 @@ $(document).ready(function() {
 				return json.data;
 			}
 		},
-		order: [[10, 'desc']],
+		order: [[10, 'DESC']],
 		columns: [
 			{ 
                 data: null, // 데이터 소스가 없으므로 null로 설정
@@ -37,9 +37,8 @@ $(document).ready(function() {
 			},
 			{ 
 				data: 'order_purchase_date', 
-				render: function (data) {
-					const date = new Date(data);
-					return date.toISOString().split('T')[0];
+				render: function (data, type, row) {
+					return getFormatDate(data);
 				}
 			},
 			{ 
@@ -52,16 +51,7 @@ $(document).ready(function() {
 			},
 			{ data: 'order_status' },
 			{
-				data: 'order_modify_date',
-			    render: function(data, type, row) {
-			        const date = new Date(data);
-			        
-			        if (type === 'display') {
-			            return row.order_purchase_date === data ? '-' : date.toISOString().split('T')[0];
-			        }
-			        
-			        return data;
-			    }
+				data: 'order_modify_date'
 			}
 		],
 		columnDefs: [
@@ -106,11 +96,23 @@ $(document).ready(function() {
 		},
 		drawCallback: function(settings) {
 		    let api = this.api();
+
 		    api.column(1, { page: 'current' }).nodes().each(function(cell, i) {
 		        let pageStart = api.settings()[0]._iDisplayStart;
 		        $(cell).html(pageStart + i + 1);
 		    });
-		}
+		},
+		rowCallback: function(row, data) {
+	        const modifyDateCellIndex = 10;
+			
+			if(data.order_modify_date === data.order_purchase_date) {
+				$(row).find('td').eq(modifyDateCellIndex).html("-");
+			} else {
+		        const formattedDate = getFormatDate(data.order_modify_date);
+				
+		        $(row).find('td').eq(modifyDateCellIndex).html(formattedDate);
+			}
+	    }
 	});
 
 	table.on('draw', function() {

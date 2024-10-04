@@ -236,7 +236,7 @@ function setDateOption(day, obj) {
 
     $(".startDate").val(`${start_year}-${start_month}-${start_day}`);
     $(".endDate").val(`${end_year}-${end_month}-${end_day}`);
-
+	
     $(".date-btn").removeClass("active");
     $(obj).addClass("active");
 }
@@ -373,4 +373,13 @@ function textLengthCheck(obj, maxLength) {
     $(obj).val(content);
     $("#current-length").text(contentLength);
     $("#max-length").text(maxLength);
+}
+
+function getFormatDate(data) {
+    const date = new Date(data);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+	
+    return `${year}-${month}-${day}`;
 }

@@ -3,11 +3,7 @@ $(document).ready(function() {
 
     table = $('#member').DataTable({
         ajax: {
-            url: '/admin/members/json',
-            dataSrc: function(json) {
-                $('#total-row').text('총 ' + json.size + '건');
-                return json.data;
-            }
+            url: '/admin/members/json'
         },
         
         columnDefs: [
@@ -52,7 +48,11 @@ $(document).ready(function() {
 
         ],
 		drawCallback: function(settings) {
-            var api = this.api();
+            let api = this.api();
+		    let filteredRecords = api.rows({ search: 'applied' }).count();
+
+		    $('#total-row').text(`총 ${filteredRecords}건`);
+							
             api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
                 var pageStart = api.settings()[0]._iDisplayStart;
                 $(cell).html(pageStart + i + 1);
@@ -74,10 +74,10 @@ $(document).ready(function() {
     });
     
     $('#searchButton').on('click', function() {
+		table.search('').columns().search('').draw();
+		
         var selectedColumn = $('#searchColumn').val();
         var keyword = $('#searchKeyword').val();
-
-        table.columns().search('');
 
         table.column(selectedColumn).search(keyword);
 
@@ -95,15 +95,15 @@ $(document).ready(function() {
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
             var membersDate = data[5]; 
-            
-            var start = startDate ? new Date(startDate) : null;
-            var end = endDate ? new Date(endDate) : null;
+			
+            var start = startDate ? new Date(startDate + "T00:00:00+09:00") : null;
+            var end = endDate ? new Date(endDate + "T23:59:59+09:00") : null;
             var memberDate = new Date(membersDate);
 
             if (isNaN(memberDate)) {
                 return false;
             }
-
+			
             memberDate.setHours(0,0,0,0);
             memberDate.setMinutes(0,0,0,0);
             

@@ -31,7 +31,7 @@
 		    	SUM(c.order_detail_qty) AS total_order_qty
 			FROM 
 			    books b
-			JOIN 
+			LEFT JOIN 
 			    customer_order_details c ON b.book_isbn = c.book_isbn
 		    GROUP BY 
 		        b.book_isbn, 

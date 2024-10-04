@@ -34,8 +34,7 @@ $(document).ready(function() {
 			{ 
 				data: 'log_operation_date', 
 				render: function (data) {
-					const date = new Date(data);
-					return date.toISOString().split('T')[0];
+					return getFormatDate(data);
 				}
 			},
 			{ data: 'manager_id' }

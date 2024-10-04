@@ -80,7 +80,7 @@ document.getElementById('kakao_login_btn').addEventListener('click', function(ev
 
 let naverLogin = new naver.LoginWithNaverId({
     clientId: 'sutMcxM8vDfiUuQgTc15',  // 네이버에서 발급받은 클라이언트 ID
-    callbackUrl: 'http://localhost:9080/user/members/naver/callback',  // 네이버에서 설정한 콜백 URL
+    callbackUrl: 'http://43.203.118.120:9080/user/members/naver/callback',  // 네이버에서 설정한 콜백 URL
     isPopup: true,  // 팝업 모드 사용
     loginButton: { color: 'green', type: 5, height: 45 }  // 로그인 버튼 스타일 설정
 });

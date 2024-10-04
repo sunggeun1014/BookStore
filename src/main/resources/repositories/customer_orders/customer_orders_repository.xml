@@ -103,7 +103,6 @@
 					AND order_num LIKE '%' || #{word} || '%'
 				</if>
 			</if>
-		ORDER BY order_modify_date desc
 	</select>
 	
 	<insert id="deliveryRequestSave" parameterType="String">
