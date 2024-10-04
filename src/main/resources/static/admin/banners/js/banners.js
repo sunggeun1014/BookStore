@@ -256,29 +256,27 @@ $(document).ready(function() {
 		}
 	});
 
-	// 날짜 필터링 로직 추가
 	$.fn.dataTable.ext.search.push(
-		function(settings, data, dataIndex) {
-			var startDate = $('#startDate').val();
-			var endDate = $('#endDate').val();
-
-			var bannerDateRange = data[4]; // 'banner_start ~ banner_end'
-			var [bannerStartStr, bannerEndStr] = bannerDateRange.split(' ~ ');
-			var bannerStart = new Date(bannerStartStr);
-			var bannerEnd = new Date(bannerEndStr);
-
-			var start = startDate ? new Date(startDate + 'T00:00:00.0') : null;
-			var end = endDate ? new Date(endDate + 'T23:59:59.0') : null;
-
-			
-			// 필터링 조건: 배너의 날짜가 선택한 날짜 범위 내에 완전히 포함되어야 함
-			if (start && end) {
-				return bannerStart >= start && bannerEnd <= end;
-			}
-			// 날짜가 설정되지 않은 경우에는 필터링을 적용하지 않음
-			return true;
-		}
+	    function(settings, data, dataIndex) {
+	        var startDate = $('#startDate').val();
+	        var endDate = $('#endDate').val();
+	
+	        var bannerDateRange = data[4]; 
+	        var [bannerStartStr, bannerEndStr] = bannerDateRange.split(' ~ ');
+	        var bannerStart = new Date(bannerStartStr);
+	        var bannerEnd = new Date(bannerEndStr);
+	
+	        var start = startDate ? new Date(startDate + 'T00:00:00.0') : null;
+	        var end = endDate ? new Date(endDate + 'T23:59:59.0') : null;
+	
+	        if (start && end) {
+	            return (bannerStart <= end && bannerEnd >= start);
+	        }
+	
+	        return true;
+	    }
 	);
+
 
 	document.querySelectorAll('.input-box input').forEach(function(input) {
 		input.addEventListener('focus', function() {
