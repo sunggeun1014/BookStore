@@ -43,7 +43,8 @@
 	    WHEN MATCHED THEN
 	        UPDATE SET 
 	            inv.inv_qty = inv.inv_qty + src.inv_qty,
-	            inv.zone_num = src.zone_num
+	            inv.zone_num = src.zone_num,
+	            inv.inv_registration_date = current_timestamp
 	    WHEN NOT MATCHED THEN
 	        INSERT (inv.inv_isbn, inv.inv_title, inv.inv_qty, inv.inv_registration_date, inv.zone_num)
 	        VALUES (src.inv_isbn, src.inv_title, src.inv_qty, CURRENT_TIMESTAMP, src.zone_num)

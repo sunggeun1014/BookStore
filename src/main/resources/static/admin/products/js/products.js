@@ -17,7 +17,7 @@ $(document).ready(function() {
                         targets: 0
                     },
                 ],
-            // order: [[8, 'desc']], // 리뷰 작성 날짜 컬럼을 최신 날짜순으로 정렬 (내림차순)
+            order: [[8, 'desc']],
             ajax: {
                 dataSrc: 'data',
                 url: '/admin/products/json',

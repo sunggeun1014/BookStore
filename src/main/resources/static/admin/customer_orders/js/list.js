@@ -1,5 +1,5 @@
 let table = null;
-
+console.log("2024-05-11" > "2024-05-10");
 $(document).ready(function() {
 	table = $('#customer-orders-table').DataTable({
 		ajax: {
@@ -51,7 +51,18 @@ $(document).ready(function() {
 			},
 			{ data: 'order_status' },
 			{
-				data: 'order_modify_date'
+				data: 'order_modify_date',
+				render: function(data, type, row) {
+			        if (type === 'display' || type === 'filter') {
+						if(data === row.order_purchase_date) {
+							return "-";
+						} else {
+				            return getFormatDate(data);
+						}
+			        }
+					
+			        return data;
+			    }
 			}
 		],
 		columnDefs: [
@@ -64,7 +75,7 @@ $(document).ready(function() {
 			   targets:[1],
 			   render: function(data, type, row, meta) {
 			       if (type === 'display') {
-			           var start = meta.settings._iDisplayStart;
+			           let start = meta.settings._iDisplayStart;
 			           return start + meta.row + 1;
 			       }
 			       return data;
@@ -101,18 +112,7 @@ $(document).ready(function() {
 		        let pageStart = api.settings()[0]._iDisplayStart;
 		        $(cell).html(pageStart + i + 1);
 		    });
-		},
-		rowCallback: function(row, data) {
-	        const modifyDateCellIndex = 10;
-			
-			if(data.order_modify_date === data.order_purchase_date) {
-				$(row).find('td').eq(modifyDateCellIndex).html("-");
-			} else {
-		        const formattedDate = getFormatDate(data.order_modify_date);
-				
-		        $(row).find('td').eq(modifyDateCellIndex).html(formattedDate);
-			}
-	    }
+		}
 	});
 
 	table.on('draw', function() {

@@ -9,7 +9,7 @@ $(document).ready(function() {
 				return json.data;
 			}
 		},
-		order: [[1, 'desc']],
+		order: [[5, 'desc']],
 		columns: [
 			{ 
 				data: null,
@@ -43,9 +43,13 @@ $(document).ready(function() {
 			},
 			{ 
 				data: 'order_date', 
-				render: function (data) {
-					return getFormatDate(data);
-				}
+				render: function(data, type, row) {
+			        if (type === 'display' || type === 'filter') {
+			            return getFormatDate(data);
+			        }
+					
+		        	return data;
+		    	}
 			},
 			{ data: 'manager_id' }
 		],

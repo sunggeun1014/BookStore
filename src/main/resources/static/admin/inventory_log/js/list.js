@@ -33,9 +33,13 @@ $(document).ready(function() {
 			},
 			{ 
 				data: 'log_operation_date', 
-				render: function (data) {
-					return getFormatDate(data);
-				}
+				render: function(data, type, row) {
+			        if (type === 'display' || type === 'filter') {
+			            return getFormatDate(data);
+			        }
+					
+			        return data;
+			    }
 			},
 			{ data: 'manager_id' }
 		],

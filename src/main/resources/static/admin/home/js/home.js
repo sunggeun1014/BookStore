@@ -57,16 +57,22 @@ $(document).ready(function () {
                 },
                 {
                     data: 'inquiry_write_date',
-					render: function (data) {
-					    if (!data) return '-';
+					render: function(data, type, row) {
+				        if (type === 'display' || type === 'filter') {
+							if(!data) {
+								return "-";
+							} else {
+								const date = new Date(data);
+							    const year = date.getFullYear();
+							    const month = String(date.getMonth() + 1).padStart(2, '0');
+							    const day = String(date.getDate()).padStart(2, '0');
+								
+							    return `${year}. ${month}. ${day}.`;
+							}
+				        }
 						
-					    const date = new Date(data);
-					    const year = date.getFullYear();
-					    const month = String(date.getMonth() + 1).padStart(2, '0');
-					    const day = String(date.getDate()).padStart(2, '0');
-						
-					    return `${year}. ${month}. ${day}.`;
-					}
+				        return data;
+				    }
                 },
                 {
                     data: 'inquiry_answer_status',
@@ -160,16 +166,22 @@ $(document).ready(function () {
                 },
                 {
                     data: 'log_operation_date',
-					render: function (data) {
-					    if (!data) return '-';
+					render: function(data, type, row) {
+				        if (type === 'display' || type === 'filter') {
+							if(!data) {
+								return "-";
+							} else {
+								const date = new Date(data);
+							    const year = date.getFullYear();
+							    const month = String(date.getMonth() + 1).padStart(2, '0');
+							    const day = String(date.getDate()).padStart(2, '0');
+								
+							    return `${year}. ${month}. ${day}.`;
+							}
+				        }
 						
-					    const date = new Date(data);
-					    const year = date.getFullYear();
-					    const month = String(date.getMonth() + 1).padStart(2, '0');
-					    const day = String(date.getDate()).padStart(2, '0');
-						
-					    return `${year}. ${month}. ${day}.`;
-					}
+				        return data;
+				    }
                 },
 
             ],
