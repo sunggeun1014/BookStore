@@ -407,3 +407,7 @@ select::-ms-expand {
 .inner::-webkit-scrollbar{
     display:none;
 }
+
+.empty-list {
+    font-size: 1.2rem;
+}

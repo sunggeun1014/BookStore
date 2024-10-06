@@ -38,6 +38,7 @@
 	<div class="white-frame">
 		<p class="sub-title">배송요청</p>
 		<div class="inner" style="height: auto">
+			<div class="empty-list" th:if="${page == null}">요청 내역이 없습니다</div>
 			<div class="content-list" th:each="item : ${list}">
 				<div class="content-text-wrap">
 					<a class="content-text" style="text-decoration: underline;" th:href="@{/mobile/admin/delivery-detail(requestNum=${item.request_num})}">요청번호: <span th:text="${item.request_num}"></span></a>

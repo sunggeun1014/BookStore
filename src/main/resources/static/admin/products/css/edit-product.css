@@ -86,6 +86,7 @@ input[type=text]:not(.placeholder, .search-input, .input-price) {
     font-size: 16px;
     resize: none;
     background-color: #f8f8f8;
+    font-family: 'SUIT', sans-serif;
 }
 
 .custom-textarea:focus {

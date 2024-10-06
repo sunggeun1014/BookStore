@@ -241,3 +241,7 @@
 .tab-btns-wrap {
 	margin-bottom: 20px;
 }
+
+.result-wrap {
+    border-top: 1px solid #c0c0c0;
+}
