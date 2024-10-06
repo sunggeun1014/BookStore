@@ -31,7 +31,7 @@ select#emailUser, select#deptName {
 }
 
 .select-wrap.countryNum {
-    width: 80px;
+    width: 70px;
 }
 
 .btn {
@@ -57,7 +57,7 @@ select#deptName{
 }
 
 #userPart1, #userPart2 {
-	width: 80px;
+	width: 60px;
 }
 
 .select-wrap.dept-select {

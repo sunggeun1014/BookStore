@@ -28,6 +28,9 @@
 
     <div class="white-frame">
         <div class="inner" style="height: auto;">
+            <div class="empty-list" th:if="${page == null}">
+                내역이 없습니다
+            </div>
             <div class="content-list deliver-state" th:each="item : ${list}">
                 <div class="content-text-wrap top">
                     <div class="deliver-info">

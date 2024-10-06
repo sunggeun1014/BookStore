@@ -75,7 +75,7 @@
 			    </div>
 			    <div class="select-wrap select-lists">
 			        <select id="national" class="select-lists" name="book_category" th:style="${product_detail == null or product_detail.book_country_type != '01' ? 'display: none;' : ''}">
-			            <option class="default" value="">선택해주세요</option>
+			            <option class="default" value="" disabled>선택해주세요</option>
 			            <option th:each="val : ${book_category}" th:if="${val.category_country_type == '01'}" 
 			                    th:value="${val?.category_name}" th:text="${val?.category_name}" 
 			                    th:selected="${product_detail.book_country_type == '01' and val.category_name == product_detail.book_category}"></option>

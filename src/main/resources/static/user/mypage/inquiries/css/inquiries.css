@@ -118,3 +118,7 @@
 .reply-wrap p:last-child {
 	font-size: 13px;
 }
+
+.result-wrap {
+	border-top: 1px solid #c0c0c0;
+}

@@ -18,6 +18,7 @@
 				<th:block th:switch="${session.manager.manager_dept}">
 				    <p th:case="'01'">물류팀</p>
 				    <p th:case="'02'">운영팀</p>
+				    <p th:case="'03'">인사팀</p>
 				</th:block>
 				<p th:text="${session.manager.manager_name}"></p>
 			</div>            

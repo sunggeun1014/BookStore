@@ -31,14 +31,6 @@
 	margin-left: auto;
 }
 
-.myinfo-content {
-	row-gap : 0px;
-}
-
-.myinfo-title {
-	margin-bottom: 20px;
-}
-
 .sub-info-bg {
     display: flex;
     margin-bottom: 20px;
@@ -52,7 +44,7 @@
 }
 
 .notice-qty {
-	margin-bottom: 9px;
+	margin-bottom: 20px;
 	font-size: 16px;
 }
 

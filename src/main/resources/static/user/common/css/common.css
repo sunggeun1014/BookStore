@@ -133,6 +133,10 @@ input:focus {
     box-shadow: none;
 }
 
+label {
+    cursor: pointer;
+}
+
 /* 로그인, 회원가입 등 인풋 */
 .input-long {
     width: 340px;
@@ -141,7 +145,6 @@ input:focus {
     border-radius: 10px;
     padding: 10px;
     font-size: 16px;
-    cursor: pointer;
 }
 
 /* 라디오 */
@@ -167,7 +170,7 @@ input[type='radio']:checked {
     border: 5px solid #845EC2; /* 테두리가 아닌, 테두리와 원 사이의 색상 */
 
     /* 얘가 테두리가 됨 */
-    /* box-shadow: 0 0 0 1.6px #4777F6; */
+    /* box-shadow: 0 0 0 1.6px #845EC2;*/
     /* 그림자로 테두리를 직접 만들어야 함 (퍼지는 정도를 0으로 주면 테두리처럼 보입니다.)
     그림자가 없으면 그냥 설정한 색상이 꽉 찬 원으로만 나옵니다. */
 }
