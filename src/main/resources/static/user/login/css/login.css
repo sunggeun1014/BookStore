@@ -1,5 +1,5 @@
 .login-frame {
-    margin-top: 140px;
+    margin: 140px 0;
     display: flex;
     flex-direction: column; /* 요소들이 위아래로 배치되도록 설정 */
     align-items: center;
