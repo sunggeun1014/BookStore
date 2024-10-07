@@ -411,6 +411,7 @@ $(document).ready(function() {
         let member_addr = $('#address_kakao').val();
 //        let member_detail_addr = $('#member_detail_addr').val();
         let certifiedEmail = $('#emailVerificationStatus').val();
+		let checkAgree = $('#agree-terms').prop('checked');
 
         if (!validateId(member_id)) {
             $('#idCheckForm').text('⚠아이디: 필수 정보입니다 입력해주세요.').show();
@@ -532,6 +533,11 @@ $(document).ready(function() {
         	});
             event.preventDefault();  
         }
+
+		if (!checkAgree) {
+			getCheckModal("이용 약관에 동의해주세요")
+			event.preventDefault();
+		}
     });
 });
 

@@ -119,10 +119,15 @@
 
         </div>
 
-        <div class="agreement">
-            <input type="radio" name="agree-terms" id="agree-terms"/>
-            <label for="agree-terms">이용 약관 동의</label>
+        <div class="check-btn agreement">
+            <input type="checkbox" name="agree-terms" class="check-box" id="agree-terms" />
+            <label for="agree-terms"></label>
+            <label for="agree-terms">이용 약관 동의(필수)</label>
         </div>
+<!--        <div class="agreement">-->
+<!--            <input type="radio" name="agree-terms" id="agree-terms"/>-->
+<!--            <label for="agree-terms">이용 약관 동의</label>-->
+<!--        </div>-->
         <div class="btn-wrap">
             <button type="submit" id="reg-button" class="default-btn long">가입</button>
             <button type="button" id="back" class="default-btn long" onclick="window.location.href='/user/login'">
