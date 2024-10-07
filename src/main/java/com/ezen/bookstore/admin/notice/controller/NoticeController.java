@@ -22,7 +22,6 @@ import com.ezen.bookstore.admin.notice.dto.NoticeDTO;
 import com.ezen.bookstore.admin.notice.service.NoticeService;
 import com.ezen.bookstore.commons.FileManagement;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

@@ -45,18 +45,20 @@ $(document).ready(function() {
 		let editor = $("#editor");
 
 		let contentClone = editor.clone();
-		contentClone.find("img").remove(); 
-		let textContent = contentClone.text();
+		contentClone.find("img").remove();
+		let textContent = contentClone.text(); 
 		let byteLength = getByteLength(textContent);
 
-		while (byteLength > maxByteLength) {
-			textContent = textContent.slice(0, -1);
-			byteLength = getByteLength(textContent);
-		}
+		if (byteLength > maxByteLength) {
+		    while (getByteLength(textContent) > maxByteLength) {
+		        textContent = textContent.slice(0, -1); 
+		    }
 
-		let originalHtml = editor.html();
-		let newHtml = contentClone.html();
-		editor.html(originalHtml.replace(contentClone.text(), textContent));
+		    let originalHtml = editor.html();
+
+		    let newHtml = originalHtml.replace(contentClone.text(), textContent);
+		    editor.html(newHtml);
+		}
 
 		$("#charCount").text(byteLength);
 
