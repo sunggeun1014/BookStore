@@ -3,9 +3,7 @@ package com.ezen.bookstore.security.service.user;
 import java.io.IOException;
 import java.net.URLEncoder;
 
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import jakarta.servlet.ServletException;
@@ -16,14 +14,19 @@ public class CustomUserAuthenticationFailureHandler implements AuthenticationFai
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-	        AuthenticationException exception) throws IOException, ServletException {
+			AuthenticationException exception) throws IOException, ServletException {
 
-		String matchErrorMessage = "아이디 또는 비밀번호가 일치하지 않습니다.";
-	    String redirectUrl = "/user/login?error=true";
-	    
-	    redirectUrl += "&passwordError=" + URLEncoder.encode(matchErrorMessage, "UTF-8");
-	   
-	    response.sendRedirect(redirectUrl);
+		String redirectUrl = "/user/login?error=true";
+
+		if (exception instanceof AccountNotLinkedException) {
+			String accountNotLinkedError = URLEncoder.encode(exception.getMessage(), "UTF-8");
+			redirectUrl += "&accountNotLinkedError=" + accountNotLinkedError;
+		} else {
+			String passwordError = URLEncoder.encode("아이디 또는 비밀번호가 일치하지 않습니다.", "UTF-8");
+			redirectUrl += "&passwordError=" + passwordError;
+		}
+
+		response.sendRedirect(redirectUrl);
 	}
 
 }

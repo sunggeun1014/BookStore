@@ -25,13 +25,12 @@ $(document).ready(function() {
         }
     });
 	
-    const urlParams = new URLSearchParams(window.location.search);
-	    const accountNotLinkedError = urlParams.get('accountNotLinkedError'); // 파라미터 추출
-	
-	    // 파라미터가 존재할 경우, getcheckModal() 실행
-	    if (accountNotLinkedError) {
-	        getCheckModal(accountNotLinkedError);  // 파라미터 값을 모달에 전달
-    }
+	const urlParams = new URLSearchParams(window.location.search);
+	const accountNotLinkedError = urlParams.get('accountNotLinkedError');
+   
+	if (accountNotLinkedError) {
+		getCheckModal(decodeURIComponent(accountNotLinkedError)); 
+	}
 	
     let savedId = localStorage.getItem('savedUserId');
     if (savedId) {
