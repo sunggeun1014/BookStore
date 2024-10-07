@@ -41,7 +41,7 @@
     <select id="getAllOrders" resultType="int">
         SELECT count(*)
         FROM customer_orders
-        WHERE order_delivery_status = '01'
+        WHERE order_payment_status != '02'
         AND EXTRACT(MONTH FROM order_purchase_date) = EXTRACT(MONTH FROM SYSDATE)
         AND EXTRACT(YEAR FROM order_purchase_date) = EXTRACT(YEAR FROM SYSDATE)
     </select>

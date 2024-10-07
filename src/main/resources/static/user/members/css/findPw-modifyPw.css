@@ -101,3 +101,8 @@ label {
     width: 100%; 
 }
     
+.password-modify-comment {
+	color: red;
+	font-size: 12px;
+	text-align: left;
+}

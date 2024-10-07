@@ -38,10 +38,8 @@
                 </div>
             </div>
         </div>
-        <div class="re-search-bar"
-             th:if="${condition.categoryCountryType == 01 or condition.categoryCountryType == 02}">
-            <input type="text" name="word" id="word" class="re-search-input" placeholder="결과 내 재검색"
-                   th:value="${condition.word}">
+        <div class="re-search-bar">
+            <input type="text" name="word" id="word" class="re-search-input" placeholder="결과 내 재검색" th:value="${condition.word}">
             <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
         </div>
         <div class="search-condition-area"

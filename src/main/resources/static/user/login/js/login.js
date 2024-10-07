@@ -33,25 +33,23 @@ $(document).ready(function() {
 	        getCheckModal(accountNotLinkedError);  // 파라미터 값을 모달에 전달
     }
 	
-    window.onload = function() {
-        let savedId = localStorage.getItem('savedUserId');
-        if (savedId) {
-            $('#id').val(savedId);  
-            $('#saveIdCheckbox').prop('checked', true);
-        }
+    let savedId = localStorage.getItem('savedUserId');
+    if (savedId) {
+        $('#id').val(savedId);  
+        $('#saveIdCheckbox').prop('checked', true);
+    }
 
-        let id = $('#id').val().trim();
-        let password = $('#password').val().trim();
-        if (id.length > 0 && password.length > 0) {
-            $('#loginBtn').prop("disabled", false); 
-        } else {
-            $('#loginBtn').prop("disabled", true);
-        }
-        
-        
-        if (window.location.search) {
-            const urlWithoutParams = window.location.origin + window.location.pathname;
-            window.history.replaceState({}, document.title, urlWithoutParams);
-        }
-    };
+    let id = $('#id').val().trim();
+    let password = $('#password').val().trim();
+    if (id.length > 0 && password.length > 0) {
+        $('#loginBtn').prop("disabled", false); 
+    } else {
+        $('#loginBtn').prop("disabled", true);
+    }
+    
+    
+    if (window.location.search) {
+        const urlWithoutParams = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, urlWithoutParams);
+    }
 });
