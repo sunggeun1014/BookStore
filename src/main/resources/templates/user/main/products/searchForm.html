@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="re-search-bar">
+        <div class="re-search-bar" th:if="${condition.categoryCountryType != 03 and condition.categoryCountryType != 04}">
             <input type="text" name="word" id="word" class="re-search-input" placeholder="결과 내 재검색" th:value="${condition.word}">
             <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
         </div>
