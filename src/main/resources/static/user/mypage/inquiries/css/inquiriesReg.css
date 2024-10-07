@@ -1,6 +1,6 @@
 .inquiries-container {
     border-top: 1px solid #000000;
-    padding: 20px 0px 20px 0px;
+    padding: 20px 0 20px 0;
     border-bottom: 1px solid #DFDFDF;
 }
 
@@ -49,7 +49,7 @@ select:focus {
     grid-template-columns: 100px 1fr;
     gap: 18px;
     border-bottom: 1px solid #DFDFDF;
-    padding: 20px 0px 20px 0px
+    padding: 20px 0 20px 0
 }
 
 .textarea-container {
@@ -63,7 +63,7 @@ select:focus {
     width: 100%;
     border: 1px solid #C0C0C0;
     border-radius: 5px;
-    padding: 10px;
+    padding: 10px 10px 25px;
     font-size: 16px;
     resize: none;
     min-height: 280px;
@@ -81,12 +81,13 @@ select:focus {
 
 .char-count {
     position: absolute;
-    bottom: 17px;
+    bottom: 15px;
     right: 0;
 }
 
 .char-count span {
     display: inline-block;
+    color: #666;
 }
 
 .image-upload-container {
@@ -127,30 +128,10 @@ select:focus {
     border: 0.5px solid #666;
     padding: 20px;
     width: 500px;
-    min-height: 500px;
-    max-height: 700px;
+    min-height: 300px;
+    max-height: 570px;
     border-radius: 8px;
     overflow: auto;
-}
-
-/* 스크롤바 커스텀 */
-.inquiry-modal-content::-webkit-scrollbar {
-    width: 8px; /* 스크롤바 너비 */
-}
-.inquiry-modal-content::-webkit-scrollbar-track { /* 스크롤 바 배경 */
-    height: 10%;
-    background-color: transparent; /*스크롤 바 배경 색상*/
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    background-clip: content-box;
-}
-
-.inquiry-modal-content::-webkit-scrollbar-thumb {  /* 스크롤바 막대 */
-    height: 20%;
-    background-clip: padding-box;
-    border: 2px solid transparent; /*스크롤 바 양옆 여백*/
-    border-radius: 8px;
-    background-color: #666; /*스크롤 바 색상*/
 }
 
 .inquiry-modal-text {
@@ -168,6 +149,28 @@ select:focus {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding: 0 10px;
+    overflow: auto;
+}
+
+/* 스크롤바 커스텀 */
+.order-list::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+}
+.order-list::-webkit-scrollbar-track { /* 스크롤 바 배경 */
+    height: 10%;
+    background-color: transparent; /*스크롤 바 배경 색상*/
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    background-clip: content-box;
+}
+
+.order-list::-webkit-scrollbar-thumb {  /* 스크롤바 막대 */
+    height: 20%;
+    background-clip: padding-box;
+    border: 2px solid transparent; /*스크롤 바 양옆 여백*/
+    border-radius: 8px;
+    background-color: #666; /*스크롤 바 색상*/
 }
 
 .order-item {
@@ -259,7 +262,7 @@ select:focus {
     display: none;
     position: absolute;
     top: 0;
-    left: 10;
+    left: 10px;
 }
 
 .input-box-long {

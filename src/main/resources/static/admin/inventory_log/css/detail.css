@@ -38,3 +38,12 @@
 .book-title-column, .book-title-data { width: 40%; }
 .qty-column, .qty-data { width: 14%; }
 .zone-num-column, .zone-num-data { width: 20%; }
+
+
+.limit-lines {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
