@@ -90,7 +90,7 @@ const kakaoUnlink = function() {
 
 function openNaverLoginPopup() {
     var clientId = 'sutMcxM8vDfiUuQgTc15';  // 네이버에서 발급받은 클라이언트 ID
-    var redirectUri = encodeURIComponent('http://43.203.118.120:9080/login/oauth2/code/nave');  // 콜백 URL
+    var redirectUri = encodeURIComponent('http://43.203.118.120:9080/user/members/naver/callback');  // 콜백 URL
     var state = Math.random().toString(36).substring(7);  // 랜덤한 state 값 생성
     var naverLoginUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
 

@@ -112,7 +112,8 @@ $(document).ready(function () {
 
 
 function openCustomNaverLoginPopup() {
-    var naverLoginUrl = 'https://nid.naver.com/nidlogin.login?oauth_token=kBgIZWFGAnrdUqdN1Z&consumer_key=sutMcxM8vDfiUuQgTc15&logintp=oauth2&nurl=https%3A%2F%2Fnid.naver.com%2Foauth2.0%2Fauthorize%3Fresponse_type%3Dtoken%26state%3Db20a2119-9c4e-41c0-b1ac-d184f6b3dfd2%26client_id%3DsutMcxM8vDfiUuQgTc15%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A9080%252Fuser%252Fmembers%252Fnaver%252Fcallback%26locale%3Dko_KR%26inapp_view%3D%26oauth_os%3D&locale=ko_KR&inapp_view=&svctype=';
+	let redirectUri = encodeURIComponent('http://43.203.118.120:9080/user/members/naver/callback');
+    let naverLoginUrl = `https://nid.naver.com/nidlogin.login?oauth_token=kBgIZWFGAnrdUqdN1Z&consumer_key=sutMcxM8vDfiUuQgTc15&logintp=oauth2&nurl=https%3A%2F%2Fnid.naver.com%2Foauth2.0%2Fauthorize%3Fresponse_type%3Dtoken%26state%3Db20a2119-9c4e-41c0-b1ac-d184f6b3dfd2%26client_id%3DsutMcxM8vDfiUuQgTc15%26redirect_uri=${redirectUri}&locale=ko_KR&inapp_view=&svctype=`;
 
     // 팝업 창 열기
     window.open(naverLoginUrl, 'NaverLoginPopup', 'width=500,height=600');
