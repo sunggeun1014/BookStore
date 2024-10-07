@@ -25,6 +25,8 @@ $(document).ready(function() {
 
 	$("#editor").on("keydown", function(e) {
 		if (e.key === "Enter") {
+			e.preventDefault(); 
+
 			const selection = window.getSelection();
 			if (selection.rangeCount > 0) {
 				const range = selection.getRangeAt(0);
@@ -42,27 +44,34 @@ $(document).ready(function() {
 	});
 
 	function updateCharCount() {
-		let editor = $("#editor");
+	    let editor = $("#editor");
 
-		let contentClone = editor.clone();
-		contentClone.find("img").remove();
-		let textContent = contentClone.text(); 
-		let byteLength = getByteLength(textContent);
+	    let contentClone = editor.clone();
+	    contentClone.find("img").remove(); 
+	    let textContent = contentClone.text();
 
-		if (byteLength > maxByteLength) {
-		    while (getByteLength(textContent) > maxByteLength) {
-		        textContent = textContent.slice(0, -1); 
-		    }
+	    let byteLength = getByteLength(textContent);
 
-		    let originalHtml = editor.html();
+	   
+	    if (byteLength > maxByteLength) {
+	        while (getByteLength(textContent) > maxByteLength) {
+	            textContent = textContent.slice(0, -1); 
+	        }
 
-		    let newHtml = originalHtml.replace(contentClone.text(), textContent);
-		    editor.html(newHtml);
-		}
+	        
+	        editor.contents().filter(function() {
+	            return this.nodeType === Node.TEXT_NODE;
+	        }).each(function() {
+	            let currentText = $(this).text();  
+	            let newText = textContent.slice(0, currentText.length);  
+	            $(this).text(newText);  
+	            textContent = textContent.slice(currentText.length);
+	        });
+	    }
 
-		$("#charCount").text(byteLength);
+	   
+	    $("#charCount").text(byteLength);
 
-		placeCaretAtEnd(editor[0]);
 	}
 
 	const editor = document.getElementById('editor');
