@@ -91,22 +91,24 @@
             <if test="manager_pw != null and !manager_pw.equals('')">
                 manager_pw = #{manager_pw},
             </if>
-            <if test="manager_phoneNo != null and manager_phoneNo != ''">
+            <if test="manager_phoneNo != null and !manager_phoneNo.equals('')">
                 manager_phoneNo = #{manager_phoneNo},
             </if>
-            <if test="manager_email != null and manager_email != ''">
+            <if test="manager_email != null and !manager_email.equals('')">
                 manager_email = #{manager_email},
             </if>
-            <if test="manager_profile_original != null and manager_profile_original != ''">
+            <if test="manager_profile_original != null and !manager_profile_original.equals('')">
             	manager_profile_original = #{manager_profile_original},
             </if>
-            <if test="manager_profile_changed != null and manager_profile_changed != ''">
+            <if test="manager_profile_changed != null and !manager_profile_changed.equals('')">
                 manager_profile_changed = #{manager_profile_changed},
             </if>
-            <if test="manager_addr != null and manager_addr != ''">
+            <if test="manager_addr != null and !manager_addr.equals('')">
                 manager_addr = #{manager_addr},
             </if>
-            manager_detail_addr = #{manager_detail_addr}
+            <if test="manager_detail_addr != null and !manager_detail_addr('')">
+            	manager_detail_addr = #{manager_detail_addr}
+            </if>
         </trim>
     </set>
 	    WHERE manager_id = #{manager_id}

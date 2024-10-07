@@ -11,11 +11,7 @@ $(document).ready(function() {
 
 			order: [[6, 'desc']],
 			ajax: {
-				url: '/admin/banners/json',
-				dataSrc: function(json) {
-					$('#total-row').text('총 ' + json.size + '건');
-					return json.data;
-				}
+				url: '/admin/banners/json'
 			},
 
 			columns: [
@@ -121,6 +117,12 @@ $(document).ready(function() {
 					event.preventDefault(); // 링크 기본 동작 방지
 					postToDetailPage(data); // 폼 생성 및 제출 함수 호출
 				});
+			},
+			drawCallback: function(settings) {
+				let api = this.api();
+				let filteredRecords = api.rows({ search: 'applied' }).count();
+	
+				$('#total-row').text(`총 ${filteredRecords}건`);
 			}
 
 		});

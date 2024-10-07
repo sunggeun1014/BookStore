@@ -49,11 +49,9 @@ public class DispatchServiceImpl implements DispatchService {
 	    List<RequestDTO> requestDetails = requestDTO.getRequest_details();  
 
 	    for (RequestDTO orderDetail : requestDetails) {
-	    	System.out.println("요청날짜: " + orderDetail.getRequest_num());
 	        String zoneNum = dispatchMapper.getZoneNum(orderDetail.getBook_isbn()); 
 	        orderDetail.setLog_transaction_num(logTransactionNum); 
 	        orderDetail.setZone_num(zoneNum); 
-	        System.out.println("orderDetail: " + orderDetail);
 	        
 	        dispatchMapper.minusInventory(orderDetail);
 

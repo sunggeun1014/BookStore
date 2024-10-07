@@ -40,7 +40,9 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.status === 'success') {
                         getCheckModal('출고 처리가 완료되었습니다.');
-                        location.reload();
+						$("#confirm-delete").on("click", function() {
+	                        location.reload();
+						});
                     } else {
                         getErrorModal();
                         return;

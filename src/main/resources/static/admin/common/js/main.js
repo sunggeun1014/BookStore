@@ -356,7 +356,7 @@ function getByteLen(str) {
         }
 		
 		if (str[i] === '\n') {
-            byteLength += 1; // 추가 1바이트
+            byteLength += 1;
         }
     }
     return byteLength;

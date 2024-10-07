@@ -118,12 +118,13 @@
     
     <update id="changeOrederStatus" parameterType="Integer">
         UPDATE customer_orders
-        SET ORDER_DELIVERY_STATUS = '02'
-        WHERE ORDER_NUM IN (
-            SELECT order_num
-            FROM delivery_request_detail
-            WHERE request_num = #{request_num}
-        )
+	    SET
+	        order_delivery_status = '02',
+	        delivery_completed_date	= current_timestamp
+	    WHERE ORDER_NUM IN (
+	        SELECT order_num
+	        FROM delivery_request_detail
+	        WHERE request_num = #{request_num})
     </update>
     
     <update id="changeRequestStatus" parameterType="Integer">
