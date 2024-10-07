@@ -29,6 +29,11 @@ function showSideMenu() {
             fullURL.includes('inquiries') && originHref.includes('inquiries')) {
             link.classList.add('on');
             localStorage.setItem(`menu-open-${index}`, true);
+
+            if (fullURL.includes('review') && fullURL.includes('order') && originHref.includes('review')) {
+                links[0].classList.remove('on');
+                localStorage.removeItem(`menu-open-0`);
+            }
         } else {
             link.classList.remove('on');
             localStorage.removeItem(`menu-open-${index}`);

@@ -77,23 +77,24 @@
 
 .write-review-container span {
     display: block;
-    font-weight: bold;
     color: #333;
-    font-size: 14px;
-    margin-bottom: 15px;
-    position: relative;
+    font-size: 16px;
 }
 
 .write-review-container textarea {
 	position: relative;
     width: 95%;
     height: 200px;
-    padding: 10px;
+    padding: 10px 10px 25px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
     resize: none;
-    margin-top: 10px;
+}
+
+.write-review-container textarea:focus {
+    outline: none;
+    border: 1px solid #666;
 }
 
 .middle {
@@ -103,12 +104,13 @@
 
 .char-count {
 	position: absolute;
-	bottom: 20px;
-	right: 55px;
+	bottom: 30px;
+	right: 50px;
 }
 
 .char-count span {
 	display: inline-block;
+    color: #666;
 }
 
 

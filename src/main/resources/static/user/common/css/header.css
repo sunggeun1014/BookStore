@@ -32,7 +32,6 @@ header {
 .top-menu-wrap {
     display: flex;
     gap: 20px;
-    margin-right: 10px;
 }
 
 .top-menu-link {
