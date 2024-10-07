@@ -611,11 +611,10 @@ document.addEventListener('DOMContentLoaded', function (){
 function showTerms() {
 	const termsModal = document.getElementById("terms-modal");
 	const closeBtn = document.getElementById("close-btn");
-	const agreeBtn = document.querySelector(".agreement > label")
+	const agreeBtn = document.querySelector(".agreement > label:last-child")
 
 	agreeBtn.addEventListener('click', function () {
 		termsModal.classList.add('on')
-
 	})
 
 	closeBtn.addEventListener('click', function () {
