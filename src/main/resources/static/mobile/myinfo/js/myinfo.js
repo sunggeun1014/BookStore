@@ -9,13 +9,15 @@ $(document).ready(function() {
 		
 		let valid = true;
 
-		if (!validatePassword(pw)) {
-			valid = false;
-		} 
+		if (pwCheck) {
+			if (!validatePassword(pw)) {
+				valid = false;
+			}
 
-		if (pw !== pwCheck) {
-			valid = false;
-		} 
+			if (pw !== pwCheck) {
+				valid = false;
+			}
+		}
 
 		let phonePart1 = $('#phone-part-1').val();
 		let phonePart2 = $('#phone-part-2').val();

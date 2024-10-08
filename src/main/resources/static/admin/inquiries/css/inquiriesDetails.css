@@ -18,7 +18,7 @@ textarea:focus {
 }
 
 .answer-area {
-    margin-top: 30px;
+    padding: 20px;
     min-height: 350px;
     height: auto;
 }
