@@ -1,8 +1,11 @@
 package com.ezen.bookstore.mobile.dispatch.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.ezen.bookstore.commons.CommonConstants;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +21,10 @@ public class DispatchController {
 	
 
 	@GetMapping("/dispatch-page")
-	public String getDispatchPage() {
+	public String getDispatchPage(Model model) {
+		
+		model.addAttribute("menuItems", CommonConstants.MENU_ITEMS);
+		
 		return "/mobile/dispatch/dispatch";
 	}
 
