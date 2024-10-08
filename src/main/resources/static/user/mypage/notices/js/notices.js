@@ -9,7 +9,6 @@ $(document).ready(function () {
         return params.get('keyword') || '';
     }
 
-    // 공지사항 목록을 로드하는 함수
     function loadNotices(page, size, searchKeyword = '') {
         $.ajax({
             url: '/user/mypage/notices-page/get-notices-list',
@@ -32,20 +31,28 @@ $(document).ready(function () {
                 }
                 history.pushState(null, '', newUrl);
 
-                let startNo = page * size + 1; 
-                $.each(notices, function (index, notice) {
-                    let noticeNo = startNo + index; 
-                    let noticeHtml = `
-                        <li class="notice-li">
-                            <span class="notice-no">${noticeNo}</span>
-                            <span class="notice-title">${notice.notice_title}</span>
-                            <input type="hidden" name="noticeNum" value="${notice.notice_num}" />
-                            <span class="notice-date">${notice.notice_write_date}</span>
-                        </li>`;
-                    $noticeList.append(noticeHtml);
-                });
+                if (notices.length === 0) {  
+	                let noNoticesHtml = `
+	                    <div class="result-wrap">
+	                    	<p>!</p>
+	                        <span>검색결과가 없습니다.</span>
+	                    </div>`;
+	                $noticeList.append(noNoticesHtml);
+	            } else {
+	                let startNo = page * size + 1; 
+	                $.each(notices, function (index, notice) {
+	                    let noticeNo = startNo + index; 
+	                    let noticeHtml = `
+	                        <li class="notice-li">
+	                            <span class="notice-no">${noticeNo}</span>
+	                            <span class="notice-title">${notice.notice_title}</span>
+	                            <input type="hidden" name="noticeNum" value="${notice.notice_num}" />
+	                            <span class="notice-date">${notice.notice_write_date}</span>
+	                        </li>`;
+	                    $noticeList.append(noticeHtml);
+	                });
+	            }
 
-                // 전체 공지사항 개수
                 $('#notice-qty').html('<span class="qty-number">' + totalCount + '</span>건');
 
                 $('.notice-title').on('click', function () {
@@ -110,14 +117,14 @@ $(document).ready(function () {
         $('.fa-angle-left').on('click', function () {
             if (currentPage > 0) {
                 currentPage--;
-                loadNotices(currentPage, pageSize, searchKeyword);  // 이전 페이지 로드
+                loadNotices(currentPage, pageSize, searchKeyword);
             }
         });
 
         $('.fa-angle-right').on('click', function () {
             if (currentPage < totalPages - 1) {
                 currentPage++;
-                loadNotices(currentPage, pageSize, searchKeyword);  // 다음 페이지 로드
+                loadNotices(currentPage, pageSize, searchKeyword);
             }
         });
     }
