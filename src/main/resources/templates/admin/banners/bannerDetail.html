@@ -62,7 +62,8 @@
 				<div class="img-input-wrap">
 					<label for="input-file" class="input-file-label"> 
 						<input type="file" name="banner_image" id="input-file" class="input-img-file" accept=".jpg, .jpeg, .png" onchange="previewImage(event)"/>
-						<img th:src="@{/images/banners/{banners}(banners=${banners.banner_changed})}" alt="배너" id="preview" style="display: block;"/>
+						<img th:src="@{/images/banners/{banners}(banners=${banners.banner_changed})}" alt="배너" id="preview" style="display: block;"
+                             onerror="this.onerror=null; this.src='/admin/common/img/products/noimg.png';"/>
 					</label> 
 				</div>
 				<label>형식 : JPG, JPEG, PNG </label>
