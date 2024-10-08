@@ -8,7 +8,8 @@ WHALE BOOKS는 온라인서점 사이트 입니다.<br>
 ## 팀원구성
 |손성근|김도현|홍기성|김시은|이혜진|
 |:---------:|:---------:|:---------:|:---------:|:---------:|
-|:![KakaoTalk_20241008_145427675](https://github.com/user-attachments/assets/72d8e23a-4df0-42bd-899e-37e8ec4b42aa):|:![KakaoTalk_20241008_144838253](https://github.com/user-attachments/assets/5c9aed47-b9f5-4221-a32f-877291e6d8e4):|:![KakaoTalk_20241008_145214931](https://github.com/user-attachments/assets/0de20b8a-92b2-41d1-9abd-2dfe91b5cc58):|:![KakaoTalk_20241008_145121507](https://github.com/user-attachments/assets/f47c532e-abc5-477d-8710-2b2c17d8cb00):|:![Uploading KakaoTalk_20241008_150542200.png…]():|
+|![KakaoTalk_20241008_145427675](https://github.com/user-attachments/assets/72d8e23a-4df0-42bd-899e-37e8ec4b42aa)|![KakaoTalk_20241008_144838253](https://github.com/user-attachments/assets/5c9aed47-b9f5-4221-a32f-877291e6d8e4)|![KakaoTalk_20241008_145214931](https://github.com/user-attachments/assets/0de20b8a-92b2-41d1-9abd-2dfe91b5cc58)|![KakaoTalk_20241008_145121507](https://github.com/user-attachments/assets/f47c532e-abc5-477d-8710-2b2c17d8cb00)|![KakaoTalk_20241008_150542200](https://github.com/user-attachments/assets/04e54234-4361-413a-b2dd-190258f94048)
+|
 
 
 ## 개발환경
