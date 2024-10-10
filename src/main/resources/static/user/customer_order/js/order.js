@@ -218,7 +218,8 @@ function goToOrder() {
         }
 
         const customerInfo = {
-            customerId: memberId,
+            fullName: `${deliverName.textContent}(${memberId})`,
+            phoneNumber: deliverNumber.textContent,
         }
 
         let cartNum = [];

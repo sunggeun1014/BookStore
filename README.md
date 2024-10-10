@@ -8,8 +8,7 @@ WHALE BOOKS는 온라인서점 사이트 입니다.<br>
 ## 팀원구성
 |손성근|김도현|홍기성|김시은|이혜진|
 |:---------:|:---------:|:---------:|:---------:|:---------:|
-|![KakaoTalk_20241008_145427675](https://github.com/user-attachments/assets/72d8e23a-4df0-42bd-899e-37e8ec4b42aa)|![KakaoTalk_20241008_144838253](https://github.com/user-attachments/assets/5c9aed47-b9f5-4221-a32f-877291e6d8e4)|![KakaoTalk_20241008_145214931](https://github.com/user-attachments/assets/0de20b8a-92b2-41d1-9abd-2dfe91b5cc58)|![KakaoTalk_20241008_145121507](https://github.com/user-attachments/assets/f47c532e-abc5-477d-8710-2b2c17d8cb00)|![KakaoTalk_20241008_150542200](https://github.com/user-attachments/assets/04e54234-4361-413a-b2dd-190258f94048)
-|
+|![KakaoTalk_20241008_145427675](https://github.com/user-attachments/assets/72d8e23a-4df0-42bd-899e-37e8ec4b42aa)|![KakaoTalk_20241008_144838253](https://github.com/user-attachments/assets/5c9aed47-b9f5-4221-a32f-877291e6d8e4)|![KakaoTalk_20241008_145214931](https://github.com/user-attachments/assets/0de20b8a-92b2-41d1-9abd-2dfe91b5cc58)|![KakaoTalk_20241008_145121507](https://github.com/user-attachments/assets/f47c532e-abc5-477d-8710-2b2c17d8cb00)|![KakaoTalk_20241008_150542200](https://github.com/user-attachments/assets/04e54234-4361-413a-b2dd-190258f94048)|
 
 
 ## 개발환경
@@ -32,13 +31,13 @@ DB: 오라클<br>
   * 공통 함수를 만들어 공통 부분은 함께 사용할 수 있는 코드 작업
 
 ## 페이지별 기능
-## [초기페이지]
-## 1. 어드민페이지
+### [초기페이지]
+### 1. 어드민페이지
 * 관리자페이지는 회원가입 기능은 없으며, 매니저 권한이 있는 계정에서 매니저 등록을 통해 아이디를 부여 받을 수 있음
 * 로그인시 아이디나 비밀번호가 틀린 경우 유효성 검사를 진행하도록 함
 ![새로운 프로젝트](https://github.com/user-attachments/assets/7e1e0272-5766-4c11-9d69-eec266055ed1)
 
-## 2. 사용자페이지
+### 2. 사용자페이지
 * 사용자 페이지에서 회원가입시 소셜 간편 로그인 기능을 제공
   * 카카오톡, 네이버 연동이 가능 
 
