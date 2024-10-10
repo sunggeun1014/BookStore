@@ -42,7 +42,7 @@ input, select {
 
 .info {
 	display: grid;
-	grid-template-columns: 100px 1fr;
+	grid-template-columns: auto 1fr;
 	align-items: center;
 	gap: 10px;
 	border-bottom: 1px solid #D8D8D8;
@@ -81,8 +81,7 @@ select#countryNum {
 }
 
 span.search-list-subject {
-	margin-left: 0px;
-	width: 106px;
+	width: 135px;
 }
 
 .switch {

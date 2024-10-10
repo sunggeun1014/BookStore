@@ -3,7 +3,8 @@ $(document).ready(function () {
     // 테이블이 이미 초기화되어 있는지 확인
     // 문의내역 테이블
     if (!$.fn.DataTable.isDataTable('#inquiries')) {
-        table = $('#inquiries').DataTable({
+        table = $('#inquiries').removeAttr('width').DataTable({
+            autoWidth: false,
             "pageLength": 5,
             "paging": true,
             "lengthChange": false,
@@ -37,7 +38,7 @@ $(document).ready(function () {
                 },
                 {
                     data: 'inquiry_title',
-                    width: '150px',
+                    width: '100px',
                     className: 'text-eclipse',
                     render: function (data, type, row) {
                         const inquiryNum = row.inquiry_num; // inquiry_num 가져오기
@@ -53,10 +54,11 @@ $(document).ready(function () {
                 },
                 {
                     data: 'inquiry_type',
-                    width: '80px'
+                    width: '100px',
                 },
                 {
                     data: 'inquiry_write_date',
+                    width: '120px',
 					render: function(data, type, row) {
 				        if (type === 'display' || type === 'filter') {
 							if(!data) {
@@ -67,7 +69,7 @@ $(document).ready(function () {
 							    const month = String(date.getMonth() + 1).padStart(2, '0');
 							    const day = String(date.getDate()).padStart(2, '0');
 								
-							    return `${year}. ${month}. ${day}.`;
+							    return `${year}-${month}-${day}`;
 							}
 				        }
 						
@@ -76,6 +78,7 @@ $(document).ready(function () {
                 },
                 {
                     data: 'inquiry_answer_status',
+                    width: '100px',
                     render: function (data, type, row) {
                         var color = data === '미완료' ? '#F69E47' : (data === '처리완료' ? '#10A142' : 'black');
                         return '<span style="color: ' + color + ';">' + data + '</span>';
@@ -176,7 +179,7 @@ $(document).ready(function () {
 							    const month = String(date.getMonth() + 1).padStart(2, '0');
 							    const day = String(date.getDate()).padStart(2, '0');
 								
-							    return `${year}. ${month}. ${day}.`;
+							    return `${year}-${month}-${day}`;
 							}
 				        }
 						
