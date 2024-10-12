@@ -255,7 +255,6 @@ function goToOrder() {
             currency: "CURRENCY_KRW"
         }).then(response => {
             if (response.code != null) {
-				
                 return;
             }
             $.ajax({
