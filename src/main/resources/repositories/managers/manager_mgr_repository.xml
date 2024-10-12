@@ -106,7 +106,7 @@
             <if test="manager_addr != null and !manager_addr.equals('')">
                 manager_addr = #{manager_addr},
             </if>
-            <if test="manager_detail_addr != null and !manager_detail_addr('')">
+            <if test="manager_detail_addr != null and !manager_detail_addr.equals('')">
             	manager_detail_addr = #{manager_detail_addr}
             </if>
         </trim>

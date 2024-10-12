@@ -29,29 +29,33 @@
 	
 	<select id="getOrderStatus" resultType="deliveryDTO">
 	    SELECT
-	        co.order_num,
-	        co.recipient_name,  
-	        co.order_addr,  
-	        co.order_addr_detail,  
-	        co.order_delivery_status,  
-	        co.order_purchase_date,  
-	        co.order_modify_date  
-	    FROM
-	        Customer_Orders co
-	    JOIN
-	        Customer_order_details cod ON co.order_num = cod.order_num
-	    WHERE
-	        cod.order_detail_status LIKE '01'
-	    ORDER BY
-	        CASE 
-	            WHEN co.order_modify_date IS NOT NULL THEN co.order_modify_date 
-	            ELSE co.order_purchase_date 
-	        END DESC
+		    dr.request_num,
+		    co.order_num,
+		    co.recipient_name,
+		    co.order_addr,
+		    co.order_addr_detail,
+		    co.order_delivery_status,
+		    co.order_purchase_date,
+		    co.order_modify_date
+		FROM
+		    delivery_request        dr
+		    LEFT JOIN delivery_request_detail drd ON dr.request_num = drd.request_num
+		    LEFT JOIN customer_orders         co ON drd.order_num = co.order_num
+		WHERE
+		    co.order_payment_status = '01' AND co.delivery_completed_date IS NOT NULL
+		GROUP BY
+		    dr.request_num,
+		    co.order_num,
+		    co.recipient_name,
+		    co.order_addr,
+		    co.order_addr_detail,
+		    co.order_delivery_status,
+		    co.order_purchase_date,
+		    co.order_modify_date
+		ORDER BY
+		    dr.request_num DESC
 	</select>
 
-	
-	
-	
 	<select id="getRequestDetail" parameterType="Integer" resultType="deliveryDTO">
 	   SELECT
 	        cod.order_num,

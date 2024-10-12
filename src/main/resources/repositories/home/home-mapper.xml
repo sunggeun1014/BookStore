@@ -19,9 +19,7 @@
         SELECT COUNT(*)
         FROM customer_orders
         WHERE ORDER_PAYMENT_STATUS = '01'
-        AND order_purchase_date BETWEEN
-        TRUNC(FROM_TZ(CAST(SYSDATE AS TIMESTAMP), 'UTC') AT TIME ZONE 'Asia/Seoul')
-        AND TRUNC(FROM_TZ(CAST(SYSDATE AS TIMESTAMP), 'UTC') AT TIME ZONE 'Asia/Seoul') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        AND TO_CHAR(order_purchase_date, 'YYYY-MM-DD') = TO_CHAR(current_timestamp, 'YYYY-MM-DD')
     </select>
 
 
@@ -31,9 +29,7 @@
         INNER JOIN customer_orders co
         ON cod.order_num = co.order_num
         WHERE co.ORDER_PAYMENT_STATUS = '01'
-        AND co.order_purchase_date BETWEEN
-        TRUNC(FROM_TZ(CAST(SYSDATE AS TIMESTAMP), 'UTC') AT TIME ZONE 'Asia/Seoul')
-        AND TRUNC(FROM_TZ(CAST(SYSDATE AS TIMESTAMP), 'UTC') AT TIME ZONE 'Asia/Seoul') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        AND TO_CHAR(co.order_purchase_date, 'YYYY-MM-DD') = TO_CHAR(current_timestamp, 'YYYY-MM-DD')
     </select>
 
 
