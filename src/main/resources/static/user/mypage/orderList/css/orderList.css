@@ -118,9 +118,9 @@
 }
 
 .book-info {
-	width: 200px;
+	width: 205px;
 	display: flex;
-	gap: 5px;
+	gap: 3px;
 	text-align: start;
 	line-height: 1.5;
 }

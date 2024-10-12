@@ -5,6 +5,7 @@
 .book-search, .product-info, .book-price, .book-qty, .filter-wrap, .radio-filter {
     display: flex;
     align-items: center;
+    gap: 20px;
 }
 
 .filter-wrap, .radio-filter {

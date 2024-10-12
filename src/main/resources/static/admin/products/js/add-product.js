@@ -165,14 +165,14 @@ function checkForm() {
             success: function (response) {
                 if (response.exists) {
                     if (response.deleteState === '02') {
-                        getConfirmModal("이미 등록된 ISBN입니다. 수정하시기 바랍니다.", function () {
-                            // 페이지 이동
+                        getMoveModal("이미 존재하는 ISBN입니다.", function () {
                             location.href = `/admin/products/detail?book_isbn=${inputISBN.value}`;
                         });
                     } else {
                         // 중복된 ISBN인 경우
-                        getCheckModal("이미 존재하는 ISBN입니다.");
-                        location.href = `/admin/products/detail?book_isbn=${inputISBN.value}`;
+                        getMoveModal("이미 존재하는 ISBN입니다.", function () {
+                            location.href = `/admin/products/detail?book_isbn=${inputISBN.value}`;
+                        });
                     }
                 } else {
                     if (!response.isInvIsbn) {

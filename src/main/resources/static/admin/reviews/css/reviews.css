@@ -159,7 +159,7 @@
 
 .text-group {
     display: grid;
-    grid-template-columns: 100px 1fr;
+    grid-template-columns: auto 1fr;
     align-items: center;
     gap: 10px;
     border-bottom: 1px solid #C0C0C0;

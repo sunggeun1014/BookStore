@@ -23,7 +23,7 @@ $(document).ready(function () {
                         targets: 0
                     },
                 ],
-            order: [[3, 'asc']],
+            order: [[3, 'desc']],
             ajax: {
                 url: '/admin/home/inquiries/json',
                 dataSrc: 'data',

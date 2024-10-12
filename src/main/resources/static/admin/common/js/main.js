@@ -270,6 +270,31 @@ function getConfirmModal(msg, func) {
     $("#confirm-delete").focus();
 }
 
+function getMoveModal(msg, func) {
+    let divArea = $("<div id='myModal' class='modal' style='display : block;'></div>");
+    let contentArea = $("<div class='modal-content'></div>");
+
+    let messageArea = $(`<div class='modal-text'><p>${msg}</p></div>`);
+    let modalFotter = $(`<div class='modal-footer'></div>`)
+    let btnArea = $("<button id='confirm-delete' class='modal-btn confirm'>확인</button>");
+
+    contentArea.append(messageArea);
+
+    contentArea.append(modalFotter);
+    modalFotter.append(btnArea);
+    divArea.append(contentArea);
+
+
+    $("body").append(divArea);
+    $(".modal-btn.confirm").on("click", function () {
+        func()
+        divArea.remove();
+    });
+
+    // 모달이 생성되면 버튼에 포커스
+    // $("#confirm-delete").focus();
+}
+
 function getCheckModal(msg, focusElement) {
     let divArea = $("<div id='myModal' class='modal' style='display: block;'></div>"); // 잘못된 따옴표 수정
     let contentArea = $("<div class='modal-content'></div>");
