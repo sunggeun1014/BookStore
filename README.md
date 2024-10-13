@@ -85,6 +85,7 @@ DB: 오라클<br>
 
 ##### [발주내역]
 * 관리자가 발주한 내역을 등록하고 목록으로 볼 수 있음
+  
 |발주목록|발주등록|
 |---|---|
 |![발주내역](https://github.com/user-attachments/assets/90e7c158-0978-4884-8d90-4d2db43b5d9f)|![발주등록](https://github.com/user-attachments/assets/4b8d1156-d632-49fa-bbc6-55d09b75c240)|
