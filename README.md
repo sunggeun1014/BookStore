@@ -87,7 +87,7 @@ DB: 오라클<br>
 * 관리자가 발주한 내역을 등록하고 목록으로 볼 수 있음
 |발주목록|등록|
 |---|---|
-|![발주내역](https://github.com/user-attachments/assets/90e7c158-0978-4884-8d90-4d2db43b5d9f)|![발주등록](https://github.com/user-attachments/assets/4b8d1156-d632-49fa-bbc6-55d09b75c240)||
+|![발주내역](https://github.com/user-attachments/assets/90e7c158-0978-4884-8d90-4d2db43b5d9f)|![발주등록](https://github.com/user-attachments/assets/4b8d1156-d632-49fa-bbc6-55d09b75c240)|
 
 ##### [입출고내역]
 * 물류용 모바일에서 발주/반품 혹은 상품 출고 처리 한 경우의 내역을 목록으로 확인 가능 하도록 구현
