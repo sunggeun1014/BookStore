@@ -29,3 +29,7 @@
 .dt_data_text_center {
 	text-align: center !important;
 }
+
+.edit-width {
+    width: 10%;
+}

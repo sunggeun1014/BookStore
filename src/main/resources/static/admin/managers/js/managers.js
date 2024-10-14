@@ -14,7 +14,7 @@ $(document).ready(function () {
             {targets: '_all', className: 'dt-center'}
         ],
 
-        order: [[8, 'desc']], 
+        order: [[8, 'desc']],
 
 
         columns: [
@@ -33,7 +33,10 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             },
-            {data: 'manager_name'},
+            {
+                data: 'manager_name',
+                className: 'edit-width'
+            },
             {
                 data: 'manager_id',
                 render: function (data) {
@@ -52,8 +55,8 @@ $(document).ready(function () {
                     } else if (data === '02') {
                         return '운영팀';
                     } else {
-						return '인사팀';
-					}
+                        return '인사팀';
+                    }
                 }
             },
             {data: 'manager_phoneNo'},
@@ -88,18 +91,18 @@ $(document).ready(function () {
         ],
 
         drawCallback: function (settings) {
-			let api = this.api();
-		    let filteredRecords = api.rows({ search: 'applied' }).count();
+            let api = this.api();
+            let filteredRecords = api.rows({search: 'applied'}).count();
 
-		    $('#total-row').text(`총 ${filteredRecords}건`);
-			
+            $('#total-row').text(`총 ${filteredRecords}건`);
+
             api.column(1, {page: 'current'}).nodes().each(function (cell, i) {
                 var pageStart = api.settings()[0]._iDisplayStart;
                 $(cell).html(pageStart + i + 1);
             });
         },
 
-        "info": false, 
+        "info": false,
         lengthChange: false,
         dom: 'lrtip',
         language: {
@@ -122,7 +125,7 @@ $(document).ready(function () {
     });
 
     $('#manager tbody').on('change', '.row-checkbox', function () {
-        const $row = $(this).closest('tr'); 
+        const $row = $(this).closest('tr');
 
         if (this.checked) {
             $row.addClass('selected-row');
@@ -138,12 +141,12 @@ $(document).ready(function () {
     });
 
     $('#select-all').on('change', function () {
-        const isChecked = $(this).prop('checked'); 
+        const isChecked = $(this).prop('checked');
 
         $('.row-checkbox').prop('checked', isChecked);
 
         if (isChecked) {
-            $('#manager tbody tr').addClass('selected-row'); 
+            $('#manager tbody tr').addClass('selected-row');
         } else {
             $('#manager tbody tr').removeClass('selected-row');
         }
@@ -152,11 +155,11 @@ $(document).ready(function () {
 
     $('#change-button').on('click', function () {
         var selectedIds = [];
-        var selectedDept = $('#searchDept').val();  
+        var selectedDept = $('#searchDept').val();
 
         $('#manager').DataTable().$('.row-checkbox:checked').each(function () {
             var rowData = $('#manager').DataTable().row($(this).closest('tr')).data();
-            selectedIds.push(rowData.manager_id); 
+            selectedIds.push(rowData.manager_id);
 
         });
 
@@ -174,7 +177,7 @@ $(document).ready(function () {
 
     const deleteBtn = function () {
         var selectedIds = [];
-        var selectedDept = $('#searchDept').val();  
+        var selectedDept = $('#searchDept').val();
 
         $('#manager').DataTable().$('.row-checkbox:checked').each(function () {
             var rowData = $('#manager').DataTable().row($(this).closest('tr')).data();
@@ -183,16 +186,16 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: '/admin/managers/update/dept', 
+            url: '/admin/managers/update/dept',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
                 managerId: selectedIds,
                 managerDept: selectedDept
-            }),  
+            }),
             success: function (response) {
                 getCheckModal(`변경이 완료 되었습니다.`);
-                $('#manager').DataTable().ajax.reload();  
+                $('#manager').DataTable().ajax.reload();
             },
             error: function (error) {
                 getCheckModal(`변경중 오류가 발생 했습니다.`);
@@ -202,15 +205,14 @@ $(document).ready(function () {
     };
 
 
-  
-	$('#searchButton').on('click', function () {
-	    table.search('').columns().search('').draw();
+    $('#searchButton').on('click', function () {
+        table.search('').columns().search('').draw();
 
-	    let selectedColumn = $('#searchColumn').val();
-	    let keyword = $('#searchKeyword').val();
-	    
-	    table.column(selectedColumn).search(keyword).draw();
-	});
+        let selectedColumn = $('#searchColumn').val();
+        let keyword = $('#searchKeyword').val();
+
+        table.column(selectedColumn).search(keyword).draw();
+    });
 
     $('#searchKeyword').on('keypress', function (event) {
         if (event.key === 'Enter') {
@@ -219,24 +221,24 @@ $(document).ready(function () {
     });
 
     $.fn.dataTable.ext.search.push(
-	    function (settings, data, dataIndex) {
-	        var startDate = $('#startDate').val();
-	        var endDate = $('#endDate').val();
-	        var managerDate = new Date(data[8]);  
-	
-	        if (startDate || endDate) {
-	            var start = startDate ? new Date(startDate + 'T00:00:00') : null;
-	            var end = endDate ? new Date(endDate + 'T23:59:59') : null;
-	
-	            if ((!start || start <= managerDate) && (!end || managerDate <= end)) {
-	                return true;
-	            }
-	            return false;
-	        }
-	
-	        return true;  
-	    }
-	);
+        function (settings, data, dataIndex) {
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            var managerDate = new Date(data[8]);
+
+            if (startDate || endDate) {
+                var start = startDate ? new Date(startDate + 'T00:00:00') : null;
+                var end = endDate ? new Date(endDate + 'T23:59:59') : null;
+
+                if ((!start || start <= managerDate) && (!end || managerDate <= end)) {
+                    return true;
+                }
+                return false;
+            }
+
+            return true;
+        }
+    );
 
 
     document.querySelectorAll('.input-box input').forEach(function (input) {
@@ -249,7 +251,7 @@ $(document).ready(function () {
 
     document.querySelectorAll('.date-option').forEach(function (button) {
         button.addEventListener('click', function () {
-            setActive(this); 
+            setActive(this);
         });
     });
 
@@ -266,13 +268,13 @@ function setToday() {
 }
 
 function setDateRange(days) {
-    var endDate = new Date(); 
-    var startDate = new Date(); 
-    startDate.setDate(startDate.getDate() - days); 
+    var endDate = new Date();
+    var startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
 
-    endDate.setHours(23, 59, 59, 999); 
+    endDate.setHours(23, 59, 59, 999);
 
-    startDate.setHours(0, 0, 0, 0); 
+    startDate.setHours(0, 0, 0, 0);
 
     $('#startDate').val(startDate.toISOString().split('T')[0]);
     $('#endDate').val(endDate.toISOString().split('T')[0]).trigger('change');
@@ -287,7 +289,7 @@ function resetFilters() {
     $('#endDate').val('');
     $(".date-option").removeClass("active");
 
-    table.search('').columns().search('').draw(); 
+    table.search('').columns().search('').draw();
 }
 
 function setActive(element) {
