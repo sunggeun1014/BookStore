@@ -18,6 +18,8 @@
 	            notice_visible != '02'
 	            AND notice_title LIKE #{keyword}
 	            AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)
+	            AND (notice_start_date IS NULL OR notice_start_date &lt;= SYSDATE)
+	            
 	    ) 
 	    WHERE rnum BETWEEN #{startRow} AND #{endRow}
 	</select>
@@ -32,6 +34,7 @@
 	    	notice_visible != '02'
 	    	AND notice_title LIKE #{keyword}
 	    	AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)
+	    	AND (notice_start_date IS NULL OR notice_start_date &lt;= SYSDATE)
 	    	
 	    	 
 	</select>
@@ -52,7 +55,8 @@
 		WHERE
 			notice_num = #{notice_num}
 			AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)
-		
+			AND (notice_start_date IS NULL OR notice_start_date &lt;= SYSDATE)
+			
 	</select>
 	
 	<select id="getPreviousNotice" parameterType="map" resultType="userNotice">
@@ -67,6 +71,7 @@
 	    )
 	    WHERE ROWNUM = 1
 	   	AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)
+	    AND (notice_start_date IS NULL OR notice_start_date &lt;= SYSDATE)
 	    
 	</select>
 
@@ -83,6 +88,7 @@
 	    )
 	    WHERE ROWNUM = 1
 	    AND (notice_end_date IS NULL OR notice_end_date >= SYSDATE)
+		AND (notice_start_date IS NULL OR notice_start_date &lt;= SYSDATE)
 	    
 	</select>
 
