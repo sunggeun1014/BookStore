@@ -196,6 +196,7 @@ DB: 오라클<br>
 * 마이페이지에서 초기화면은 주문목록을 바로 보여주도록 구현
   * 배송전 인 경우 취소가 가능하며 전체 취소만 가능
   * 배송중에서 요청으로 바뀐 즉시 반품신청이 가능함
+
 |반품신청|주문취소|
 |---|---|
 |![반품신청](https://github.com/user-attachments/assets/85eb6b40-0449-4d6d-8f5b-8f3bea336f92)|![주문취소](https://github.com/user-attachments/assets/7e179ff4-ca8c-4c85-90b7-e8d8f887808d)|
