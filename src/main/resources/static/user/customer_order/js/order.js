@@ -217,11 +217,6 @@ function goToOrder() {
             return
         }
 
-        const customerInfo = {
-            fullName: `${deliverName.textContent}(${memberId})`,
-            phoneNumber: deliverNumber.textContent,
-        }
-
         let cartNum = [];
         cartNums.forEach(num => {
             cartNum.push(num.value);
@@ -243,6 +238,11 @@ function goToOrder() {
         // if (cartNum && cartNum.length > 0) {
         //     data.cart_num = cartNum; // 카트넘이 있을 경우만 추가
         // }
+
+        const customerInfo = {
+            fullName: `${deliverName.textContent}(${memberId})`,
+            phoneNumber: deliverNumber.textContent,
+        }
 
         PortOne.requestPayment({
             storeId: "store-5d54b2b0-bf88-45dd-8265-7018895b8a38",
@@ -268,7 +268,7 @@ function goToOrder() {
                         // 페이지 이동
                         window.location.href = `/user/complete-order?order_num=${jsonResponse.order_num}&member_id=${memberId}`;
                     } else {
-						
+
                     }
                 },
                 error: function (xhr, status, error) {
