@@ -1,15 +1,19 @@
 # WHALEBOOKS - 온라인서점 사이트
-![리드미메인](https://github.com/user-attachments/assets/1e3b59ad-7091-407a-bb59-6abcc6012a96)
+
+[//]: # (![리드미메인]&#40;https://github.com/user-attachments/assets/1e3b59ad-7091-407a-bb59-6abcc6012a96&#41;)
 
 ## 프로젝트 소개
 ‘WHALE BOOKS’는 사용자와 관리자가 편리하게 이용할 수 있는 서점 웹사이트 프로젝트입니다. <br>
 이 프로젝트는 Spring Boot 기반으로 개발되었으며, 사용자 페이지와 관리자 페이지를 통해 책 검색, 구매, 주문 관리 및 물류 관리를 효율적으로 처리할 수 있습니다. <br>
 또한 관리자의 물류 업무를 지원하기 위해 모바일 전용 관리자 페이지를 구현하여 언제 어디서나 재고와 배송 상태를 관리할 수 있도록 구현하였습니다.<br>
 
-## 팀원구성
-|손성근|김도현|홍기성|김시은|이혜진|
-|:---------:|:---------:|:---------:|:---------:|:---------:|
-|![071080f7c](https://github.com/user-attachments/assets/949c4937-d077-4f1a-8dfa-be6f40702c55)|![86d9e1942](https://github.com/user-attachments/assets/634a6c6b-f139-4657-8fbf-33ba28d38f67)|![4945f16af](https://github.com/user-attachments/assets/5b38f605-8334-4ff5-a356-92073e2d7fb4)|![dbc033463](https://github.com/user-attachments/assets/187798a5-e828-421b-8291-45b2ef83fcd7)|![KakaoTalk_20241008_150542200](https://github.com/user-attachments/assets/04e54234-4361-413a-b2dd-190258f94048)|
+[//]: # (## 팀원구성)
+
+[//]: # (|손성근|김도현|홍기성|김시은|이혜진|)
+
+[//]: # (|:---------:|:---------:|:---------:|:---------:|:---------:|)
+
+[//]: # (|![071080f7c]&#40;https://github.com/user-attachments/assets/949c4937-d077-4f1a-8dfa-be6f40702c55&#41;|![86d9e1942]&#40;https://github.com/user-attachments/assets/634a6c6b-f139-4657-8fbf-33ba28d38f67&#41;|![4945f16af]&#40;https://github.com/user-attachments/assets/5b38f605-8334-4ff5-a356-92073e2d7fb4&#41;|![dbc033463]&#40;https://github.com/user-attachments/assets/187798a5-e828-421b-8291-45b2ef83fcd7&#41;|![KakaoTalk_20241008_150542200]&#40;https://github.com/user-attachments/assets/04e54234-4361-413a-b2dd-190258f94048&#41;|)
 
 
 ## 개발환경
