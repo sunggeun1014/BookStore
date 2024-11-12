@@ -21,6 +21,7 @@ Back-End: Spring Boot<br>
 API: 네이버, 카카오 로그인연동, 주소찾기, Iamport 결제<br>
 DB: 오라클<br>
 버전 및 이슈관리 : Github, sourcetree<br>
+디자인: Figma
 협업 툴 : Discord, Notion<br>
 
 
