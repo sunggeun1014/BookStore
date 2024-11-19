@@ -338,11 +338,12 @@
         r.review_rating
         ),
         TotalReviews AS (
+        -- 실제 리뷰가 있는 주문만 계산
         SELECT
-        COUNT(*) AS total_count
+        COUNT(DISTINCT cod.order_detail_num) AS total_count
         FROM
         customer_order_details cod
-        LEFT JOIN
+        JOIN
         reviews r ON cod.order_detail_num = r.order_detail_num
         WHERE
         cod.book_isbn = #{book_isbn}
@@ -372,7 +373,7 @@
         CROSS JOIN
         TotalReviews tr
         ORDER BY
-        a.review_rating desc
+        a.review_rating DESC
     </select>
 
 
